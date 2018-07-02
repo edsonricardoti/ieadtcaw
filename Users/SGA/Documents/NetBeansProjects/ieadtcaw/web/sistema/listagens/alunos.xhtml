@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"   
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <h:body>
+        <h:outputScript library="js" name="locale-primefaces.js"/>
+        <ui:composition template="/layout.xhtml">            
+            <ui:define name="content">
+                <h:form id="cadastro">
+                    <p:messages id="messages" closable="true" style="font-size: 12px; text-align: center;" showIcon="false"/>
+                    <p:remoteCommand action="#{alunoControle.limpaFormulario()}" autoRun="true" update="grades,lista"/>
+
+                    <p:panelGrid id="grades" columns="3" style="font-size: 10px;" styleClass="semBorda">
+                        <p:outputLabel value="Classe:"/>
+                        <p:selectOneMenu id="l1" value="#{alunoControle.alunoSelecionado.idclasse}" >
+                            <f:selectItem itemLabel="Classe | Tipo " />
+                            <f:selectItems value="#{classeControle.listaClasses}"
+                                           var="sala"
+                                           itemLabel="#{sala.classesNome} | #{sala.classesTipo}"
+                                           itemValue="#{sala.idclasses}"/>
+                            <p:ajax event="change" update="cadastro:busca"/>
+                        </p:selectOneMenu>
+                        <p:commandButton id="busca" title="Clique aqui para buscar" action="#{alunoControle.buscarListaDeAlunosPorClasse(alunoControle.alunoSelecionado.idclasse)}" value="Buscar" update="cadastro:lista"/>
+                    </p:panelGrid>
+                    <p:panel id="pg" style="font-size: 10px;">
+                        <p:dataTable id="lista" rows="10" style="font-size: 10px; font-family:  sans-serif;"
+                                     value="#{alunoControle.listaDaBusca}" rowKey="#{buscados.idmembros}"
+                                     var="buscados" sortBy="#{buscados.membrosNome}"
+                                     paginator="true" paginatorPosition="bottom"
+                                     emptyMessage="Nenhum Aluno encontrado">
+                            <f:facet name="header" id="exp">
+                                ALUNOS DA CLASSE #{alunoControle.titulo}
+                            </f:facet>
+                            <p:column headerText="Nome" style="font-size: 10px; width: 150px;">
+                                <p:outputLabel value="#{buscados.membrosNome}" style="font-size: 10px; text-transform: uppercase;"/>
+                            </p:column>
+                            <p:column headerText="Endereço" style="font-size: 10px; width: 150px;">
+                                <p:outputLabel value="#{buscados.membrosEndereco}, #{buscados.membrosNumero} #{buscados.membrosComplemento}" style="text-transform: uppercase; font-size: 10px;"/>
+                            </p:column>
+                            <p:column headerText="Bairro" style="font-size: 10px; width: 45px;">
+                                <p:outputLabel value="#{buscados.membrosBairro}" style="text-transform: uppercase; font-size: 10px;" />
+                            </p:column>
+                            <p:column headerText="Cidade" style="font-size: 10px; width: 45px;">
+                                <p:outputLabel value="#{buscados.membrosCidade}" style="text-transform: uppercase; font-size: 10px;"/>
+                            </p:column>
+                            <p:column headerText="UF" style="font-size: 10px; width: 2px;">
+                                <p:outputLabel value="#{buscados.membrosUf}" style="text-transform: uppercase; font-size: 10px;"/>
+                            </p:column>
+                            <p:column headerText="Fone" style="font-size: 10px; width: 22px;">
+                                <p:outputLabel value="#{buscados.membrosFone}" style="font-size: 10px;"/>
+                            </p:column>
+                            <p:column headerText="Data Batismo" style="font-size: 10px; width: 20px;">
+                                <p:outputLabel id="dataCadastro" value="#{buscados.membrosDtBatismo}"  style="font-size: 10px;">
+                                    <f:convertDateTime pattern="dd/MM/yyyy"/>
+                                </p:outputLabel>
+                            </p:column>
+
+
+                        </p:dataTable>
+                    </p:panel>
+                    <p:button value="Fechar" icon="ui-icon-closethick" outcome="/inicio.xhtml"/>
+                    <p:commandButton value="Imprimir" type="button" icon="ui-icon-print"  >
+                        <p:printer target="pg" />
+                    </p:commandButton>
+
+                </h:form>
+            </ui:define>            
+
+        </ui:composition>
+
+    </h:body>
+
+</html>

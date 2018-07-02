@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"   
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:body>
+        <h:outputScript library="js" name="locale-primefaces.js"/>
+        <ui:composition template="/layout.xhtml">
+            <ui:define name="content">
+                <p:panel header="Apresentação de Crianças">
+                    <h:form id="cadastro" prependId="false">
+
+                        <p:messages id="messages" closable="true" style="font-size: 12px; text-align: center;" showIcon="false"/>
+                        <p:panelGrid id="campos" columns="2" style="font-size: 14px;">
+                            <p:outputLabel for="dtcad" value="Data cadastro:" />
+                            <p:calendar id="dtcad" value="#{criancaControle.criancaSelecionado.criancasData}" locale="pt" mask="true" pattern="dd/MM/yyyy" showOn="button" />
+                            <p:outputLabel value="Nome:"/>
+                            <p:inputText id="nome" label="nome" styleClass="cmpoCadastro" value="#{criancaControle.criancaSelecionado.criancasNome}" size="35" />
+                            <p:outputLabel value="Pai:"/>
+                            <p:inputText id="pai" label="pai" styleClass="cmpoCadastro" value="#{criancaControle.criancaSelecionado.criancasPai}" size="35" />
+                            <p:outputLabel value="Mãe:"/>
+                            <p:inputText id="mae" label="mae" styleClass="cmpoCadastro" value="#{criancaControle.criancaSelecionado.criancasMae}" size="35" />
+                            <p:outputLabel for="sexo" value="Sexo:" />
+                            <p:selectOneRadio id="sexo" value="#{criancaControle.criancaSelecionado.criancasSexo}">
+                                <f:selectItem itemLabel=" Masculino " itemValue="Masculino" />
+                                <f:selectItem itemLabel=" Feminino " itemValue="Feminino" >
+                                </f:selectItem>
+                            </p:selectOneRadio>
+                            <p:outputLabel for="datanasc" value="Data do Nascimento:" />
+                            <p:calendar id="datanasc" value="#{criancaControle.criancaSelecionado.criancasDataNasc}" locale="pt" mask="true" pattern="dd/MM/yyyy" showOn="button" />
+                            <p:outputLabel value="Contato:"/>
+                            <p:inputText id="contato" label="conta" value="#{criancaControle.criancaSelecionado.criancasTelefone}" size="35" />
+
+                        </p:panelGrid>
+                        <p:commandButton icon="ui-icon-check" title="Clique aqui para salvar o cadastro" action="#{criancaControle.update()}" value="Salvar" update="cadastro:messages"/>
+                        <p:commandButton icon="ui-icon-scissors" title="Clique aqui para excluir." action="#{criancaControle.delete(criancaControle.delete(criancaControle.criancaSelecionado))}" value="Excluir" update="cadastro:messages">
+                            <p:confirm header="Confirmação!" message="Você tem certeza?"  icon="ui-icon-alert"/>
+                        </p:commandButton>
+                        <p:button value="Fechar" icon="ui-icon-closethick" outcome="consultar.xhtml"/>
+                        <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+                            <p:commandButton value="Sim" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+                            <p:commandButton value="Não" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+                        </p:confirmDialog>
+
+                    </h:form>
+                </p:panel>
+            </ui:define>
+
+        </ui:composition>
+
+    </h:body>
+
+
+</html>

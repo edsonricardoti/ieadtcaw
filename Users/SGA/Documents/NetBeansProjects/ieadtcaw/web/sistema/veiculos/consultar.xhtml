@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"   
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <h:body>
+        <h:outputScript library="js" name="locale-primefaces.js"/>
+        <ui:composition template="/layout.xhtml">            
+            <ui:define name="content">
+                <h:form id="cadastro">
+                    <p:panel header="Cadastro de Veículo">
+                        <p:messages id="messages" closable="true" style="font-size: 12px; text-align: center;" showIcon="false"/>
+                        <p:remoteCommand action="#{veiculoControle.limpaFormulario()}" autoRun="true" update="grades,lista"/>
+                        <p:panelGrid id="grades" columns="3" style="font-size: 10px;" styleClass="semBorda">
+                            <p:outputLabel value="Placa:"/>
+                            <p:inputText value="#{veiculoControle.veiculoSelecionado.veiculosPlaca}"/>
+                            <p:commandButton title="Clique aqui para buscar" actionListener="#{veiculoControle.buscarLista(veiculoControle.veiculoSelecionado.veiculosPlaca)}" value="Buscar" update="cadastro:lista"/>
+                        </p:panelGrid>
+
+                        <p:dataTable id="lista" rows="10"
+                                     value="#{veiculoControle.listaDaBusca}"
+                                     var="buscados"
+                                     paginator="true" paginatorPosition="bottom"
+                                     emptyMessage="Nenhum Veículo encontrado">
+                            <p:column headerText="Placa">
+                                <p:outputLabel value="#{buscados.veiculosPlaca}"/>
+                            </p:column>
+                            <p:column headerText="Marca/Modelo">
+                                <p:outputLabel value="#{buscados.veiculosMarcaModelo}"/>
+                            </p:column>
+                            <p:column headerText="Alterar" style="text-align: center;">
+                                <p:commandButton icon="ui-icon-pencil" actionListener="#{veiculoControle.buscar(buscados.veiculosPlaca)}" style="font-size: 10px;" action="consulta.xhtml"/>
+                            </p:column>
+
+                        </p:dataTable>
+
+                        <p:button value="Fechar" icon="ui-icon-closethick" outcome="/inicio.xhtml"/>
+                    </p:panel>
+                </h:form>
+            </ui:define>            
+
+        </ui:composition>
+
+    </h:body>
+
+</html>

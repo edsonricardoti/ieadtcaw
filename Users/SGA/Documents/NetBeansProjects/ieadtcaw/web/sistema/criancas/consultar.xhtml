@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"   
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <h:body>
+        <h:outputScript library="js" name="locale-primefaces.js"/>
+        <ui:composition template="/layout.xhtml">            
+            <ui:define name="content">
+                <h:form id="cadastro" prependId="false">
+                    <p:panel header="Apresentação de Crianças">
+                        <p:messages id="messages" closable="true" style="font-size: 12px; text-align: center;" showIcon="false"/>
+                        <p:remoteCommand id="cm" action="#{criancaControle.limpaFormulario()}" autoRun="true" update="grades,lista"/>
+                        <p:panelGrid id="grades" columns="3" style="font-size: 10px;" styleClass="semBorda">
+                            <p:outputLabel id="dd" value="Nome:"/>
+                            <p:inputText id="nome" value="#{criancaControle.nome}" size="35"/>
+                            <p:commandButton id="caq" title="Clique aqui para buscar" action="#{criancaControle.buscarLista(criancaControle.nome)}" value="Buscar" update="cadastro:lista"/>
+                        </p:panelGrid>
+
+                        <p:dataTable id="lista" rows="10"
+                                     value="#{criancaControle.listaDaBusca}"
+                                     var="buscados"
+                                     style="width: 100%;"
+                                     paginator="true" paginatorPosition="bottom"
+                                     emptyMessage="Nenhuma Apresentação encontrada">
+
+                            <p:column id="crian" headerText="Nome" width="200" style="font-size: 10px; text-transform: uppercase;">
+                                <p:outputLabel id="ciandado" value="#{buscados.criancasNome}"/>
+                            </p:column>
+                            <p:column id="pais" headerText="Pai"  width="200" style="font-size: 10px; text-transform: uppercase;">
+                                <p:outputLabel id="pai" value="#{buscados.criancasPai}"/>
+                            </p:column>
+                            <p:column id="maes" headerText="Mãe"  width="200" style="font-size: 10px; text-transform: uppercase;">
+                                <p:outputLabel id="mae" value="#{buscados.criancasMae}"/>
+                            </p:column>
+                            <p:column id="alt" headerText="Alterar" style="text-align: center; font-size: 10px;">
+                                <p:commandButton id="abr" icon="ui-icon-pencil" actionListener="#{criancaControle.buscarPorId(buscados.idcriancas)}" style="font-size: 10px;" action="consulta.xhtml" />
+                            </p:column>
+                            <p:column id="cl1" style="text-align: center; font-size: 10px;" headerText="Excluir" >
+                                <p:commandButton id="exc" icon="ui-icon-trash" title="Clique aqui para excluir."
+                                                 actionListener="#{criancaControle.delete(buscados)}"  style="font-size: 10px;"
+                                                 action="#{criancaControle.buscarLista(criancaControle.criancaSelecionado.criancasNome)}" update="lista">
+                                    <p:confirm id="conf" header="Confirmação!" message="Você tem certeza?"  icon="ui-icon-alert"/>
+                                </p:commandButton>
+                            </p:column>
+                            <p:column headerText="Certificado"
+                                      style="text-align: center; font-size: 10px;">
+                                <p:commandButton rendered="#{buscados.criancasSexo eq 'Masculino'?true:false}"
+                                                 icon=" ui-icon-script" actionListener="#{criancaControle.geraCertificado(buscados)}"
+                                                 action="certificadomasc.xhtml" style="font-size: 10px;"/>
+
+                                <p:commandButton rendered="#{buscados.criancasSexo eq 'Feminino'?true:false}"
+                                                 icon=" ui-icon-script" actionListener="#{criancaControle.geraCertificado(buscados)}"
+                                                 action="certificadofem.xhtml" style="font-size: 10px;"/>
+                            </p:column>
+
+                        </p:dataTable>
+                        <p:confirmDialog id="dg" global="true" showEffect="fade" hideEffect="fade">
+                            <p:commandButton id="s" value="Sim" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" update="lista" />
+                            <p:commandButton id="n" value="Não" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+                        </p:confirmDialog>
+
+                        <p:button id="fc" value="Fechar" icon="ui-icon-closethick" outcome="/inicio.xhtml"/>
+                    </p:panel>
+                </h:form>
+            </ui:define>            
+
+        </ui:composition>
+
+    </h:body>
+
+</html>

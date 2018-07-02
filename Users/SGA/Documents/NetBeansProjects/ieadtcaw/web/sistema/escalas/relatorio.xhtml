@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <h:body>
+        <h:outputScript library="js" name="locale-primefaces.js"/>
+        <ui:composition template="/layout.xhtml">
+            <ui:define name="content">
+                <h:form id="frm1" prependId="false" style="background-color:  #FFFFFF;">
+                    <p:panelGrid columns="5" style="font-size: 10px;" styleClass="semBorda">
+                        <p:outputLabel value="Data Ini:"/>
+                        <p:calendar id="dataini" value="#{diasdaescalaControle.dataini}" locale="pt" mask="true" pattern="dd/MM/yyyy" showOn="button" rendered="true" requiredMessage="a data inicial é obrigatória!" />
+                        <p:outputLabel value="Data Fim:"/>
+                        <p:calendar id="datafim" value="#{diasdaescalaControle.datafim}" locale="pt" mask="true" pattern="dd/MM/yyyy" showOn="button" rendered="true" requiredMessage="a data final é obrigatória!" />
+                        <p:commandButton id="bt" value="Buscar" style="font-size: 10px;"
+                                         action="#{diasdaescalaControle.relatorio(diasdaescalaControle.dataini, diasdaescalaControle.datafim)}" update="@form" />
+                    </p:panelGrid>
+                    <p:panel id="pg" rendered="#{diasdaescalaControle.isRenderiza}"
+                             style="font-size: 10px; width: 1000px; background:  #FFFFFF;">
+                        <style type="text/css">
+                            .semBBorda tr, .semBBorda td {
+                                border: none !important;
+                                text-align: center;                                
+                                background-color:  #FFFFFF;
+                            }
+                        </style>
+                            <p:panelGrid columns="3" styleClass="semBBorda">
+                                <img src="../../imagens/logoRelatorio.png" style=" width:250px; height: 103px; " />
+                                <p:spacer width="100"/>
+                                <p:panelGrid columns="1" styleClass="semBBorda">
+                                    <p:outputLabel value="IEADTC - CONGREGAÇÃO DE ÁLVARO WEYNE" style="font-size: 22px;"/>
+                                    <p:outputLabel value="RODÍZIO DOS TRABALHOS SEMANAIS" style="font-size: 18px;"/>
+                                    <p:outputLabel value="Período de #{escalaControle.periodoRel(diasdaescalaControle.dataini, diasdaescalaControle.datafim)}" style="font-size: 17px;"/>
+                                </p:panelGrid>
+                            </p:panelGrid>
+                        <p:separator/>
+                        <br/><br/>
+
+                        <p:dataTable value="#{diasdaescalaControle.listaDaBusca}"
+                                     sortBy="#{filho.data}" 
+                                     style="width: 450px;"
+                                     var="filho" >
+                            <p:headerRow>
+                                <p:column colspan="3" width="150">
+                                    <h:outputText value="#{diasdaescalaControle.traduzSemana(filho.data)} - " style=" font-weight: bold; font-size: 14px; text-transform: uppercase;"/>
+                                    <p:outputLabel id="data" value="#{filho.data}" style=" font-weight: bold; font-size: 14px; text-transform: uppercase;">
+                                        <f:convertDateTime pattern="dd/MM/yyyy"/>
+                                    </p:outputLabel>
+                                </p:column>
+                            </p:headerRow>
+                            <p:column width="400">
+                                <h:outputText value="#{filho.hora} - #{filho.evento}" style="font-weight: bold; font-size: 14px; text-transform: uppercase;" />
+                            </p:column>
+                        </p:dataTable><br/><br/>
+                        <div style="width: 100%; text-align: left;">
+                            <p:outputLabel value="MANENEDORES DE ÓRDEM:" style="font-size: 18px; text-transform:  uppercase; font-weight: bold;"/><br/><br/>
+                            <p:outputLabel value="Portão Principal: #{diasdaescalaControle.escala.escalaPortao}" style="font-size: 16px; text-transform:  uppercase;"/><br/>
+                            <p:outputLabel value="Porta do Templo: #{diasdaescalaControle.escala.escalaPorta}" style="font-size: 16px; text-transform:  uppercase;"/><br/>
+                            <p:outputLabel value="Galeria da Escada: #{diasdaescalaControle.escala.escalaGaleria}" style="font-size: 16px; text-transform:  uppercase;"/><br/>
+                            <p:outputLabel value="Dentro do Templo: #{diasdaescalaControle.escala.escalaDentro}" style="font-size: 16px; text-transform:  uppercase;"/><br/>
+                            <p:outputLabel value="Corredor do Templo: #{diasdaescalaControle.escala.escalaCorredor}" style="font-size: 16px; text-transform:  uppercase;"/><br/><br/>
+
+                            <p:outputLabel value="Oficiais da Semana:" style="font-size: 18px; text-transform:  uppercase; font-weight: bold;"/><br/><br/>
+                            <p:outputLabel value="#{diasdaescalaControle.escala.escalaOficial1}" style="font-size: 16px; text-transform:  uppercase;"/><br/>
+                            <p:outputLabel value="#{diasdaescalaControle.escala.escalaOficial2}" style="font-size: 16px; text-transform:  uppercase;"/><br/>
+                            <p:outputLabel value="#{diasdaescalaControle.escala.escalaOficial3}" style="font-size: 16px; text-transform:  uppercase;"/><br/>
+                            <p:outputLabel value="#{diasdaescalaControle.escala.escalaOficial4}" style="font-size: 16px; text-transform:  uppercase;"/><br/>
+                            <p:outputLabel value="SECRETÁRIOS:" style="font-size: 18px; text-transform:  uppercase; font-weight: bold;"/><br/><br/>
+                            <p:outputLabel value="#{diasdaescalaControle.escala.secretario1}" style="font-size: 16px; text-transform:  uppercase;"/><br/>
+                            <p:outputLabel value="#{diasdaescalaControle.escala.secretario2}" style="font-size: 16px; text-transform:  uppercase;"/><br/>
+                        </div>
+
+                    </p:panel>
+
+                    <p:panelGrid columns="3" layout="grid">
+                        <p:button id="fc" value="Fechar" icon="ui-icon-closethick" outcome="/inicio.xhtml"/>
+                        <p:commandButton value="Imprimir" type="button" icon="ui-icon-print">
+                            <p:printer target="pg" />
+                        </p:commandButton>
+                    </p:panelGrid>
+
+
+                </h:form>
+            </ui:define>
+
+        </ui:composition>
+
+    </h:body>
+
+</html>

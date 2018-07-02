@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core">
+    <h:head>
+        <title>Login</title>
+        <link href="${facesContext.externalContext.requestContextPath}/resources/css/estilos.css" 
+              rel="stylesheet"
+              type="text/css" />
+    </h:head>
+    <h:body>
+
+        <div id="cabecalhoPgLogin">           
+            <img src="imagens/logo.jpg" width="400" height="100"/>
+        </div>
+        <p:separator/>
+
+        <p:growl id="growl" globalOnly="true" life="2000"/>
+        <p:messages autoUpdate="true" style="width: 350px; margin: 0 auto; font-size: 12px;" showIcon="false" showDetail="false"/>
+
+        <h:form id="loginForm" >
+
+            <p:remoteCommand  update="@all"/>
+
+            <p:panel style="width: 350px;margin-left: auto;margin-right: auto; margin-top: 80px;" >
+                <p><img src="imagens/login.png" width="150" height="150" />Acesso</p>
+
+                <p:separator style="height:5px" /><br></br>
+                <h:panelGrid id="loginPanel" columns="2" style="margin-left: auto;margin-right: auto;" >
+
+                    <p:outputLabel value="Usuário" for="username" />
+
+                    <p:inputText id="username" value="#{usuarioControle.usuario.nomeUsuarios}" style="width: 180px;"/>
+
+                    <p:outputLabel value="Senha" for="password" />
+
+                    <p:password id="password" value="#{usuarioControle.usuario.senhaUsuarios}" style="width: 180px;"/><br></br>
+
+                </h:panelGrid>
+                <p:separator style="height:5px" /><br></br>
+                <h:panelGrid columns="3"><h:column><p:panel style="width: 100px; border: none;"></p:panel></h:column>
+
+                    <p:commandButton action="#{usuarioControle.logando()}"                                    
+                                        value="Entrar"                                
+                                        ajax="false" 
+                                        icon="ui-icon-check">
+                    </p:commandButton>
+                    <h:column><p:panel style="width: 100px; border: none;"></p:panel></h:column>
+
+                    
+                </h:panelGrid>
+
+            </p:panel>
+
+        </h:form>
+
+
+    </h:body>
+
+
+
+</html>
+

@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"   
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <h:body>
+        <h:outputScript library="js" name="locale-primefaces.js"/>
+        <ui:composition template="/layout.xhtml">            
+            <ui:define name="content">
+                <p:panel header="Cadastro de Usuários">
+                    <h:form id="cadastro">
+
+                        <p:messages id="messages" closable="true" style="font-size: 12px; text-align: center;" showIcon="false"/>
+
+                        <p:panelGrid id="campos" columns="2" style="font-size: 14px;" styleClass="semBorda" columnClasses="textos,campos">
+                            <p:outputLabel value="Nome do usuario:"/>
+                            <p:inputText id="nome" label="Nome usuario" value="#{usuarioNovoControle.usuarioSelecionado.nomeUsuarios}" size="35" required="true" requiredMessage="O nome do usuário é obrigatório!" />
+                            <p:outputLabel value="Senha:"/>
+                            <p:password validatorMessage="As senhas digitadas não conferem!" promptLabel="Digite uma senha!" goodLabel="Senha" match="novasenha" id="senha" label="senha" value="#{usuarioNovoControle.usuarioSelecionado.senhaUsuarios}" size="10" />
+                            <p:outputLabel value="Confirme a Senha:"/>
+                            <p:password id="novasenha" size="10" goodLabel="Confirma a senha"/>
+                            <p:column></p:column>
+                            <p:panelGrid id="gp" columns="2">
+                                <p:outputLabel value="Administração:"/>
+                                <p:selectBooleanButton offLabel="Desabilitado" onLabel="Habilitado" label="Administração" value="#{usuarioNovoControle.usuarioSelecionado.administracao}" />
+                                <p:outputLabel value="Secretaria"/>
+                                <p:selectBooleanButton offLabel="Desabilitado" onLabel="Habilitado" label="Secretaria" value="#{usuarioNovoControle.usuarioSelecionado.secretaria}" />
+                                <p:outputLabel value="Missões"/>
+                                <p:selectBooleanButton offLabel="Desabilitado" onLabel="Habilitado" label="Missões" value="#{usuarioNovoControle.usuarioSelecionado.missoes}" />
+                                <p:outputLabel value="EBD"/>
+                                <p:selectBooleanButton offLabel="Desabilitado" onLabel="Habilitado" label="EBD" value="#{usuarioNovoControle.usuarioSelecionado.ebd}" />
+                                <p:outputLabel value="Financeiro"/>
+                                <p:selectBooleanButton offLabel="Desabilitado" onLabel="Habilitado" label="Financeiro" value="#{usuarioNovoControle.usuarioSelecionado.financeiro}" />
+                            </p:panelGrid>
+                        </p:panelGrid>
+                        <p:commandButton icon="ui-icon-check" title="Clique aqui para salvar o usuário" action="#{usuarioNovoControle.insert()}" value="Salvar" update="cadastro:messages"/>
+                        <p:button value="Fechar" icon="ui-icon-closethick" outcome="/inicio.xhtml"/>
+
+                    </h:form>
+                </p:panel>
+            </ui:define>            
+
+        </ui:composition>
+
+    </h:body>
+
+</html>

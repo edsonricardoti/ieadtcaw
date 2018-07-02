@@ -1,0 +1,35 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+
+    <h:head>
+        <title>Serviço de Avisos</title>
+    </h:head>
+    <h:body>
+        <div class="ui-fluid">           
+            <h:form>
+                <p:panel style="font-family: Verdana; font-size: 25px;">
+                    <p:panelGrid columns="1" style="width: 100%;">
+                        <p:panelGrid columns="1" style="width: 100%; text-align: center;">
+                            <img src="../imagens/logo.jpg" width="500" height="200"/><h3 style="margin-top:0">Serviço de avisos</h3>
+                        </p:panelGrid>
+                        <p:commandLink title="Incluir novo aviso" action="novo.xhtml" actionListener="#{avisoControle.pegaPraAlterar(lista.idAviso)}" >                        
+                            <img src="../imagens/novo.png" alt="Incluir Aviso."/>
+                        </p:commandLink>
+                        <p:commandLink title="Alterar avisos" action="alterar.xhtml" actionListener="#{avisoControle.pegaPraAlterar(lista.idAviso)}" >                        
+                            <img src="../imagens/alterar.png" alt="Alterar avisos."/>
+                        </p:commandLink> 
+                        <p:commandLink title="Ler avisos de hoje" action="lerHoje.xhtml" actionListener="#{avisoControle.pegaPraAlterar(lista.idAviso)}" >                        
+                            <img src="../imagens/lerHoje.png" alt="Ler avisos de hoje."/>
+                        </p:commandLink>         
+                    </p:panelGrid>
+
+                </p:panel>
+            </h:form>
+        </div>
+    </h:body>
+</html>
+

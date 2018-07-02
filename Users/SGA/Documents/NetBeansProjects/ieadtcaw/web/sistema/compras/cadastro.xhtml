@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"   
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <h:body>
+        <h:outputScript library="js" name="locale-primefaces.js"/>
+        <ui:composition template="/layout.xhtml">            
+            <ui:define name="content">
+                <p:panel header="Lançamentos de compras">
+                    <h:form>
+                        <p:remoteCommand action="#{contasapagarControle.limpaFormulario()}" autoRun="true" update="cadastro"/>
+                    </h:form>
+                    <h:form id="cadastro" prependId="false">
+                        <script type="text/javascript">
+                            $(".valor").keyup(function () {
+                                s = $(this).val();
+                                if (!(s.toString().search(/^-?([0-9]|[.]|[,]|[-])+$/) == 0)) {
+                                    $(this).val('');
+                                }
+                                $(this).val($(this).val().replace(".", ","));
+                            });
+                        </script>
+
+                        <p:growl id="messages" life="3000"/>
+                        <h:panelGrid  columns="2" style=" height: 250px;" >
+
+                            <p:panelGrid id="campos" columns="2" style="font-size: 14px;">
+                                    <p:column>
+                                        <p:outputLabel value="Descrição: "/>
+                                    </p:column>
+                                    <p:column>
+                                        <p:inputText id="nome" style="text-transform: uppercase;"
+                                                     label="Descrição"
+                                                     value="#{contasapagarControle.contasapagar.descricao}" size="35" required="true" requiredMessage="A descrição é obrigatória!" />
+                                    </p:column>
+                                    <p:column>
+                                        <p:outputLabel id="vl" value="Valor: "/>
+                                    </p:column>
+                                    <p:column>
+                                        <p:inputText value="#{contasapagarControle.contasapagar.valordespesa}"
+                                                     styleClass="valor" onfocus="maskMoney(this)"
+                                                     required="true" requiredMessage="O valor é obrigatório!"
+                                                     id="valor">
+                                            <f:convertNumber pattern="#,##0.00" minFractionDigits="2" />
+                                        </p:inputText>
+                                    </p:column>
+                                    <p:column>
+                                        <p:outputLabel id="dtvc" value="Vencimento: "/>
+                                    </p:column>
+                                    <p:column>
+                                        <p:calendar id="vencto" value="#{contasapagarControle.contasapagar.datavencimento}" locale="pt" mask="true" pattern="dd/MM/yyyy" showOn="button"/>
+                                        <p:outputLabel style="font-size: 9px;" id="mgc" value="Você pode digitar uma data para ser lembrado do pagamento."/>
+                                    </p:column>
+                                </p:panelGrid>
+
+
+                            <p:dataTable id="lista" rows="20" style="font-size: 10px; width: 300px;"
+                                             value="#{contasapagarControle.listaContasapagar}"
+                                             var="buscadosc"
+                                             paginator="true" paginatorPosition="bottom"
+                                             emptyMessage="Aguardando lançamentos">
+                                    <f:facet name="header">
+                                        Lista de compra
+                                    </f:facet>
+                                    <p:column headerText="Descrição" style="font-size: 10px;" width="100">
+                                        <p:outputLabel value="#{buscadosc.descricao}" style="font-size: 10px; text-transform: uppercase;"/>
+                                    </p:column>
+                                    <p:column headerText="Valor" style="font-size: 10px;" width="10">
+                                        <p:outputLabel value="#{buscadosc.valordespesa}" style="font-size: 10px;">
+                                            <f:convertNumber pattern="#,##0.00" minFractionDigits="2"/>
+                                        </p:outputLabel>
+                                    </p:column>
+
+                                </p:dataTable>
+
+                        </h:panelGrid>
+                        <p:commandButton icon="ui-icon-check" title="Clique aqui para salvar/incluir outro" update="@form"
+                                         value="Incluir" action="#{contasapagarControle.atualizaDespesas('compras')}"
+                                         actionListener="#{contasapagarControle.insert('compras')}"/>
+                        <p:button value="Fechar" icon="ui-icon-closethick" outcome="/inicio.xhtml"/>
+
+                    </h:form>
+                </p:panel>
+            </ui:define>            
+
+        </ui:composition>
+
+    </h:body>
+
+</html>

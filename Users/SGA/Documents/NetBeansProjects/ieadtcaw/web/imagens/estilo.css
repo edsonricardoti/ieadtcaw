@@ -1,0 +1,20 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : 02/02/2018, 09:22:31
+    Author     : CRA
+*/
+
+.naolido {
+	background-image: url("/imagens/avisoNaoLido.jpg") !important;
+        width: 40px;
+        height: 40px;
+}
+.lido {
+	background-image: url("/imagens/avisoLido.jpg") !important;
+        width: 40px;
+        height: 40px;
+}

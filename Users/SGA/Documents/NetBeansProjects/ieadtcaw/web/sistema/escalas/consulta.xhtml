@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"   
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <h:body>
+        <h:outputScript library="js" name="locale-primefaces.js"/>
+        <ui:composition template="/layout.xhtml">            
+            <ui:define name="content">
+                <p:panel header="Cadastro de Escala">
+                    <h:form id="cadastro" prependId="false">
+                        <p:messages id="messages" closable="true" style="font-size: 12px; text-align: center;" showIcon="false"/>
+                        <p:tabView>
+                            <p:tab title="Mantenedores de Ordem">
+                                <p:panelGrid id="campos" columns="4" style="font-size: 12px;" styleClass="semBorda">
+                                    <p:outputLabel for="dtcad" value="Data cadastro:" />
+                                    <p:calendar id="dtcad" value="#{escalaControle.escalaSelecionado.escalaData}" locale="pt"
+                                                style="font-size: 10px;"
+                                                mask="true" pattern="dd/MM/yyyy"
+                                                showOn="button" rendered="true" requiredMessage="a data é obrigatória!" />
+                                    <p:outputLabel value="Mês:"/>
+                                    <p:selectOneMenu id="cargo" value="#{escalaControle.escalaSelecionado.escalaMes}" style="width:125px; font-size: 10px;">
+                                        <f:selectItem itemLabel="Janeiro" itemValue="1" />
+                                        <f:selectItem itemLabel="Fevereiro" itemValue="2" />
+                                        <f:selectItem itemLabel="Marco" itemValue="3" />
+                                        <f:selectItem itemLabel="Abril" itemValue="4" />
+                                        <f:selectItem itemLabel="Maio" itemValue="5" />
+                                        <f:selectItem itemLabel="Junho" itemValue="6" />
+                                        <f:selectItem itemLabel="Julho" itemValue="7" />
+                                        <f:selectItem itemLabel="Agosto" itemValue="8" />
+                                        <f:selectItem itemLabel="Setembro" itemValue="9" />
+                                        <f:selectItem itemLabel="Outubro" itemValue="10" />
+                                        <f:selectItem itemLabel="Novembro" itemValue="11" />
+                                        <f:selectItem itemLabel="Dezembro" itemValue="12" />
+                                    </p:selectOneMenu>
+                                    <p:outputLabel value="Semana:"/>
+                                    <p:selectOneMenu id="mes" value="#{escalaControle.escalaSelecionado.escalaSemana}" style="width:125px; font-size: 10px;">
+                                        <f:selectItem itemLabel="1ª Semana" itemValue="1" />
+                                        <f:selectItem itemLabel="2ª Semana" itemValue="2" />
+                                        <f:selectItem itemLabel="3ª Semana" itemValue="3" />
+                                        <f:selectItem itemLabel="4ª Semana" itemValue="4" />
+                                        <f:selectItem itemLabel="5ª Semana" itemValue="5" />
+
+                                    </p:selectOneMenu>
+                                    <p:outputLabel value="Portão principal:"/>
+                                    <p:inputText value="#{escalaControle.escalaSelecionado.escalaPortao}" style="width: 300px; font-size: 10px; text-transform:  uppercase;"/>
+                                    <p:outputLabel value="Porta do templo:"/>
+                                    <p:inputText value="#{escalaControle.escalaSelecionado.escalaPorta}" style="width: 300px; font-size: 10px; text-transform:  uppercase;"/>
+                                    <p:outputLabel value="Galeria da escada:"/>
+                                    <p:inputText value="#{escalaControle.escalaSelecionado.escalaGaleria}" style="width: 300px; font-size: 10px; text-transform:  uppercase;"/>
+                                    <p:outputLabel value="Dentro do templo:"/>
+                                    <p:inputText value="#{escalaControle.escalaSelecionado.escalaDentro}" style="width: 300px; font-size: 10px; text-transform:  uppercase;"/>
+                                    <p:outputLabel value="Corredor do templo:"/>
+                                    <p:inputText value="#{escalaControle.escalaSelecionado.escalaCorredor}" style="width: 300px; font-size: 10px; text-transform:  uppercase;"/>
+                                    <p:outputLabel value="1 Oficial da semana:"/>
+                                    <p:inputText value="#{escalaControle.escalaSelecionado.escalaOficial1}" style="width: 300px; font-size: 10px; text-transform:  uppercase;"/>
+                                    <p:outputLabel value="2 Oficial da semana:"/>
+                                    <p:inputText value="#{escalaControle.escalaSelecionado.escalaOficial2}" style="width: 300px; font-size: 10px; text-transform:  uppercase;"/>
+                                    <p:outputLabel value="3 Oficial da semana:"/>
+                                    <p:inputText value="#{escalaControle.escalaSelecionado.escalaOficial3}" style="width: 300px; font-size: 10px; text-transform:  uppercase;"/>
+                                    <p:outputLabel value="4 Oficial da semana:"/>
+                                    <p:inputText value="#{escalaControle.escalaSelecionado.escalaOficial4}" style="width: 300px; font-size: 10px; text-transform:  uppercase;"/>
+                                    <p:outputLabel value="Secretário 1:"/>
+                                    <p:inputText value="#{escalaControle.escalaSelecionado.secretario1}" style="width: 300px; font-size: 10px; text-transform:  uppercase;" />
+                                    <p:outputLabel value="Secretário 2"/>
+                                    <p:inputText value="#{escalaControle.escalaSelecionado.secretario2}" style="width: 300px; font-size: 10px; text-transform:  uppercase;"/>
+                                </p:panelGrid>
+                            </p:tab>
+                            <p:tab title="Trabalhos da Semana" id="lanamento">
+                                <p:fieldset legend="Lançamento dos trabalhos:" style="margin-bottom:20px; font-size: 12px;">
+                                    <p:panelGrid columns="4" styleClass="semBorda">
+                                        <p:column headerText="Data" style="font-size: 12px;">
+                                            <p:outputLabel value="Data:" style="font-size: 12px;"/>
+                                            <p:calendar id="dtemiss" value="#{diasdaescalaControle.diasescala.data}" style="font-size: 10px;"
+                                                        locale="pt" mask="true" pattern="dd/MM/yyyy" showOn="button"/>
+                                        </p:column>
+                                        <p:column headerText="Hora" style="font-size: 12px;">
+                                            <p:outputLabel value="Hora:" style="font-size: 12px;"/>
+                                            <p:inputMask value="#{diasdaescalaControle.diasescala.hora}" mask="99:99" style="width: 35px; font-size: 12px;"/>
+                                        </p:column>
+                                        <p:column headerText="Evento" style="font-size: 12px;" width="65">
+                                            <p:outputLabel value="Evento:" style="font-size: 12px;"/>
+                                            <p:inputText value="#{diasdaescalaControle.diasescala.evento}" style="width: 300px; font-size: 10px; text-transform:  uppercase;"/>
+                                        </p:column>
+
+                                        <p:commandButton style="font-size: 10px;" value="Incluir" action="#{diasdaescalaControle.insert(escalaControle.escalaSelecionado)}" update="@form"/>
+                                        <p:remoteCommand action="#{escalaControle.PegaFilho(escalaControle.escalaSelecionado)}" autoRun="true" update="filhos1"/>
+                                    </p:panelGrid>
+                                </p:fieldset>
+                                <p:dataTable id="filhos1" value="#{escalaControle.listaFilhos}"
+                                             paginator="true" paginatorPosition="bottom"
+                                             style="font-size: 10px;"
+                                             var="filhos">
+                                    <p:column headerText="Data" style="font-size: 10px; width: 40px;">
+                                        <p:outputLabel id="dataCadastro" value="#{filhos.data}"  style="font-size: 10px;">
+                                            <f:convertDateTime pattern="dd/MM/yyyy"/>
+                                        </p:outputLabel>
+                                    </p:column>
+                                    <p:column headerText="Hora" style="font-size: 10px; width: 40px;">
+                                        <p:outputLabel value="#{filhos.hora}"/>
+                                    </p:column>                                    
+                                    <p:column headerText="Evento" style="font-size: 10px;">
+                                        <p:outputLabel value="#{filhos.evento}" style="font-size: 10px; text-transform: uppercase;"/>
+                                    </p:column>
+                                    <p:column headerText="Excluir" style="text-align: center; font-size: 10px; width: 40px;">
+                                        <p:commandButton icon="ui-icon-trash" title="Clique aqui para excluir."
+                                                         action="#{diasdaescalaControle.delete(filhos)}"
+                                                         update="@form">
+                                            <p:confirm header="Confirmação!" message="Você tem certeza?"  icon="ui-icon-alert"/>
+                                        </p:commandButton>
+                                    </p:column>
+                                </p:dataTable>
+                                <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+                                    <p:commandButton value="Sim" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+                                    <p:commandButton value="Não" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+                                </p:confirmDialog>
+                            </p:tab>
+
+                        </p:tabView>
+                        <p:commandButton icon="ui-icon-check" title="Clique aqui para salvar o cadastro" action="#{escalaControle.update()}" value="Salvar" update="cadastro:messages"/>
+                        <p:button value="Fechar" icon="ui-icon-closethick" outcome="consultar.xhtml"/>
+                    </h:form>
+
+                </p:panel>
+            </ui:define>
+
+        </ui:composition>
+
+    </h:body>
+
+</html>

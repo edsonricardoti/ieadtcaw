@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"   
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"      
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <title>IEADTCAW Sistema</title>
+    </h:head>
+    <h:body>
+        <ui:composition>
+            <h:form>
+
+                <p:menubar style="font-size: 18px;">
+                    <p:submenu label="Cadastro" icon="ui-icon-folder-collapsed" rendered="#{usuarioControle.usuario.administracao}">
+                        <p:submenu label="Membros/Congregados" icon="ui-icon-person">
+                            <p:menuitem value="Incluir" icon="ui-icon-circle-plus" ajax="false" url="/sistema/membros/cadastro.xhtml">
+                                <p:ajax resetValues="true"/>
+                            </p:menuitem>
+                            <p:menuitem value="Consultar/Alterar/Excluir" icon="ui-icon-folder-open" ajax="false" url="/sistema/membros/consultar.xhtml"/>
+                        </p:submenu>
+                        <p:submenu label="Visitantes" icon="ui-icon-tag">
+                            <p:menuitem value="Incluir" icon="ui-icon-circle-plus" ajax="false" url="/sistema/visitantes/cadastro.xhtml"/>
+                            <p:menuitem value="Consultar/Alterar/Excluir" icon="ui-icon-folder-open" ajax="false" url="/sistema/visitantes/consultar.xhtml"/>
+                        </p:submenu>
+                        <p:submenu label="Igreja" icon="ui-icon-home">
+                            <p:menuitem value="Incluir" icon="ui-icon-circle-plus" ajax="false" url="/sistema/igrejas/cadastro.xhtml"/>
+                            <p:menuitem value="Consultar/Alterar/Excluir" icon="ui-icon-folder-open" ajax="false" url="/sistema/igrejas/consultar.xhtml" />
+                        </p:submenu>                        
+                        <p:submenu label="Veículo" icon="ui-icon-clipboard">
+                            <p:menuitem value="Incluir" icon="ui-icon-circle-plus" ajax="false" url="/sistema/veiculos/cadastro.xhtml" />
+                            <p:menuitem value="Consultar/Alterar/Excluir" icon="ui-icon-folder-open" ajax="false" url="/sistema/veiculos/consultar.xhtml" />
+                        </p:submenu>
+                        <p:submenu label="Usuários" icon="ui-icon-key">
+                            <p:menuitem value="Incluir" icon="ui-icon-circle-plus" ajax="false" url="/sistema/usuarios/cadastro.xhtml"/>
+                            <p:menuitem value="Consultar/Alterar/Excluir" icon="ui-icon-folder-open" ajax="false" url="/sistema/usuarios/consultar.xhtml"/>
+                        </p:submenu>                        
+                    </p:submenu>
+                    <p:submenu label="Secretaria" icon="ui-icon-pencil" rendered="#{usuarioControle.usuario.secretaria or usuarioControle.usuario.administracao}" >
+                        <p:submenu label="Escala Semanal" icon="ui-icon-pin-s">
+                            <p:menuitem value="Incluir" icon="ui-icon-circle-plus" ajax="false" url="/sistema/escalas/cadastro.xhtml" />
+                            <p:menuitem value="Consultar/Alterar/Excluir" ajax="false" icon="ui-icon-folder-open" url="/sistema/escalas/consultar.xhtml" />
+                            <p:menuitem value="Rodízio dos Trabalhos Semanais" ajax="false" icon="ui-icon-folder-open" url="/sistema/escalas/relatorio.xhtml" />
+                        </p:submenu>
+                        <p:submenu label="Ata das Reuniões" icon="ui-icon-script">
+                            <p:menuitem value="Incluir" icon="ui-icon-circle-plus" ajax="false" url="/sistema/atas/cadastro.xhtml" />
+                            <p:menuitem value="Consultar/Alterar/Excluir" ajax="false" icon="ui-icon-folder-open" url="/sistema/atas/consultar.xhtml" />
+
+                        </p:submenu> 
+                        <p:submenu label="Apresentação de Crianças" icon="ui-icon-star">
+                            <p:menuitem value="Incluir" icon="ui-icon-circle-plus" ajax="false" url="/sistema/criancas/cadastro.xhtml" />
+                            <p:menuitem value="Consultar/Alterar/Excluir" ajax="false" icon="ui-icon-folder-open" url="/sistema/criancas/consultar.xhtml" />
+                        </p:submenu>
+                        <p:submenu label="Carta de Recomendação" icon="ui-icon-mail-closed">
+                            <p:menuitem value="Incluir" icon="ui-icon-circle-plus" ajax="false" url="/sistema/cartas/cadastro.xhtml"/>
+                            <p:menuitem value="Consultar/Alterar/Excluir" ajax="false" icon="ui-icon-folder-open" url="/sistema/cartas/consultar.xhtml" />
+
+                        </p:submenu>
+                        <p:submenu label="Avisos/Eventos" icon="ui-icon-mail-closed">
+                            <p:menuitem value="Agenda" icon="ui-icon-circle-plus" ajax="false" url="/sistema/avisos/agenda.xhtml"/>
+                            <p:menuitem value="Consultar/Alterar/Excluir" ajax="false" icon="ui-icon-folder-open" url="/sistema/avisos/alterar.xhtml" />
+
+                        </p:submenu>
+                    </p:submenu>
+                    <p:submenu label="EBD" icon="ui-icon-contact" rendered="#{usuarioControle.usuario.ebd or usuarioControle.usuario.administracao}">
+                        <p:submenu label="Classes" icon="ui-icon-comment">
+                            <p:menuitem value="Incluir" icon="ui-icon-circle-plus" ajax="false" url="/sistema/classes/cadastro.xhtml"/>
+                            <p:menuitem value="Consultar/Alterar/Excluir" ajax="false" icon="ui-icon-folder-open" url="/sistema/classes/consultar.xhtml"/>
+                        </p:submenu>
+                        <p:submenu label="Professores" icon="ui-icon-person">
+                            <p:menuitem value="Habilitar/Desabilitar" icon="ui-icon-circle-plus" ajax="false" url="/sistema/professores/cadastro.xhtml"/>
+                        </p:submenu>
+                        <p:submenu label="Alunos" icon="ui-icon-clipboard">
+                            <p:menuitem value="Incluir" icon="ui-icon-circle-plus" ajax="false" url="/sistema/alunos/cadastro.xhtml"/>
+                            <p:menuitem value="Consultar/Alterar/Excluir" ajax="false" icon="ui-icon-folder-open" url="/sistema/alunos/consultar.xhtml"/>
+                        </p:submenu>                        
+                        <p:menuitem value="Relatório Presença Sintético" ajax="false" url="/sistema/listagens/presencas.xhtml"/>
+                        <p:menuitem value="Relatório Presença Detalhado" ajax="false" url="/sistema/listagens/presencaaluno.xhtml"/>
+                        <p:menuitem value="Relatório de Alunos" ajax="false"  url="/sistema/listagens/alunos.xhtml" />
+                        <p:menuitem value="Gráfico comparativo das presenças por períodos e classes" ajax="false" url="/sistema/listagens/grporclasse.xhtml" />
+                    </p:submenu>
+                    <p:submenu label="Financeiro" icon="ui-icon-calculator" rendered="#{usuarioControle.usuario.financeiro or usuarioControle.usuario.administracao}">
+                        <p:submenu label="Dízimos" icon="ui-icon-transferthick-e-w">
+                            <p:menuitem value="Incluir" icon="ui-icon-circle-plus" ajax="false" url="/sistema/dizimos/cadastro.xhtml" />
+                            <p:menuitem value="Consultar/Alterar/Excluir" ajax="false" icon="ui-icon-folder-open" url="/sistema/dizimos/consultar.xhtml"/>
+                        </p:submenu>
+                        <p:submenu label="Ofertas" icon="ui-icon-transferthick-e-w">
+                            <p:menuitem value="Incluir" icon="ui-icon-circle-plus" ajax="false" url="/sistema/ofertas/cadastro.xhtml" />
+                            <p:menuitem value="Consultar/Alterar/Excluir" ajax="false" icon="ui-icon-folder-open" url="/sistema/ofertas/consultar.xhtml" />
+                        </p:submenu>
+                        <p:submenu label="Ofertas Alçadas" icon="ui-icon-transferthick-e-w">
+                            <p:menuitem value="Incluir" icon="ui-icon-circle-plus" ajax="false" url="/sistema/alcadas/cadastro.xhtml" />
+                            <p:menuitem value="Consultar/Alterar/Excluir" ajax="false" icon="ui-icon-folder-open" url="/sistema/alcadas/consultar.xhtml"/>
+                        </p:submenu>
+                        <p:submenu label="Votos e Outros" icon="ui-icon-transferthick-e-w">
+                            <p:menuitem value="Incluir" icon="ui-icon-circle-plus" ajax="false" url="/sistema/votos/cadastro.xhtml"/>
+                            <p:menuitem value="Consultar/Alterar/Excluir" ajax="false" icon="ui-icon-folder-open" url="/sistema/votos/consultar.xhtml"/>
+                        </p:submenu>
+                        <p:submenu label="Contas a pagar" icon="ui-icon-clipboard">
+                            <p:submenu label="Compras" icon="ui-icon-cart">
+                                <p:menuitem value="Incluir" icon="ui-icon-circle-plus" ajax="false" url="/sistema/compras/cadastro.xhtml"/>
+                                <p:menuitem value="Consultar/Alterar/Excluir" ajax="false" icon="ui-icon-folder-open" url="/sistema/compras/consultar.xhtml" />
+                            </p:submenu>
+                            <p:submenu label="Despesas Fixas" icon="ui-icon-lightbulb">
+                                <p:menuitem value="Incluir" icon="ui-icon-circle-plus" ajax="false" url="/sistema/fixas/cadastro.xhtml"/>
+                                <p:menuitem value="Consultar/Alterar/Excluir" ajax="false" icon="ui-icon-folder-open" url="/sistema/fixas/consultar.xhtml"/>
+                            </p:submenu>                            
+                        </p:submenu>
+                        <p:submenu label="Despesas com Veículo" icon="ui-icon-wrench">
+                            <p:menuitem value="Incluir" icon="ui-icon-circle-plus" ajax="false" url="/sistema/despesaveiculo/cadastro.xhtml"/>
+                            <p:menuitem value="Consultar/Alterar/Excluir" ajax="false" icon="ui-icon-folder-open" url="/sistema/despesaveiculo/consultar.xhtml"/>
+                            <p:menuitem value="Quilometragem" ajax="false" />
+                            <p:menuitem value="Controle de Rotas" ajax="false" />
+                            <p:menuitem value="Gráfico comparativo por período Gasolina X Manutenção" ajax="false" url="/sistema/listagens/grgasolina.xhtml" />
+                        </p:submenu>
+                        <p:submenu label="Relatórios">
+                            <p:menuitem value="Dízimo por Mês" ajax="false" url="/sistema/listagens/dizimopormes.xhtml" />
+                            <p:menuitem value="Dízimo por Ano" ajax="false" url="/sistema/listagens/dizimoporano.xhtml" />
+                            <p:menuitem value="Dízimo por Período" ajax="false" url="/sistema/listagens/dizimoporperiodo.xhtml"/>
+                            <p:menuitem value="Dízimo por Membro" ajax="false" url="/sistema/listagens/dizimopormembro.xhtml" />
+                            <p:menuitem value="Financeiro Geral" ajax="false" url="/sistema/listagens/financeirogeral.xhtml"/>
+                        </p:submenu>
+
+                    </p:submenu>
+                    <p:submenu label="Missões" icon="ui-icon-arrowthick-1-ne" rendered="#{usuarioControle.usuario.missoes or usuarioControle.usuario.administracao}" >
+                        <p:menuitem value="Contribuintes de carnês" ajax="false"/>
+                        <p:submenu label="Ofertas" icon="ui-icon-transferthick-e-w">
+                            <p:menuitem value="Incluir" icon="ui-icon-circle-plus" ajax="false" url="/sistema/missofertas/cadastro.xhtml" />
+                            <p:menuitem value="Consultar/Alterar/Excluir" ajax="false" icon="ui-icon-folder-open" url="/sistema/missofertas/consultar.xhtml" />
+                        </p:submenu>
+                        <p:submenu label="Votos e Outros" icon="ui-icon-transferthick-e-w">
+                            <p:menuitem value="Incluir" icon="ui-icon-circle-plus" ajax="false" url="/sistema/missvotos/cadastro.xhtml"/>
+                            <p:menuitem value="Consultar/Alterar/Excluir" ajax="false" icon="ui-icon-folder-open" url="/sistema/missvotos/consultar.xhtml"/>
+                        </p:submenu>
+                        <p:submenu label="Ofertas Alçadas" icon="ui-icon-transferthick-e-w">
+                            <p:menuitem value="Incluir" icon="ui-icon-circle-plus" ajax="false" url="/sistema/missalcadas/cadastro.xhtml" />
+                            <p:menuitem value="Consultar/Alterar/Excluir" ajax="false" icon="ui-icon-folder-open" url="/sistema/missalcadas/consultar.xhtml"/>
+                        </p:submenu>
+                        <p:menuitem value="Financeiro Geral" ajax="false" url="/sistema/listagens/missfinanceirogeral.xhtml"/>
+                        <p:menuitem value="Gráfico comparativo entre Grupos" ajax="false" />                         
+                        <p:menuitem value="Gráfico por período" ajax="false" />
+                        <p:menuitem value="Gráfico por pessoal individual" ajax="false" />
+                    </p:submenu>
+                    <p:submenu id="mr" label="Relatórios do Cadastro" icon="ui-icon-print" rendered="#{usuarioControle.usuario.secretaria or usuarioControle.usuario.administracao}">
+                        <p:menuitem value="Membros" ajax="false" url="/sistema/listagens/membros.xhtml"/>
+                        <p:menuitem value="Crianças" ajax="false" url="/sistema/listagens/criancas.xhtml" />                        
+                        <p:menuitem value="Aniversariantes" ajax="false" url="/sistema/listagens/aniversariantes.xhtml" />
+                        <p:menuitem value="Aniversário de casamento" ajax="false" url="/sistema/listagens/casados.xhtml" />                        
+                        <p:menuitem value="Por estado civil" ajax="false" url="/sistema/listagens/membrosporestcivil.xhtml" />
+                    </p:submenu>
+                    <p:menuitem value="Saír" icon="ui-icon-power" ajax="false" action="#{usuarioControle.logOFF()}"/>
+
+                </p:menubar>
+            </h:form>
+        </ui:composition>
+    </h:body>
+</html>

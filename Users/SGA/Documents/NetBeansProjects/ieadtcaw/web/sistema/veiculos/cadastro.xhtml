@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"   
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <h:body>
+        <h:outputScript library="js" name="locale-primefaces.js"/>
+        <ui:composition template="/layout.xhtml">            
+            <ui:define name="content">
+                <p:panel header="Cadastro de Veículo">
+                    <h:form id="cadastro" prependId="false">
+
+                        <p:remoteCommand action="#{veiculoControle.limpaFormulario()}" autoRun="true"/>
+                        <p:messages id="messages" closable="true" style="font-size: 12px; text-align: center;" showIcon="false"/>                        
+                        <p:panelGrid id="campos" columns="4" style="font-size: 14px;" styleClass="semBorda" columnClasses="textos,campos,textos,campos">
+                            <p:outputLabel value="Placa:"/>
+                            <p:inputText id="placa" label="Placa" value="#{veiculoControle.veiculo.veiculosPlaca}" size="10" required="true" requiredMessage="A placa do veículo é obrigatória!" />
+                            <p:outputLabel value="Marca/Modelo"/>
+                            <p:inputText id="marca" label="Marca/Modelo" value="#{veiculoControle.veiculo.veiculosMarcaModelo}" size="35" />
+                            <p:outputLabel value="Combustível"/>
+                            <p:selectOneMenu id="combu" value="#{veiculoControle.veiculo.veiculosComustivel}">
+                                <f:selectItem itemLabel=":::Selecione:::" />
+                                <f:selectItem itemLabel="Gasolina" itemValue="Gasolina"  />
+                                <f:selectItem itemLabel="Álcool" itemValue="Alcool"  />
+                                <f:selectItem itemLabel="Dísel" itemValue="Viúvo"  />
+                                <f:selectItem itemLabel="GNV" itemValue="GNV"  />
+                            </p:selectOneMenu>
+                            <p:outputLabel value="Ano de Fabricação:"/>
+                            <p:inputText id="ano" label="Ano de Fabricação" value="#{veiculoControle.veiculo.veiculosAnoFab}"/>
+                            <p:outputLabel value="Cor:"/>
+                            <p:inputText id="cor" label="Cor" value="#{veiculoControle.veiculo.veiculosCor}"/>
+                            <p:outputLabel value="Exercício do CRLV:"/>
+                            <p:inputText id="exerc" label="Exercício do CRLV" value="#{veiculoControle.veiculo.veiculosExecCrlv}"/>
+                            <p:outputLabel value="Ano IPVA:"/>
+                            <p:inputText id="ipva" label="Ano IPVA" value="#{veiculoControle.veiculo.veiculosAnoIpva}"/>
+                            <p:outputLabel for="pgipva" value="IPVA em dia?"/>
+                            <p:selectOneRadio id="pgipva" value="#{veiculoControle.veiculo.veiculosIpvapago}"
+                                              requiredMessage="Informe a situação do IPVA se está em dia ou não!" required="true">
+                                <f:selectItem itemLabel=" Sim " itemValue="Sim" />
+                                <f:selectItem itemLabel=" Não " itemValue="Não" >
+                                </f:selectItem>
+                            </p:selectOneRadio>
+
+                        </p:panelGrid>
+                        <p:commandButton icon="ui-icon-check" title="Clique aqui para salvar o cadastro" action="#{veiculoControle.insert()}" value="Salvar" update="cadastro:messages"/>
+                        <p:button value="Fechar" icon="ui-icon-closethick" outcome="/inicio.xhtml"/>
+
+                    </h:form>
+                </p:panel>
+            </ui:define>            
+
+        </ui:composition>
+
+    </h:body>
+
+</html>

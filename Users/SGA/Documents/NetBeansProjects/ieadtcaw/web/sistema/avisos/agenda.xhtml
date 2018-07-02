@@ -1,0 +1,95 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+
+
+    <h:head>
+
+
+    </h:head>
+    <h:body>
+        <ui:composition template="/layout.xhtml">
+            <ui:define name="content">              
+
+                <h:form id="frm1" prependId="false" >
+                    <p:growl id="messages" showDetail="true" />
+
+                    <div align="left">
+                        <h:outputLabel value="Agenda de eventos" style="font-size: 24px; font-weight: bold;"/>
+                    </div>
+                    <p:schedule id="schedule" value="#{avisoControle.eventModel}"
+                                widgetVar="myschedule"
+                                aspectRatio="2" locale="pt"
+                                centerHeaderTemplate="title"
+                                timeFormat="HH:mm"
+                                slotMinutes="30"
+                                firstHour="7"
+                                showWeekends="true"
+                                axisFormat="HH:mm"
+                                timeZone="GMT-3"
+                                allDaySlot="false"
+                                resizable="false"
+                                view="month"
+                                style="width: 1000px; height: 500px; font-size: 14px; text-transform: uppercase;">
+
+                        <p:ajax event="dateSelect" listener="#{avisoControle.onDateSelect}" update="@form" oncomplete="PF('eventDialog').show();" />
+                        <p:ajax event="eventSelect" listener="#{avisoControle.onEventSelect}" update="@form" oncomplete="PF('eventDialog').show();" />
+                        <p:ajax event="eventMove" listener="#{avisoControle.onEventMove}" update="messages" />
+                        <p:ajax event="eventResize" listener="#{avisoControle.onEventResize}" update="messages" />
+
+                    </p:schedule>
+                    <p:dialog widgetVar="eventDialog"
+                              header="Datalhe do evento" style="width: 800px; height: 640px; margin-top: -150px;"
+                              showEffect="clip" maximizable="true"
+                              hideEffect="clip">
+                        <h:panelGrid id="eventDetails" columns="6">
+                            <p:outputLabel for="title" value="Título:" />
+                            <p:inputText id="title" value="#{avisoControle.event.title}" required="true"
+                                         requiredMessage="O título é obrigatório!"
+                                         style="text-transform: uppercase;"/>
+
+                            <p:outputLabel for="from" value="Início:" />
+                            <p:calendar id="from" value="#{avisoControle.event.startDate}" locale="pt" timeZone="GMT-3" pattern="dd/MM/yyyy HH:mm"/>
+
+                            <p:outputLabel for="to" value="Fim:" />
+                            <p:calendar id="to" value="#{avisoControle.event.endDate}" locale="pt" timeZone="GMT-3" pattern="dd/MM/yyyy HH:mm"/>
+                        </h:panelGrid>
+                        <h:panelGrid id="pg" columns="1" style="font-family: Helvetica, Verdana, sans-serif;">
+                            <p:editor id="editor" widgetVar="editorWidget" value="#{avisoControle.avisoSelecionado.descriAviso}" width="680" height="300" />
+                            <p:panel id="p1">                               
+                                <p:panel style="width: 750px;">
+                                    <p:fileUpload fileUploadListener="#{avisoControle.processFileUploadDigital}"
+                                                  uploadLabel="Enviar"
+                                                  cancelLabel="Cancelar"
+                                                  label="Adicionar"
+                                                  fileLimit="1"
+                                                  multiple="false"
+                                                  invalidFileMessage="Somente arquivos JPG,PDF,GIF,PNG,DOC ou PPT"
+                                                  allowTypes="/(\.|\/)(jpg|pdf|ppt|png|doc|gif)$/"
+                                                  mode="advanced"
+                                                  immediate="true"
+                                                  update="figura"
+                                                  style="width: 700px;">
+
+                                        <p:graphicImage id="figura" value="../../arquivos/#{avisoControle.avisoSelecionado.arquivoAviso}"
+                                                        style="width: 80px; height: 80px; margin-left: 25px; margin-top: 5px;" cache="false"/>
+
+                                    </p:fileUpload>
+
+                                </p:panel>
+                            </p:panel>
+                            <p:panelGrid columns="2">
+                                <p:commandButton value="Excluir" action="#{avisoControle.delete(avisoControle.avisoSelecionado)}" update="@form" />
+                                <p:commandButton id="addButton" value="Salvar" actionListener="#{avisoControle.insert()}" oncomplete="PF('myschedule').update();PF('eventDialog').hide();" />
+                            </p:panelGrid>
+                        </h:panelGrid>
+                    </p:dialog>  
+                </h:form>
+            </ui:define>
+        </ui:composition>
+    </h:body>
+</html>

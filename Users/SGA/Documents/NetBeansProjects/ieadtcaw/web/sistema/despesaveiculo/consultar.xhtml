@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"   
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <h:body>
+        <h:outputScript library="js" name="locale-primefaces.js"/>
+        <ui:composition template="/layout.xhtml">            
+            <ui:define name="content">
+                <h:form id="cadastro" prependId="false">
+
+                    <p:panel header="Lançamentos de despesas com veículo">
+                        <style type="text/css">
+                            .ui-datatable .ui-datatable-data .ui-datatable-odd td{
+                                background-color: #FFFFFF;
+                            }
+                            .ui-datatable .ui-datatable-data .ui-datatable-even td{
+                                background-color: darkgray;
+                            }
+                            .ui-datatable .ui-datatable-header, .ui-datatable .ui-datatable-footer {
+                                text-align: center;
+                                padding: 0px 0px;
+                            }
+                        </style>
+                        <p:messages id="messages" closable="true" style="font-size: 12px; text-align: center;" showIcon="false"/>
+                        <p:remoteCommand action="#{contasapagarControle.limpaFormulario()}" autoRun="true" update="grades,lista"/>
+                        <p:panelGrid id="grades" columns="7" style="font-size: 10px;" styleClass="semBorda">
+                            <p:outputLabel value="Descrição:"/>
+                            <p:inputText value="#{contasapagarControle.descricao}"/>
+                            <p:outputLabel value="Data Ini:"/>
+                            <p:calendar id="dataini" value="#{contasapagarControle.dataini}" locale="pt" mask="true" pattern="dd/MM/yyyy" showOn="button" rendered="true" requiredMessage="a data inicial é obrigatória!" />
+                            <p:outputLabel value="Data Fim:"/>
+                            <p:calendar id="datafim" value="#{contasapagarControle.datafim}" locale="pt" mask="true" pattern="dd/MM/yyyy" showOn="button" rendered="true" requiredMessage="a data final é obrigatória!" />
+                            <p:commandButton title="Clique aqui para buscar" actionListener="#{contasapagarControle.buscarLista(contasapagarControle.descricao,'veiculo',contasapagarControle.dataini,contasapagarControle.datafim)}" value="Buscar" update="cadastro:lista"/>
+                        </p:panelGrid>
+                        <p:panel id="pg1">
+                            <p:dataTable id="lista" rows="20"
+                                         value="#{contasapagarControle.listaContasapagar}"
+                                         var="buscados" style="font-size: 10px;"
+                                         paginator="true" paginatorPosition="bottom"
+                                         emptyMessage="Nenhum lançamento encontrado. Digite uma descrição ou clique em Buscar para todos.">
+                                <f:facet name="header" id="exp">
+                                    DESPESAS COM VEÍCULO
+                                </f:facet>
+                                <p:column headerText="Descrição" style="font-size: 10px;" width="65">
+                                    <p:outputLabel value="#{buscados.descricao}" style="font-size: 10px; text-transform: uppercase;"/>
+                                </p:column>
+                                <p:column headerText="Observação" style="font-size: 10px;" width="65">
+                                    <p:outputLabel value="#{buscados.obs}" style="font-size: 10px; text-transform: uppercase;"/>
+                                </p:column>
+                                <p:column headerText="Valor" style="font-size: 10px; text-align: right;" width="15">
+                                    <p:outputLabel value="#{buscados.valordespesa}" style="font-size: 10px;">
+                                        <f:convertNumber pattern="#,##0.00" minFractionDigits="2"/>
+                                    </p:outputLabel>
+                                </p:column>
+                                <p:column headerText="Data lanç." style="font-size: 10px; text-align:  right; width: 50px;" width="15">
+                                    <p:outputLabel id="dataCadastro" value="#{buscados.datalancamento}" style="font-size: 10px; text-transform: uppercase;">
+                                        <f:convertDateTime pattern="dd/MM/yyyy"/>
+                                    </p:outputLabel>
+                                </p:column>
+                                <p:column headerText="Vencimento" style="font-size: 10px; text-align:  right; width: 50px;" width="15">
+                                    <p:outputLabel id="datavc" value="#{buscados.datavencimento}" style="font-size: 10px; text-transform: uppercase;">
+                                        <f:convertDateTime pattern="dd/MM/yyyy"/>
+                                    </p:outputLabel>
+                                </p:column>
+                                <p:column headerText="Data pag." style="font-size: 10px; text-align:  right; width: 50px;" width="15">
+                                    <p:outputLabel id="datapg" value="#{buscados.datapagamento}"
+                                                   rendered="#{buscados.datapagamento!=null?true:false}"
+                                                   style="font-size: 10px; text-transform: uppercase;">
+                                        <f:convertDateTime pattern="dd/MM/yyyy"/>
+                                    </p:outputLabel>
+                                </p:column>
+                                <p:column headerText="Alterar" style="text-align: center; font-size: 10px;" width="15">
+                                    <p:commandButton icon="ui-icon-pencil" actionListener="#{contasapagarControle.buscarPorId(buscados.idcontasapagar)}"  style="font-size: 10px;" action="consulta.xhtml"/>
+                                </p:column>
+                                <p:column headerText="Excluir" style="text-align: center; font-size: 10px;" width="15">
+                                    <p:commandButton icon="ui-icon-trash" title="Clique aqui para excluir."
+                                                     actionListener="#{contasapagarControle.delete(buscados)}"
+                                                     action="#{contasapagarControle.buscarLista(contasapagarControle.descricao,'veiculo')}"
+                                                     update="lista">
+                                        <p:confirm header="Confirmação!" message="Você tem certeza?"  icon="ui-icon-alert"/>
+                                    </p:commandButton>
+                                </p:column>
+                                <p:column headerText="Pagar" style="text-align: center; font-size: 10px; width: 50px;" width="15">
+                                    <p:commandButton title="Clique para pagar." icon="ui-icon-cart" onclick="PF('paga').show()"
+                                                     rendered="#{buscados.datapagamento==null?true:false}">
+                                        <f:setPropertyActionListener value="#{buscados}" target="#{contasapagarControle.contasapagarSelecionado}"/>
+                                    </p:commandButton>
+                                    <p:commandButton title="Lanç. já foi pago." icon="ui-icon-check" rendered="#{buscados.datapagamento!=null?true:false}"/>
+                                </p:column>
+                            </p:dataTable>
+                        </p:panel>
+                        <p:dialog widgetVar="paga" header="Pagamento" id="pagou">
+                            <p:ajax event="close" update="lista"/>
+                            <p:panelGrid columns="3">
+                                <p:outputLabel value="Data do pagamento:"/>
+                                <p:calendar id="vencto" value="#{contasapagarControle.contasapagarSelecionado.datapagamento}" locale="pt" mask="true" pattern="dd/MM/yyyy" showOn="button"/>
+                                <p:commandButton value="Confirmar" action="#{contasapagarControle.update()}" oncomplete="PF('paga').hide();"/>
+                            </p:panelGrid>
+                        </p:dialog>
+                        <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+                            <p:commandButton value="Sim" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+                            <p:commandButton value="Não" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+                        </p:confirmDialog>
+                        <p:button value="Fechar" icon="ui-icon-closethick" outcome="/inicio.xhtml"/>
+                        <p:commandButton value="Imprimir" type="button" icon="ui-icon-print"  >
+                            <p:printer target="pg1" />
+                        </p:commandButton>
+                    </p:panel>
+                </h:form>
+            </ui:define>            
+
+        </ui:composition>
+
+    </h:body>
+
+</html>

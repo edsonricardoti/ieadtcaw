@@ -1,0 +1,89 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      >
+
+
+    <h:head>
+        <title>Novo Aviso</title>
+        <script>
+            PrimeFaces.locales['pt'] = {
+                closeText: 'Fechar',
+                prevText: 'Anterior',
+                nextText: 'Próximo',
+                currentText: 'Começo',
+                monthNames: ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'],
+                monthNamesShort: ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun', 'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez'],
+                dayNames: ['Domingo', 'Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta', 'Sábado'],
+                dayNamesShort: ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb'],
+                dayNamesMin: ['D', 'S', 'T', 'Q', 'Q', 'S', 'S'],
+                weekHeader: 'Semana',
+                firstDay: 0,
+                isRTL: false,
+                showMonthAfterYear: false,
+                yearSuffix: '',
+                timeOnlyTitle: 'Só Horas',
+                timeText: 'Tempo',
+                hourText: 'Hora',
+                minuteText: 'Minuto',
+                secondText: 'Segundo',
+                ampm: false,
+                month: 'Mês',
+                week: 'Semana',
+                day: 'Dia',
+                allDayText: 'Todo o Dia'
+            };
+        </script>
+        <link rel="stylesheet" type="text/css" href="../imagens/estilo.css" />
+
+    </h:head>
+    <h:body>
+        <div class="ui-fluid">
+
+            <h3 style="margin-top:0">Leitura de avisos</h3>
+
+                <h:form id="frm1" prependId="false">
+                    <p:remoteCommand action="#{avisoControle.atualizaTab(0)}" autoRun="true" update="painel1"/>
+                    <p:panel id="painel1">
+                        <p:dataTable id="datalist" value="#{avisoControle.listaAvisoHoje}" var="lista"
+                                     paginator="true"
+                                     reflow="true"
+                                     paginatorPosition="bottom"
+                                     rowKey="#{lista.idAviso}"
+                                     rows="10" resizeMode="expand"
+                                     rowsPerPageTemplate="10,20,30,40,50"
+                                     emptyMessage="Nenhum aviso para hoje"
+                                     style="text-transform: uppercase;">
+                            <f:facet name="header">
+                                Avisos para hoje
+                            </f:facet>
+                            <p:column headerText="Assunto" style=" width: 500px;">
+                                <h:outputText value="#{lista.titulo}"/>
+                            </p:column>
+
+                            <p:column headerText="Ação" style="text-align: center;">
+                                <p:commandLink title="Ler este aviso" rendered="#{lista.lido eq null}" action="leitura.xhtml" actionListener="#{avisoControle.leuAviso(lista.idAviso)}">
+                                    <img src="../../imagens/avisoNaoLido.png" style="width: 60px; height: 60px;" alt="Ler este aviso"/>
+                                </p:commandLink>
+                                <p:commandLink title="Aviso já foi lido" rendered="#{lista.lido eq 1}" action="leitura.xhtml" actionListener="#{avisoControle.leuAviso(lista.idAviso)}" >
+                                    <img src="../../imagens/avisoLido.png" style="width: 60px; height: 60px;" alt="Aviso já lido"/>
+                                </p:commandLink>
+                            </p:column>
+                            <p:column headerText="Anexo" style="text-align: center;">
+                                <p:commandLink title="Visualizar" rendered="#{empty lista.arquivoAviso?'false':'true'}" onclick="window.open('../../arquivos/#{lista.arquivoAviso}')" >
+                                    <img src="../../arquivos/#{lista.arquivoAviso}" style="width: 60px; height: 60px;" alt="Visualizar"/>
+                                </p:commandLink>
+                            </p:column>
+                            <f:facet name="footer">
+                                <p:button value="Fechar" icon="ui-icon-closethick" outcome="/inicio.xhtml"/>
+                            </f:facet>
+                        </p:dataTable>
+                    </p:panel>
+
+                </h:form>           
+        </div>
+    </h:body>
+</html>

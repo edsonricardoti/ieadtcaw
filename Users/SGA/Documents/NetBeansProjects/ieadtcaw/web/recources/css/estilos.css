@@ -1,0 +1,514 @@
+body{
+    margin: 0 auto;
+    padding: 0;
+}
+#topoTodo{
+    background: #2c539e; 
+}
+#teste3{
+    color: brown;
+}
+.naoQuebradeLinha{
+    white-space: nowrap;
+    float: right;
+}
+.vermelho {  
+    color: #FF0000;  
+    background-color: #000000;  
+    background-image: none;  
+}  
+
+.botoesCertidaoRegistros{
+    width: 300px;
+}
+
+.caixasTemplate{
+    border-width: 0px;
+}
+
+
+
+#topo{
+    background: #2c539e; 
+    height: 98%;
+    margin-top: -10px;
+}
+#topo form{
+    margin-top: -10px;
+    margin-bottom: -10px;
+}
+#topo button{
+    margin-top: 8px;
+}
+
+
+
+iframe{
+    background: #ffffff; 
+}
+/*usado no formulario de alteração pessoa fisica*/
+
+#breadcrumb{
+    font-family: Arial, verdana, sans-serif; 
+    text-transform: uppercase;
+    margin-left: 450px;
+    margin-top: -27px;
+    color: blue; 
+    font-size: 12pt;
+}
+#inneriframe{
+    position:absolute;
+    top:-172px;
+    left:-238px;
+    width: 927px;
+    height: 586px;
+}
+
+#CaixaPagCep{
+    color: #2a2e36;
+    margin-top: 220px;
+    margin-left: 230px;
+    background: #bbbdbe; 
+}
+#CaixaPagCep input{
+    border: 1px solid #2a2e36;
+    color: #2a2e36;
+    width: 290px;
+    height: 30px;
+    margin-left: 220px;
+    font-size: 13pt;
+
+}
+#CaixaPagCep button{
+    margin-left: 310px;
+    border: 1px solid #0d5cd3;
+    color: #000;
+    width: 90px;
+    height: 30px;
+    margin-top: 8px;
+    background: #bbdaf7;
+
+}
+#CaixaPagCep h4{
+    margin-left: 300px; 
+    font-family: Arial, sans-serif;
+    font-size: 15pt;
+}
+
+.btnform{
+    margin: 10px;
+}
+
+#clock{
+    font-size: 13pt;
+    color: blue;
+    font-family: Arial, sans-serif;
+}
+#usuarioMomento{
+    font-family: Arial, verdana, sans-serif; 
+    text-transform: uppercase;
+    margin-left: 250px;
+    margin-top: -8px;
+    color: blue; 
+    font-size: 8pt;
+}
+#usuarioMomento img{
+    margin-left: 5px;
+    margin-right: 10px;
+    margin-bottom: -5px;
+    cursor: pointer;
+}
+#cabecalhoPgLogin{ 
+    width: 100%;
+    height: 100px;
+    background-color: #2c539e;
+    color: #ffffff; 
+    font-size: 8pt;
+    font-family: "Arial", sans-serif;
+}
+#cabecalhoPgLogin img{ 
+    float: right;
+    margin-right: 20px;
+}
+#cabecalhoPgLogin h1{
+    margin-left: 30px;
+}
+#cabecalhoPgLogin h2{
+    margin-top: -18px;
+    margin-left: 30px;
+}
+.buttonFiscalizacao{
+    width: 230px;   
+}
+/*/=================botões de atalhos==========================*/
+form .botoesAtalho{
+    width: 30px;
+    height: 30px;
+    border: 1px solid #0d5cd3;  
+}
+
+.buttom{
+    width: 65px;
+    height: 70px;
+    margin-right: 8px;
+}
+
+.logo-cra{
+    width: 100px;
+    height: 90px;
+    margin-right: 8px;
+}
+
+
+
+/*/============================================================*/
+
+#dialogoDigitalizacao img{
+    margin-left: 20px;
+}
+.upPercase input{
+    text-transform: uppercase;
+}
+
+#folha{
+    padding: 5px;
+    margin-top: 20px;
+    width: 800px;
+    margin: 0 auto;
+}
+#folha label{
+    font-size: 8pt;
+}
+
+#cabacalhoFicha .nomeFicha{
+    font-size: 11pt; 
+}
+#cabacalhoFicha .nomeRazao{
+    font-size: 12pt; 
+}
+#cabacalhoFicha p{
+    font-size: 10pt; 
+}
+
+#ficha{
+    width: 810px;
+}
+
+#imgFicha{
+    width: 95px; 
+    height: 125px; 
+    position: relative; 
+    float: right;
+}
+#imgFicha img{
+    width: 95px; 
+    height: 125px;  
+}
+#cabacalhoFicha{
+    margin-bottom: 25px;
+    text-align: center;
+}
+#cabacalhoFicha span{
+    font-size: 9pt;
+    margin-bottom: 55px;
+    text-align: center;
+}
+#legendaView{
+    border: 1px solid  #ccc;
+    font-size: 9pt;
+    background: #888;
+    color: #000;
+    margin-bottom: 10px;
+    margin-top: 20px;
+}
+#rodapeView{
+    border-top: 1px solid #000;
+    font-size: 9pt;
+    text-align: center;
+    margin-top: 10px;
+}
+
+#PessoafisicaViewForm label, #FuncionariosViewForm label, #FiscalizacaoViewForm label, 
+#PessoajuridicasViewForm label, #ItensfiscaisViewForm label, #AreadeatuacaoViewForm label,
+#FaixadecontribuicaoViewForm label, #ItensfiscaisViewForm label, #RubricasViewForm label, 
+#SetoresViewForm label{
+    text-transform: uppercase;
+    font-size: 8pt;
+}
+
+/*==============================================*/
+
+ #tabViewPF label{
+     text-align: right;
+}
+
+/*formulario pessoa fisica dados pessoais*/
+.coluna0{
+    width: 290px;
+    margin-bottom: -24px;
+    border: none !important;
+    background: none !important;
+    margin-right: -40px;
+}
+.coluna1{
+    width: 290px;
+    margin-bottom: -24px;
+    border: none !important;
+    background: none !important;
+}
+.coluna2{
+    width: 350px;
+    margin-bottom: -24px;
+    margin-left: -180px;
+    margin-right: 25px;
+    border: none !important;
+    background: none !important;
+
+}
+/*formulario pessoa fisica documentação*/
+.coluna3{
+    width: 140px;
+    margin-bottom: -24px;
+    border: none !important;
+    background: none !important;
+}
+.coluna4{
+    width: 200px;
+    margin-bottom: -24px;
+    margin-left: -40px;
+    border: none !important;
+    background: none !important;
+}
+
+.coluna5{
+    width: 220px;
+    margin-bottom: -24px;
+    border: none !important;
+    background: none !important;
+}
+.coluna6{
+    width: 310px;
+    margin-bottom: -24px;
+    margin-left: -60px;
+    border: none !important;
+    background: none !important;
+}
+/* usado no formulario pessoa juridica - endereço */
+.coluna7{
+    width: 330px;
+    margin-bottom: -24px;
+    border: none !important;
+    background: none !important;
+}
+/*usado no formulario pessoa fisica documentação*/
+.coluna8{
+    width: 240px;
+    margin-bottom: -24px;
+    margin-right: -40px;
+    border: none !important;
+    background: none !important;
+}
+.coluna9{
+    width: 450px;
+    margin-bottom: -24px;
+    border: none !important;
+    background: none !important;
+}
+/*tamanho da fonte dos formularios: label, input textarea*/
+#PessoaFisicaForm label, #PessoafisicaEditForm label, #formSocio label,
+#PessoajuridicasEditForm label, #FiscalizacaoCreateForm label, #FiscalizacaoEditForm label,
+#FuncionariosCreateForm label, #FuncionariosEditForm label,#AreadeatuacaoCreateForm label,
+#FaixadecontribuicaoCreateForm label, #FaixadecontribuicaoEditForm label, #ItensfiscaisCreateForm label,
+#ItensfiscaisEditForm label, #RubricasCreateForm label, #RubricasEditForm label, #SetoresCreateForm label,
+#SetoresEditForm label, #SetoresCreateForm label, #SituacoesderegistrosEditForm label, 
+#SituacoesderegistrosCreateForm label, #ParametrosdosistemaEditForm label, #PessoajuridicasCreateForm label,
+#formCadastro label, #formCadastro label{
+    font-size: smaller;
+    text-transform: uppercase; 
+}
+#PessoaFisicaForm input, #PessoafisicaEditForm input, #formSocio input,
+#PessoajuridicasEditForm input, #FiscalizacaoCreateForm input, #FiscalizacaoEditForm input,
+#FiscalizacaoEditForm textarea, #FiscalizacaoCreateForm textarea, #FuncionariosCreateForm input,
+#FuncionariosEditForm input, #AreadeatuacaoEditForm input, #FaixadecontribuicaoCreateForm input, 
+#FaixadecontribuicaoEditForm input, #FaixadecontribuicaoEditForm textArea, #FaixadecontribuicaoCreateForm textArea,
+#ItensfiscaisCreateForm input, #ItensfiscaisEditForm input, #RubricasCreateForm input, #RubricasEditForm input,
+#SetoresCreateForm input, #SetoresEditForm input, #SetoresCreateForm input, #SituacoesderegistrosEditForm input,
+#SituacoesderegistrosCreateForm input, #ParametrosdosistemaEditForm input, #ParametrosdosistemaEditForm, #PessoajuridicasCreateForm label,
+#formCadastro input, #formCadastro textArea{
+    font-size: smaller;
+    text-transform: uppercase; 
+}
+/*-----------------------------------------------------------*/
+
+/*esconde '*' dos campos dos form*/
+.ui-outputlabel-rfi{ 
+   position: absolute;
+   visibility: hidden;
+}
+/*itens de menu*/
+.ui-selectonemenu-item {
+    font-size: smaller; 
+}
+/*formulario pessoa fisica*/
+#PessoaFisicaForm fieldset{
+    min-width: 880px;
+    margin-top: 20px;
+}
+#PessoaFisicaForm fieldset legend{
+    font-size: 9pt;
+}
+
+#PessoafisicaEditForm fieldset{
+    min-width: 880px;
+    margin-top: 20px;
+}
+#PessoafisicaEditForm fieldset legend{
+    font-size: 9pt;
+}
+
+#FinanceiroPfEditForm .informFinan{
+    font-size: 9pt;
+    min-width: 50px;
+    width: 100%;
+   
+}
+
+/*fonte tabela juridico*/
+#FinanceiroPfEditForm th{
+    font-size: 9pt;
+}
+
+#FinanceiroPJEditForm .informFinan{
+     font-size: 9pt;
+    min-width: 50px;
+    width: 100%;
+}
+
+/*fonte tabela juridico*/
+#FinanceiroPJEditForm th{
+    font-size: 9pt;
+}
+
+#basicFPF{
+    font-size: 5pt;
+}
+
+/*estilo do menu principal*/
+#menuPrincipal{
+    font-size: 13pt;
+    text-decoration: none;  
+}
+#menuPrincipal span{
+    font-size: 10pt;
+
+}
+
+
+.panelGridBotoesFina button{
+    width: 150px;
+    font-size: 9pt !important;
+}
+
+/*tabela de permições em plano de senhas*/
+.tbPlanoSenha{
+    font-size: 11pt !important;
+    text-align: center;
+}
+
+/*select da pagina Modulos*/
+
+.selectModulos{
+    min-width: 150px !important;
+    width: 100%;   
+}
+
+
+.dataCadastroPF, .dataInscricaoPF, .processoPF, .protocoloPF, .livroPF, .folhaPF, .nomePessoaFisica, .numRegiPessoaFisica, .situacaoPF{
+    color: blue; text-shadow: 1px 1px #969dac; margin-right: 20px;
+}
+.destaqueAzul{
+    color: blue; margin-right: 20px; text-transform: uppercase;
+}
+
+
+
+
+@page {
+    size: A4;
+    margin: 0.5cm;
+}
+@media print{  
+
+    *{
+        background:transparent !important;
+        color:#000 !important;
+        text-shadow:none !important;
+        filter:none !important;
+        -ms-filter:none !important;
+        text-transform: uppercase;
+    }
+
+    .wrap { 
+        width: 830px; 
+        margin: 0; 
+        float: none !important; 
+    }
+
+    .page-break { 
+        page-break-before: always; 
+    }
+
+    #folha{
+        margin-top: 30px;
+        width: 100%;
+    }
+    #folha label{
+        font-size: 8pt;
+    }
+
+    #cabacalhoFicha .nomeFicha{
+        font-size: 10pt; 
+    }
+
+
+    #imgFicha{
+        margin-top: -10px;
+        width: 95px; 
+        height: 125px; 
+        position: relative; 
+        float: right;
+    }
+    #logo{
+        width: 50px;
+        height: 50px;
+    }
+    #imgFicha img{
+        width: 95px; 
+        height: 125px;   
+    }
+    #cabacalhoFicha{
+        margin-bottom: 25px;
+        text-align: center;
+    }
+    #cabacalhoFicha span{
+        font-size: 9pt;
+        margin-bottom: 55px;
+        text-align: center;
+    }
+    #legendaView{
+        border: 1px solid  #ccc;
+        font-size: 9pt;
+        background: #888 !important;
+        color: #000;
+        margin-bottom: 10px;
+        margin-top: 20px;
+        width: 100%;
+    }
+    #rodapeView{
+        border-top: 1px solid #000;
+        font-size: 9pt;
+        text-align: center;
+        margin-top: 10px;
+        width: 100%;
+    }
+}

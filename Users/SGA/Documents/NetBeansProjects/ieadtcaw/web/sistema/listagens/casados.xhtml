@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:fn="http://java.sun.com/jsp/jstl/functions">
+
+    <h:body>
+        <h:outputScript library="js" name="locale-primefaces.js"/>
+        <ui:composition template="/layout.xhtml">
+            <ui:define name="content">
+                <h:form id="frm1" prependId="false">
+                    <p:panelGrid columns="3" style="list-style:  none;">
+                        <p:outputLabel value="Mês:"/>
+                        <p:selectOneMenu id="mes" value="#{escalaControle.escala.escalaMes}" style="width:125px">
+                            <f:selectItem itemLabel="Janeiro" itemValue="1" />
+                            <f:selectItem itemLabel="Fevereiro" itemValue="2" />
+                            <f:selectItem itemLabel="Março" itemValue="3" />
+                            <f:selectItem itemLabel="Abril" itemValue="4" />
+                            <f:selectItem itemLabel="Maio" itemValue="5" />
+                            <f:selectItem itemLabel="Junho" itemValue="6" />
+                            <f:selectItem itemLabel="Julho" itemValue="7" />
+                            <f:selectItem itemLabel="Agosto" itemValue="8" />
+                            <f:selectItem itemLabel="Setembro" itemValue="9" />
+                            <f:selectItem itemLabel="Outubro" itemValue="10" />
+                            <f:selectItem itemLabel="Novembro" itemValue="11" />
+                            <f:selectItem itemLabel="Dezembro" itemValue="12" />
+                        </p:selectOneMenu>                        
+                        <p:commandButton value="Buscar"
+                                         action="#{membroControle.buscarCasados(escalaControle.escala.escalaMes)}" update="tbl"/>
+                    </p:panelGrid>
+                    <p:panel id="pg" style="font-size: 10px;">
+                        <p:dataTable id="tbl" value="#{membroControle.listaAniversariantes}" var="membros" stickyHeader="Teste"
+                                     emptyMessage="Nenhum aniversariante retornado."
+                                     style="font-size: 10px; font-family:  sans-serif;">
+
+                            <f:facet name="header" id="exp">
+                                CASADOS NO MÊS DE <p:outputLabel value="#{membroControle.NomeDoMes(escalaControle.escala.escalaMes)}" style="text-transform:  uppercase;"/>
+                            </f:facet>
+
+                            <p:column headerText="Nome" style="font-size: 10px; text-transform: uppercase; font-family:  sans-serif;">
+                                <p:outputLabel value="#{membros.membrosNome}"/>
+                            </p:column>                            
+                            <p:column headerText="Bodas" style="font-size: 10px; font-family:  sans-serif; text-transform: uppercase; text-align: center;">
+                                <p:outputLabel value="#{membroControle.NomeDaBoda(membros.membrosDataCasamento)}"/>
+                            </p:column>
+                            <f:facet name="footer">
+                                <h:outputText value="Existem "/>
+                                <h:outputText value="#{fn:length(membroControle.listaAniversariantes)}"/>
+                                <h:outputText value=" membros casados neste mês. "/>
+                            </f:facet>
+                        </p:dataTable>
+                    </p:panel>
+                    <p:panelGrid columns="3" layout="grid">
+                        <p:button id="fc" value="Fechar" icon="ui-icon-closethick" outcome="/inicio.xhtml"/>
+                        <p:commandButton value="Imprimir" type="button" icon="ui-icon-print" >
+                            <p:printer target="pg" />
+                        </p:commandButton>
+
+                    </p:panelGrid>
+
+
+                </h:form>
+            </ui:define>
+
+        </ui:composition>
+
+    </h:body>
+
+</html>

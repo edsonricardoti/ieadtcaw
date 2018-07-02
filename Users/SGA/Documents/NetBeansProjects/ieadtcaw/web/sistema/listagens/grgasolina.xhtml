@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"   
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <h:body>
+        <h:outputScript library="js" name="locale-primefaces.js"/>
+        <ui:composition template="/layout.xhtml">            
+            <ui:define name="content">
+                <script type="text/javascript">
+                    function exportChart() {
+                        //export image
+                        $('#output').empty().append(PF('chart').exportAsImage());
+
+                        //show the dialog
+                        PF('dlg').show();
+                    }
+                </script>
+                <h:form id="frm" prependId="false">
+                    <p:panelGrid columns="5" style="font-size: 10px;" styleClass="semBorda">
+                        <p:outputLabel value="Data Ini:"/>
+                        <p:calendar id="dataini" value="#{contasapagarControle.dataini}" locale="pt" mask="true" pattern="dd/MM/yyyy" showOn="button" rendered="true" requiredMessage="a data inicial é obrigatória!" />
+                        <p:outputLabel value="Data Fim:"/>
+                        <p:calendar id="datafim" value="#{contasapagarControle.datafim}" locale="pt" mask="true" pattern="dd/MM/yyyy" showOn="button" rendered="true" requiredMessage="a data final é obrigatória!" />
+                        <p:commandButton id="bt" value="Gerar" style="font-size: 10px;"
+                                         action="#{contasapagarControle.geraGrafico(contasapagarControle.dataini,contasapagarControle.datafim)}"
+                                         update="@all" />
+                    </p:panelGrid>
+                    <p:panel id="pg" style="width: 1000px;">
+                        <p:chart id="gr" type="line" model="#{contasapagarControle.lineModel2}" style="height:300px;" widgetVar="chart"/>
+                    </p:panel>
+                    <p:dialog widgetVar="dlg" showEffect="fade" modal="true" header="Gáfico pronto para a impressão" resizable="false">
+                        <p:outputPanel id="output" layout="block" style="width:1000px;height:300px"/>
+                        <p:commandButton value="Imprimir" type="button" icon="ui-icon-print"  >
+                            <p:printer target="output" />
+                        </p:commandButton>
+                    </p:dialog>
+                    <p:commandButton type="button" value="Exportar" icon="ui-icon-extlink" onclick="exportChart()"/>
+                </h:form>
+            </ui:define>            
+
+        </ui:composition>
+
+    </h:body>
+
+</html>

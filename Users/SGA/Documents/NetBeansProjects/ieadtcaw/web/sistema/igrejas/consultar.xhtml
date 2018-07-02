@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"   
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <h:body>
+        <h:outputScript library="js" name="locale-primefaces.js"/>
+        <ui:composition template="/layout.xhtml">            
+            <ui:define name="content">
+                <h:form id="cadastro" prependId="false">
+                    <p:panel header="Cadastro de Igrejas">
+                        <p:messages id="messages" closable="true" style="font-size: 12px; text-align: center;" showIcon="false"/>
+                        <p:remoteCommand action="#{igrejaControle.limpaFormulario()}" autoRun="true" update="grades,lista"/>
+                        <p:panelGrid id="grades" columns="3" style="font-size: 10px;" styleClass="semBorda">
+                            <p:outputLabel value="Nome:"/>
+                            <p:inputText value="#{igrejaControle.igrejaSelecionado.nome}"/>
+                            <p:commandButton title="Clique aqui para buscar" actionListener="#{igrejaControle.buscarLista(igrejaControle.igrejaSelecionado.nome)}" value="Buscar" update="cadastro:lista"/>
+                        </p:panelGrid>
+
+                        <p:dataTable id="lista" rows="10"
+                                     value="#{igrejaControle.listaDaBusca}"
+                                     var="buscados"
+                                     paginator="true" paginatorPosition="bottom"
+                                     emptyMessage="Nenhuma Igreja encontrada">
+                            <p:column headerText="Nome">
+                                <p:outputLabel value="#{buscados.nome}" style="font-size: 10px; text-transform: uppercase;"/>
+                            </p:column>
+                            <p:column headerText="Alterar" style="text-align: center;">
+                                <p:commandButton icon="ui-icon-pencil" actionListener="#{igrejaControle.buscar(buscados.idIgreja)}"  style="font-size: 10px;" action="consulta.xhtml"/>
+                            </p:column>
+
+                        </p:dataTable>
+
+                        <p:button value="Fechar" icon="ui-icon-closethick" outcome="/inicio.xhtml"/>
+                    </p:panel>
+                </h:form>
+            </ui:define>            
+
+        </ui:composition>
+
+    </h:body>
+
+</html>

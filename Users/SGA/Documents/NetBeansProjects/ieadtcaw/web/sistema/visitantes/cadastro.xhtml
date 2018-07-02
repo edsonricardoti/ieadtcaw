@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"   
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <h:body>
+        <h:outputScript library="js" name="locale-primefaces.js"/>
+        <ui:composition template="/layout.xhtml">            
+            <ui:define name="content">
+                <p:panel header="Cadastro de Visitantes">
+                    <h:form id="cadastro">
+
+                        <p:messages id="messages" closable="true" style="font-size: 12px; text-align: center;" showIcon="false"/>
+                        <f:ajax execute="@this" event="mouseover" listener="#{membroControle.membro.setMembrosTipo('Visitante')}"/>
+                        <p:panelGrid id="campos" columns="4" style="font-size: 14px;" styleClass="semBorda" columnClasses="textos,campos,textos,campos">
+                            <p:outputLabel value="Nome completo:"/>
+                            <p:inputText styleClass="cmpoCadastro" id="nome" label="Nome completo" value="#{membroControle.membro.membrosNome}" size="35" required="true" requiredMessage="O nome do membro é obrigatório!" />
+                            <p:outputLabel value="Congregação:"/>
+                            <p:inputText styleClass="cmpoCadastro" id="filho" label="gongrega" value="#{membroControle.membro.membrosObs}"/>
+                            <p:outputLabel for="cargo" value="Denominação:" />
+                            <p:selectOneMenu id="cargo" value="#{membroControle.membro.membrosCargoIgreja}" style="width:125px">
+                                <f:selectItem itemLabel=":::Selecione:::" itemValue="" />
+                                <f:selectItem itemLabel="Amigo do Evangélho" itemValue="Amigo do Evangélho" />
+                                <f:selectItem itemLabel="Afastado" itemValue="Afastado" />
+                                <f:selectItem itemLabel="Sem congregação" itemValue="Sem congregação" />
+                                <f:selectItem itemLabel="Novo convertido" itemValue="Novo convertido" />
+                            </p:selectOneMenu>
+                            <p:outputLabel value="Fone:"/>
+                            <p:inputText styleClass="cmpoCadastro" id="fone" label="Fone" value="#{membroControle.membro.membrosFone}"/>
+
+                        </p:panelGrid>
+                        <p:commandButton icon="ui-icon-check" title="Clique aqui para salvar o cadastro" action="#{membroControle.insert()}" value="Salvar" update="cadastro:messages"/>
+                        <p:button value="Fechar" icon="ui-icon-closethick" outcome="/inicio.xhtml"/>
+
+                    </h:form>
+                </p:panel>
+            </ui:define>            
+
+        </ui:composition>
+
+    </h:body>
+
+</html>

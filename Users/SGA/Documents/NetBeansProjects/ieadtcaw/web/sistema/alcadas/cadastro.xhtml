@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"   
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <h:body>
+        <h:outputScript library="js" name="locale-primefaces.js"/>
+        <ui:composition template="/layout.xhtml">            
+            <ui:define name="content">
+                <h:form id="cadastro">
+                    <p:messages id="messages" closable="true" style="font-size: 12px; text-align: center;" showIcon="false"/>
+                    <p:remoteCommand action="#{financeiroControle.limpaFormulario()}" autoRun="true" update="grades,lista"/>
+                    <p:panel header="Cadastro de Ofertas Alçadas">
+                        <p:panelGrid id="grades" columns="3" style="font-size: 14px;">
+                            <p:outputLabel value="Nome do Membro:"/>
+                            <p:inputText value="#{financeiroControle.nomeContribuinte}"/>
+                            <p:commandButton title="Clique aqui para buscar" actionListener="#{financeiroControle.buscarContribuintes(financeiroControle.nomeContribuinte)}" value="Buscar" update="cadastro:lista"/>
+                        </p:panelGrid>
+
+                        <p:dataTable id="lista" rows="10"
+                                     value="#{financeiroControle.listaMembros}"
+                                     var="buscados" style="font-size: 10px; text-transform: uppercase;"
+                                     paginator="true" paginatorPosition="bottom"
+                                     emptyMessage="Nenhum Membro encontrado">
+                            <p:column headerText="Nome">
+                                <p:outputLabel id="nomes" value="#{buscados.membrosNome}" style="font-size: 10px; text-transform: uppercase;"/>
+                            </p:column>                            
+                            <p:column headerText="Incluir" style="text-align: center;">
+                                <p:commandButton icon="ui-icon-pencil" actionListener="#{financeiroControle.buscaMembro(buscados.idmembros)}" style="font-size: 10px; text-transform: uppercase;" action="inclui.xhtml"/>
+                            </p:column>
+
+                        </p:dataTable>
+                    </p:panel>
+
+                    <p:button value="Fechar" icon="ui-icon-closethick" outcome="/inicio.xhtml"/>
+
+                </h:form>
+            </ui:define>            
+
+        </ui:composition>
+
+    </h:body>
+
+</html>

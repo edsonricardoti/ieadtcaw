@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"   
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <h:body>
+        <h:outputScript library="js" name="locale-primefaces.js"/>
+        <ui:composition template="/layout.xhtml">            
+            <ui:define name="content">
+                <p:panel header="Cadastro de Igrejas">
+                    <h:form id="cadastro">
+
+                        <p:messages id="messages" closable="true" style="font-size: 12px; text-align: center;" showIcon="false"/>
+
+                        <p:panelGrid id="campos" columns="4" style="font-size: 14px;" styleClass="semBorda" columnClasses="textos,campos,textos,campos">
+                            <p:outputLabel value="Nome:"/>
+                            <p:inputText id="nome" label="Nome" value="#{igrejaControle.igrejaSelecionado.nome}" size="35" required="true" requiredMessage="O nome da Igreja é obrigatório!" />
+                            <p:outputLabel value="Endereço:"/>
+                            <p:inputText id="endereco" label="Endereço:" value="#{igrejaControle.igrejaSelecionado.endereco}" size="35" />
+                            <p:outputLabel value="Número:"/>
+                            <p:inputText id="numero" label="Numero:" value="#{igrejaControle.igrejaSelecionado.numero}"/>
+                            <p:outputLabel value="Complemento:"/>
+                            <p:inputText id="complemento" label="Complemento" value="#{igrejaControle.igrejaSelecionado.complemento}"/>
+                            <p:outputLabel value="Bairro:"/>
+                            <p:inputText id="bairro" label="Bairro" value="#{igrejaControle.igrejaSelecionado.bairro}"/>
+                            <p:outputLabel value="Cidade"/>
+                            <p:inputText id="cidade" label="Cidade" value="#{igrejaControle.igrejaSelecionado.bairro}"/>
+                            <p:outputLabel value="Estado"/>
+                            <p:selectOneMenu id="uf" value="#{igrejaControle.igrejaSelecionado.estado}">
+                                <f:selectItem itemLabel="UF" />
+                                <f:selectItem itemLabel="AC" itemValue="AC"/>
+                                <f:selectItem itemLabel="AL" itemValue="AL"/>
+                                <f:selectItem itemLabel="AM" itemValue="AM"/>
+                                <f:selectItem itemLabel="AP" itemValue="AP"/>
+                                <f:selectItem itemLabel="BA" itemValue="BA"/>
+                                <f:selectItem itemLabel="CE" itemValue="CE"/>
+                                <f:selectItem itemLabel="DF" itemValue="DF"/>
+                                <f:selectItem itemLabel="ES" itemValue="ES"/>
+                                <f:selectItem itemLabel="GO" itemValue="GO"/>
+                                <f:selectItem itemLabel="MA" itemValue="MA"/>
+                                <f:selectItem itemLabel="MG" itemValue="MG"/>
+                                <f:selectItem itemLabel="MS" itemValue="MS"/>
+                                <f:selectItem itemLabel="MT" itemValue="MT"/>
+                                <f:selectItem itemLabel="PA" itemValue="PA"/>
+                                <f:selectItem itemLabel="PB" itemValue="PB"/>
+                                <f:selectItem itemLabel="PE" itemValue="PE"/>
+                                <f:selectItem itemLabel="PI" itemValue="PI"/>
+                                <f:selectItem itemLabel="PR" itemValue="PR"/>
+                                <f:selectItem itemLabel="RJ" itemValue="RJ"/>
+                                <f:selectItem itemLabel="RN" itemValue="RN"/>
+                                <f:selectItem itemLabel="RO" itemValue="RO"/>
+                                <f:selectItem itemLabel="RR"  itemValue="RR"/>
+                                <f:selectItem itemLabel="RS"  itemValue="RS"/>
+                                <f:selectItem itemLabel="SC" itemValue="SC"/>
+                                <f:selectItem itemLabel="SE" itemValue="SE"/>
+                                <f:selectItem itemLabel="SP" itemValue="SP"/>
+                                <f:selectItem itemLabel="TO" itemValue="TO"/>
+                            </p:selectOneMenu>
+                            <p:outputLabel value="CEP:"/>
+                            <p:inputMask id="cep" mask="99999-999" value="#{igrejaControle.igrejaSelecionado.cep}"/>
+                            <p:outputLabel value="Fone:"/>
+                            <p:inputText id="fone" label="Fone" value="#{igrejaControle.igrejaSelecionado.telefone}"/>
+                            <p:outputLabel for="tipo" value="Tipo:" />
+                            <p:selectOneMenu id="tipo" value="#{igrejaControle.igrejaSelecionado.tipo}">
+                                <f:selectItem itemLabel=":::Selecione:::" itemValue="null" />
+                                <f:selectItem itemLabel="Sede Nacional" itemValue="Sede Nacional" />
+                                <f:selectItem itemLabel="Sede Estadual" itemValue="Sede Estadual" />
+                                <f:selectItem itemLabel="Sede Regional" itemValue="Sede Regional" />
+                                <f:selectItem itemLabel="Congregação" itemValue="Congregação" />
+                                <f:selectItem itemLabel="Sub-Congregação" itemValue="Sub-Congregação" />
+                                ]<f:selectItem itemLabel="Ponto de Pregação" itemValue="Ponto de Pregação" />
+                            </p:selectOneMenu>
+                            <p:outputLabel for="status" value="Status" />
+                            <p:selectOneMenu id="status" value="#{igrejaControle.igrejaSelecionado.status}">
+                                <f:selectItem itemLabel=":::Selecione:::" itemValue="null" />
+                                <f:selectItem itemLabel="Alugada" itemValue="Alugada" />
+                                <f:selectItem itemLabel="Própria" itemValue="Própria" />
+                                <f:selectItem itemLabel="Cedida" itemValue="Cedida" />
+                            </p:selectOneMenu>
+                            <p:outputLabel value="Dirigente"/>
+                            <p:selectOneMenu id="dirigentes" value="#{igrejaControle.igrejaSelecionado.dirigente}" >
+                                <f:selectItem itemLabel=":::Selecione:::" />
+                                <f:selectItems value="#{membroControle.lista()}"
+                                               var="diri"
+                                               itemLabel="#{diri.membrosNome}"
+                                               itemValue="#{diri.membrosNome}"/>
+                            </p:selectOneMenu>
+                            <p:outputLabel value="OBS.:"/>
+                            <p:inputText id="profissao" label="obs" value="#{igrejaControle.igrejaSelecionado.obs}" size="35"/>
+
+                        </p:panelGrid>
+                        <p:commandButton icon="ui-icon-check" title="Clique aqui para salvar." action="#{igrejaControle.update()}" value="Salvar" update="cadastro:messages"/>
+                        <p:commandButton icon="ui-icon-trash" title="Clique aqui para excluir." action="#{igrejaControle.delete(igrejaControle.igrejaSelecionado)}" update="cadastro:messages">
+                            <p:confirm header="Confirmação!" message="Você tem certeza?"  icon="ui-icon-alert"/>
+                        </p:commandButton>
+                        <p:button value="Fechar" outcome="consultar.xhtml" icon="ui-icon-closethick" />
+                        <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+                            <p:commandButton value="Sim" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+                            <p:commandButton value="Não" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+                        </p:confirmDialog>
+
+                    </h:form>
+                </p:panel>
+            </ui:define>            
+
+        </ui:composition>
+
+    </h:body>
+
+</html>

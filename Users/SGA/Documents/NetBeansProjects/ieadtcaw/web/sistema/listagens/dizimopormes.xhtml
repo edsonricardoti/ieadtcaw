@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:fn="http://java.sun.com/jsp/jstl/functions">
+
+    <h:body>
+        <h:outputScript library="js" name="locale-primefaces.js"/>
+        <ui:composition template="/layout.xhtml">
+            <ui:define name="content">
+                <h:form id="frm1" prependId="false">
+                    <p:panelGrid columns="3" style="font-size: 10px;" styleClass="semBorda">
+                        <p:outputLabel value="Mês:"/>
+                        <p:selectOneMenu id="mes" value="#{financeiroControle.mes}" style="width:125px">
+                            <f:selectItem itemLabel="Janeiro" itemValue="1" />
+                            <f:selectItem itemLabel="Fevereiro" itemValue="2" />
+                            <f:selectItem itemLabel="Marco" itemValue="3" />
+                            <f:selectItem itemLabel="Abril" itemValue="4" />
+                            <f:selectItem itemLabel="Maio" itemValue="5" />
+                            <f:selectItem itemLabel="Junho" itemValue="6" />
+                            <f:selectItem itemLabel="Julho" itemValue="7" />
+                            <f:selectItem itemLabel="Agosto" itemValue="8" />
+                            <f:selectItem itemLabel="Setembro" itemValue="9" />
+                            <f:selectItem itemLabel="Outubro" itemValue="10" />
+                            <f:selectItem itemLabel="Novembro" itemValue="11" />
+                            <f:selectItem itemLabel="Dezembro" itemValue="12" />
+                            <p:ajax event="change" update="bt"/>
+                        </p:selectOneMenu>
+                        <p:commandButton id="bt" value="Buscar" style="font-size: 10px;"
+                                         action="#{financeiroControle.buscaPorMes(financeiroControle.mes)}" update="pg" />
+                    </p:panelGrid>
+                    <p:panel id="pg" style="font-size: 10px; align-content:  center;">
+                        <style type="text/css">
+                            .ui-datatable .ui-datatable-data .ui-datatable-odd td{
+                                background-color: #FFFFFF;
+                                height: 8px;
+                            }
+                            .ui-datatable .ui-datatable-data .ui-datatable-even td{
+                                background-color: darkgray;
+                                height: 8px;
+                            }
+                            .ui-datatable .ui-datatable-header, .ui-datatable .ui-datatable-footer {
+                                text-align: center;
+                                padding: 0px 0px;
+                            }
+                        </style>
+                        <p:dataTable id="tbl" value="#{financeiroControle.dizimoPormes}" var="dizimo" rowKey="#{dizimo.id}"
+                                     emptyMessage="Nenhum registro retornado." styleClass="semBorda">
+
+                            <f:facet name="header" id="exp">
+                                DÍZIMO POR MÊS (<p:outputLabel value="#{financeiroControle.NomeDoMesTable(financeiroControle.mes)}" style="text-transform: uppercase;"/>)
+                            </f:facet>
+                            <p:column headerText="Nome" style="font-size: 10px; font-family:  sans-serif; width: 150px;">
+                                <p:outputLabel value="#{dizimo.nome}" style="font-size: 10px; font-family:  sans-serif; text-align: right; text-transform: uppercase;"/>
+                            </p:column>
+                            <p:column headerText="Total" style="font-size: 10px; font-family:  sans-serif; text-align: right; width: 20px;">
+                                <p:outputLabel value="#{dizimo.total}">
+                                    <f:convertNumber pattern="#,##0.00" minFractionDigits="2"/>
+                                </p:outputLabel>
+                            </p:column>
+                            <f:facet name="footer" id="fim">
+                                <div align="right">
+                                    <h:outputText value="#{fn:length(financeiroControle.dizimoPormes)}"/>
+                                    <h:outputText value=" dizimista(s). "/>
+                                    <p:outputLabel value="Total:#{financeiroControle.subTotal}" style="font-size: 10px; font-family:  sans-serif; text-align: right; font-weight: bold;">
+                                        <f:convertNumber pattern="#,##0.00" minFractionDigits="2"/>
+                                    </p:outputLabel>
+                                </div>
+                            </f:facet>
+
+                        </p:dataTable>
+                    </p:panel>
+
+                    <p:panelGrid columns="3" layout="grid">
+                        <p:button id="fc" value="Fechar" icon="ui-icon-closethick" outcome="/inicio.xhtml"/>
+                        <p:commandButton value="Imprimir" type="button" icon="ui-icon-print" >
+                            <p:printer target="pg" />
+                        </p:commandButton>
+                    </p:panelGrid>
+
+
+                </h:form>
+            </ui:define>
+
+        </ui:composition>
+
+    </h:body>
+
+</html>

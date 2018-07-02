@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"   
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <h:body>
+        <h:outputScript library="js" name="locale-primefaces.js"/>
+        <ui:composition template="/layout.xhtml">            
+            <ui:define name="content">
+                <h:form id="cadastro" prependId="false">
+                    <p:messages id="messages" closable="true" style="font-size: 12px; text-align: center;" showIcon="false"/>
+                    <p:remoteCommand action="#{frequenciaControle.limpaFormulario()}" autoRun="true" update="grades,lista"/>
+
+                    <p:panelGrid id="grades" columns="7" style="font-size: 10px;" styleClass="semBorda">
+                        <p:outputLabel value="Classe:"/>
+                        <p:selectOneMenu id="l1" value="#{frequenciaControle.classe}" >
+                            <f:selectItem itemLabel="Classe" />
+                            <f:selectItems value="#{classeControle.listaClasses}"
+                                           var="sala"
+                                           itemLabel="#{sala.classesNome} | #{sala.classesTipo}"
+                                           itemValue="#{sala.idclasses}"/>
+                            <p:ajax event="change" update="busca"/>
+                        </p:selectOneMenu>
+                        <p:outputLabel id="l10" value="Trimestre:"/>
+                        <p:selectOneMenu id="l15" value="#{frequenciaControle.trimestres}" >
+                            <f:selectItem itemLabel="1º Trimestre" itemValue="1" />
+                            <f:selectItem itemLabel="2º Trimestre" itemValue="2" />
+                            <f:selectItem itemLabel="3º Trimestre" itemValue="3" />
+                            <f:selectItem itemLabel="4º Trimestre" itemValue="4" />
+                        </p:selectOneMenu>
+                        <p:outputLabel id="ll1" value="Ano"/>
+                        <p:inputText id="anos" value="#{frequenciaControle.ano}" size="5"/>
+                        <p:commandButton id="busca" title="Clique aqui para buscar" action="#{frequenciaControle.presencaPorAluno(frequenciaControle.classe,frequenciaControle.trimestres,frequenciaControle.ano)}" value="Buscar" update="lista"/>
+                    </p:panelGrid>
+                    <p:panel id="pg" style="font-size: 10px; align-content: center;">
+                        <div style="display:flex;justify-content:center;align-items:center;">
+                            <p:dataGrid id="lista" rows="1000" style=" width: 300px; font-size: 10px; font-family:  sans-serif;"
+                                        value="#{frequenciaControle.listaFrequencia}"
+                                        var="buscados" columns="1"
+                                        emptyMessage="Nenhum Aluno encontrado">
+                                <f:facet name="header" id="exp">
+                                    FREQUÊNCIA DOS ALUNOS DA CLASSE #{frequenciaControle.nomeDaClasse} - #{frequenciaControle.trimestres}° TREIMESTRE
+                                </f:facet>
+                                <p:column headerText="Nome" style="font-size: 10px; width: 80px;">
+                                    <p:outputLabel value="#{frequenciaControle.PegaNomeAluno(buscados.idmembro)} : Lição #{buscados.licao} - #{buscados.presente eq 1?'Assistiu':'Faltou'}  #{buscados.agendou}" style="width: 80px; font-size: 10px; text-transform: uppercase;"/>
+                                </p:column>
+
+
+                            </p:dataGrid>
+                        </div>
+                    </p:panel>
+                    <p:button value="Fechar" icon="ui-icon-closethick" outcome="/inicio.xhtml"/>
+                    <p:commandButton value="Imprimir" type="button" icon="ui-icon-print"  >
+                        <p:printer target="pg" />
+                    </p:commandButton>
+
+                </h:form>
+            </ui:define>            
+
+        </ui:composition>
+
+    </h:body>
+
+</html>

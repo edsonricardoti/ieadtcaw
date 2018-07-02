@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"   
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <h:head>         
+        <script type="text/javascript">
+            PrimeFaces.locales['pt'] = {
+                closeText: 'Fechar',
+                prevText: 'Anterior',
+                nextText: 'Próximo',
+                currentText: 'Começo',
+                monthNames: ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'],
+                monthNamesShort: ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun', 'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez'],
+                dayNames: ['Domingo', 'Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta', 'Sábado'],
+                dayNamesShort: ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb'],
+                dayNamesMin: ['D', 'S', 'T', 'Q', 'Q', 'S', 'S'],
+                weekHeader: 'Semana',
+                firstDay: 0,
+                isRTL: false,
+                showMonthAfterYear: false,
+                yearSuffix: '',
+                timeOnlyTitle: 'Só Horas',
+                        timeText: 'Tempo',
+                        hourText: 'Hora',
+                        minuteText: 'Minuto',
+                        secondText: 'Segundo',
+                        ampm: false,
+                        month: 'Mês',
+                        week: 'Semana',
+                        day: 'Dia',
+                        allDayText: 'Todo o Dia'
+                    };
+        </script>
+        <style type="text/css">
+            .ui-datatable .ui-datatable-data .ui-datatable-odd td{
+                background-color: #FFFFFF;
+            }
+            .ui-datatable .ui-datatable-data .ui-datatable-even td{
+                background-color: darkgray;
+            }
+            .semBorda tr, .semBorda td {
+                border: none !important;
+            }
+            .textos{
+                text-align: right;
+            }
+
+            .campos{
+                text-align: left;
+            }
+            .destaqueAzul{
+                text-transform: uppercase;
+                color:  blue;
+            }
+            .ui-datatable .ui-datatable-header, .ui-datatable .ui-datatable-footer {
+                text-align: center;
+                padding: 0px 0px;
+            }
+            .relatorios .ui-panel-titlebar {
+                background: #FFFFFF;
+            }
+            .textoRelatorio{
+                font-size: 20px;
+                font-stretch:  expanded;
+                font-weight: bold;
+            }
+            .cmpoCadastro{
+                text-transform: uppercase;
+            }
+
+
+
+        </style>
+
+        <meta http-equiv="Content-Type content=text/html; charset=utf-8"/>
+        <title>IEADTCAW Sistema</title>
+
+    </h:head>
+
+    <h:body>         
+
+        <div id="page">
+
+            <div id="header">
+                <ui:insert name="header" >
+                    <ui:include src="basicheader.xhtml" />
+                </ui:insert>
+            </div>
+
+            <div id="content" style="width: 1024px; height: 550px">
+                <ui:insert name="content" >
+                    <ui:include src="basiccontent.xhtml" />
+                </ui:insert>
+            </div>
+
+            <div id="footer">
+                <ui:insert name="footer" >
+                    <ui:include src="basicfooter.xhtml" />
+                </ui:insert>
+
+            </div>
+
+        </div>
+
+    </h:body>
+</html>

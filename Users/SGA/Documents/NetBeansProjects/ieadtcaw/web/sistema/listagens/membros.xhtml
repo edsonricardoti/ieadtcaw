@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:fn="http://java.sun.com/jsp/jstl/functions">
+
+    <h:body>
+        <h:outputScript library="js" name="locale-primefaces.js"/>
+        <ui:composition template="/layout.xhtml">
+            <ui:define name="content">
+                <h:form id="frm1" prependId="false">
+                    <p:remoteCommand action="#{membroControle.limpaFormulario()}" autoRun="true" update="pg"/>
+                    <p:panelGrid id="grades" columns="5" style="font-size: 10px;" styleClass="semBorda">
+                        <p:outputLabel value="Seleção:" style="font-size: 12pt;"/>
+                        <p:selectManyButton  id="menu" value="#{membroControle.selectedOptions}">
+                            <f:selectItem itemLabel=" Membro " itemValue="'Membro'" />
+                            <f:selectItem itemLabel=" Congregado " itemValue="'Congregado'" />
+                            <f:selectItem itemLabel=" Amigo do evangélho " itemValue="'Amigo'" />
+
+                        </p:selectManyButton>
+
+                        <p:commandButton id="busca" title="Clique aqui para buscar" action="#{membroControle.listaFiltrados(membroControle.selectedOptions,'')}" value="Buscar" update="pg"/>
+                    </p:panelGrid>
+                    <p:panel id="pg" style="font-size: 10px;">
+                        <p:dataTable id="tbl" value="#{membroControle.listaMembros}" var="membros" stickyHeader="Teste"
+                                     emptyMessage="Nenhum membro retornado."
+                                     style="font-size: 10px; font-family:  sans-serif; text-transform: uppercase;" >
+
+                            <f:facet name="header" id="exp">
+                                #{membroControle.selectedOptions}
+                            </f:facet>
+                            <p:column headerText="Nome" style="font-size: 10px; width: 150px;" sortable="true" sortBy="#{membros.membrosNome}">
+                                <p:outputLabel value="#{membros.membrosNome}" style="font-size: 10px; text-transform: uppercase;"/>
+                            </p:column>
+                            <p:column headerText="Endereço" style="font-size: 10px; width: 150px;" sortable="true" sortBy="#{membros.membrosEndereco}">
+                                <p:outputLabel value="#{membros.membrosEndereco}, #{membros.membrosNumero} #{membros.membrosComplemento}" style="text-transform: uppercase; font-size: 10px;"/>
+                            </p:column>
+                            <p:column headerText="Bairro" style="font-size: 10px; width: 45px;" sortable="true" sortBy="#{membros.membrosBairro}">
+                                <p:outputLabel value="#{membros.membrosBairro}" style="text-transform: uppercase; font-size: 10px;" />
+                            </p:column>
+                            <p:column headerText="Cidade" style="font-size: 10px; width: 45px;" sortable="true" sortBy="#{membros.membrosCidade}">
+                                <p:outputLabel value="#{membros.membrosCidade}" style="text-transform: uppercase; font-size: 10px;"/>
+                            </p:column>
+                            <p:column headerText="UF" style="font-size: 10px; width: 2px;" sortable="true" sortBy="#{membros.membrosUf}">
+                                <p:outputLabel value="#{membros.membrosUf}" style="text-transform: uppercase; font-size: 10px;"/>
+                            </p:column>
+                            <p:column headerText="Fone" style="font-size: 10px; width: 22px;">
+                                <p:outputLabel value="#{membros.membrosFone}" style="font-size: 10px;"/>
+                            </p:column>
+                            <p:column headerText="Data Batismo" style="font-size: 10px; width: 20px;" sortable="true" sortBy="#{membros.membrosDtBatismo}">
+                                <p:outputLabel id="dataCadastro" value="#{membros.membrosDtBatismo}"  style="font-size: 10px;">
+                                    <f:convertDateTime pattern="dd/MM/yyyy"/>
+                                </p:outputLabel>
+                            </p:column>
+                            <p:column headerText="Data Cadastro" style="font-size: 10px; width: 20px;" sortable="true" sortBy="#{membros.membrosCasamento}">
+                                <p:outputLabel id="data2" value="#{membros.membrosCasamento}"  style="font-size: 10px;">
+                                    <f:convertDateTime pattern="dd/MM/yyyy"/>
+                                </p:outputLabel>
+                            </p:column>
+                            <f:facet name="footer">
+                                <h:outputText value="Existem "/>
+                                <h:outputText value="#{fn:length(membroControle.listaMembros)}"/>
+                                <h:outputText value=" membros cadastrados. "/>
+                            </f:facet>
+
+                        </p:dataTable>
+                    </p:panel>
+                    <p:panelGrid columns="3" layout="grid">
+                        <p:button id="fc" value="Fechar" icon="ui-icon-closethick" outcome="/inicio.xhtml"/>
+                        <p:commandButton value="Imprimir" type="button" icon="ui-icon-print"  >
+                            <p:printer target="pg" />
+                        </p:commandButton>
+
+                    </p:panelGrid>
+
+
+                </h:form>
+            </ui:define>
+
+        </ui:composition>
+
+    </h:body>
+
+</html>

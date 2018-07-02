@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"   
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <h:body>
+        <h:outputScript library="js" name="locale-primefaces.js"/>
+        <ui:composition template="/layout.xhtml">            
+            <ui:define name="content">
+                <p:panel header="Cadastro de Ata">
+                    <h:form id="cadastro" prependId="false">
+
+                        <p:messages id="messages" closable="true" style="font-size: 12px; text-align: center;" showIcon="false"/>
+                        <p:panelGrid id="campos" columns="2" style="font-size: 14px;">
+                            <p:outputLabel for="dtcad" value="Data cadastro:" />
+                            <p:calendar id="dtcad" value="#{ataControle.ataSelecionado.ataData}" locale="pt" mask="true" pattern="dd/MM/yyyy" showOn="button" rendered="true" requiredMessage="a data é obrigatória!" />
+                            <p:outputLabel value="Tema"/>
+                            <p:inputText id="mes" label="Tema" value="#{ataControle.ataSelecionado.ataTema}" size="35" />
+
+                            <p:outputLabel value="Arquivo"/>
+                            <p:fileUpload fileUploadListener="#{ataControle.processFileUploadDigital}"
+                                          uploadLabel="Enviar"
+                                          cancelLabel="Cancelar"
+                                          label="Adicionar"
+                                          fileLimit="1"
+                                          multiple="false"
+                                          invalidFileMessage="Somente arquivos JPG,PDF,GIF,PNG,DOC ou PPT"
+                                          allowTypes="/(\.|\/)(jpg|pdf|ppt|png|doc|gif)$/"
+                                          mode="advanced"
+                                          immediate="true"
+                                          update="figura"
+                                          style="width: 700px;">                               
+                                <p:commandLink id="figura" title="Visualizar" onclick="window.open('../../arquivos/#{ataControle.ataSelecionado.ataArquivo}')" >
+                                    <img src="../../imagens/pdf.png" style="width: 30px; height: 30px;" alt="Visualizar"/>
+                                </p:commandLink>
+
+                            </p:fileUpload>
+
+
+                        </p:panelGrid>
+                        <p:commandButton icon="ui-icon-check" title="Clique aqui para salvar o cadastro" action="#{ataControle.update()}" value="Salvar" update="cadastro:messages"/>
+                        <p:button value="Fechar" icon="ui-icon-closethick" outcome="consultar.xhtml"/>
+
+                    </h:form>
+                </p:panel>
+            </ui:define>            
+
+        </ui:composition>
+
+    </h:body>
+
+</html>

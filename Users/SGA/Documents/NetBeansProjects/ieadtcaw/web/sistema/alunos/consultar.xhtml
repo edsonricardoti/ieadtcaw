@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"   
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <h:body>
+        <h:outputScript library="js" name="locale-primefaces.js"/>
+        <ui:composition template="/layout.xhtml">            
+            <ui:define name="content">
+                <h:form id="cadastro" prependId="false">
+                    <p:messages id="messages" closable="true" style="font-size: 12px; text-align: center;" showIcon="false"/>
+                    <p:remoteCommand action="#{alunoControle.limpaFormulario()}" autoRun="true" update="grades,lista"/>
+                    <p:panel header="Cadastro de Aluno">
+                        <p:panelGrid id="grades" columns="3" style="font-size: 10px;" styleClass="semBorda">
+                            <p:outputLabel value="Classe:"/>
+                            <p:selectOneMenu id="l1" value="#{alunoControle.idDaclasse}" style="font-size: 10px;">
+                                <f:selectItem itemLabel="Classe | Tipo " />
+                                <f:selectItems value="#{classeControle.listaClasses}"
+                                               var="sala" class="destaqueAzul"
+                                               itemLabel="#{sala.classesNome} | #{sala.classesTipo}"
+                                               itemValue="#{sala.idclasses}"/>
+                                <p:ajax event="change" listener="#{alunoControle.buscarListaDeAlunosPorClasse(sala.idclasses)}" update="busca"/>
+                            </p:selectOneMenu>                            
+                            <p:commandButton id="busca" title="Clique aqui para buscar"
+                                             action="#{alunoControle.buscarListaDeAlunosPorClasse(alunoControle.idDaclasse)}"
+                                             immediate="true" process="@this"
+                                             value="Buscar" update="lista"/>
+                        </p:panelGrid>
+
+                        <p:dataTable id="lista" rows="10" style="font-size: 10px; font-family:  sans-serif;"
+                                     value="#{alunoControle.listaDaBusca}" 
+                                     var="buscados" sortBy="#{buscados.membrosNome}"
+                                     paginator="true" paginatorPosition="bottom"
+                                     emptyMessage="Nenhum Aluno encontrado">
+                            <p:column headerText="Nome">
+                                <p:outputLabel id="dataCadastro" value="#{buscados.membrosNome}" style="text-transform: uppercase; font-size: 10px; font-family:  sans-serif;"/>
+                            </p:column>                           
+                            <p:column headerText="Editar" style="text-align: center; font-size: 10px;">
+                                <p:commandButton style="font-size: 10px;" icon="ui-icon-pencil" actionListener="#{alunoControle.buscarPorId(buscados.idmembros,alunoControle.idDaclasse)}" action="consulta.xhtml"/>
+                            </p:column>
+                            <p:column id="cl1" style="text-align: center;" headerText="Excluir">
+                                <p:commandButton id="exc" icon="ui-icon-trash" title="Clique aqui para excluir."  style="font-size: 10px;"
+                                                 action="#{alunoControle.delete(buscados,alunoControle.idDaclasse)}"
+                                                 actionListener="#{alunoControle.buscarPorId(buscados.idmembros)}" update="lista" immediate="true" process="@this">
+                                    <p:confirm id="confi" header="Confirmação!" message="Você tem certeza que deseja excluir este aluno?"  icon="ui-icon-alert"/>
+                                </p:commandButton>
+                            </p:column>
+
+                        </p:dataTable>
+                        <p:confirmDialog id="dg" global="true" showEffect="fade" hideEffect="fade">
+                            <p:commandButton id="s" value="Sim" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" update="@form" />
+                            <p:commandButton id="n" value="Não" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+                        </p:confirmDialog>
+                    </p:panel>
+
+                    <p:button value="Fechar" icon="ui-icon-closethick" outcome="/inicio.xhtml"/>
+
+                </h:form>
+            </ui:define>            
+
+        </ui:composition>
+
+    </h:body>
+
+</html>

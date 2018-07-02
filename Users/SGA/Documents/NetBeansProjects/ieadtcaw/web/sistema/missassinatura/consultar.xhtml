@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"   
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <h:body>
+        <h:outputScript library="js" name="locale-primefaces.js"/>
+        <ui:composition template="/layout.xhtml">            
+            <ui:define name="content">
+                <h:form id="cadastro" prependId="false">
+                    <p:panel header="Carta de Recomendação">
+                        <p:messages id="messages" closable="true" style="font-size: 12px; text-align: center;" showIcon="false"/>
+                        <p:remoteCommand id="cm" action="#{cartaControle.limpaFormulario()}" autoRun="true" update="grades,lista"/>
+                        <p:panelGrid id="grades" columns="3" style="font-size: 10px;" styleClass="semBorda">
+                            <p:outputLabel id="dd" value="Nome:"/>
+                            <p:inputText id="nome" value="#{cartaControle.cartaSelecionado.cartaNome}" size="35"/>
+                            <p:commandButton id="caq" title="Clique aqui para buscar" action="#{cartaControle.buscarLista(cartaControle.cartaSelecionado.cartaNome)}" value="Buscar" update="cadastro:lista"/>
+                        </p:panelGrid>
+
+                        <p:dataTable id="lista" rows="10"
+                                     value="#{cartaControle.listaDaBusca}"
+                                     var="buscados"
+                                     style="width: 100%;"
+                                     paginator="true" paginatorPosition="bottom"
+                                     emptyMessage="Nenhuma Apresentação encontrada">
+                            <p:column id="an" headerText="Anexo" style="text-align: center;" width="80">
+                                <p:commandLink rendered="#{buscados.cartaArquivo ne null?'true':'false'}" id="janela" title="Visualizar" onclick="window.open('../../arquivos/#{buscados.cartaArquivo}')"  >
+                                    <img src="../../imagens/pdf.png" style="width: 30px; height: 30px;" alt="Visualizar"/>
+                                </p:commandLink>
+                            </p:column>
+                            <p:column id="crian" headerText="Nome" width="200" style="font-size: 10px; text-transform: uppercase;">
+                                <p:outputLabel id="ciandado" value="#{buscados.cartaNome}"/>
+                            </p:column>
+                            <p:column id="alt" headerText="Alterar" style="text-align: center;">
+                                <p:commandButton id="abr" icon="ui-icon-pencil" actionListener="#{cartaControle.buscarPorId(buscados.idcarta)}" action="consulta.xhtml" />
+                            </p:column>
+                            <p:column id="cl1" style="text-align: center;" headerText="Excluir" >
+                                <p:commandButton id="exc" icon="ui-icon-trash" title="Clique aqui para excluir." actionListener="#{cartaControle.delete(buscados)}"
+                                                 action="#{cartaControle.buscarLista(cartaControle.cartaSelecionado.cartaNome)}" update="lista">
+                                    <p:confirm id="conf" header="Confirmação!" message="Você tem certeza?"  icon="ui-icon-alert"/>
+                                </p:commandButton>
+                            </p:column>
+
+                        </p:dataTable>
+                        <p:confirmDialog id="dg" global="true" showEffect="fade" hideEffect="fade">
+                            <p:commandButton id="s" value="Sim" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" update="lista" />
+                            <p:commandButton id="n" value="Não" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+                        </p:confirmDialog>
+
+                        <p:button id="fc" value="Fechar" icon="ui-icon-closethick" outcome="/inicio.xhtml"/>
+                    </p:panel>
+                </h:form>
+            </ui:define>            
+
+        </ui:composition>
+
+    </h:body>
+
+</html>

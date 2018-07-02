@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"   
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <h:body>
+        <h:outputScript library="js" name="locale-primefaces.js"/>
+        <ui:composition template="/layout.xhtml">            
+            <ui:define name="content">
+                <h:form id="cadastro" prependId="false">
+                    <script type="text/javascript">
+                        $(".valor").keyup(function () {
+                            s = $(this).val();
+                            if (!(s.toString().search(/^-?([0-9]|[.]|[,]|[-])+$/) == 0)) {
+                                $(this).val('');
+                            }
+                            $(this).val($(this).val().replace(".", ","));
+                        });
+                    </script>
+                    <p:messages id="messages" closable="true" style="font-size: 12px; text-align: center;" showIcon="false"/>
+                    <p:remoteCommand action="#{alunoControle.limpaFormulario()}" autoRun="true" update="lista"/>
+                    <p:panel header="Missões Cadastro de Votos" id="pg">
+                        <p:panelGrid columns="5" style="font-size: 10px;" styleClass="semBorda">
+                            <p:outputLabel value="Data Ini:"/>
+                            <p:calendar id="dataini" value="#{financeiroControle.dataini}" locale="pt" mask="true" pattern="dd/MM/yyyy" showOn="button" rendered="true" requiredMessage="a data inicial é obrigatória!" />
+                            <p:outputLabel value="Data Fim:"/>
+                            <p:calendar id="datafim" value="#{financeiroControle.datafim}" locale="pt" mask="true" pattern="dd/MM/yyyy" showOn="button" rendered="true" requiredMessage="a data final é obrigatória!" />
+                            <p:commandButton id="bt" value="Buscar" style="font-size: 10px;"
+                                             action="#{financeiroControle.buscaPorPeriodo(financeiroControle.dataini, financeiroControle.datafim,'missvoto')}" update="pg" />
+                        </p:panelGrid>
+
+                        <p:dataTable id="lista" rows="10" style="font-size: 10px; font-family:  sans-serif;"
+                                     value="#{financeiroControle.dizimoPormes}"
+                                     var="buscados" sortBy="#{buscados.nome}"
+                                     paginator="true" paginatorPosition="bottom"
+                                     emptyMessage="Nenhum registro encontrado">
+                            <p:column headerText="Nome">
+                                <p:outputLabel id="nomecont" value="#{buscados.nome}" style="text-transform: uppercase; font-size: 10px; font-family:  sans-serif;"/>
+                            </p:column>
+                            <p:column headerText="Data lanc.">
+                                <p:outputLabel id="dataCadastro" value="#{buscados.data}" style="font-size: 10px; text-transform: uppercase;">
+                                    <f:convertDateTime pattern="dd/MM/yyyy"/>
+                                </p:outputLabel>
+                            </p:column>
+                            <p:column headerText="Editar" style="text-align: center; font-size: 10px;">
+                                <p:commandButton style="font-size: 10px;" icon="ui-icon-pencil" actionListener="#{financeiroControle.buscarPorId(buscados.idfinanceiro)}" action="consulta.xhtml"/>
+                            </p:column>
+                            <p:column id="cl1" style="text-align: center;" headerText="Excluir">
+                                <p:commandButton id="exc" icon="ui-icon-trash" title="Clique aqui para excluir."  style="font-size: 10px;"
+                                                 action="#{financeiroControle.delete(financeiroControle.financeiroSelecionado)}"
+                                                 update="lista" immediate="true" process="@this">
+                                    <p:confirm id="confi" header="Confirmação!" message="Você tem certeza que deseja excluir?"  icon="ui-icon-alert"/>
+                                </p:commandButton>
+                            </p:column>
+
+                        </p:dataTable>
+                        <p:confirmDialog id="dg" global="true" showEffect="fade" hideEffect="fade">
+                            <p:commandButton id="s" value="Sim" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" update="@form" />
+                            <p:commandButton id="n" value="Não" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+                        </p:confirmDialog>
+                    </p:panel>
+
+                    <p:button value="Fechar" icon="ui-icon-closethick" outcome="/inicio.xhtml"/>
+
+                </h:form>
+            </ui:define>            
+
+        </ui:composition>
+
+    </h:body>
+
+</html>

@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"   
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"      
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <h:body>       
+        <ui:composition template="/layout.xhtml">            
+            <ui:define name="content">
+                <p:panel header="Missões Cadastro de Ofertas Alçadas">
+                    <h:form id="cadastro">                        
+
+                        <p:messages id="messages" closable="true" style="font-size: 12px; text-align: center;" showIcon="false"/>
+                        <p:panelGrid id="gr" columns="2" style="font-size: 10px;">
+                            <p:outputLabel id="nome" value="Nome:"/>
+                            <p:outputLabel id="nn" value="#{financeiroControle.nomeContribuinte}" style="font-size: 10px; text-transform: uppercase;"/>
+                            <p:outputLabel value="Data:"/>
+                            <p:calendar id="dataini" value="#{financeiroControle.financeiroSelecionado.financeiroData}" locale="pt" mask="true" pattern="dd/MM/yyyy" showOn="button" rendered="true" requiredMessage="a data é obrigatória!" />
+                            <p:outputLabel value="Valor:"/>
+
+                            <p:inputText value="#{financeiroControle.financeiroSelecionado.financeiroValor}"
+                                         styleClass="valor" onfocus="maskMoney(this)"
+                                         id="valor">
+                                <f:convertNumber pattern="#,##0.00" />
+                            </p:inputText>
+
+                        </p:panelGrid>
+
+
+                        <p:commandButton icon="ui-icon-check" title="Clique aqui para salvar o cadastro" action="#{financeiroControle.update()}" value="Salvar" update="cadastro:messages"/>
+                        <p:button value="Fechar" icon="ui-icon-closethick" outcome="consultar.xhtml"/>
+
+                    </h:form>
+                </p:panel>
+            </ui:define>            
+
+        </ui:composition>
+
+    </h:body>
+
+</html>

@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <h:body>
+        <h:outputScript library="js" name="locale-primefaces.js"/>
+        <ui:composition template="/layout.xhtml">
+            <ui:define name="content">
+                <p:panel header="Cadastro de Classe">
+                    <h:form id="cadastro" prependId="false">
+
+                        <p:remoteCommand action="#{classeControle.limpaFormulario()}" autoRun="true"/>
+                        <p:messages id="messages" closable="true" style="font-size: 12px; text-align: center;" showIcon="false"/>
+                        <p:panelGrid id="campos" columns="4" style="font-size: 14px;" styleClass="semBorda" columnClasses="textos,campos,textos,campos">
+                            <p:outputLabel value="Nome da Classe:"/>
+                            <p:inputText id="nome" label="Nome da classe" value="#{classeControle.classes.classesNome}" size="35" required="true" requiredMessage="O nome da classe é obrigatório!" />
+                            <p:outputLabel for="tipo" value="Tipo:" />
+                            <p:selectOneMenu id="tipo" value="#{classeControle.classes.classesTipo}">
+                                <f:selectItem itemLabel=":::Selecione:::" itemValue="null" />
+                                <f:selectItem itemLabel="Adulto" itemValue="ADULTO" />
+                                <f:selectItem itemLabel="Criança" itemValue="CRIANÇA" />
+                                <f:selectItem itemLabel="Obreiros" itemValue="OBREIRO" />
+                                <f:selectItem itemLabel="Senhoras" itemValue="SENHORAS" />
+                                <f:selectItem itemLabel="Jovens" itemValue="JOVENS" />
+                                <f:selectItem itemLabel="Músicos" itemValue="MÚSICOS" />
+                                <f:selectItem itemLabel="Discipulado" itemValue="DISCIPULADO" />
+                            </p:selectOneMenu>
+                            <p:outputLabel for="dti" value="Data de início:" />
+                            <p:calendar id="dti" value="#{classeControle.classes.classesData}" locale="pt" mask="true" pattern="dd/MM/yyyy" showOn="button" rendered="true" requiredMessage="a data de início é obrigatória!" />                            
+                            <p:outputLabel value="Líder 1:"/>
+                            <p:selectOneMenu id="l1" value="#{classeControle.classes.classesLider1}" >
+                                <f:selectItem itemLabel=":::Selecione:::" />
+                                <f:selectItems value="#{membroControle.listaProfessor()}"
+                                               var="diri"
+                                               itemLabel="#{diri.membrosNome}"
+                                               itemValue="#{diri.membrosNome}"/>
+                            </p:selectOneMenu>
+                            <p:outputLabel value="Líder 2:"/>
+                            <p:selectOneMenu id="l2" value="#{classeControle.classes.classesLider2}" >
+                                <f:selectItem itemLabel=":::Selecione:::" />
+                                <f:selectItems value="#{membroControle.listaProfessor()}"
+                                               var="diri"
+                                               itemLabel="#{diri.membrosNome}"
+                                               itemValue="#{diri.membrosNome}"/>
+                            </p:selectOneMenu>
+                            <p:outputLabel value="Líder 3:"/>
+                            <p:selectOneMenu id="l3" value="#{classeControle.classes.classesLider3}" >
+                                <f:selectItem itemLabel=":::Selecione:::" />
+                                <f:selectItems value="#{membroControle.listaProfessor()}"
+                                               var="diri"
+                                               itemLabel="#{diri.membrosNome}"
+                                               itemValue="#{diri.membrosNome}"/>
+                            </p:selectOneMenu>
+                            <p:outputLabel value="Líder 4:"/>
+                            <p:selectOneMenu id="l4" value="#{classeControle.classes.classesLider4}" >
+                                <f:selectItem itemLabel=":::Selecione:::" />
+                                <f:selectItems value="#{membroControle.listaProfessor()}"
+                                               var="diri"
+                                               itemLabel="#{diri.membrosNome}"
+                                               itemValue="#{diri.membrosNome}"/>
+                            </p:selectOneMenu>
+                            <p:outputLabel for="dte" value="Data de encerramento:" />
+                            <p:calendar id="dte" value="#{classeControle.classes.classesDtEncerra}" locale="pt" mask="true" pattern="dd/MM/yyyy" showOn="button" />
+                            <p:outputLabel value="Observação:"/>
+                            <p:inputText id="obs" label="Obs" value="#{classeControle.classes.classesObs}"/>
+
+                        </p:panelGrid>
+                        <p:commandButton icon="ui-icon-check" title="Clique aqui para salvar o cadastro" action="#{classeControle.insert()}" value="Salvar" update="cadastro:messages"/>
+                        <p:button value="Fechar" icon="ui-icon-closethick" outcome="/inicio.xhtml"/>
+
+                    </h:form>
+                </p:panel>
+            </ui:define>
+
+        </ui:composition>
+
+    </h:body>
+
+</html>

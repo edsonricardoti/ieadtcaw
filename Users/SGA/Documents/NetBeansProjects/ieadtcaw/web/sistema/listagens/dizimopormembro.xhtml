@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:fn="http://java.sun.com/jsp/jstl/functions">
+
+    <h:body>
+        <h:outputScript library="js" name="locale-primefaces.js"/>
+        <ui:composition template="/layout.xhtml">
+            <ui:define name="content">
+                <h:form id="frm1" prependId="false">
+                    <p:panelGrid columns="3" style="font-size: 10px;" styleClass="semBorda" >
+                        <p:outputLabel value="Ano:"/>
+                        <p:inputText value="#{financeiroControle.financeiro.financeiroIdmembro}" size="10"/>
+                        <p:commandButton id="bt" value="Buscar"
+                                         action="#{financeiroControle.DizimosNoAno(financeiroControle.financeiro.financeiroIdmembro)}" update="pg" />
+                    </p:panelGrid>
+                    <p:panel id="pg" style="font-size: 10px;">
+                        <style type="text/css">
+                            .ui-datatable .ui-datatable-data .ui-datatable-odd td{
+                                background-color: #FFFFFF;                               
+                            }
+                            .ui-datatable .ui-datatable-data .ui-datatable-even td{
+                                background-color: darkgray;                                
+                            }
+                            .ui-datatable .ui-datatable-header, .ui-datatable .ui-datatable-footer {
+                                text-align: center;
+                                padding: 0px 0px;
+                            }
+
+                        </style>
+
+
+                            <p:dataTable id="tbl" value="#{financeiroControle.dizimoPorano}" var="dizimo" rowKey="#{dizimo.id}"
+                                         emptyMessage="Nenhum registro retornado." styleClass="semBorda"
+                                         style="font-size: 10px; font-family:  sans-serif;">
+
+                            <f:facet name="header" id="exp">
+                                DÍZIMO POR MEMBROS NO ANO <p:outputLabel value="#{financeiroControle.financeiro.financeiroIdmembro}"/>
+                            </f:facet>
+                            <p:column headerText="Nome" width="150" style="font-size: 10px; font-family:  sans-serif; text-align: left; text-transform: uppercase;">
+                                <p:outputLabel value="#{dizimo.nome}" style="font-size: 10px; font-family:  sans-serif; text-align: right;"/>
+                            </p:column>
+                            <p:column headerText="Jan" style="font-size: 10px; font-family:  sans-serif; text-align: right;">
+                                <p:outputLabel value="#{dizimo.janeiro}" style="font-size: 10px; font-family:  sans-serif; text-align: right;">
+                                    <f:convertNumber pattern="#,##0.00" minFractionDigits="2"/>
+                                </p:outputLabel>
+                            </p:column>
+                            <p:column headerText="Fev" style="font-size: 10px; font-family:  sans-serif; text-align: right;">
+                                <p:outputLabel value="#{dizimo.fevereiro}" style="font-size: 10px; font-family:  sans-serif; text-align: right;">
+                                    <f:convertNumber pattern="#,##0.00" minFractionDigits="2"/>
+                                </p:outputLabel>
+                            </p:column>
+                            <p:column headerText="Abr" style="font-size: 10px; font-family:  sans-serif; text-align: right;">
+                                <p:outputLabel value="#{dizimo.abril}" style="font-size: 10px; font-family:  sans-serif; text-align: right;">
+                                    <f:convertNumber pattern="#,##0.00" minFractionDigits="2"/>
+                                </p:outputLabel>
+                            </p:column>
+                            <p:column headerText="Mai" style="font-size: 10px; font-family:  sans-serif; text-align: right;">
+                                <p:outputLabel value="#{dizimo.maio}" style="font-size: 10px; font-family:  sans-serif; text-align: right;">
+                                    <f:convertNumber pattern="#,##0.00" minFractionDigits="2"/>
+                                </p:outputLabel>
+                            </p:column>
+                            <p:column headerText="Jun" style="font-size: 10px; font-family:  sans-serif; text-align: right;">
+                                <p:outputLabel value="#{dizimo.junho}" style="font-size: 10px; font-family:  sans-serif; text-align: right;">
+                                    <f:convertNumber pattern="#,##0.00" minFractionDigits="2"/>
+                                </p:outputLabel>
+                            </p:column>
+                            <p:column headerText="Jul" style="font-size: 10px; font-family:  sans-serif; text-align: right;">
+                                <p:outputLabel value="#{dizimo.julho}" style="font-size: 10px; font-family:  sans-serif; text-align: right;">
+                                    <f:convertNumber pattern="#,##0.00" minFractionDigits="2"/>
+                                </p:outputLabel>
+                            </p:column>
+                            <p:column headerText="Ago" style="font-size: 10px; font-family:  sans-serif; text-align: right;">
+                                <p:outputLabel value="#{dizimo.agosto}" style="font-size: 10px; font-family:  sans-serif; text-align: right;">
+                                    <f:convertNumber pattern="#,##0.00" minFractionDigits="2"/>
+                                </p:outputLabel>
+                            </p:column>
+                            <p:column headerText="Set" style="font-size: 10px; font-family:  sans-serif; text-align: right;">
+                                <p:outputLabel value="#{dizimo.setembro}" style="font-size: 10px; font-family:  sans-serif; text-align: right;">
+                                    <f:convertNumber pattern="#,##0.00" minFractionDigits="2"/>
+                                </p:outputLabel>
+                            </p:column>
+                            <p:column headerText="Out" style="font-size: 10px; font-family:  sans-serif; text-align: right;">
+                                <p:outputLabel value="#{dizimo.outubro}" style="font-size: 10px; font-family:  sans-serif; text-align: right;">
+                                    <f:convertNumber pattern="#,##0.00" minFractionDigits="2"/>
+                                </p:outputLabel>
+                            </p:column>
+                            <p:column headerText="Nov" style="font-size: 10px; font-family:  sans-serif; text-align: right;">
+                                <p:outputLabel value="#{dizimo.novembro}" style="font-size: 10px; font-family:  sans-serif; text-align: right;">
+                                    <f:convertNumber pattern="#,##0.00" minFractionDigits="2"/>
+                                </p:outputLabel>
+                            </p:column>
+                            <p:column headerText="Dez" style="font-size: 10px; font-family:  sans-serif; text-align: right;">
+                                <p:outputLabel value="#{dizimo.dezembro}" style="font-size: 10px; font-family:  sans-serif; text-align: right;">
+                                    <f:convertNumber pattern="#,##0.00" minFractionDigits="2"/>
+                                </p:outputLabel>
+                            </p:column>
+                            <p:column headerText="Subtotal" style="font-size: 10px; font-family:  sans-serif; text-align: right;">
+                                <p:outputLabel value="#{dizimo.janeiro+dizimo.fevereiro+dizimo.marco+dizimo.abril+dizimo.maio+dizimo.junho+dizimo.julho+dizimo.agosto+dizimo.setembro+dizimo.outubro+dizimo.novembro+dizimo.dezembro}">
+                                    <f:convertNumber pattern="#,##0.00" minFractionDigits="2"/>
+                                </p:outputLabel>
+                            </p:column>
+                            <f:facet name="footer" id="fim">
+                                <div align="right">
+                                    <h:outputText value="#{fn:length(financeiroControle.dizimoPorano)}"/>
+                                    <h:outputText value=" dizimista(s). "/>
+                                    <p:outputLabel value="Total:#{financeiroControle.subTotal}" style="font-size: 10px; font-family:  sans-serif; text-align: right; font-weight: bold;">
+                                        <f:convertNumber pattern="#,##0.00" minFractionDigits="2"/>
+                                    </p:outputLabel>
+                                </div>
+                            </f:facet>
+
+                        </p:dataTable>
+                    </p:panel>
+
+                    <p:panelGrid columns="3" layout="grid">
+                        <p:button id="fc" value="Fechar" icon="ui-icon-closethick" outcome="/inicio.xhtml"/>
+                        <p:commandButton value="Imprimir" type="button" icon="ui-icon-print" >
+                            <p:printer target="pg" />
+                        </p:commandButton>
+                    </p:panelGrid>
+
+
+                </h:form>
+            </ui:define>
+
+        </ui:composition>
+
+    </h:body>
+
+</html>

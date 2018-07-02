@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"   
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <h:body>
+        <h:outputScript library="js" name="locale-primefaces.js"/>
+        <ui:composition template="/layout.xhtml">            
+            <ui:define name="content">
+                <p:panel header="Cadastro de Aluno">
+                    <h:form id="cadastro" prependId="false">
+                        <p:remoteCommand autoRun="true" update="gr" actionListener="#{alunoControle.renderizar(alunoControle.idDaclasse)}" action="#{alunoControle.buscarPorId(alunoControle.idaluno,alunoControle.idDaclasse)}"/>
+                        <p:messages id="messages" closable="true" style="font-size: 12px; text-align: center;" showIcon="false"/>
+                        <p:panelGrid id="gr" columns="2" style="font-size: 10px;" styleClass="semBorda">
+                            <p:outputLabel id="nome" value="Nome:"/>
+                            <p:outputLabel id="memb" value="#{alunoControle.nomeAluno}" style="font-size: 10px; text-transform: uppercase;" />
+                            <p:outputLabel value="Classe:"/>
+                            <p:selectOneMenu id="cla" value="#{alunoControle.idDaclasse}" style="font-size: 10px; text-transform: uppercase;" >
+                                <f:selectItem itemLabel=":::Selecione:::" />
+                                <f:selectItems value="#{classeControle.listaClasses}"
+                                               var="clas"
+                                               itemLabel="#{clas.classesNome}|#{clas.classesTipo}"
+                                               itemValue="#{clas.idclasses}"/>
+                                <p:ajax event="change" update="@form" listener="#{alunoControle.renderizar(alunoControle.idDaclasse)}"/>
+                            </p:selectOneMenu>
+                            <p:outputLabel id="lic111" value="Lições:" rendered="#{alunoControle.isRederiza}"/>
+                            <h:panelGrid id="lic121" columns="4" style="font-size: 10px;" rendered="#{alunoControle.isRederiza}">
+                                <p:selectBooleanCheckbox itemLabel="1ª Lição:" value="#{alunoControle.alunoSelecionado.licao1}" />
+                                <p:selectBooleanCheckbox itemLabel="2ª Lição:" value="#{alunoControle.alunoSelecionado.licao2}" />
+                                <p:selectBooleanCheckbox itemLabel="3ª Lição:" value="#{alunoControle.alunoSelecionado.licao3}" />
+                                <p:selectBooleanCheckbox itemLabel="4ª Lição:" value="#{alunoControle.alunoSelecionado.licao4}" />
+                                <p:selectBooleanCheckbox itemLabel="5ª Lição:" value="#{alunoControle.alunoSelecionado.licao5}" />
+                                <p:selectBooleanCheckbox itemLabel="6ª Lição:" value="#{alunoControle.alunoSelecionado.licao6}" />
+                                <p:selectBooleanCheckbox itemLabel="7ª Lição:" value="#{alunoControle.alunoSelecionado.licao7}" />
+                                <p:selectBooleanCheckbox itemLabel="8ª Lição:" value="#{alunoControle.alunoSelecionado.licao8}" />
+                                <p:selectBooleanCheckbox itemLabel="9ª Lição:" value="#{alunoControle.alunoSelecionado.licao9}" />
+                                <p:selectBooleanCheckbox itemLabel="10ª Lição:" value="#{alunoControle.alunoSelecionado.licao10}" />
+                                <p:selectBooleanCheckbox itemLabel="11ª Lição:" value="#{alunoControle.alunoSelecionado.licao11}" />
+                                <p:selectBooleanCheckbox itemLabel="12ª Lição:" value="#{alunoControle.alunoSelecionado.licao12}" />
+                                <p:selectBooleanCheckbox itemLabel="13ª Lição:" value="#{alunoControle.alunoSelecionado.licao13}" />
+                            </h:panelGrid>
+
+                        </p:panelGrid>
+
+
+                        <p:commandButton icon="ui-icon-check" title="Clique aqui para salvar o cadastro" action="#{alunoControle.update()}" value="Salvar" update="cadastro:messages"/>
+                        <p:button value="Fechar" icon="ui-icon-closethick" outcome="consultar.xhtml"/>
+
+                    </h:form>
+                </p:panel>
+            </ui:define>            
+
+        </ui:composition>
+
+    </h:body>
+
+</html>

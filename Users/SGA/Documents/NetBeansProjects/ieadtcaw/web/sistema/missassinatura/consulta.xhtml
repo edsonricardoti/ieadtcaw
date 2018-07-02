@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"   
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:body>
+        <h:outputScript library="js" name="locale-primefaces.js"/>
+        <ui:composition template="/layout.xhtml">
+            <ui:define name="content">
+                <p:panel header="Carta de Recomendação">
+                    <h:form id="cadastro" prependId="false">
+
+                        <p:remoteCommand action="#{cartaControle.limpaFormulario()}" autoRun="true"/>.
+                        <p:messages id="messages" closable="true" style="font-size: 12px; text-align: center;" showIcon="false"/>
+                        <p:panelGrid id="campos" columns="2" style="font-size: 14px;">
+                            <p:outputLabel for="dtcad" value="Data cadastro:" />
+                            <p:calendar id="dtcad" value="#{cartaControle.cartaSelecionado.cartaData}" locale="pt" mask="true" pattern="dd/MM/yyyy" showOn="button" rendered="true" requiredMessage="a data é obrigatória!" />
+                            <p:outputLabel value="Nome:"/>
+                            <p:inputText id="nome" label="nome" value="#{cartaControle.cartaSelecionado.cartaNome}" size="35" />
+                            <p:outputLabel value="Igreja de Orígem:"/>
+                            <p:inputText id="orig" label="Origem" value="#{cartaControle.cartaSelecionado.cartaIgrejaOrig}" size="35" />
+                            <p:outputLabel value="Texto:"/>
+                            <p:editor value="#{cartaControle.cartaSelecionado.cartaTexto}" width="850">
+
+                            </p:editor>
+                            <p:outputLabel value="Arquivo"/>
+                            <p:fileUpload fileUploadListener="#{cartaControle.processFileUploadDigital}"
+                                          uploadLabel="Enviar"
+                                          cancelLabel="Cancelar"
+                                          label="Adicionar"
+                                          fileLimit="1"
+                                          multiple="false"
+                                          invalidFileMessage="Somente arquivos JPG,PDF,GIF,PNG,DOC ou PPT"
+                                          allowTypes="/(\.|\/)(jpg|pdf|ppt|png|doc|gif)$/"
+                                          mode="advanced"
+                                          immediate="true"
+                                          update="figura"
+                                          style="width: 700px;">
+
+                                <p:graphicImage id="figura" value="../../imagens/pdf.png"
+                                                style="width: 30px; height: 30px; margin-left: 25px; margin-top: 5px;" cache="false"/>
+
+                            </p:fileUpload>
+
+                        </p:panelGrid>
+                        <p:commandButton icon="ui-icon-check" title="Clique aqui para salvar o cadastro" action="#{cartaControle.update()}" value="Salvar" update="cadastro:messages"/>
+                        <p:button value="Fechar" icon="ui-icon-closethick" outcome="consultar.xhtml"/>
+
+                    </h:form>
+                </p:panel>
+            </ui:define>
+
+        </ui:composition>
+
+    </h:body>
+
+
+</html>

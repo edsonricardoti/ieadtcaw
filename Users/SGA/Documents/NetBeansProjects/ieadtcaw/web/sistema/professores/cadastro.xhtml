@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"   
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <h:body>
+        <h:outputScript library="js" name="locale-primefaces.js"/>
+        <ui:composition template="/layout.xhtml">            
+            <ui:define name="content">
+                <h:form id="cadastro">
+                    <p:panel id="prof" header="Cadastro de Professores">
+                        <p:growl life="3500" redisplay="true" id="messages"/>
+
+                        <p:remoteCommand action="#{membroControle.lista()}" autoRun="true" update="lista"/>
+                        <p:dataTable id="lista" rows="10"
+                                     value="#{membroControle.listaMembros}"
+                                     var="buscados"
+                                     paginator="true" paginatorPosition="bottom"
+                                     editable="true"                                     
+                                     rowKey="#{buscados.idmembros}"                                    
+                                     selection="#{membroControle.membroSelecionado}"
+                                     emptyMessage="Nenhum Dirigente encontrado">
+                            <p:column headerText="Nome">
+                                <p:outputLabel value="#{buscados.membrosNome}" style="font-size: 10px; text-transform: uppercase;"/>
+                            </p:column>
+                            <p:column headerText="Definir como Professor">
+                                <p:inputSwitch value="#{buscados.membrosEprof}" onLabel="Habilitado" offLabel="Desabilitado" style="font-size: 10px;">
+                                    <p:ajax event="change" listener="#{membroControle.HabilitaProf(buscados)}" update="@form"/>
+                                </p:inputSwitch>
+                            </p:column>
+                            <p:ajax event="rowSelect" listener="#{membroControle.buscarID(membroControle.membroSelecionado.idmembros)}" />
+
+
+                        </p:dataTable>
+
+
+                        <p:button value="Fechar" icon="ui-icon-closethick" outcome="/inicio.xhtml"/>
+                    </p:panel>
+                </h:form>
+            </ui:define>            
+
+        </ui:composition>
+
+    </h:body>
+
+</html>

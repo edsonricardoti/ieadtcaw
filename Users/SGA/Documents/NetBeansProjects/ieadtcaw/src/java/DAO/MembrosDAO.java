@@ -25,7 +25,7 @@ public class MembrosDAO {
         try {
             session = getSessionFactory().openSession();
             Transaction t = session.beginTransaction();
-            List lista = session.createQuery("from Membros where membrosTipo = 'Membro' order by membrosNome").list();
+            List lista = session.createQuery("from Membros order by membrosNome").list();
             t.commit();
             return lista;
 
@@ -179,14 +179,14 @@ public class MembrosDAO {
         }
     }
 
-    public Membros buscarPorNome(String nome) {
+    public List<Membros> buscarPorNome(String nome) {
         System.out.println("Entrou na DAO busca nome =" + nome);
 
         try {
             session = getSessionFactory().openSession();
             Transaction t = session.beginTransaction();
-            Membros membro = (Membros) session.createQuery("from Membros where membrosNome like '%" + nome + "%' and membrosTipo = 'Membro'")
-                    .uniqueResult();
+            List membro = session.createQuery("from Membros where membrosNome like '%" + nome + "%'")
+                    .list();
             t.commit();
             return membro;
 

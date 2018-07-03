@@ -39,14 +39,15 @@ public class PeriodicoControle {
     public PeriodicoControle() {
         periodico = new Periodico();
         dao = new PeriodicoDAO();
-        periodicoSelecionado = new Periodico();
+        //periodicoSelecionado = new Periodico();
     }
 
     @PostConstruct
     public void init() {
         periodico = new Periodico();
         dao = new PeriodicoDAO();
-        periodicoSelecionado = new Periodico();
+        listaPeriodico = dao.selectAll();
+        //periodicoSelecionado = new Periodico();
 
     }
 

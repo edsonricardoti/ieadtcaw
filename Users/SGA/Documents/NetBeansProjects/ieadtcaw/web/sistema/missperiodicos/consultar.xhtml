@@ -12,30 +12,33 @@
         <ui:composition template="/layout.xhtml">            
             <ui:define name="content">
                 <h:form id="cadastro" prependId="false">
-                    <p:panel header="Missão - Assinaturas">
+                    <p:panel header="Missão - Periódicos">
                         <p:messages id="messages" closable="true" style="font-size: 12px; text-align: center;" showIcon="false"/>
-                        <p:remoteCommand id="cm" action="#{assinaturaControle.limpaFormulario()}" autoRun="true" update="grades,lista"/>
+                        <p:remoteCommand id="cm" action="#{cartaControle.limpaFormulario()}" autoRun="true" update="grades,lista"/>
                         <p:panelGrid id="grades" columns="3" style="font-size: 10px;" styleClass="semBorda">
-                            <p:outputLabel value="Membro/Congregado"/>
-                            <p:inputText value="#{assinaturaControle.nome}"/>
-                            <p:commandButton id="caq" title="Clique aqui para buscar" action="#{assinaturaControle.BuscaAssinatura(assinaturaControle.nome)}" value="Buscar" update="cadastro:lista"/>
+                            <p:outputLabel id="dd" value="Nome:"/>
+                            <p:inputText id="nome" value="#{periodicoControle.nome}" size="35"/>
+                            <p:commandButton id="caq" title="Clique aqui para buscar" action="#{periodicoControle.buscarLista(periodicoControle.nome)}" value="Buscar" update="cadastro:lista"/>
                         </p:panelGrid>
 
                         <p:dataTable id="lista" rows="10"
-                                     value="#{assinaturaControle.listaAssinantes}"
+                                     value="#{periodicoControle.listaDaBusca}"
                                      var="buscados"
                                      style="width: 100%;"
                                      paginator="true" paginatorPosition="bottom"
-                                     emptyMessage="Nenhuma assinante encontrado">
+                                     emptyMessage="Nenhuma Apresentação encontrada">
 
-                            <p:column id="nomes" headerText="Nome" width="200" style="font-size: 10px; text-transform: uppercase;">
-                                <p:outputLabel id="meunome" value="#{buscados.membrosNome}"/>
+                            <p:column id="crian" headerText="Titulo" width="200" style="font-size: 10px; text-transform: uppercase;">
+                                <p:outputLabel id="ciandado" value="#{buscados.titulo}"/>
                             </p:column>
-                            <p:column id="modalidade" headerText="Modalidade" width="25" style="font-size: 10px; text-transform: uppercase;">
-                                <p:outputLabel id="minhamoda" value="#{buscados.modalidade eq 'avista'?'A vista':'A prazo'}"/>
+                            <p:column id="alt" headerText="Alterar" style="font-size: 10px; text-align: center;">
+                                <p:commandButton id="abr" icon="ui-icon-pencil" actionListener="#{periodicoControle.buscarPorId(buscados.idperiodico)}" action="consulta.xhtml" />
                             </p:column>
-                            <p:column id="alt" headerText="Alterar" width="15" style="text-align: center; font-size: 10px;">
-                                <p:commandButton id="abr" icon="ui-icon-pencil" actionListener="#{assinaturaControle.buscarPorId(buscados.idassinatura)}" action="consulta.xhtml" />
+                            <p:column id="cl1" style="font-size: 10px; text-align: center;" headerText="Excluir" >
+                                <p:commandButton id="exc" icon="ui-icon-trash" title="Clique aqui para excluir." actionListener="#{cartaControle.delete(buscados)}"
+                                                 action="#{periodicoControle.delete(buscados)}" update="lista">
+                                    <p:confirm id="conf" header="Confirmação!" message="Você tem certeza?"  icon="ui-icon-alert"/>
+                                </p:commandButton>
                             </p:column>
 
                         </p:dataTable>

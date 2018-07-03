@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"   
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <h:body>
+        <h:outputScript library="js" name="locale-primefaces.js"/>
+        <ui:composition template="/layout.xhtml">            
+            <ui:define name="content">
+                <p:panel header="Missão - Assinaturas">
+                    <h:form id="cadastro" prependId="false">
+
+                        <p:messages id="messages" closable="true" style="font-size: 12px; text-align: center;" showIcon="false"/>                        
+                        <p:panelGrid id="campos" columns="2" style="font-size: 14px;">
+                            <p:outputLabel for="dataCadastro" value="Data cadastro:" />
+                            <p:outputLabel id="dataCadastro" value="#{assinaturaControle.assinatura.datadatacadastro}" style="text-transform: uppercase;">
+                                <f:convertDateTime pattern="dd/MM/yyyy"/>
+                            </p:outputLabel>
+                            <p:outputLabel value="Membro/Congregado"/>
+                            <p:outputLabel value="#{assinaturaControle.pegaMembro(assinaturaControle.assinatura.idmembro)}" style="text-transform: uppercase;"/>
+                            <p:outputLabel value="Periódico:"/>
+                            <p:selectOneMenu id="l1" value="#{assinaturaControle.assinatura.idperiodico}" style="text-transform: uppercase;">
+                                <f:selectItem itemLabel=":::Selecione:::" />
+                                <f:selectItems value="#{assinaturaControle.periodicos}"
+                                               var="revista"
+                                               itemLabel="#{revista.titulo}"
+                                               itemValue="#{revista.idperiodico}"/>
+                            </p:selectOneMenu>
+                            <p:outputLabel value="Modalidade:"/>
+                            <p:panelGrid columns="2">
+                                <p:selectOneRadio id="tipo" value="#{assinaturaControle.assinatura.modalidade}" style="font-size: 11px;">
+                                    <f:selectItem itemLabel=" A vista " itemValue="avista" />
+                                    <f:selectItem itemLabel=" Parcelado " itemValue="prazo" />
+                                    <p:ajax event="change" update="parcel"/>
+                                </p:selectOneRadio>
+                            </p:panelGrid>
+                            <p:outputLabel value=""/>
+                            <p:panelGrid columns="2" id="parcel">
+                                <p:outputLabel id="qtd" value="Quantidade de parcelas:" rendered="#{assinaturaControle.assinatura.modalidade eq 'prazo'?true:false}"/>
+                            <p:inputNumber id="qtd1" value="#{assinaturaControle.assinatura.qtdparcelas}" decimalPlaces="0" rendered="#{assinaturaControle.assinatura.modalidade eq 'prazo'?true:false}"/>
+                            </p:panelGrid>
+
+                        </p:panelGrid>
+                        <p:commandButton icon="ui-icon-check"
+                                         title="Clique aqui para salvar o cadastro"
+                                         action="#{assinaturaControle.update()}" disabled="#{assinaturaControle.isRederiza}"
+                                         actionListener="#{assinaturaControle.GerarParcelas(assinaturaControle.assinatura.idmembro,assinaturaControle.assinatura.idperiodico , assinaturaControle.assinatura.qtdparcelas)}"
+                                         value="Salvar" update="@form"/>
+                        <p:button id="btpss" value="Prossiguir" icon="ui-icon-closethick" outcome="consulta.xhtml" disabled="#{!assinaturaControle.isRederiza}"/>
+
+                    </h:form>
+                </p:panel>
+            </ui:define>            
+
+        </ui:composition>
+
+    </h:body>
+
+</html>

@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"   
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <h:body>
+        <h:outputScript library="js" name="locale-primefaces.js"/>
+        <ui:composition template="/layout.xhtml">            
+            <ui:define name="content">
+                <p:panel header="Missão - Periódicos">
+                    <h:form id="cadastro" prependId="false">
+                        <script type="text/javascript">
+                            $(".valor").keyup(function () {
+                                s = $(this).val();
+                                if (!(s.toString().search(/^-?([0-9]|[.]|[,]|[-])+$/) == 0)) {
+                                    $(this).val('');
+                                }
+                                $(this).val($(this).val().replace(".", ","));
+                            });
+                        </script>
+                        <p:remoteCommand action="#{periodicoControle.limpaFormulario()}" autoRun="true"/>.
+                        <p:messages id="messages" closable="true" style="font-size: 12px; text-align: center;" showIcon="false"/>                        
+                        <p:panelGrid id="campos" columns="2" style="font-size: 14px;">
+
+                            <p:outputLabel value="Título:"/>
+                            <p:inputText id="nome" label="nome" style="text-transform: uppercase;"
+                                         value="#{periodicoControle.periodico.titulo}"
+                                         size="65" />
+                            <p:outputLabel value="Valor:"/>
+                            <p:inputText value="#{periodicoControle.periodico.valor}"
+                                         styleClass="valor" onfocus="maskMoney(this)"
+                                         id="valor">
+                                <f:convertNumber pattern="#,##0.00" minFractionDigits="2" />
+                            </p:inputText>
+
+                        </p:panelGrid>
+                        <p:commandButton icon="ui-icon-check" title="Clique aqui para salvar o cadastro" action="#{periodicoControle.insert()}" value="Salvar" update="cadastro:messages"/>
+                        <p:button value="Fechar" icon="ui-icon-closethick" outcome="/inicio.xhtml"/>
+
+                    </h:form>
+                </p:panel>
+            </ui:define>            
+
+        </ui:composition>
+
+    </h:body>
+
+</html>

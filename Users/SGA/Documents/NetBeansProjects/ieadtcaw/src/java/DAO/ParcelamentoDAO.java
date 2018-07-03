@@ -9,7 +9,7 @@ import static Util.HibernateUtil.getSessionFactory;
 import java.util.List;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
-import Modelo.Periodico;
+import Modelo.Parcelamentos;
 import java.text.ParseException;
 import java.util.Date;
 import org.hibernate.HibernateException;
@@ -18,15 +18,15 @@ import org.hibernate.HibernateException;
  *
  * @author Edson Ricardo
  */
-public class PeriodicoDAO {
+public class ParcelamentoDAO {
 
     private Session session;
 
-    public List<Periodico> selectAll() {
+    public List<Parcelamentos> selectAll(int idmembro, int idperiodico) {
         try {
             session = getSessionFactory().openSession();
             Transaction t = session.beginTransaction();
-            List lista = session.createQuery("from Periodico").list();
+            List lista = session.createQuery("from Parcelamentos where idmembro=" + idmembro + " and idperiodico=" + idperiodico).list();
             t.commit();
             return lista;
 
@@ -38,19 +38,19 @@ public class PeriodicoDAO {
         }
     }
 
-    public List<Periodico> buscarPorData(Date data) throws ParseException {
+    public List<Parcelamentos> buscarPorData(Date data) throws ParseException {
         System.out.println("Data enviada=" + data);
         try {
             // String newDateFormat = new SimpleDateFormat("dd-MM-yyyy").format(d);
             // System.out.println("Entrou na busca por data=" + newDateFormat);
             session = getSessionFactory().openSession();
             Transaction t = session.beginTransaction();
-            List criancas = session.createQuery("from Periodico where dataassinatura=:data")
+            List parcelamentos = session.createQuery("from Parcelamentos where datapagamento=:data")
                     .setDate("data", data)
                     .setMaxResults(100)
                     .list();
             t.commit();
-            return criancas;
+            return parcelamentos;
 
         } catch (HibernateException e) {
             session.getTransaction().rollback();
@@ -60,20 +60,21 @@ public class PeriodicoDAO {
         }
     }
 
-    public List<Periodico> buscarPorDtiniDtfim(Date dtini, Date dtfim) throws ParseException {
+
+    public List<Parcelamentos> buscarPorDtiniDtfim(Date dtini, Date dtfim) throws ParseException {
 
         try {
             // String newDateFormat = new SimpleDateFormat("dd-MM-yyyy").format(d);
             // System.out.println("Entrou na busca por data=" + newDateFormat);
             session = getSessionFactory().openSession();
             Transaction t = session.beginTransaction();
-            List criancas = session.createQuery("from Periodico where dataassinatura>=:dtini and dataassinatura<=:dtfim")
+            List parcelamentos = session.createQuery("from Parcelamentos where datapagamento>=:dtini and datapagamento<=:dtfim")
                     .setDate("dtini", dtini)
                     .setDate("dtfim", dtfim)
                     .setMaxResults(100)
                     .list();
             t.commit();
-            return criancas;
+            return parcelamentos;
 
         } catch (HibernateException e) {
             session.getTransaction().rollback();
@@ -83,36 +84,15 @@ public class PeriodicoDAO {
         }
     }
 
-    public List<Periodico> buscarPorNome(String nome) throws ParseException {
-
-        try {
-
-            session = getSessionFactory().openSession();
-            Transaction t = session.beginTransaction();
-            List criancas = session.createQuery("from Periodico where titulo like:nome")
-                    .setString("nome", "%" + nome + "%")
-                    .setMaxResults(100)
-                    .list();
-            t.commit();
-            return criancas;
-
-        } catch (HibernateException e) {
-            session.getTransaction().rollback();
-            return null;
-        } finally {
-            session.close();
-        }
-    }
-
-    public Periodico buscarPorID(int id) {
+    public Parcelamentos buscarPorID(int id) {
 
         try {
             session = getSessionFactory().openSession();
             Transaction t = session.beginTransaction();
-            Periodico criancas = (Periodico) session.createQuery("from Periodico where idperiodico=" + id)
+            Parcelamentos parcelamentos = (Parcelamentos) session.createQuery("from Parcelamentos where idperiodico=" + id)
                     .uniqueResult();
             t.commit();
-            return criancas;
+            return parcelamentos;
 
         } catch (HibernateException e) {
             session.getTransaction().rollback();
@@ -122,11 +102,32 @@ public class PeriodicoDAO {
         }
     }
 
-    public boolean insert(Periodico crianca) {
+    public Parcelamentos buscarPorParcela(int idmembro, int idperiodico, int parcela) {
+
         try {
             session = getSessionFactory().openSession();
             Transaction t = session.beginTransaction();
-            session.save(crianca);
+            Parcelamentos parcelamentos = (Parcelamentos) session.createQuery("from Parcelamentos where idperiodico=:idperiodico and idmembro=:idmembro and numparcela=:parcela")
+                    .setInteger("idmembro", idmembro)
+                    .setInteger("idperiodico", idperiodico)
+                    .setInteger("parcela", parcela)
+                    .uniqueResult();
+            t.commit();
+            return parcelamentos;
+
+        } catch (HibernateException e) {
+            session.getTransaction().rollback();
+            return null;
+        } finally {
+            session.close();
+        }
+    }
+
+    public boolean insert(Parcelamentos parcelamento) {
+        try {
+            session = getSessionFactory().openSession();
+            Transaction t = session.beginTransaction();
+            session.save(parcelamento);
             t.commit();
             return true;
         } catch (HibernateException e) {
@@ -137,11 +138,11 @@ public class PeriodicoDAO {
         }
     }
 
-    public boolean delete(Periodico crianca) {
+    public boolean delete(Parcelamentos parcelamento) {
         try {
             session = getSessionFactory().openSession();
             Transaction t = session.beginTransaction();
-            session.delete(crianca);
+            session.delete(parcelamento);
             t.commit();
             return true;
         } catch (HibernateException e) {
@@ -152,11 +153,11 @@ public class PeriodicoDAO {
         }
     }
 
-    public boolean update(Periodico crianca) {
+    public boolean update(Parcelamentos parcelamento) {
         try {
             session = getSessionFactory().openSession();
             Transaction t = session.beginTransaction();
-            session.update(crianca);
+            session.update(parcelamento);
             t.commit();
             return true;
         } catch (HibernateException e) {

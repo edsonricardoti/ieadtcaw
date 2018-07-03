@@ -11,12 +11,20 @@ import Modelo.Assinatura;
 import DAO.AssinaturaDAO;
 import DAO.MembrosDAO;
 import DAO.EdicoesDAO;
+import DAO.ParcelamentoDAO;
+import DAO.PeriodicoDAO;
+import Modelo.Assinantes;
 import Modelo.Edicoes;
 import Modelo.Membros;
+import Modelo.Parcelamentos;
+import Modelo.Periodico;
 import static Util.FacesUtil.addErrorMessage;
 import static Util.FacesUtil.addInfoMessage;
+import java.math.BigDecimal;
 import java.text.ParseException;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -33,55 +41,149 @@ import org.primefaces.model.UploadedFile;
  */
 public class AssinaturaControle {
 
-    private Assinatura periodico;
+    private Assinatura assinatura;
     private AssinaturaDAO dao;
+    private ParcelamentoDAO pdao;
+    private Periodico periodico;
     private Membros membro;
     private MembrosDAO mdao;
     private Edicoes edicoes;
     private EdicoesDAO edao;
-    private Assinatura periodicoSelecionado;
+    private AssinaturaDAO adao;
+    private PeriodicoDAO revista;
+    private Assinatura assinaturaSelecionado;
     private List<Assinatura> listaAssinatura;
     private List<Assinatura> listaDaBusca;
+    private List<Parcelamentos> listaParcelas;
+    private List<Periodico> periodicos;
     private Boolean isRederiza = false;
     private List<Edicoes> listaEdicoes;
     private List<Membros> listaMembros;
+    private List<Assinantes> listaAssinantes;
     private String nome;
     private Date dataini;
     private Date datafim;
+    private Integer qtdparcela;
 
     public AssinaturaControle() {
-        periodico = new Assinatura();
+        assinatura = new Assinatura();
         dao = new AssinaturaDAO();
-        periodicoSelecionado = new Assinatura();
+        assinaturaSelecionado = new Assinatura();
     }
 
     @PostConstruct
     public void init() {
-        periodico = new Assinatura();
+        assinatura = new Assinatura();
         dao = new AssinaturaDAO();
-        periodicoSelecionado = new Assinatura();
+        revista = new PeriodicoDAO();
+        mdao = new MembrosDAO();
+        pdao = new ParcelamentoDAO();
+        listaParcelas = null;
+        periodicos = null;
+        isRederiza = false;
+        periodicos = revista.selectAll();
+        if (assinaturaSelecionado.equals(null)) {
+            listaParcelas = pdao.selectAll(assinaturaSelecionado.getIdmembro(), assinaturaSelecionado.getIdperiodico());
+        }
+        assinaturaSelecionado = new Assinatura();
+        listaMembros = mdao.selectAll();
 
     }
 
     public void limpaFormulario() {
-        periodico = new Assinatura();
-        periodicoSelecionado = new Assinatura();
+        assinatura = new Assinatura();
+        assinaturaSelecionado = new Assinatura();
         listaDaBusca = null;
         membro = new Membros();
-        listaMembros = null;
+        //listaMembros = null;
         listaEdicoes = null;
 
     }
 
-    public void buscarLista(String nome) {
+    public String PegaPeriodico(int idperiodico) {
+        Periodico pediodico = new Periodico();
+        periodico = revista.buscarPorID(idperiodico);
+        return periodico.getTitulo();
 
-        List<Assinatura> lista = null;
-        try {
-            lista = (List<Assinatura>) dao.buscarPorNome(nome);
-        } catch (ParseException ex) {
-            Logger.getLogger(AssinaturaControle.class.getName()).log(Level.SEVERE, null, ex);
+    }
+
+    public void BuscaAssinatura(String nome) throws ParseException {
+
+        listaAssinantes = dao.buscaAssinantes(nome);
+    }
+
+    public String pegaMembro(int idmembro) {
+        String onome;
+        onome = mdao.buscarPorId(idmembro).getMembrosNome();
+        return onome;
+    }
+
+    public void GerarParcelas(int idmembro, int idperiodico, int numparcela) {
+        System.out.println("Parcelas dados idmembro:" + idmembro + " periodico:" + idperiodico + " numparcela:" + numparcela);
+        assinaturaSelecionado = assinatura;
+        Parcelamentos par;
+        Periodico periodico = new Periodico();
+        PeriodicoDAO per = new PeriodicoDAO();
+        ParcelamentoDAO pdao = new ParcelamentoDAO();
+        periodico = per.buscarPorID(idperiodico);
+        if (numparcela != 0) {
+            for (int i = 1; i <= numparcela; i++) {
+                par = new Parcelamentos();
+                par.setIdmembro(idmembro);
+                par.setIdperiodico(idperiodico);
+                par.setValorparcela(periodico.getValor().divide(new BigDecimal(numparcela)));
+                par.setNumparcela(i);
+                pdao.insert(par);
+            }
+        } else {
+            par = new Parcelamentos();
+            par.setIdmembro(idmembro);
+            par.setIdperiodico(idperiodico);
+            par.setValorparcela(periodico.getValor());
+            par.setNumparcela(numparcela);
+            pdao.insert(par);
         }
-        listaDaBusca = lista;
+        listaParcelas = pdao.selectAll(idmembro, idperiodico);
+    }
+
+    public void Reparcelar(int idmembro, int idperiodico, int numparcela) {
+
+        Parcelamentos par;
+        Periodico periodico = new Periodico();
+        PeriodicoDAO per = new PeriodicoDAO();
+        ParcelamentoDAO pdao = new ParcelamentoDAO();
+        periodico = per.buscarPorID(idperiodico);
+        par = pdao.buscarPorParcela(idmembro, idperiodico, 0);
+        boolean delete = pdao.delete(par);
+        if (numparcela != 0) {
+            for (int i = 1; i <= numparcela; i++) {
+                par = new Parcelamentos();
+                par.setIdmembro(idmembro);
+                par.setIdperiodico(idperiodico);
+                par.setValorparcela(periodico.getValor().divide(new BigDecimal(numparcela)));
+                par.setNumparcela(i);
+                pdao.insert(par);
+            }
+        } else {
+            par = new Parcelamentos();
+            par.setIdmembro(idmembro);
+            par.setIdperiodico(idperiodico);
+            par.setValorparcela(periodico.getValor());
+            par.setNumparcela(numparcela);
+            pdao.insert(par);
+        }
+        listaParcelas = pdao.selectAll(idmembro, idperiodico);
+    }
+
+    public void atualizaParcelas() {
+        listaParcelas = pdao.selectAll(assinaturaSelecionado.getIdmembro(), assinaturaSelecionado.getIdperiodico());
+    }
+
+    public void buscarLista(String nome) throws ParseException {
+
+        List<Membros> lista = null;
+        lista = dao.buscarPorNome(nome);
+        listaMembros = lista;
     }
 
     public void buscarListaDtiniDtfim(Date dtini, Date dtfim) {
@@ -96,15 +198,35 @@ public class AssinaturaControle {
     }
 
     public void buscarPorId(int id) {
-        periodicoSelecionado = dao.buscarPorID(id);
+        assinaturaSelecionado = dao.buscarPorID(id);
+
+    }
+
+    public void ManterMembro(Membros membros) {
+        assinatura.setIdmembro(membros.getIdmembros());
 
     }
 
     public void insert() {
 
-        if (dao.insert(periodico)) {
-
+        if (dao.insert(assinatura)) {
+            isRederiza = true;
             addInfoMessage("Dados salvo com sucesso!");
+        } else {
+            addErrorMessage("Erro ao salvar os dados!");
+        }
+    }
+
+    public void Salva(Membros membro) {
+
+        Calendar calendar = new GregorianCalendar();
+        Date date = new Date();
+        calendar.setTime(date);
+        assinatura.setDatadatacadastro(calendar.getTime());
+        assinatura.setIdmembro(membro.getIdmembros());
+        if (dao.insert(assinatura)) {
+
+            // addInfoMessage("Dados salvo com sucesso!");
         } else {
             addErrorMessage("Erro ao salvar os dados!");
         }
@@ -112,37 +234,37 @@ public class AssinaturaControle {
 
     public void delete(Assinatura atas) {
         if (dao.delete(atas)) {
-            addInfoMessage("Apresentação de Criança excluida!");
+            addInfoMessage("Assinatura excluída com sucesso!");
         } else {
-            addInfoMessage("Selecione uma Apresentação de Criança!");
+            addInfoMessage("Assinatura não excuída!");
         }
 
     }
 
     public void update() {
-
-        if (dao.update(periodicoSelecionado)) {
-            addInfoMessage("Apresentação de Criança alterada com sucesso!");
+        isRederiza = true;
+        if (dao.update(assinaturaSelecionado)) {
+            // addInfoMessage("Assinatura alterada com sucesso!");
         } else {
-            addInfoMessage("Apresentação de Criança não alterada");
+            addInfoMessage("Assinatura não aterada");
         }
 
     }
 
     public Assinatura getAssinatura() {
-        return periodico;
+        return assinatura;
     }
 
-    public void setAssinatura(Assinatura periodico) {
-        this.periodico = periodico;
+    public void setAssinatura(Assinatura assinatura) {
+        this.assinatura = assinatura;
     }
 
     public Assinatura getAssinaturaSelecionado() {
-        return periodicoSelecionado;
+        return assinaturaSelecionado;
     }
 
-    public void setAssinaturaSelecionado(Assinatura periodicoSelecionado) {
-        this.periodicoSelecionado = periodicoSelecionado;
+    public void setAssinaturaSelecionado(Assinatura assinaturaSelecionado) {
+        this.assinaturaSelecionado = assinaturaSelecionado;
     }
 
     public List<Assinatura> getListaAssinatura() {
@@ -225,5 +347,36 @@ public class AssinaturaControle {
         this.datafim = datafim;
     }
 
+    public Integer getQtdparcela() {
+        return qtdparcela;
+    }
+
+    public void setQtdparcela(Integer qtdparcela) {
+        this.qtdparcela = qtdparcela;
+    }
+
+    public List<Parcelamentos> getListaParcelas() {
+        return listaParcelas;
+    }
+
+    public void setListaParcelas(List<Parcelamentos> listaParcelas) {
+        this.listaParcelas = listaParcelas;
+    }
+
+    public List<Periodico> getPeriodicos() {
+        return periodicos;
+    }
+
+    public void setPeriodicos(List<Periodico> periodicos) {
+        this.periodicos = periodicos;
+    }
+
+    public List<Assinantes> getListaAssinantes() {
+        return listaAssinantes;
+    }
+
+    public void setListaAssinantes(List<Assinantes> listaAssinantes) {
+        this.listaAssinantes = listaAssinantes;
+    }
 
 }

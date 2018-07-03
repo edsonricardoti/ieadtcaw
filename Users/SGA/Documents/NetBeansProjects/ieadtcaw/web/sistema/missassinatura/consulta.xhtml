@@ -10,44 +10,65 @@
         <h:outputScript library="js" name="locale-primefaces.js"/>
         <ui:composition template="/layout.xhtml">
             <ui:define name="content">
-                <p:panel header="Carta de Recomendação">
+                <p:panel header="Missão - Carnês">
                     <h:form id="cadastro" prependId="false">
 
-                        <p:remoteCommand action="#{cartaControle.limpaFormulario()}" autoRun="true"/>.
+                        <p:remoteCommand action="#{assinaturaControle.atualizaParcelas()}" autoRun="true" update="lista"/>
                         <p:messages id="messages" closable="true" style="font-size: 12px; text-align: center;" showIcon="false"/>
                         <p:panelGrid id="campos" columns="2" style="font-size: 14px;">
                             <p:outputLabel for="dtcad" value="Data cadastro:" />
-                            <p:calendar id="dtcad" value="#{cartaControle.cartaSelecionado.cartaData}" locale="pt" mask="true" pattern="dd/MM/yyyy" showOn="button" rendered="true" requiredMessage="a data é obrigatória!" />
-                            <p:outputLabel value="Nome:"/>
-                            <p:inputText id="nome" label="nome" value="#{cartaControle.cartaSelecionado.cartaNome}" size="35" />
-                            <p:outputLabel value="Igreja de Orígem:"/>
-                            <p:inputText id="orig" label="Origem" value="#{cartaControle.cartaSelecionado.cartaIgrejaOrig}" size="35" />
-                            <p:outputLabel value="Texto:"/>
-                            <p:editor value="#{cartaControle.cartaSelecionado.cartaTexto}" width="850">
-
-                            </p:editor>
-                            <p:outputLabel value="Arquivo"/>
-                            <p:fileUpload fileUploadListener="#{cartaControle.processFileUploadDigital}"
-                                          uploadLabel="Enviar"
-                                          cancelLabel="Cancelar"
-                                          label="Adicionar"
-                                          fileLimit="1"
-                                          multiple="false"
-                                          invalidFileMessage="Somente arquivos JPG,PDF,GIF,PNG,DOC ou PPT"
-                                          allowTypes="/(\.|\/)(jpg|pdf|ppt|png|doc|gif)$/"
-                                          mode="advanced"
-                                          immediate="true"
-                                          update="figura"
-                                          style="width: 700px;">
-
-                                <p:graphicImage id="figura" value="../../imagens/pdf.png"
-                                                style="width: 30px; height: 30px; margin-left: 25px; margin-top: 5px;" cache="false"/>
-
-                            </p:fileUpload>
-
+                            <p:calendar id="dtcad" value="#{assinaturaControle.assinaturaSelecionado.datadatacadastro}" locale="pt" mask="true" pattern="dd/MM/yyyy" showOn="button" rendered="true" requiredMessage="a data é obrigatória!" />
+                            <p:outputLabel value="Membro/Congregado"/>
+                            <p:selectOneMenu id="l3" value="#{assinaturaControle.assinaturaSelecionado.idmembro}" >
+                                <f:selectItem itemLabel=":::Selecione:::" />
+                                <f:selectItems value="#{assinaturaControle.listaMembros}"
+                                               var="membro"
+                                               itemLabel="#{membro.membrosNome}"
+                                               itemValue="#{membro.idmembros}"/>
+                            </p:selectOneMenu>
+                            <p:outputLabel value="Periódico:"/>
+                            <p:selectOneMenu id="l1" value="#{assinaturaControle.assinaturaSelecionado.idperiodico}" >
+                                <f:selectItem itemLabel=":::Selecione:::" />
+                                <f:selectItems value="#{periodicoControle.listaPeriodico}"
+                                               var="revista"
+                                               itemLabel="#{revista.titulo}"
+                                               itemValue="#{revista.idperiodico}"/>
+                            </p:selectOneMenu>
+                            <p:outputLabel value="Modalidade:"/>
+                            <p:panelGrid columns="2">
+                                <p:selectOneRadio id="tipo" value="#{assinaturaControle.assinaturaSelecionado.modalidade}" style="font-size: 11px;">
+                                    <f:selectItem itemLabel=" A vista " itemValue="avista" />
+                                    <f:selectItem itemLabel=" Parcelado " itemValue="prazo" />
+                                    <p:ajax event="change" update="campos"/>
+                                </p:selectOneRadio>
+                            </p:panelGrid>
+                            <p:outputLabel id="qtd" value="Quantidade de parcelas:" rendered="#{assinaturaControle.assinaturaSelecionado.modalidade eq 'prazo'?true:false}"/>
+                            <p:inputNumber id="qtd1" value="#{assinaturaControle.assinaturaSelecionado.qtdparcelas}" decimalPlaces="0" rendered="#{assinaturaControle.assinaturaSelecionado.modalidade eq 'prazo'?true:false}"/>
                         </p:panelGrid>
-                        <p:commandButton icon="ui-icon-check" title="Clique aqui para salvar o cadastro" action="#{cartaControle.update()}" value="Salvar" update="cadastro:messages"/>
-                        <p:button value="Fechar" icon="ui-icon-closethick" outcome="consultar.xhtml"/>
+                        <p:dataTable value="#{assinaturaControle.listaParcelas}" var="parcelas" id="lista">
+                            <f:facet name="header">
+                                Modalidade/Parcelamento
+                            </f:facet>
+                            <p:column headerText="Parcela" style="font-size: 10px; font-family:  sans-serif; text-align: center;">
+                                <h:outputText value="#{parcelas.numparcela eq 0?'A vista':parcelas.numparcela}"/>
+                                <h:outputText value="#{parcelas.numparcela eq 0?'':'ª parcela'}"/>
+                            </p:column>
+                            <p:column headerText="Valor" style="font-size: 10px; font-family:  sans-serif; text-align: center;">
+                                <p:outputLabel value="#{parcelas.valorparcela}">
+                                    <f:convertNumber pattern="#,##0.00" minFractionDigits="2"/>
+                                </p:outputLabel>
+                            </p:column>
+                            <p:column headerText="Data Pagamento" style="font-size: 10px; font-family:  sans-serif; text-align: center;" sortable="true" sortBy="#{membros.membrosDtBatismo}">
+                                <p:outputLabel id="dataCadastro" value="#{membros.membrosDtBatismo}"  style="font-size: 10px;">
+                                    <f:convertDateTime pattern="dd/MM/yyyy"/>
+                                </p:outputLabel>
+                            </p:column>
+                        </p:dataTable>
+                        <p:commandButton icon="ui-icon-check" title="Clique aqui para salvar o cadastro" action="#{assinaturaControle.update()}" value="Salvar" rendered="false" update="cadastro:messages"/>
+                        <p:commandButton icon="ui-icon-check" title="Clique aqui para gerar as parcelas" rendered="false"
+                                         action="#{assinaturaControle.Reparcelar(assinaturaControle.assinaturaSelecionado.idmembro, assinaturaControle.assinaturaSelecionado.idperiodico,assinaturaControle.assinaturaSelecionado.qtdparcelas)}"
+                                         value="Gerar parcelas" update="lista"/>
+                        <p:button value="Fechar" icon="ui-icon-closethick" outcome="cadastro.xhtml"/>
 
                     </h:form>
                 </p:panel>

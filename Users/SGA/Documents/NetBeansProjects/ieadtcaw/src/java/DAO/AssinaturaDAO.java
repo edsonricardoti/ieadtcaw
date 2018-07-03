@@ -5,14 +5,18 @@
  */
 package DAO;
 
-import static Util.HibernateUtil.getSessionFactory;
+import Modelo.Assinantes;
 import java.util.List;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import Modelo.Assinatura;
+import Modelo.Membros;
+import static Util.HibernateUtil.getSessionFactory;
 import java.text.ParseException;
 import java.util.Date;
 import org.hibernate.HibernateException;
+import org.hibernate.Query;
+import org.hibernate.transform.Transformers;
 
 /**
  *
@@ -83,13 +87,13 @@ public class AssinaturaDAO {
         }
     }
 
-    public List<Assinatura> buscarPorNome(String nome) throws ParseException {
+    public List<Membros> buscarPorNome(String nome) throws ParseException {
 
         try {
 
             session = getSessionFactory().openSession();
             Transaction t = session.beginTransaction();
-            List criancas = session.createQuery("from Assinatura where tiyulo like:nome")
+            List criancas = session.createQuery("from Membros where membrosNome like:nome")
                     .setString("nome", "%" + nome + "%")
                     .setMaxResults(100)
                     .list();
@@ -104,12 +108,80 @@ public class AssinaturaDAO {
         }
     }
 
+    public List<Assinatura> buscarPorAssinaMembro(int idmembro) throws ParseException {
+
+        try {
+
+            session = getSessionFactory().openSession();
+            Transaction t = session.beginTransaction();
+            List criancas = session.createQuery("from Assinatura where idmembro=:idmembro")
+                    .setInteger("idmembro", idmembro)
+                    .setMaxResults(100)
+                    .list();
+            t.commit();
+            return criancas;
+
+        } catch (HibernateException e) {
+            session.getTransaction().rollback();
+            return null;
+        } finally {
+            session.close();
+        }
+    }
+
+
+    public List<Assinantes> buscaAssinantes(String nome) throws ParseException {
+
+        try {
+
+            session = getSessionFactory().openSession();
+            Transaction t = session.beginTransaction();
+            Query financeiro = session.createQuery("select m.membrosNome as membrosNome,m.idmembros as idmembros,a.idassinatura as idassinatura,a.valortotal as valortotal,a.idperiodico as idperiodico,a.modalidade as modalidade\n"
+                    + " from Membros as m,Assinatura as a\n"
+                    + " where m.idmembros=a.idmembro and m.membrosNome like '%" + nome + "%'")
+                    .setMaxResults(10000)
+                    .setResultTransformer(Transformers.aliasToBean(Assinantes.class));
+            if (!t.wasCommitted()) {
+                t.commit();
+            }
+
+            List<Assinantes> resultado = financeiro.list();
+
+            return resultado;
+
+        } catch (HibernateException e) {
+            System.out.println("Erro encontrado: " + e);
+//            session.getTransaction().rollback();
+            return null;
+        } finally {
+            session.close();
+        }
+    }
+
     public Assinatura buscarPorID(int id) {
 
         try {
             session = getSessionFactory().openSession();
             Transaction t = session.beginTransaction();
             Assinatura criancas = (Assinatura) session.createQuery("from Assinatura where idassinatura=" + id)
+                    .uniqueResult();
+            t.commit();
+            return criancas;
+
+        } catch (HibernateException e) {
+            session.getTransaction().rollback();
+            return null;
+        } finally {
+            session.close();
+        }
+    }
+
+    public Assinatura buscarPorAssinatura(int idassina, int idmembro, int idperiodico) {
+
+        try {
+            session = getSessionFactory().openSession();
+            Transaction t = session.beginTransaction();
+            Assinatura criancas = (Assinatura) session.createQuery("from Assinatura where idassinatura=" + idassina + " and idperiodico=" + idperiodico + " and idmembro=" + idmembro)
                     .uniqueResult();
             t.commit();
             return criancas;

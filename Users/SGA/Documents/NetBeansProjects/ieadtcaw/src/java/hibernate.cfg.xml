@@ -82,5 +82,6 @@ Contributor(s):
     <mapping class="Modelo.Parcelamentos"/>
     <mapping class="Modelo.Classes"/>
     <mapping class="Modelo.Periodico"/>
+    <mapping class="Modelo.Assinatura"/>
   </session-factory>
 </hibernate-configuration>

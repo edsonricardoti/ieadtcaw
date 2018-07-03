@@ -124,7 +124,14 @@
 
                     </p:submenu>
                     <p:submenu label="Missões" icon="ui-icon-arrowthick-1-ne" rendered="#{usuarioControle.usuario.missoes or usuarioControle.usuario.administracao}" >
-                        <p:menuitem value="Contribuintes de carnês" ajax="false"/>
+                        <p:submenu label="Periódicos" icon="ui-icon-arrowthick-1-ne" >
+                            <p:menuitem value="Incluir" ajax="false" url="/sistema/missperiodicos/cadastro.xhtml" />
+                            <p:menuitem value="Consultar/Alterar/Excluir" ajax="false" url="/sistema/missperiodicos/consultar.xhtml" />
+                        </p:submenu>
+                        <p:submenu label="Contribuintes de carnês">
+                            <p:menuitem value="Assinatura" ajax="false" url="/sistema/missassinatura/cadastro.xhtml" />
+                            <p:menuitem value="Entrega de edições" ajax="false" url="/sistema/missassinatura/consultar.xhtml" />
+                        </p:submenu>
                         <p:submenu label="Ofertas" icon="ui-icon-transferthick-e-w">
                             <p:menuitem value="Incluir" icon="ui-icon-circle-plus" ajax="false" url="/sistema/missofertas/cadastro.xhtml" />
                             <p:menuitem value="Consultar/Alterar/Excluir" ajax="false" icon="ui-icon-folder-open" url="/sistema/missofertas/consultar.xhtml" />

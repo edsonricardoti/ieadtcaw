@@ -161,12 +161,6 @@ public class MembroControle {
         listaMembros = null;
     }
 
-    public void buscar(String nome) {
-        System.out.println("Entrou na busca nome=" + nome);
-        membroSelecionado = dao.buscarPorNome(nome);
-        // membro = membroSelecionado;
-
-    }
 
     public void buscarID(int id) {
         System.out.println("Entrou na busca por ID=" + id);

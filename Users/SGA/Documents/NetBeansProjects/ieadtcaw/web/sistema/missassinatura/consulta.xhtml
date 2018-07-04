@@ -15,36 +15,40 @@
 
                         <p:remoteCommand action="#{assinaturaControle.atualizaParcelas()}" autoRun="true" update="lista"/>
                         <p:messages id="messages" closable="true" style="font-size: 12px; text-align: center;" showIcon="false"/>
-                        <p:panelGrid id="campos" columns="2" style="font-size: 14px;">
-                            <p:outputLabel for="dtcad" value="Data cadastro:" />
-                            <p:calendar id="dtcad" value="#{assinaturaControle.assinaturaSelecionado.datadatacadastro}" locale="pt" mask="true" pattern="dd/MM/yyyy" showOn="button" rendered="true" requiredMessage="a data é obrigatória!" />
-                            <p:outputLabel value="Membro/Congregado"/>
-                            <p:selectOneMenu id="l3" value="#{assinaturaControle.assinaturaSelecionado.idmembro}" >
-                                <f:selectItem itemLabel=":::Selecione:::" />
-                                <f:selectItems value="#{assinaturaControle.listaMembros}"
-                                               var="membro"
-                                               itemLabel="#{membro.membrosNome}"
-                                               itemValue="#{membro.idmembros}"/>
-                            </p:selectOneMenu>
-                            <p:outputLabel value="Periódico:"/>
-                            <p:selectOneMenu id="l1" value="#{assinaturaControle.assinaturaSelecionado.idperiodico}" >
-                                <f:selectItem itemLabel=":::Selecione:::" />
-                                <f:selectItems value="#{periodicoControle.listaPeriodico}"
-                                               var="revista"
-                                               itemLabel="#{revista.titulo}"
-                                               itemValue="#{revista.idperiodico}"/>
-                            </p:selectOneMenu>
-                            <p:outputLabel value="Modalidade:"/>
-                            <p:panelGrid columns="2">
-                                <p:selectOneRadio id="tipo" value="#{assinaturaControle.assinaturaSelecionado.modalidade}" style="font-size: 11px;">
-                                    <f:selectItem itemLabel=" A vista " itemValue="avista" />
-                                    <f:selectItem itemLabel=" Parcelado " itemValue="prazo" />
-                                    <p:ajax event="change" update="campos"/>
-                                </p:selectOneRadio>
+                        <div>
+                            <p:panelGrid id="campos" columns="2" style="font-size: 14px;">
+                                <p:outputLabel for="dtcad" value="Data cadastro:" />
+                                <p:calendar id="dtcad" value="#{assinaturaControle.assinaturaSelecionado.datadatacadastro}" locale="pt" mask="true" pattern="dd/MM/yyyy" showOn="button" rendered="true" requiredMessage="a data é obrigatória!" />
+                                <p:outputLabel value="Membro/Congregado"/>
+                                <p:selectOneMenu id="l3" value="#{assinaturaControle.assinaturaSelecionado.idmembro}" >
+                                    <f:selectItem itemLabel=":::Selecione:::" />
+                                    <f:selectItems value="#{assinaturaControle.listaMembros}"
+                                                   var="membro"
+                                                   itemLabel="#{membro.membrosNome}"
+                                                   itemValue="#{membro.idmembros}"/>
+                                </p:selectOneMenu>
+                                <p:outputLabel value="Periódico:"/>
+                                <p:selectOneMenu id="l1" value="#{assinaturaControle.assinaturaSelecionado.idperiodico}" >
+                                    <f:selectItem itemLabel=":::Selecione:::" />
+                                    <f:selectItems value="#{periodicoControle.listaPeriodico}"
+                                                   var="revista"
+                                                   itemLabel="#{revista.titulo}"
+                                                   itemValue="#{revista.idperiodico}"/>
+                                </p:selectOneMenu>
+                                <p:outputLabel value="Modalidade:"/>
+                                <p:panelGrid columns="2">
+                                    <p:selectOneRadio id="tipo" value="#{assinaturaControle.assinaturaSelecionado.modalidade}" style="font-size: 11px;">
+                                        <f:selectItem itemLabel=" A vista " itemValue="avista" />
+                                        <f:selectItem itemLabel=" Parcelado " itemValue="prazo" />
+                                        <p:ajax event="change" update="campos"/>
+                                    </p:selectOneRadio>
+                                </p:panelGrid>
+                                <p:outputLabel id="qtd" value="Quantidade de parcelas:" rendered="#{assinaturaControle.assinaturaSelecionado.modalidade eq 'prazo'?true:false}"/>
+                                <p:inputNumber id="qtd1" value="#{assinaturaControle.assinaturaSelecionado.qtdparcelas}" decimalPlaces="0" rendered="#{assinaturaControle.assinaturaSelecionado.modalidade eq 'prazo'?true:false}"/>
                             </p:panelGrid>
-                            <p:outputLabel id="qtd" value="Quantidade de parcelas:" rendered="#{assinaturaControle.assinaturaSelecionado.modalidade eq 'prazo'?true:false}"/>
-                            <p:inputNumber id="qtd1" value="#{assinaturaControle.assinaturaSelecionado.qtdparcelas}" decimalPlaces="0" rendered="#{assinaturaControle.assinaturaSelecionado.modalidade eq 'prazo'?true:false}"/>
-                        </p:panelGrid>
+                            <p:inputText value="#{assinaturaControle.edicoes.ed1}"/>
+                            <p:commandButton value="Marcar" action="#{assinaturaControle.adicionaEdicao}"/>
+                        </div>
                         <p:dataTable value="#{assinaturaControle.listaParcelas}" var="parcelas" id="lista">
                             <f:facet name="header">
                                 Modalidade/Parcelamento

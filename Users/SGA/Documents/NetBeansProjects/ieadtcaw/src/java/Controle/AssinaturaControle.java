@@ -112,6 +112,10 @@ public class AssinaturaControle {
         listaAssinantes = dao.buscaAssinantes(nome);
     }
 
+    public void AdicionaEdicao() {
+        edao.insert(edicoes);
+    }
+
     public String pegaMembro(int idmembro) {
         String onome;
         onome = mdao.buscarPorId(idmembro).getMembrosNome();
@@ -126,6 +130,12 @@ public class AssinaturaControle {
         PeriodicoDAO per = new PeriodicoDAO();
         ParcelamentoDAO pdao = new ParcelamentoDAO();
         periodico = per.buscarPorID(idperiodico);
+        Edicoes edicoes = new Edicoes();
+        edicoes.setIdmembro(idmembro);
+        edicoes.setIdperiodico(idperiodico);
+        EdicoesDAO edao = new EdicoesDAO();
+        edao.insert(edicoes);
+
         if (numparcela != 0) {
             for (int i = 1; i <= numparcela; i++) {
                 par = new Parcelamentos();
@@ -177,6 +187,9 @@ public class AssinaturaControle {
 
     public void atualizaParcelas() {
         listaParcelas = pdao.selectAll(assinaturaSelecionado.getIdmembro(), assinaturaSelecionado.getIdperiodico());
+        //EdicoesDAO edao = new EdicoesDAO();
+        edicoes = new Edicoes();
+        edicoes = edao.buscarIdPerioEmembro(assinaturaSelecionado.getIdperiodico(), assinaturaSelecionado.getIdmembro());
     }
 
     public void buscarLista(String nome) throws ParseException {
@@ -224,6 +237,7 @@ public class AssinaturaControle {
         calendar.setTime(date);
         assinatura.setDatadatacadastro(calendar.getTime());
         assinatura.setIdmembro(membro.getIdmembros());
+
         if (dao.insert(assinatura)) {
 
             // addInfoMessage("Dados salvo com sucesso!");

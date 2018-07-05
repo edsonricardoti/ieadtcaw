@@ -20,6 +20,7 @@ import javax.persistence.TemporalType;
 )
 public class Assinatura implements java.io.Serializable {
 
+    private static final long serialVersionUID = 1L;
     private Integer idassinatura;
     private Integer idperiodico;
     private Integer idmembro;
@@ -28,11 +29,25 @@ public class Assinatura implements java.io.Serializable {
     private String modalidade;
     private Integer qtdparcelas;
     private BigDecimal valortotal;
+    private Boolean ed1;
+    private Boolean ed2;
+    private Boolean ed3;
+    private Boolean ed4;
+    private Boolean ed5;
+    private Boolean ed6;
+    private Boolean ed7;
+    private Boolean ed8;
+    private Boolean ed9;
+    private Boolean ed10;
+    private Boolean ed11;
+    private Boolean ed12;
 
     public Assinatura() {
     }
 
-    public Assinatura(Integer idassinatura, Integer idmembro, String observacao, Date datacadastro, String modalidade, Integer qtdparcelas, BigDecimal valortotal) {
+    public Assinatura(Integer idassinatura, Integer idmembro, String observacao, Date datacadastro,
+            String modalidade, Integer qtdparcelas, BigDecimal valortotal, Boolean ed1, Boolean ed2, Boolean ed3,
+            Boolean ed4, Boolean ed5, Boolean ed6, Boolean ed7, Boolean ed8, Boolean ed9, Boolean ed10, Boolean ed11, Boolean ed12) {
         this.idassinatura = idassinatura;
         this.idmembro = idmembro;
         this.observacao = observacao;
@@ -40,6 +55,18 @@ public class Assinatura implements java.io.Serializable {
         this.modalidade = modalidade;
         this.qtdparcelas = qtdparcelas;
         this.valortotal = valortotal;
+        this.ed1 = ed1;
+        this.ed2 = ed2;
+        this.ed3 = ed3;
+        this.ed4 = ed4;
+        this.ed5 = ed5;
+        this.ed6 = ed6;
+        this.ed7 = ed7;
+        this.ed8 = ed8;
+        this.ed9 = ed9;
+        this.ed10 = ed10;
+        this.ed11 = ed11;
+        this.ed12 = ed12;
     }
 
     @Id
@@ -115,5 +142,111 @@ public class Assinatura implements java.io.Serializable {
     public void setValortotal(BigDecimal valortotal) {
         this.valortotal = valortotal;
     }
+    @Column(name = "ed1")
+    public Boolean getEd1() {
+        return this.ed1;
+    }
 
+    public void setEd1(Boolean ed1) {
+        this.ed1 = ed1;
+    }
+
+    @Column(name = "ed2")
+    public Boolean getEd2() {
+        return this.ed2;
+    }
+
+    public void setEd2(Boolean ed2) {
+        this.ed2 = ed2;
+    }
+
+    @Column(name = "ed3")
+    public Boolean getEd3() {
+        return this.ed3;
+    }
+
+    public void setEd3(Boolean ed3) {
+        this.ed3 = ed3;
+    }
+
+    @Column(name = "ed4")
+    public Boolean getEd4() {
+        return this.ed4;
+    }
+
+    public void setEd4(Boolean ed4) {
+        this.ed4 = ed4;
+    }
+
+    @Column(name = "ed5")
+    public Boolean getEd5() {
+        return this.ed5;
+    }
+
+    public void setEd5(Boolean ed5) {
+        this.ed5 = ed5;
+    }
+
+    @Column(name = "ed6")
+    public Boolean getEd6() {
+        return this.ed6;
+    }
+
+    public void setEd6(Boolean ed6) {
+        this.ed6 = ed6;
+    }
+
+    @Column(name = "ed7")
+    public Boolean getEd7() {
+        return this.ed7;
+    }
+
+    public void setEd7(Boolean ed7) {
+        this.ed7 = ed7;
+    }
+
+    @Column(name = "ed8")
+    public Boolean getEd8() {
+        return this.ed8;
+    }
+
+    public void setEd8(Boolean ed8) {
+        this.ed8 = ed8;
+    }
+
+    @Column(name = "ed9")
+    public Boolean getEd9() {
+        return this.ed9;
+    }
+
+    public void setEd9(Boolean ed9) {
+        this.ed9 = ed9;
+    }
+
+    @Column(name = "ed10")
+    public Boolean getEd10() {
+        return this.ed10;
+    }
+
+    public void setEd10(Boolean ed10) {
+        this.ed10 = ed10;
+    }
+
+    @Column(name = "ed11")
+    public Boolean getEd11() {
+        return this.ed11;
+    }
+
+    public void setEd11(Boolean ed11) {
+        this.ed11 = ed11;
+    }
+
+    @Column(name = "ed12")
+    public Boolean getEd12() {
+        return this.ed12;
+    }
+
+    public void setEd12(Boolean ed12) {
+        this.ed12 = ed12;
+    }
 }

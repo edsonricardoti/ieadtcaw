@@ -34,7 +34,7 @@
                             <p:column id="modalidade" headerText="Modalidade" width="25" style="font-size: 10px; text-transform: uppercase;">
                                 <p:outputLabel id="minhamoda" value="#{buscados.modalidade eq 'avista'?'A vista':'A prazo'}"/>
                             </p:column>
-                            <p:column id="alt" headerText="Alterar" width="15" style="text-align: center; font-size: 10px;">
+                            <p:column id="alt" headerText="Editar" width="15" style="text-align: center; font-size: 10px;">
                                 <p:commandButton id="abr" icon="ui-icon-pencil" actionListener="#{assinaturaControle.buscarPorId(buscados.idassinatura)}" action="consulta.xhtml" />
                             </p:column>
 

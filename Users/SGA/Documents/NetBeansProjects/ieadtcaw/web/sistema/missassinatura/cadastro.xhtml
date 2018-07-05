@@ -13,7 +13,7 @@
             <ui:define name="content">
                 <h:form id="cadastro">
                     <p:messages id="messages" closable="true" style="font-size: 12px; text-align: center;" showIcon="false"/>
-                    <p:remoteCommand action="#{alunoControle.limpaFormulario()}" autoRun="true" update="grades,lista"/>
+                    <p:remoteCommand action="#{assinaturaControle.limpaFormulario()}" autoRun="true" update="grades,lista"/>
                     <p:panel header="Missão - Assinatura">
                         <p:panelGrid id="grades" columns="3" style="font-size: 14px;">
                             <p:outputLabel value="Nome:"/>

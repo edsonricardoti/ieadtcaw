@@ -52,7 +52,6 @@ Contributor(s):
     <property name="hibernate.format_sql">true</property>
     <property name="hibernate.connection.username">sigcra</property>
     <property name="hibernate.connection.password">admcra09</property>
-    <property name="hibernate.connection.autocommit">false</property>
     <property name="hibernate.connection.zeroDateTimeBehavior">convertToNull</property>
     <property name="hibernate.c3p0.min_size">1</property>
     <property name="hibernate.c3p0.max_size">10</property>
@@ -75,7 +74,6 @@ Contributor(s):
     <mapping class="Modelo.Membros"/>
     <mapping class="Modelo.Contasapagar"/>
     <mapping class="Modelo.Ata"/>
-    <mapping class="Modelo.Edicoes"/>
     <mapping class="Modelo.Frequencia"/>
     <mapping class="Modelo.Contasareceber"/>
     <mapping class="Modelo.Usuarios"/>

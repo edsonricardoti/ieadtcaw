@@ -10,16 +10,15 @@ import javax.faces.bean.ManagedBean;
 import Modelo.Assinatura;
 import DAO.AssinaturaDAO;
 import DAO.MembrosDAO;
-import DAO.EdicoesDAO;
 import DAO.ParcelamentoDAO;
 import DAO.PeriodicoDAO;
 import Modelo.Assinantes;
-import Modelo.Edicoes;
 import Modelo.Membros;
 import Modelo.Parcelamentos;
 import Modelo.Periodico;
 import static Util.FacesUtil.addErrorMessage;
 import static Util.FacesUtil.addInfoMessage;
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.text.ParseException;
 import java.util.Calendar;
@@ -30,7 +29,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
 import javax.faces.bean.SessionScoped;
-import org.primefaces.model.UploadedFile;
 
 @ManagedBean
 @SessionScoped
@@ -39,7 +37,9 @@ import org.primefaces.model.UploadedFile;
  *
  * @author Edson Ricardo
  */
-public class AssinaturaControle {
+public class AssinaturaControle implements Serializable {
+
+    private static final long serialVersionUID = 1L;
 
     private Assinatura assinatura;
     private AssinaturaDAO dao;
@@ -47,8 +47,6 @@ public class AssinaturaControle {
     private Periodico periodico;
     private Membros membro;
     private MembrosDAO mdao;
-    private Edicoes edicoes;
-    private EdicoesDAO edao;
     private AssinaturaDAO adao;
     private PeriodicoDAO revista;
     private Assinatura assinaturaSelecionado;
@@ -57,18 +55,19 @@ public class AssinaturaControle {
     private List<Parcelamentos> listaParcelas;
     private List<Periodico> periodicos;
     private Boolean isRederiza = false;
-    private List<Edicoes> listaEdicoes;
     private List<Membros> listaMembros;
     private List<Assinantes> listaAssinantes;
     private String nome;
     private Date dataini;
     private Date datafim;
     private Integer qtdparcela;
+    private Boolean ed1, ed2, ed3, ed4, ed5, ed6, ed7, ed8, ed9, ed10, ed11, ed12;
 
     public AssinaturaControle() {
         assinatura = new Assinatura();
         dao = new AssinaturaDAO();
         assinaturaSelecionado = new Assinatura();
+
     }
 
     @PostConstruct
@@ -82,9 +81,7 @@ public class AssinaturaControle {
         periodicos = null;
         isRederiza = false;
         periodicos = revista.selectAll();
-        if (assinaturaSelecionado.equals(null)) {
-            listaParcelas = pdao.selectAll(assinaturaSelecionado.getIdmembro(), assinaturaSelecionado.getIdperiodico());
-        }
+
         assinaturaSelecionado = new Assinatura();
         listaMembros = mdao.selectAll();
 
@@ -95,8 +92,21 @@ public class AssinaturaControle {
         assinaturaSelecionado = new Assinatura();
         listaDaBusca = null;
         membro = new Membros();
-        //listaMembros = null;
-        listaEdicoes = null;
+        //listaMembros = null;        
+        isRederiza = false;
+        ed1 = false;
+        ed2 = false;
+        ed3 = false;
+        ed4 = false;
+        ed5 = false;
+        ed6 = false;
+        ed7 = false;
+        ed8 = false;
+        ed9 = false;
+        ed10 = false;
+        ed11 = false;
+        ed12 = false;
+
 
     }
 
@@ -112,13 +122,11 @@ public class AssinaturaControle {
         listaAssinantes = dao.buscaAssinantes(nome);
     }
 
-    public void AdicionaEdicao() {
-        edao.insert(edicoes);
-    }
-
     public String pegaMembro(int idmembro) {
-        String onome;
-        onome = mdao.buscarPorId(idmembro).getMembrosNome();
+        String onome = "";
+        if (idmembro != 0) {
+            onome = mdao.buscarPorId(idmembro).getMembrosNome();
+        }
         return onome;
     }
 
@@ -126,15 +134,10 @@ public class AssinaturaControle {
         System.out.println("Parcelas dados idmembro:" + idmembro + " periodico:" + idperiodico + " numparcela:" + numparcela);
         assinaturaSelecionado = assinatura;
         Parcelamentos par;
-        Periodico periodico = new Periodico();
+        periodico = new Periodico();
         PeriodicoDAO per = new PeriodicoDAO();
-        ParcelamentoDAO pdao = new ParcelamentoDAO();
+        pdao = new ParcelamentoDAO();
         periodico = per.buscarPorID(idperiodico);
-        Edicoes edicoes = new Edicoes();
-        edicoes.setIdmembro(idmembro);
-        edicoes.setIdperiodico(idperiodico);
-        EdicoesDAO edao = new EdicoesDAO();
-        edao.insert(edicoes);
 
         if (numparcela != 0) {
             for (int i = 1; i <= numparcela; i++) {
@@ -159,9 +162,9 @@ public class AssinaturaControle {
     public void Reparcelar(int idmembro, int idperiodico, int numparcela) {
 
         Parcelamentos par;
-        Periodico periodico = new Periodico();
+        periodico = new Periodico();
         PeriodicoDAO per = new PeriodicoDAO();
-        ParcelamentoDAO pdao = new ParcelamentoDAO();
+        pdao = new ParcelamentoDAO();
         periodico = per.buscarPorID(idperiodico);
         par = pdao.buscarPorParcela(idmembro, idperiodico, 0);
         boolean delete = pdao.delete(par);
@@ -185,11 +188,10 @@ public class AssinaturaControle {
         listaParcelas = pdao.selectAll(idmembro, idperiodico);
     }
 
-    public void atualizaParcelas() {
-        listaParcelas = pdao.selectAll(assinaturaSelecionado.getIdmembro(), assinaturaSelecionado.getIdperiodico());
-        //EdicoesDAO edao = new EdicoesDAO();
-        edicoes = new Edicoes();
-        edicoes = edao.buscarIdPerioEmembro(assinaturaSelecionado.getIdperiodico(), assinaturaSelecionado.getIdmembro());
+    public void atualizaParcelas(int idmembro, int idperiodico) {
+        listaParcelas = pdao.selectAll(idmembro, idperiodico);
+        isRederiza = true;
+
     }
 
     public void buscarLista(String nome) throws ParseException {
@@ -223,7 +225,7 @@ public class AssinaturaControle {
     public void insert() {
 
         if (dao.insert(assinatura)) {
-            isRederiza = true;
+            //isRederiza = true;
             addInfoMessage("Dados salvo com sucesso!");
         } else {
             addErrorMessage("Erro ao salvar os dados!");
@@ -231,16 +233,20 @@ public class AssinaturaControle {
     }
 
     public void Salva(Membros membro) {
-
+        isRederiza = false;
         Calendar calendar = new GregorianCalendar();
         Date date = new Date();
         calendar.setTime(date);
         assinatura.setDatadatacadastro(calendar.getTime());
         assinatura.setIdmembro(membro.getIdmembros());
+        // EdicoesDAO edao = new EdicoesDAO();
+        // edicoes = new Edicoes();
+        // edicoes.setIdmembro(assinatura.getIdmembro());
+        // edicoes.setIdperiodico(assinatura.getIdperiodico());
 
         if (dao.insert(assinatura)) {
-
-            // addInfoMessage("Dados salvo com sucesso!");
+            assinaturaSelecionado = new Assinatura();
+            assinaturaSelecionado = assinatura;
         } else {
             addErrorMessage("Erro ao salvar os dados!");
         }
@@ -258,7 +264,23 @@ public class AssinaturaControle {
     public void update() {
         isRederiza = true;
         if (dao.update(assinaturaSelecionado)) {
-            // addInfoMessage("Assinatura alterada com sucesso!");
+            if (assinaturaSelecionado.getQtdparcelas() != null) {
+                GerarParcelas(assinaturaSelecionado.getIdmembro(), assinaturaSelecionado.getIdperiodico(), assinaturaSelecionado.getQtdparcelas());
+            } else {
+                GerarParcelas(assinaturaSelecionado.getIdmembro(), assinaturaSelecionado.getIdperiodico(), 0);
+            }
+
+            addInfoMessage("Assinatura registrada com sucesso!");
+        } else {
+            addInfoMessage("Assinatura não aterada");
+        }
+
+    }
+
+    public void update2() {
+        isRederiza = true;
+        if (dao.update(assinaturaSelecionado)) {
+            addInfoMessage("Assinatura alterada com sucesso!");
         } else {
             addInfoMessage("Assinatura não aterada");
         }
@@ -321,22 +343,6 @@ public class AssinaturaControle {
         this.membro = membro;
     }
 
-    public Edicoes getEdicoes() {
-        return edicoes;
-    }
-
-    public void setEdicoes(Edicoes edicoes) {
-        this.edicoes = edicoes;
-    }
-
-    public List<Edicoes> getListaEdicoes() {
-        return listaEdicoes;
-    }
-
-    public void setListaEdicoes(List<Edicoes> listaEdicoes) {
-        this.listaEdicoes = listaEdicoes;
-    }
-
     public List<Membros> getListaMembros() {
         return listaMembros;
     }
@@ -391,6 +397,102 @@ public class AssinaturaControle {
 
     public void setListaAssinantes(List<Assinantes> listaAssinantes) {
         this.listaAssinantes = listaAssinantes;
+    }
+
+    public Boolean getEd1() {
+        return ed1;
+    }
+
+    public void setEd1(Boolean ed1) {
+        this.ed1 = ed1;
+    }
+
+    public Boolean getEd2() {
+        return ed2;
+    }
+
+    public void setEd2(Boolean ed2) {
+        this.ed2 = ed2;
+    }
+
+    public Boolean getEd3() {
+        return ed3;
+    }
+
+    public void setEd3(Boolean ed3) {
+        this.ed3 = ed3;
+    }
+
+    public Boolean getEd4() {
+        return ed4;
+    }
+
+    public void setEd4(Boolean ed4) {
+        this.ed4 = ed4;
+    }
+
+    public Boolean getEd5() {
+        return ed5;
+    }
+
+    public void setEd5(Boolean ed5) {
+        this.ed5 = ed5;
+    }
+
+    public Boolean getEd6() {
+        return ed6;
+    }
+
+    public void setEd6(Boolean ed6) {
+        this.ed6 = ed6;
+    }
+
+    public Boolean getEd7() {
+        return ed7;
+    }
+
+    public void setEd7(Boolean ed7) {
+        this.ed7 = ed7;
+    }
+
+    public Boolean getEd8() {
+        return ed8;
+    }
+
+    public void setEd8(Boolean ed8) {
+        this.ed8 = ed8;
+    }
+
+    public Boolean getEd9() {
+        return ed9;
+    }
+
+    public void setEd9(Boolean ed9) {
+        this.ed9 = ed9;
+    }
+
+    public Boolean getEd10() {
+        return ed10;
+    }
+
+    public void setEd10(Boolean ed10) {
+        this.ed10 = ed10;
+    }
+
+    public Boolean getEd11() {
+        return ed11;
+    }
+
+    public void setEd11(Boolean ed11) {
+        this.ed11 = ed11;
+    }
+
+    public Boolean getEd12() {
+        return ed12;
+    }
+
+    public void setEd12(Boolean ed12) {
+        this.ed12 = ed12;
     }
 
 }

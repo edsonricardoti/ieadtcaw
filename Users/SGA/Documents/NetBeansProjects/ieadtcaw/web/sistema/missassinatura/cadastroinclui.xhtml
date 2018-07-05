@@ -14,43 +14,90 @@
                 <p:panel header="Missão - Assinaturas">
                     <h:form id="cadastro" prependId="false">
 
-                        <p:messages id="messages" closable="true" style="font-size: 12px; text-align: center;" showIcon="false"/>                        
-                        <p:panelGrid id="campos" columns="2" style="font-size: 14px;">
-                            <p:outputLabel for="dataCadastro" value="Data cadastro:" />
-                            <p:outputLabel id="dataCadastro" value="#{assinaturaControle.assinatura.datadatacadastro}" style="text-transform: uppercase;">
-                                <f:convertDateTime pattern="dd/MM/yyyy"/>
-                            </p:outputLabel>
-                            <p:outputLabel value="Membro/Congregado"/>
-                            <p:outputLabel value="#{assinaturaControle.pegaMembro(assinaturaControle.assinatura.idmembro)}" style="text-transform: uppercase;"/>
-                            <p:outputLabel value="Periódico:"/>
-                            <p:selectOneMenu id="l1" value="#{assinaturaControle.assinatura.idperiodico}" style="text-transform: uppercase;">
-                                <f:selectItem itemLabel=":::Selecione:::" />
-                                <f:selectItems value="#{assinaturaControle.periodicos}"
-                                               var="revista"
-                                               itemLabel="#{revista.titulo}"
-                                               itemValue="#{revista.idperiodico}"/>
-                            </p:selectOneMenu>
-                            <p:outputLabel value="Modalidade:"/>
-                            <p:panelGrid columns="2">
-                                <p:selectOneRadio id="tipo" value="#{assinaturaControle.assinatura.modalidade}" style="font-size: 11px;">
-                                    <f:selectItem itemLabel=" A vista " itemValue="avista" />
-                                    <f:selectItem itemLabel=" Parcelado " itemValue="prazo" />
-                                    <p:ajax event="change" update="parcel"/>
-                                </p:selectOneRadio>
+                        <p:messages id="messages" closable="true" style="font-size: 12px; text-align: center;" showIcon="false"/>
+                        <p:panelGrid columns="2" id="geral">
+                            <p:panelGrid id="campos" columns="2" style="font-size: 14px;">
+                                <p:outputLabel for="dataCadastro" value="Data cadastro:" />
+                                <p:outputLabel id="dataCadastro" value="#{assinaturaControle.assinatura.datadatacadastro}" style="text-transform: uppercase;">
+                                    <f:convertDateTime pattern="dd/MM/yyyy"/>
+                                </p:outputLabel>
+                                <p:outputLabel value="Membro/Congregado"/>
+                                <p:outputLabel value="#{assinaturaControle.pegaMembro(assinaturaControle.assinatura.idmembro)}" style="text-transform: uppercase;"/>
+                                <p:outputLabel value="Periódico:"/>
+                                <p:selectOneMenu id="l1" value="#{assinaturaControle.assinatura.idperiodico}" style="text-transform: uppercase;">
+                                    <f:selectItem itemLabel=":::Selecione:::" />
+                                    <f:selectItems value="#{assinaturaControle.periodicos}"
+                                                   var="revista"
+                                                   itemLabel="#{revista.titulo}"
+                                                   itemValue="#{revista.idperiodico}"/>
+                                </p:selectOneMenu>
+                                <p:outputLabel value="Modalidade:"/>
+                                <p:panelGrid columns="2">
+                                    <p:selectOneRadio id="tipo" value="#{assinaturaControle.assinatura.modalidade}" style="font-size: 11px;">
+                                        <f:selectItem itemLabel=" A vista " itemValue="avista" />
+                                        <f:selectItem itemLabel=" Parcelado " itemValue="prazo" />
+                                        <p:ajax event="change" update="parcel"/>
+                                    </p:selectOneRadio>
+                                </p:panelGrid>
+                                <p:outputLabel value=""/>
+                                <p:panelGrid columns="2" id="parcel">
+                                    <p:outputLabel id="qtd" value="Quantidade de parcelas:" rendered="#{assinaturaControle.assinatura.modalidade eq 'prazo'?true:false}"/>
+                                    <p:inputNumber id="qtd1" value="#{assinaturaControle.assinatura.qtdparcelas}" decimalPlaces="0" rendered="#{assinaturaControle.assinatura.modalidade eq 'prazo'?true:false}"/>
+                                </p:panelGrid>
                             </p:panelGrid>
-                            <p:outputLabel value=""/>
-                            <p:panelGrid columns="2" id="parcel">
-                                <p:outputLabel id="qtd" value="Quantidade de parcelas:" rendered="#{assinaturaControle.assinatura.modalidade eq 'prazo'?true:false}"/>
-                            <p:inputNumber id="qtd1" value="#{assinaturaControle.assinatura.qtdparcelas}" decimalPlaces="0" rendered="#{assinaturaControle.assinatura.modalidade eq 'prazo'?true:false}"/>
-                            </p:panelGrid>
+                            <p:panelGrid columns="4" style="font-size: 11px;" rendered="#{assinaturaControle.isRederiza}">
+                                <p:outputLabel for="@next" value="1° Exemplar " />
+                                <p:selectBooleanCheckbox value="#{assinaturaControle.assinatura.ed1}" />
+                                <p:outputLabel for="@next" value="2° Exemplar " />
+                                <p:selectBooleanCheckbox value="#{assinaturaControle.assinatura.ed2}" />
+                                <p:outputLabel for="@next" value="3° Exemplar " />
+                                <p:selectBooleanCheckbox value="#{assinaturaControle.assinatura.ed3}" />
+                                <p:outputLabel for="@next" value="4° Exemplar " />
+                                <p:selectBooleanCheckbox value="#{assinaturaControle.assinatura.ed4}" />
+                                <p:outputLabel for="@next" value="5° Exemplar " />
+                                <p:selectBooleanCheckbox value="#{assinaturaControle.assinatura.ed5}" />
+                                <p:outputLabel for="@next" value="6° Exemplar " />
+                                <p:selectBooleanCheckbox value="#{assinaturaControle.assinatura.ed6}" />
+                                <p:outputLabel for="@next" value="7° Exemplar " />
+                                <p:selectBooleanCheckbox value="#{assinaturaControle.assinatura.ed7}" />
+                                <p:outputLabel for="@next" value="8° Exemplar " />
+                                <p:selectBooleanCheckbox value="#{assinaturaControle.assinatura.ed8}" />
+                                <p:outputLabel for="@next" value="9° Exemplar " />
+                                <p:selectBooleanCheckbox value="#{assinaturaControle.assinatura.ed9}" />
+                                <p:outputLabel for="@next" value="10° Exemplar " />
+                                <p:selectBooleanCheckbox value="#{assinaturaControle.assinatura.ed10}" />
+                                <p:outputLabel for="@next" value="11° Exemplar " />
+                                <p:selectBooleanCheckbox value="#{assinaturaControle.assinatura.ed11}" />
+                                <p:outputLabel for="@next" value="12° Exemplar " />
+                                <p:selectBooleanCheckbox value="#{assinaturaControle.assinatura.ed12}" />
 
+                            </p:panelGrid>
                         </p:panelGrid>
+                        <p:dataTable value="#{assinaturaControle.listaParcelas}" var="parcelas" id="lista">
+                            <f:facet name="header">
+                                Modalidade/Parcelamento
+                            </f:facet>
+                            <p:column headerText="Parcela" style="font-size: 10px; font-family:  sans-serif; text-align: center;">
+                                <h:outputText value="#{parcelas.numparcela eq 0?'À vista':parcelas.numparcela}"/>
+                                <h:outputText value="#{parcelas.numparcela eq 0?'':'ª parcela'}"/>
+                            </p:column>
+                            <p:column headerText="Valor" style="font-size: 10px; font-family:  sans-serif; text-align: center;">
+                                <p:outputLabel value="#{parcelas.valorparcela}">
+                                    <f:convertNumber pattern="#,##0.00" minFractionDigits="2"/>
+                                </p:outputLabel>
+                            </p:column>
+                            <p:column headerText="Data Pagamento" style="font-size: 10px; font-family:  sans-serif; text-align: center;" sortable="true" sortBy="#{membros.membrosDtBatismo}">
+                                <p:outputLabel id="data2" value="#{membros.membrosDtBatismo}"  style="font-size: 10px;">
+                                    <f:convertDateTime pattern="dd/MM/yyyy"/>
+                                </p:outputLabel>
+                            </p:column>
+                        </p:dataTable>
                         <p:commandButton icon="ui-icon-check"
                                          title="Clique aqui para salvar o cadastro"
-                                         action="#{assinaturaControle.update()}" disabled="#{assinaturaControle.isRederiza}"
-                                         actionListener="#{assinaturaControle.GerarParcelas(assinaturaControle.assinatura.idmembro,assinaturaControle.assinatura.idperiodico , assinaturaControle.assinatura.qtdparcelas)}"
-                                         value="Salvar" update="@form"/>
-                        <p:button id="btpss" value="Prossiguir" icon="ui-icon-closethick" outcome="consulta.xhtml" disabled="#{!assinaturaControle.isRederiza}"/>
+                                         actionListener="#{assinaturaControle.update()}"
+                                         value="Salvar" action="consulta.xhtml" />
+
+
 
                     </h:form>
                 </p:panel>

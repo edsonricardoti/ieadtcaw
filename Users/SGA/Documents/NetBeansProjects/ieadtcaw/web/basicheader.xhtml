@@ -128,9 +128,9 @@
                             <p:menuitem value="Incluir" ajax="false" url="/sistema/missperiodicos/cadastro.xhtml" />
                             <p:menuitem value="Consultar/Alterar/Excluir" ajax="false" url="/sistema/missperiodicos/consultar.xhtml" />
                         </p:submenu>
-                        <p:submenu label="Contribuintes de carnês">
+                        <p:submenu label="Contribuintes de carnês" icon="ui-icon-contact">
                             <p:menuitem value="Assinatura" ajax="false" url="/sistema/missassinatura/cadastro.xhtml" />
-                            <p:menuitem value="Entrega de edições" ajax="false" url="/sistema/missassinatura/consultar.xhtml" />
+                            <p:menuitem value="Pagamentos/Entrega" ajax="false" url="/sistema/missassinatura/consultar.xhtml" />
                         </p:submenu>
                         <p:submenu label="Ofertas" icon="ui-icon-transferthick-e-w">
                             <p:menuitem value="Incluir" icon="ui-icon-circle-plus" ajax="false" url="/sistema/missofertas/cadastro.xhtml" />
@@ -145,9 +145,8 @@
                             <p:menuitem value="Consultar/Alterar/Excluir" ajax="false" icon="ui-icon-folder-open" url="/sistema/missalcadas/consultar.xhtml"/>
                         </p:submenu>
                         <p:menuitem value="Financeiro Geral" ajax="false" url="/sistema/listagens/missfinanceirogeral.xhtml"/>
-                        <p:menuitem value="Gráfico comparativo entre Grupos" ajax="false" />                         
-                        <p:menuitem value="Gráfico por período" ajax="false" />
-                        <p:menuitem value="Gráfico por pessoal individual" ajax="false" />
+                        <p:menuitem value="Situacao geral de assinantes" ajax="false" url="/sistema/listagens/missgeral.xhtml" />
+
                     </p:submenu>
                     <p:submenu id="mr" label="Relatórios do Cadastro" icon="ui-icon-print" rendered="#{usuarioControle.usuario.secretaria or usuarioControle.usuario.administracao}">
                         <p:menuitem value="Membros" ajax="false" url="/sistema/listagens/membros.xhtml"/>

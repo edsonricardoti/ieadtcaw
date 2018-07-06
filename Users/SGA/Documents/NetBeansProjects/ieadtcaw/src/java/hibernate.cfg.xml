@@ -65,9 +65,12 @@ Contributor(s):
     <mapping class="Modelo.Escala"/>
     <mapping class="Modelo.Alunos"/>
     <mapping class="Modelo.Financeiro"/>
+    <mapping class="Modelo.Missgeral"/>
     <mapping class="Modelo.Diasdaescala"/>
+    <mapping class="Modelo.Assinatura"/>
     <mapping class="Modelo.Avisos"/>
     <mapping class="Modelo.Relatorios"/>
+    <mapping class="Modelo.Assinantes"/>
     <mapping class="Modelo.Caixa"/>
     <mapping class="Modelo.Criancas"/>
     <mapping class="Modelo.Igrejas"/>
@@ -80,6 +83,5 @@ Contributor(s):
     <mapping class="Modelo.Parcelamentos"/>
     <mapping class="Modelo.Classes"/>
     <mapping class="Modelo.Periodico"/>
-    <mapping class="Modelo.Assinatura"/>
   </session-factory>
 </hibernate-configuration>

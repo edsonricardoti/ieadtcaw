@@ -18,11 +18,11 @@
                         <p:panelGrid columns="2" id="geral">
                             <p:panelGrid id="campos" columns="2" style="font-size: 14px;">
                                 <p:outputLabel for="dataCadastro" value="Data cadastro:" />
-                                <p:outputLabel id="dataCadastro" value="#{assinaturaControle.assinatura.datadatacadastro}" style="text-transform: uppercase;">
+                                <p:outputLabel id="dataCadastro" value="#{assinaturaControle.dataini}" style="text-transform: uppercase;">
                                     <f:convertDateTime pattern="dd/MM/yyyy"/>
                                 </p:outputLabel>
                                 <p:outputLabel value="Membro/Congregado"/>
-                                <p:outputLabel value="#{assinaturaControle.pegaMembro(assinaturaControle.assinatura.idmembro)}" style="text-transform: uppercase;"/>
+                                <p:outputLabel value="#{assinaturaControle.pegaMembro(assinaturaControle.idmembros)}" style="text-transform: uppercase;"/>
                                 <p:outputLabel value="Periódico:"/>
                                 <p:selectOneMenu id="l1" value="#{assinaturaControle.assinatura.idperiodico}" style="text-transform: uppercase;">
                                     <f:selectItem itemLabel=":::Selecione:::" />
@@ -87,17 +87,16 @@
                                 </p:outputLabel>
                             </p:column>
                             <p:column headerText="Data Pagamento" style="font-size: 10px; font-family:  sans-serif; text-align: center;" sortable="true" sortBy="#{membros.membrosDtBatismo}">
-                                <p:outputLabel id="data2" value="#{membros.membrosDtBatismo}"  style="font-size: 10px;">
+                                <p:outputLabel id="data2" value="#{parcelas.datapagamento}"  style="font-size: 10px;">
                                     <f:convertDateTime pattern="dd/MM/yyyy"/>
                                 </p:outputLabel>
                             </p:column>
                         </p:dataTable>
                         <p:commandButton icon="ui-icon-check"
                                          title="Clique aqui para salvar o cadastro"
-                                         actionListener="#{assinaturaControle.update()}"
+                                         actionListener="#{assinaturaControle.salva()}"
                                          value="Salvar" action="consulta.xhtml" />
-
-
+                        <p:button value="Fechar" icon="ui-icon-closethick" outcome="cadastro.xhtml"/>
 
                     </h:form>
                 </p:panel>

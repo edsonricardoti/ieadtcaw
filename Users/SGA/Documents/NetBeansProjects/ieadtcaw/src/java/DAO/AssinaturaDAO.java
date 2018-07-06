@@ -11,6 +11,7 @@ import org.hibernate.Session;
 import org.hibernate.Transaction;
 import Modelo.Assinatura;
 import Modelo.Membros;
+import Modelo.Missgeral;
 import static Util.HibernateUtil.getSessionFactory;
 import java.text.ParseException;
 import java.util.Date;
@@ -129,7 +130,6 @@ public class AssinaturaDAO {
         }
     }
 
-
     public List<Assinantes> buscaAssinantes(String nome) throws ParseException {
 
         try {
@@ -141,6 +141,41 @@ public class AssinaturaDAO {
                     + " where m.idmembros=a.idmembro and m.membrosNome like '%" + nome + "%'")
                     .setMaxResults(10000)
                     .setResultTransformer(Transformers.aliasToBean(Assinantes.class));
+            if (!t.wasCommitted()) {
+                t.commit();
+            }
+
+            List<Assinantes> resultado = financeiro.list();
+
+            return resultado;
+
+        } catch (HibernateException e) {
+            System.out.println("Erro encontrado: " + e);
+//            session.getTransaction().rollback();
+            return null;
+        } finally {
+            session.close();
+        }
+    }
+
+    public List<Assinantes> buscaFinanceiroGeral(int id) throws ParseException {
+
+        try {
+
+            session = getSessionFactory().openSession();
+            Transaction t = session.beginTransaction();
+            Query financeiro = session.createQuery("select a.datacadastro,  m.membrosNome as nome,m.membrosFone as fone1,m.membrosCelular as fone2,a.modalidade as modalidade,\n"
+                    + "(select count(1) from Parcelamentos as pp where pp.idmembro=a.idmembro and pp.idperiodico=a.idperiodico and pp.datapagamento is not null)  as parcelaspg,\n"
+                    + "a.valortotal,(select pp.datapagamento from Parcelamentos as pp where pp.idmembro=a.idmembro and pp.idperiodico=a.idperiodico and pp.numparcela=1) as parcela1,\n"
+                    + "(select pp.datapagamento from Parcelamentos as pp where pp.idmembro=a.idmembro and pp.idperiodico=a.idperiodico and pp.numparcela=2) as parcela2,\n"
+                    + "(select pp.datapagamento from Parcelamentos as pp where pp.idmembro=a.idmembro and pp.idperiodico=a.idperiodico and pp.numparcela=3) as parcela3,\n"
+                    + "a.ed1,a.ed2,a.ed3,a.ed4,a.ed5,a.ed6,a.ed7,a.ed8,a.ed9,a.ed10,a.ed11,a.ed12\n"
+                    + "from Membros as m, Assinatura as a,Parcelamentos as p\n"
+                    + "where m.idmembros=a.idmembro and a.idmembro=p.idmembro and a.idperiodico=p.idperiodico and a.idperiodico=:id\n"
+                    + "group by a.idmembro,a.idperiodico")
+                    .setInteger("id", id)
+                    .setMaxResults(10000)
+                    .setResultTransformer(Transformers.aliasToBean(Missgeral.class));
             if (!t.wasCommitted()) {
                 t.commit();
             }

@@ -11,6 +11,7 @@ import Modelo.Financeiro;
 import DAO.FinanceiroDAO;
 import DAO.MembrosDAO;
 import Modelo.Membros;
+import Modelo.Missgeral;
 import Modelo.Relatorios;
 import static Util.FacesUtil.addErrorMessage;
 import static Util.FacesUtil.addInfoMessage;
@@ -64,6 +65,7 @@ public class FinanceiroControle {
     private Membros contribuintes;
     private Integer iddomembro;
     private Integer ano;
+
 
     public FinanceiroControle() {
 
@@ -246,7 +248,7 @@ public class FinanceiroControle {
         subVotos = BigDecimal.ZERO;
         dizimoPormes = dao.buscarMissGeralPorPeriodo(dataini, datafim);
         BigDecimal t = new BigDecimal(BigInteger.ZERO);
-        //BigDecimal dizimo = new BigDecimal(BigInteger.ZERO);
+        BigDecimal dizimo = new BigDecimal(BigInteger.ZERO);
         BigDecimal oferta = new BigDecimal(BigInteger.ZERO);
         BigDecimal alcada = new BigDecimal(BigInteger.ZERO);
         BigDecimal votos = new BigDecimal(BigInteger.ZERO);
@@ -255,7 +257,8 @@ public class FinanceiroControle {
             t = t.add(r.getOfertas());
             t = t.add(r.getAlcadas());
             t = t.add(r.getVotos());
-            //dizimo = dizimo.add(r.getDizimos());
+            t = t.add(r.getDizimos());
+            dizimo = dizimo.add(r.getDizimos());
             oferta = oferta.add(r.getOfertas());
             alcada = alcada.add(r.getAlcadas());
             votos = votos.add(r.getVotos());
@@ -263,6 +266,43 @@ public class FinanceiroControle {
             subOfertas = oferta;
             subAlcadas = alcada;
             subVotos = votos;
+            subDizimos = dizimo;
+            NumberFormat nf = new DecimalFormat("###,##0.00");
+            subtotal = t; //total geral no fim do relatorio
+            SubTotal = nf.format(this.subtotal);
+            //SubTotal = subtotal.toString().replace(".", ",");
+        }
+    }
+
+    public void buscaGeralMissoes(int idperiodico) throws ParseException {
+        subtotal = BigDecimal.ZERO;
+        SubTotal = "";
+        mes = 0;
+        subDizimos = BigDecimal.ZERO;
+        subOfertas = BigDecimal.ZERO;
+        subAlcadas = BigDecimal.ZERO;
+        subVotos = BigDecimal.ZERO;
+        dizimoPormes = dao.buscarMissGeralPorPeriodo(dataini, datafim);
+        BigDecimal t = new BigDecimal(BigInteger.ZERO);
+        BigDecimal dizimo = new BigDecimal(BigInteger.ZERO);
+        BigDecimal oferta = new BigDecimal(BigInteger.ZERO);
+        BigDecimal alcada = new BigDecimal(BigInteger.ZERO);
+        BigDecimal votos = new BigDecimal(BigInteger.ZERO);
+        for (Relatorios r : dizimoPormes) {
+
+            t = t.add(r.getOfertas());
+            t = t.add(r.getAlcadas());
+            t = t.add(r.getVotos());
+            t = t.add(r.getDizimos());
+            dizimo = dizimo.add(r.getDizimos());
+            oferta = oferta.add(r.getOfertas());
+            alcada = alcada.add(r.getAlcadas());
+            votos = votos.add(r.getVotos());
+
+            subOfertas = oferta;
+            subAlcadas = alcada;
+            subVotos = votos;
+            subDizimos = dizimo;
             NumberFormat nf = new DecimalFormat("###,##0.00");
             subtotal = t; //total geral no fim do relatorio
             SubTotal = nf.format(this.subtotal);

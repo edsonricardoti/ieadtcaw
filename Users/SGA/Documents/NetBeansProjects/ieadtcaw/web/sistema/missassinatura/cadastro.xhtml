@@ -30,7 +30,7 @@
                                 <p:outputLabel id="dataCadastro" value="#{buscados.membrosNome}" style="font-size: 10px; text-transform: uppercase;"/>
                             </p:column>                            
                             <p:column headerText="Incluir" style="text-align: center; font-size: 10px; ">
-                                <p:commandButton icon="ui-icon-pencil"  action="cadastroinclui.xhtml" actionListener="#{assinaturaControle.Salva(buscados)}"/>
+                                <p:commandButton icon="ui-icon-pencil"  action="cadastroinclui.xhtml" actionListener="#{assinaturaControle.PreparaInclusao(buscados)}"/>
                             </p:column>
 
                         </p:dataTable>

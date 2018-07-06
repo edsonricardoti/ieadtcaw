@@ -27,13 +27,7 @@
                                     <p:outputLabel value="Membro/Congregado"/>
                                     <p:outputLabel value="#{assinaturaControle.pegaMembro(assinaturaControle.assinaturaSelecionado.idmembro)}" style="text-transform: uppercase;"/>
                                     <p:outputLabel value="Periódico:"/>
-                                    <p:selectOneMenu id="l1" value="#{assinaturaControle.assinaturaSelecionado.idperiodico}" style="text-transform: uppercase;">
-                                        <f:selectItem itemLabel=":::Selecione:::" />
-                                        <f:selectItems value="#{assinaturaControle.periodicos}"
-                                                       var="revistas"
-                                                       itemLabel="#{revistas.titulo}"
-                                                       itemValue="#{revistas.idperiodico}"/>
-                                    </p:selectOneMenu>
+                                    <p:outputLabel value="#{assinaturaControle.PegaPeriodico(assinaturaControle.assinaturaSelecionado.idperiodico)}" style="text-transform: uppercase;"/>
                                     <p:outputLabel value="Modalidade:"/>
                                     <p:outputLabel value="#{assinaturaControle.assinaturaSelecionado.modalidade eq 'avista'?'À vista':'Parcelado'}"/>
                                     <p:outputLabel id="qtd3" value="Quantidade de parcelas:" rendered="#{assinaturaControle.assinaturaSelecionado.modalidade eq 'prazo'?true:false}"/>
@@ -67,23 +61,35 @@
 
                                 </p:panelGrid>
                             </p:panelGrid>
-                            <p:dataTable value="#{assinaturaControle.listaParcelas}" var="parcelas" id="lista">
+                            <p:dataTable value="#{assinaturaControle.listaParcelas}" style="width: 500px;"
+                                         var="parcelas" editable="true" >                               
+                                <p:ajax event="rowEdit" listener="#{assinaturaControle.onCellEdit}" update="@form" />
                                 <f:facet name="header">
                                     Modalidade/Parcelamento
                                 </f:facet>
-                                <p:column headerText="Parcela" style="font-size: 10px; font-family:  sans-serif; text-align: center;">
+
+                                <p:column headerText="Parcela" style="font-size: 10px; font-family:  sans-serif; text-align: center;" width="50">
                                     <h:outputText value="#{parcelas.numparcela eq 0?'A vista':parcelas.numparcela}"/>
                                     <h:outputText value="#{parcelas.numparcela eq 0?'':'ª parcela'}"/>
                                 </p:column>
-                                <p:column headerText="Valor" style="font-size: 10px; font-family:  sans-serif; text-align: center;">
+                                <p:column headerText="Valor" style="font-size: 10px; font-family:  sans-serif; text-align: center;" width="50">
                                     <p:outputLabel value="#{parcelas.valorparcela}">
                                         <f:convertNumber pattern="#,##0.00" minFractionDigits="2"/>
                                     </p:outputLabel>
                                 </p:column>
-                                <p:column headerText="Data Pagamento" style="font-size: 10px; font-family:  sans-serif; text-align: center;" sortable="true" sortBy="#{membros.membrosDtBatismo}">
-                                    <p:outputLabel id="dataCa" value="#{membros.membrosDtBatismo}"  style="font-size: 10px;">
-                                        <f:convertDateTime pattern="dd/MM/yyyy"/>
-                                    </p:outputLabel>
+                                <p:column id="datas" headerText="Data Pagamento" style="font-size: 10px; font-family:  sans-serif; text-align: center;" width="55">
+                                    <p:cellEditor>
+                                        <f:facet name="output"><h:outputText value="#{parcelas.datapagamento}">
+                                                <f:convertDateTime pattern="dd/MM/yyyy"/>
+                                            </h:outputText>
+                                        </f:facet>
+                                        <f:facet name="input">
+                                            <p:calendar id="dtemiss" value="#{parcelas.datapagamento}" locale="pt" mask="true" pattern="dd/MM/yyyy" showOn="button"/>
+                                        </f:facet>
+                                    </p:cellEditor>
+                                </p:column>
+                                <p:column  headerText="Pagar" width="5" style="font-size: 10px; font-family:  sans-serif; text-align: center;">
+                                    <p:rowEditor style="width: 32px;" />
                                 </p:column>
                             </p:dataTable>
 
@@ -91,6 +97,7 @@
                                              title="Clique aqui para salvar o cadastro"
                                              action="#{assinaturaControle.update2()}"
                                              value="Salvar" update="@form"/>
+                            <p:button value="Fechar" icon="ui-icon-closethick" outcome="consultar.xhtml"/>
 
                         </p:outputPanel>
                     </h:form>

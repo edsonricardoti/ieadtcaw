@@ -196,7 +196,8 @@ public class FinanceiroDAO {
             Query financeiro = session.createQuery("select month(f.financeiroData) as mes,\n"
                     + " sum(case financeiroTipo when 'missalcada' then f.financeiroValor else 0 end) as alcadas,\n"
                     + " sum(case financeiroTipo when 'missoferta' then f.financeiroValor else 0 end) as ofertas,\n"
-                    + " sum(case financeiroTipo when 'missvoto' then f.financeiroValor else 0 end) as votos\n"
+                    + " sum(case financeiroTipo when 'missvoto' then f.financeiroValor else 0 end) as votos,\n"
+                    + " sum(case financeiroTipo when 'carne' then f.financeiroValor else 0 end) as dizimos\n"
                     + " from Financeiro as f where f.financeiroData>=:dataini and f.financeiroData<=:datafim group by  month(f.financeiroData)")
                     .setDate("dataini", dataini)
                     .setDate("datafim", datafim)

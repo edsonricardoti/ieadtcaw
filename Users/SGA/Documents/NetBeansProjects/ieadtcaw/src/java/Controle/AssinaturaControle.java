@@ -9,11 +9,14 @@ import javax.faces.bean.ManagedBean;
 
 import Modelo.Assinatura;
 import DAO.AssinaturaDAO;
+import DAO.FinanceiroDAO;
 import DAO.MembrosDAO;
 import DAO.ParcelamentoDAO;
 import DAO.PeriodicoDAO;
 import Modelo.Assinantes;
+import Modelo.Financeiro;
 import Modelo.Membros;
+import Modelo.Missgeral;
 import Modelo.Parcelamentos;
 import Modelo.Periodico;
 import static Util.FacesUtil.addErrorMessage;
@@ -29,6 +32,8 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
 import javax.faces.bean.SessionScoped;
+import org.primefaces.event.CellEditEvent;
+import org.primefaces.event.RowEditEvent;
 
 @ManagedBean
 @SessionScoped
@@ -47,9 +52,12 @@ public class AssinaturaControle implements Serializable {
     private Periodico periodico;
     private Membros membro;
     private MembrosDAO mdao;
+    private Financeiro financeiro;
+    private FinanceiroDAO fdao;
     private AssinaturaDAO adao;
     private PeriodicoDAO revista;
     private Assinatura assinaturaSelecionado;
+    private Parcelamentos parcelas;
     private List<Assinatura> listaAssinatura;
     private List<Assinatura> listaDaBusca;
     private List<Parcelamentos> listaParcelas;
@@ -62,11 +70,15 @@ public class AssinaturaControle implements Serializable {
     private Date datafim;
     private Integer qtdparcela;
     private Boolean ed1, ed2, ed3, ed4, ed5, ed6, ed7, ed8, ed9, ed10, ed11, ed12;
+    private Integer idmembros;
+    private Integer idperiodico;
+    private List<Missgeral> missgeral;
 
     public AssinaturaControle() {
         assinatura = new Assinatura();
         dao = new AssinaturaDAO();
         assinaturaSelecionado = new Assinatura();
+        parcelas = new Parcelamentos();
 
     }
 
@@ -81,9 +93,31 @@ public class AssinaturaControle implements Serializable {
         periodicos = null;
         isRederiza = false;
         periodicos = revista.selectAll();
+        parcelas = new Parcelamentos();
 
         assinaturaSelecionado = new Assinatura();
-        listaMembros = mdao.selectAll();
+        //listaMembros = mdao.selectAll();
+
+    }
+
+    public void onCellEdit(RowEditEvent event) {
+
+        Parcelamentos parc = new Parcelamentos();
+        ParcelamentoDAO pDao = new ParcelamentoDAO();
+        parc = (Parcelamentos) event.getObject();
+        if (pDao.update(parc)) {
+            fdao = new FinanceiroDAO();
+            financeiro = new Financeiro();
+            financeiro.setFinanceiroData(parc.getDatapagamento());
+            financeiro.setFinanceiroIdmembro(parc.getIdmembro());
+            financeiro.setFinanceiroTipo("carne");
+            financeiro.setFinanceiroValor(parc.getValorparcela());
+            if (fdao.insert(financeiro)) {
+                System.out.println("Lancou no financeiro");
+            }
+
+            addInfoMessage("Pagamento confirmado!");
+        };
 
     }
 
@@ -94,6 +128,8 @@ public class AssinaturaControle implements Serializable {
         membro = new Membros();
         //listaMembros = null;        
         isRederiza = false;
+        nome = "";
+
         ed1 = false;
         ed2 = false;
         ed3 = false;
@@ -107,13 +143,27 @@ public class AssinaturaControle implements Serializable {
         ed11 = false;
         ed12 = false;
 
-
     }
 
     public String PegaPeriodico(int idperiodico) {
+        revista = new PeriodicoDAO();
         Periodico pediodico = new Periodico();
         periodico = revista.buscarPorID(idperiodico);
-        return periodico.getTitulo();
+        if (periodico != null) {
+            return periodico.getTitulo();
+        } else {
+            return "";
+        }
+
+    }
+
+    public void PreparaInclusao(Membros membro) {
+        Calendar calendar = new GregorianCalendar();
+        Date date = new Date();
+        calendar.setTime(date);
+        nome = membro.getMembrosNome();
+        dataini = calendar.getTime();
+        idmembros = membro.getIdmembros();
 
     }
 
@@ -232,13 +282,15 @@ public class AssinaturaControle implements Serializable {
         }
     }
 
-    public void Salva(Membros membro) {
-        isRederiza = false;
+    public void salva() {
+        isRederiza = true;
+        periodico = revista.buscarPorID(assinatura.getIdperiodico());
         Calendar calendar = new GregorianCalendar();
         Date date = new Date();
         calendar.setTime(date);
         assinatura.setDatadatacadastro(calendar.getTime());
-        assinatura.setIdmembro(membro.getIdmembros());
+        assinatura.setIdmembro(idmembros);
+        assinatura.setValortotal(periodico.getValor());
         // EdicoesDAO edao = new EdicoesDAO();
         // edicoes = new Edicoes();
         // edicoes.setIdmembro(assinatura.getIdmembro());
@@ -247,6 +299,11 @@ public class AssinaturaControle implements Serializable {
         if (dao.insert(assinatura)) {
             assinaturaSelecionado = new Assinatura();
             assinaturaSelecionado = assinatura;
+            if (assinaturaSelecionado.getQtdparcelas() != null) {
+                GerarParcelas(assinatura.getIdmembro(), assinatura.getIdperiodico(), assinatura.getQtdparcelas());
+            } else {
+                GerarParcelas(assinatura.getIdmembro(), assinatura.getIdperiodico(), 0);
+            }
         } else {
             addErrorMessage("Erro ao salvar os dados!");
         }
@@ -264,11 +321,11 @@ public class AssinaturaControle implements Serializable {
     public void update() {
         isRederiza = true;
         if (dao.update(assinaturaSelecionado)) {
-            if (assinaturaSelecionado.getQtdparcelas() != null) {
-                GerarParcelas(assinaturaSelecionado.getIdmembro(), assinaturaSelecionado.getIdperiodico(), assinaturaSelecionado.getQtdparcelas());
-            } else {
-                GerarParcelas(assinaturaSelecionado.getIdmembro(), assinaturaSelecionado.getIdperiodico(), 0);
-            }
+//            if (assinaturaSelecionado.getQtdparcelas() != null) {
+//                GerarParcelas(assinaturaSelecionado.getIdmembro(), assinaturaSelecionado.getIdperiodico(), assinaturaSelecionado.getQtdparcelas());
+//            } else {
+//                GerarParcelas(assinaturaSelecionado.getIdmembro(), assinaturaSelecionado.getIdperiodico(), 0);
+//            }
 
             addInfoMessage("Assinatura registrada com sucesso!");
         } else {
@@ -493,6 +550,38 @@ public class AssinaturaControle implements Serializable {
 
     public void setEd12(Boolean ed12) {
         this.ed12 = ed12;
+    }
+
+    public Integer getIdmembros() {
+        return idmembros;
+    }
+
+    public void setIdmembros(Integer idmembros) {
+        this.idmembros = idmembros;
+    }
+
+    public Parcelamentos getParcelas() {
+        return parcelas;
+    }
+
+    public void setParcelas(Parcelamentos parcelas) {
+        this.parcelas = parcelas;
+    }
+
+    public Integer getIdperiodico() {
+        return idperiodico;
+    }
+
+    public void setIdperiodico(Integer idperiodico) {
+        this.idperiodico = idperiodico;
+    }
+
+    public List<Missgeral> getMissgeral() {
+        return missgeral;
+    }
+
+    public void setMissgeral(List<Missgeral> missgeral) {
+        this.missgeral = missgeral;
     }
 
 }

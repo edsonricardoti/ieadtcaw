@@ -41,7 +41,5 @@ Contributor(s):
 -->
 <hibernate-reverse-engineering>
   <schema-selection match-catalog="dadosk"/>
-  <table-filter match-name="edicoes"/>
-  <table-filter match-name="periodico"/>
-  <table-filter match-name="parcelamentos"/>
+  <table-filter match-name="missgeral"/>
 </hibernate-reverse-engineering>

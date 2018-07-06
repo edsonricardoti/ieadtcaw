@@ -5,6 +5,7 @@
  */
 package Controle;
 
+import DAO.AssinaturaDAO;
 import javax.faces.bean.ManagedBean;
 
 import Modelo.Financeiro;
@@ -42,6 +43,7 @@ public class FinanceiroControle {
     private Financeiro financeiro;
     private FinanceiroDAO dao;
     private MembrosDAO mdao;
+    private AssinaturaDAO adao;
     private List<Membros> listaMembros;
     private Financeiro financeiroSelecionado;
     private List<Financeiro> listaFinanceiro;
@@ -65,6 +67,7 @@ public class FinanceiroControle {
     private Membros contribuintes;
     private Integer iddomembro;
     private Integer ano;
+    private List<Missgeral> missgeral;
 
 
     public FinanceiroControle() {
@@ -275,39 +278,10 @@ public class FinanceiroControle {
     }
 
     public void buscaGeralMissoes(int idperiodico) throws ParseException {
-        subtotal = BigDecimal.ZERO;
-        SubTotal = "";
-        mes = 0;
-        subDizimos = BigDecimal.ZERO;
-        subOfertas = BigDecimal.ZERO;
-        subAlcadas = BigDecimal.ZERO;
-        subVotos = BigDecimal.ZERO;
-        dizimoPormes = dao.buscarMissGeralPorPeriodo(dataini, datafim);
-        BigDecimal t = new BigDecimal(BigInteger.ZERO);
-        BigDecimal dizimo = new BigDecimal(BigInteger.ZERO);
-        BigDecimal oferta = new BigDecimal(BigInteger.ZERO);
-        BigDecimal alcada = new BigDecimal(BigInteger.ZERO);
-        BigDecimal votos = new BigDecimal(BigInteger.ZERO);
-        for (Relatorios r : dizimoPormes) {
-
-            t = t.add(r.getOfertas());
-            t = t.add(r.getAlcadas());
-            t = t.add(r.getVotos());
-            t = t.add(r.getDizimos());
-            dizimo = dizimo.add(r.getDizimos());
-            oferta = oferta.add(r.getOfertas());
-            alcada = alcada.add(r.getAlcadas());
-            votos = votos.add(r.getVotos());
-
-            subOfertas = oferta;
-            subAlcadas = alcada;
-            subVotos = votos;
-            subDizimos = dizimo;
-            NumberFormat nf = new DecimalFormat("###,##0.00");
-            subtotal = t; //total geral no fim do relatorio
-            SubTotal = nf.format(this.subtotal);
-            //SubTotal = subtotal.toString().replace(".", ",");
-        }
+        //gera planilha de missoes com a situacao dos assinantes
+        adao = new AssinaturaDAO();
+        missgeral = adao.buscaFinanceiroGeral(idperiodico);
+        
     }
 
     public void buscaPorAno(int ano) throws ParseException {
@@ -632,6 +606,14 @@ public class FinanceiroControle {
 
     public void setAno(Integer ano) {
         this.ano = ano;
+    }
+
+    public List<Missgeral> getMissgeral() {
+        return missgeral;
+    }
+
+    public void setMissgeral(List<Missgeral> missgeral) {
+        this.missgeral = missgeral;
     }
 
 }

@@ -158,21 +158,21 @@ public class AssinaturaDAO {
         }
     }
 
-    public List<Assinantes> buscaFinanceiroGeral(int id) throws ParseException {
+    public List<Missgeral> buscaFinanceiroGeral(int id) throws ParseException {
 
         try {
 
             session = getSessionFactory().openSession();
             Transaction t = session.beginTransaction();
-            Query financeiro = session.createQuery("select a.datacadastro,  m.membrosNome as nome,m.membrosFone as fone1,m.membrosCelular as fone2,a.modalidade as modalidade,\n"
-                    + "(select count(1) from Parcelamentos as pp where pp.idmembro=a.idmembro and pp.idperiodico=a.idperiodico and pp.datapagamento is not null)  as parcelaspg,\n"
-                    + "a.valortotal,(select pp.datapagamento from Parcelamentos as pp where pp.idmembro=a.idmembro and pp.idperiodico=a.idperiodico and pp.numparcela=1) as parcela1,\n"
+            Query financeiro = session.createQuery("select a.datacadastro as datacadastro, m.membrosNome as nome,m.membrosFone as fone1,m.membrosCelular as fone2,a.modalidade as modalidade,\n"
+                    + "(select count(1) from Parcelamentos as pp where pp.idmembro = a.idmembro and pp.idperiodico = a.idperiodico and pp.datapagamento is not null) as parcelaspg,\n"
+                    + "a.valortotal as valortotal,(select pp.datapagamento from Parcelamentos as pp where pp.idmembro=a.idmembro and pp.idperiodico=a.idperiodico and pp.numparcela=1) as parcela1,\n"
                     + "(select pp.datapagamento from Parcelamentos as pp where pp.idmembro=a.idmembro and pp.idperiodico=a.idperiodico and pp.numparcela=2) as parcela2,\n"
                     + "(select pp.datapagamento from Parcelamentos as pp where pp.idmembro=a.idmembro and pp.idperiodico=a.idperiodico and pp.numparcela=3) as parcela3,\n"
-                    + "a.ed1,a.ed2,a.ed3,a.ed4,a.ed5,a.ed6,a.ed7,a.ed8,a.ed9,a.ed10,a.ed11,a.ed12\n"
-                    + "from Membros as m, Assinatura as a,Parcelamentos as p\n"
-                    + "where m.idmembros=a.idmembro and a.idmembro=p.idmembro and a.idperiodico=p.idperiodico and a.idperiodico=:id\n"
-                    + "group by a.idmembro,a.idperiodico")
+                    + "a.ed1 as ed1,a.ed2 as ed2,a.ed3 as ed3,a.ed4 as ed4,a.ed5 as ed5,a.ed6 as ed6,a.ed7 as ed7,a.ed8 as ed8,a.ed9 as ed9,a.ed10 as ed10,a.ed11 as ed11,a.ed12 as ed12 \n"
+                    + " from Membros as m, Assinatura as a,Parcelamentos as p\n"
+                    + " where m.idmembros = a.idmembro and a.idmembro = p.idmembro and a.idperiodico = p.idperiodico and a.idperiodico =:id \n"
+                    + " group by a.idmembro,a.idperiodico")
                     .setInteger("id", id)
                     .setMaxResults(10000)
                     .setResultTransformer(Transformers.aliasToBean(Missgeral.class));
@@ -180,7 +180,7 @@ public class AssinaturaDAO {
                 t.commit();
             }
 
-            List<Assinantes> resultado = financeiro.list();
+            List<Missgeral> resultado = financeiro.list();
 
             return resultado;
 

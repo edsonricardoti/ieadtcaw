@@ -20,9 +20,11 @@
                                            var="revista"
                                            itemLabel="#{revista.titulo}"
                                            itemValue="#{revista.idperiodico}"/>
+                            <p:ajax event="change" update="bt"/>
                         </p:selectOneMenu>
-                        <p:commandButton id="bt" value="Buscar" style="font-size: 10px;"
-                                         action="#{financeiroControle.buscaGeralMissoes(assinaturaControle.idperiodico)}" update="pg" />
+                        <p:commandButton id="bt" value="Buscar" style="font-size: 10px;" disabled="#{assinaturaControle.idperiodico eq 0?true:false}"
+                                         action="#{financeiroControle.buscaGeralMissoes(assinaturaControle.idperiodico)}"
+                                         immediate="true" update="pg" />
                     </p:panelGrid>
                     <p:panel id="pg" style="font-size: 10px;">
                         <style type="text/css">
@@ -37,107 +39,95 @@
                                 padding: 0px 0px;
                             }
                         </style>
-                            <p:dataTable id="tbl" value="#{assinaturaControle.missgeral}"
-                                         var="assina" rowKey="#{dizimo.id}"
+                            <p:dataTable id="tbl" value="#{financeiroControle.missgeral}"
+                                         var="assina" rowKey="#{assina.id}"
                                          emptyMessage="Nenhum registro retornado.">
 
                             <f:facet name="header" id="exp">
-                                MISSÕES - SITUAÇÃO DOS ASSINANTES - #{assinaturaControle.PegaPeriodico(assinaturaControle.idperiodico)}  style="font-size: 10px; text-transform: uppercase;">
+                                MISSÕES - SITUAÇÃO DOS ASSINANTES - #{assinaturaControle.PegaPeriodico(assinaturaControle.idperiodico)}
                             </f:facet>
-                            <p:column headerText="Data Assinatura" style="font-size: 10px; width: 20px;" sortable="true" sortBy="#{membros.membrosDtBatismo}">
+                            <p:columnGroup type="header">
+                                <p:row>
+                                    <p:column colspan="9" headerText="Assinatura"/>
+                                    <p:column colspan="12" headerText="Exemplares entregues"/>
+                                </p:row>                                
+
+                                <p:row>
+                                    <p:column headerText="Data Assinatura" style="font-size: 10px; width: 20px;" />
+                                    <p:column headerText="Nome" style="font-size: 10px; width: 150px;"/>
+                                    <p:column headerText="Modalidade" style="font-size: 10px; width: 150px;"/>
+                                    <p:column headerText="Parc. Pagas" style="font-size: 10px; width: 150px;"/>
+                                    <p:column headerText="Valor Pag." style="font-size: 10px; font-family:  sans-serif; text-align: right;" />
+                                    <p:column headerText="Data Pag. 1ª Parc." style="font-size: 10px; width: 20px;"/>
+                                    <p:column headerText="Data Pag. 2ª Parc." style="font-size: 10px; width: 20px;" />
+                                    <p:column headerText="Data Pag. 3ª Parc." style="font-size: 10px; width: 20px;"/>
+                                    <p:column headerText="Contatos" style="font-size: 10px; width: 150px;" sortable="true"/>
+
+                                    <p:column headerText="1º" style="font-size: 10px;"/>
+                                    <p:column headerText="2º" style="font-size: 10px;"/>
+                                    <p:column headerText="3º" style="font-size: 10px;"/>
+                                    <p:column headerText="4º" style="font-size: 10px;"/>
+                                    <p:column headerText="5º" style="font-size: 10px;"/>
+                                    <p:column headerText="6º" style="font-size: 10px;"/>
+                                    <p:column headerText="7º" style="font-size: 10px;"/>
+                                    <p:column headerText="8º" style="font-size: 10px;"/>
+                                    <p:column headerText="9º" style="font-size: 10px;"/>
+                                    <p:column headerText="10º" style="font-size: 10px;"/>
+                                    <p:column headerText="11º" style="font-size: 10px;"/>
+                                    <p:column headerText="12º" style="font-size: 10px;"/>
+
+                                </p:row>
+                            </p:columnGroup>
+
+                            <p:column>
                                 <p:outputLabel id="Cadastro" value="#{assina.datacadastro}"  style="font-size: 10px;">
                                     <f:convertDateTime pattern="dd/MM/yyyy"/>
                                 </p:outputLabel>
                             </p:column>
-                            <p:column headerText="Nome" style="font-size: 10px; width: 150px;" sortable="true">
+                            <p:column>
                                 <p:outputLabel value="#{assina.nome}" style="font-size: 10px; text-transform: uppercase;"/>
                             </p:column>
-                            <p:column headerText="Modalidade" style="font-size: 10px; width: 150px;" sortable="true" >
-                                <p:outputLabel value="#{assina.modalidade eq 'pazo'?'Parcelado':'Á vista'}" style="font-size: 10px; text-transform: uppercase;"/>
+                            <p:column>
+                                <p:outputLabel value="#{assina.modalidade eq 'avista'?'À vista':'Parcelado'}" style="font-size: 10px; text-transform: uppercase;"/>
                             </p:column>
-                            <p:column headerText="Parc. Pagas" style="font-size: 10px; width: 150px;" >
+                            <p:column >
                                 <p:outputLabel value="#{assina.parcelaspg}" style="font-size: 10px; text-transform: uppercase;"/>
                             </p:column>
-                            <p:column headerText="Valor Pag." style="font-size: 10px; font-family:  sans-serif; text-align: right;" width="55">
-                                <p:outputLabel value="#{assina.valortotal}">
+                            <p:column>
+                                <p:outputLabel value="#{assina.valortotal}"  style="font-size: 10px; text-transform: uppercase;">
                                     <f:convertNumber pattern="#,##0.00" minFractionDigits="2"/>
                                 </p:outputLabel>
                             </p:column>
-                            <p:column headerText="Data Pag. 1ª Parc." style="font-size: 10px; width: 20px;" >
+                            <p:column>
                                 <p:outputLabel id="data1" value="#{assina.parcela1}"  style="font-size: 10px;">
                                     <f:convertDateTime pattern="dd/MM/yyyy"/>
                                 </p:outputLabel>
                             </p:column>
-                            <p:column headerText="Data Pag. 2ª Parc." style="font-size: 10px; width: 20px;" >
+                            <p:column>
                                 <p:outputLabel id="data2" value="#{assina.parcela2}"  style="font-size: 10px;">
                                     <f:convertDateTime pattern="dd/MM/yyyy"/>
                                 </p:outputLabel>
                             </p:column>
-                            <p:column headerText="Data Pag. 3ª Parc." style="font-size: 10px; width: 20px;">
+                            <p:column>
                                 <p:outputLabel id="data3" value="#{assina.parcela3}"  style="font-size: 10px;">
                                     <f:convertDateTime pattern="dd/MM/yyyy"/>
                                 </p:outputLabel>
                             </p:column>
-                            <p:column headerText="Contatos" style="font-size: 10px; width: 150px;" sortable="true">
+                            <p:column>
                                 <p:outputLabel value="#{assina.fone1} #{assina.fone2}" style="font-size: 10px; text-transform: uppercase;"/>
                             </p:column>
-                            <p:columnGroup type="header">
-                                <p:row>
-                                    <p:column colspan="12" headerText="Recebimento de Ediçoes" />
-                                </p:row>
-                                <p:row>                                   
-                                    <p:column headerText="#{assina.ed1}" />
-                                    <p:column headerText="#{assina.ed2}" />
-                                    <p:column headerText="#{assina.ed3}" />
-                                    <p:column headerText="#{assina.ed4}" />
-                                    <p:column headerText="#{assina.ed5}" />
-                                    <p:column headerText="#{assina.ed6}" />
-                                    <p:column headerText="#{assina.ed7}" />
-                                    <p:column headerText="#{assina.ed8}" />
-                                    <p:column headerText="#{assina.ed9}" />
-                                    <p:column headerText="#{assina.ed10}" />
-                                    <p:column headerText="#{assina.ed11}" />
-                                    <p:column headerText="#{assina.ed12}" />
-                                </p:row>
-                            </p:columnGroup>
-
-
-                            <f:facet name="footer" id="fim">
-                                <p:panelGrid columns="5" style="text-align: right">
-                                    <p:column width="55">
-                                        <p:outputLabel value="" style="font-size: 10px; font-family:  sans-serif; text-align: left;  font-weight: bold; width: 12px;">
-
-                                        </p:outputLabel>
-                                    </p:column>
-                                    <p:column width="55">
-                                        <p:outputLabel value="#{financeiroControle.subDizimos}" style="width: 55px; font-size: 12px; font-family:  sans-serif; text-align: right; font-weight: bold;">
-                                            <f:convertNumber pattern="#,##0.00" minFractionDigits="2"/>
-                                        </p:outputLabel>
-                                    </p:column>
-                                    <p:column width="55">
-                                        <p:outputLabel value="#{financeiroControle.subOfertas}" style="font-size: 12px; font-family:  sans-serif; text-align: right; font-weight: bold;">
-                                            <f:convertNumber pattern="#,##0.00" minFractionDigits="2"/>
-                                        </p:outputLabel>
-                                    </p:column>
-                                    <p:column width="55">
-                                        <p:outputLabel value="#{financeiroControle.subAlcadas}" style="font-size: 12px; font-family:  sans-serif; text-align: right; font-weight: bold;">
-                                            <f:convertNumber pattern="#,##0.00" minFractionDigits="2"/>
-                                        </p:outputLabel>
-                                    </p:column>
-                                    <p:column width="55">
-                                        <p:outputLabel value="#{financeiroControle.subVotos}" style="font-size: 12px; font-family:  sans-serif; text-align: right; font-weight: bold;">
-                                            <f:convertNumber pattern="#,##0.00" minFractionDigits="2"/>
-                                        </p:outputLabel>
-                                    </p:column>
-
-                                </p:panelGrid>
-                                <div align="left">
-                                    <p:outputLabel value="Total no periodo: #{financeiroControle.subTotal}" style="font-size: 12px; font-family:  sans-serif; text-align: right; font-weight: bold;">
-                                        <f:convertNumber pattern="#,##0.00" minFractionDigits="2" />
-                                    </p:outputLabel>
-                                </div>
-
-                            </f:facet>
+                            <p:column><h:outputText value="#{assina.ed1}"/></p:column>
+                            <p:column><h:outputText value="#{assina.ed2}"/></p:column>
+                            <p:column><h:outputText value="#{assina.ed3}"/></p:column>
+                            <p:column><h:outputText value="#{assina.ed4}"/></p:column>
+                            <p:column><h:outputText value="#{assina.ed5}"/></p:column>
+                            <p:column><h:outputText value="#{assina.ed6}"/></p:column>
+                            <p:column><h:outputText value="#{assina.ed7}"/></p:column>
+                            <p:column><h:outputText value="#{assina.ed8}"/></p:column>
+                            <p:column><h:outputText value="#{assina.ed9}"/></p:column>
+                            <p:column><h:outputText value="#{assina.ed10}"/></p:column>
+                            <p:column><h:outputText value="#{assina.ed11}"/></p:column>
+                            <p:column><h:outputText value="#{assina.ed12}"/></p:column>
 
                         </p:dataTable>
 

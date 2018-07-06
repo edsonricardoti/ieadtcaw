@@ -32,7 +32,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
 import javax.faces.bean.SessionScoped;
-import org.primefaces.event.CellEditEvent;
 import org.primefaces.event.RowEditEvent;
 
 @ManagedBean
@@ -79,6 +78,7 @@ public class AssinaturaControle implements Serializable {
         dao = new AssinaturaDAO();
         assinaturaSelecionado = new Assinatura();
         parcelas = new Parcelamentos();
+        idperiodico = 0;
 
     }
 
@@ -94,6 +94,7 @@ public class AssinaturaControle implements Serializable {
         isRederiza = false;
         periodicos = revista.selectAll();
         parcelas = new Parcelamentos();
+        idperiodico = 0;
 
         assinaturaSelecionado = new Assinatura();
         //listaMembros = mdao.selectAll();
@@ -288,7 +289,7 @@ public class AssinaturaControle implements Serializable {
         Calendar calendar = new GregorianCalendar();
         Date date = new Date();
         calendar.setTime(date);
-        assinatura.setDatadatacadastro(calendar.getTime());
+        assinatura.setDatacadastro(calendar.getTime());
         assinatura.setIdmembro(idmembros);
         assinatura.setValortotal(periodico.getValor());
         // EdicoesDAO edao = new EdicoesDAO();

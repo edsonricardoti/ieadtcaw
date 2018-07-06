@@ -108,11 +108,11 @@ public class Assinatura implements java.io.Serializable {
 
     @Temporal(TemporalType.DATE)
     @Column(name = "datacadastro", length = 10)
-    public Date getDatadatacadastro() {
+    public Date getDatacadastro() {
         return this.datacadastro;
     }
 
-    public void setDatadatacadastro(Date datacadastro) {
+    public void setDatacadastro(Date datacadastro) {
         this.datacadastro = datacadastro;
     }
 

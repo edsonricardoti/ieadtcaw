@@ -58,7 +58,7 @@
 
                         </p:submenu>
                         <p:submenu label="Avisos/Eventos" icon="ui-icon-mail-closed">
-                            <p:menuitem value="Agenda" icon="ui-icon-circle-plus" ajax="false" url="/sistema/avisos/agenda.xhtml"/>
+                            <p:menuitem value="Agenda" icon="ui-icon-clock" ajax="false" url="/sistema/avisos/agenda.xhtml"/>
                             <p:menuitem value="Consultar/Alterar/Excluir" ajax="false" icon="ui-icon-folder-open" url="/sistema/avisos/alterar.xhtml" />
 
                         </p:submenu>
@@ -75,10 +75,10 @@
                             <p:menuitem value="Incluir" icon="ui-icon-circle-plus" ajax="false" url="/sistema/alunos/cadastro.xhtml"/>
                             <p:menuitem value="Consultar/Alterar/Excluir" ajax="false" icon="ui-icon-folder-open" url="/sistema/alunos/consultar.xhtml"/>
                         </p:submenu>                        
-                        <p:menuitem value="Relatório Presença Sintético" ajax="false" url="/sistema/listagens/presencas.xhtml"/>
-                        <p:menuitem value="Relatório Presença Detalhado" ajax="false" url="/sistema/listagens/presencaaluno.xhtml"/>
-                        <p:menuitem value="Relatório de Alunos" ajax="false"  url="/sistema/listagens/alunos.xhtml" />
-                        <p:menuitem value="Gráfico comparativo das presenças por períodos e classes" ajax="false" url="/sistema/listagens/grporclasse.xhtml" />
+                        <p:menuitem value="Relatório Presença Sintético" icon="ui-icon-print" ajax="false" url="/sistema/listagens/presencas.xhtml"/>
+                        <p:menuitem value="Relatório Presença Detalhado" icon="ui-icon-print" ajax="false" url="/sistema/listagens/presencaaluno.xhtml"/>
+                        <p:menuitem value="Relatório de Alunos" ajax="false" icon="ui-icon-print"  url="/sistema/listagens/alunos.xhtml" />
+                        <p:menuitem value="Gráfico comparativo das presenças por períodos e classes" icon="ui-icon-image" ajax="false" url="/sistema/listagens/grporclasse.xhtml" />
                     </p:submenu>
                     <p:submenu label="Financeiro" icon="ui-icon-calculator" rendered="#{usuarioControle.usuario.financeiro or usuarioControle.usuario.administracao}">
                         <p:submenu label="Dízimos" icon="ui-icon-transferthick-e-w">
@@ -112,14 +112,14 @@
                             <p:menuitem value="Consultar/Alterar/Excluir" ajax="false" icon="ui-icon-folder-open" url="/sistema/despesaveiculo/consultar.xhtml"/>
                             <p:menuitem value="Quilometragem" ajax="false" />
                             <p:menuitem value="Controle de Rotas" ajax="false" />
-                            <p:menuitem value="Gráfico comparativo por período Gasolina X Manutenção" ajax="false" url="/sistema/listagens/grgasolina.xhtml" />
+                            <p:menuitem value="Gráfico comparativo por período Gasolina X Manutenção" icon="ui-icon-image" ajax="false" url="/sistema/listagens/grgasolina.xhtml" />
                         </p:submenu>
                         <p:submenu label="Relatórios">
-                            <p:menuitem value="Dízimo por Mês" ajax="false" url="/sistema/listagens/dizimopormes.xhtml" />
-                            <p:menuitem value="Dízimo por Ano" ajax="false" url="/sistema/listagens/dizimoporano.xhtml" />
-                            <p:menuitem value="Dízimo por Período" ajax="false" url="/sistema/listagens/dizimoporperiodo.xhtml"/>
-                            <p:menuitem value="Dízimo por Membro" ajax="false" url="/sistema/listagens/dizimopormembro.xhtml" />
-                            <p:menuitem value="Financeiro Geral" ajax="false" url="/sistema/listagens/financeirogeral.xhtml"/>
+                            <p:menuitem value="Dízimo por Mês" icon="ui-icon-print" ajax="false" url="/sistema/listagens/dizimopormes.xhtml" />
+                            <p:menuitem value="Dízimo por Ano" icon="ui-icon-print" ajax="false" url="/sistema/listagens/dizimoporano.xhtml" />
+                            <p:menuitem value="Dízimo por Período" icon="ui-icon-print" ajax="false" url="/sistema/listagens/dizimoporperiodo.xhtml"/>
+                            <p:menuitem value="Dízimo por Membro" icon="ui-icon-print" ajax="false" url="/sistema/listagens/dizimopormembro.xhtml" />
+                            <p:menuitem value="Financeiro Geral" icon="ui-icon-print" ajax="false" url="/sistema/listagens/financeirogeral.xhtml"/>
                         </p:submenu>
 
                     </p:submenu>
@@ -144,16 +144,16 @@
                             <p:menuitem value="Incluir" icon="ui-icon-circle-plus" ajax="false" url="/sistema/missalcadas/cadastro.xhtml" />
                             <p:menuitem value="Consultar/Alterar/Excluir" ajax="false" icon="ui-icon-folder-open" url="/sistema/missalcadas/consultar.xhtml"/>
                         </p:submenu>
-                        <p:menuitem value="Financeiro Geral" ajax="false" url="/sistema/listagens/missfinanceirogeral.xhtml"/>
-                        <p:menuitem value="Situacao geral de assinantes" ajax="false" url="/sistema/listagens/missgeral.xhtml" />
+                        <p:menuitem value="Financeiro Geral" icon="ui-icon-calculator" ajax="false" url="/sistema/listagens/missfinanceirogeral.xhtml"/>
+                        <p:menuitem value="Financeiro por Periódico" icon="ui-icon-document" ajax="false" url="/sistema/listagens/missgeral.xhtml" />
 
                     </p:submenu>
                     <p:submenu id="mr" label="Relatórios do Cadastro" icon="ui-icon-print" rendered="#{usuarioControle.usuario.secretaria or usuarioControle.usuario.administracao}">
-                        <p:menuitem value="Membros" ajax="false" url="/sistema/listagens/membros.xhtml"/>
-                        <p:menuitem value="Crianças" ajax="false" url="/sistema/listagens/criancas.xhtml" />                        
-                        <p:menuitem value="Aniversariantes" ajax="false" url="/sistema/listagens/aniversariantes.xhtml" />
-                        <p:menuitem value="Aniversário de casamento" ajax="false" url="/sistema/listagens/casados.xhtml" />                        
-                        <p:menuitem value="Por estado civil" ajax="false" url="/sistema/listagens/membrosporestcivil.xhtml" />
+                        <p:menuitem value="Membros" ajax="false" icon="ui-icon-print" url="/sistema/listagens/membros.xhtml"/>
+                        <p:menuitem value="Crianças" ajax="false" icon="ui-icon-print" url="/sistema/listagens/criancas.xhtml" />
+                        <p:menuitem value="Aniversariantes" ajax="false" icon="ui-icon-print" url="/sistema/listagens/aniversariantes.xhtml" />
+                        <p:menuitem value="Aniversário de casamento" icon="ui-icon-print" ajax="false" url="/sistema/listagens/casados.xhtml" />
+                        <p:menuitem value="Por estado civil" ajax="false" icon="ui-icon-print" url="/sistema/listagens/membrosporestcivil.xhtml" />
                     </p:submenu>
                     <p:menuitem value="Saír" icon="ui-icon-power" ajax="false" action="#{usuarioControle.logOFF()}"/>
 

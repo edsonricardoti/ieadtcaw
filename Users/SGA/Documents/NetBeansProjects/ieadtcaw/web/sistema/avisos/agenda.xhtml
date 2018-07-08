@@ -16,7 +16,8 @@
             <ui:define name="content">              
 
                 <h:form id="frm1" prependId="false" >
-                    <p:growl id="messages" showDetail="true" />
+
+                    <p:growl id="messages"  />
 
                     <div align="left">
                         <h:outputLabel value="Agenda de eventos" style="font-size: 24px; font-weight: bold;"/>
@@ -42,15 +43,14 @@
                         <p:ajax event="eventResize" listener="#{avisoControle.onEventResize}" update="messages" />
 
                     </p:schedule>
-                    <p:dialog widgetVar="eventDialog"
-                              header="Datalhe do evento" style="width: 800px; height: 640px; margin-top: -150px;"
-                              showEffect="clip" maximizable="true"
-                              hideEffect="clip">
-                        <h:panelGrid id="eventDetails" columns="6">
+                    <p:dialog widgetVar="eventDialog" height="584" width="886"
+                              header="Datalhe do evento" 
+                              maximizable="true">
+                        <h:panelGrid id="eventDetails" columns="6" style="font-size: 11px;">
                             <p:outputLabel for="title" value="Título:" />
                             <p:inputText id="title" value="#{avisoControle.event.title}" required="true"
                                          requiredMessage="O título é obrigatório!"
-                                         style="text-transform: uppercase;"/>
+                                         style="text-transform: uppercase; width: 300px;"/>
 
                             <p:outputLabel for="from" value="Início:" />
                             <p:calendar id="from" value="#{avisoControle.event.startDate}" locale="pt" timeZone="GMT-3" pattern="dd/MM/yyyy HH:mm"/>
@@ -59,7 +59,7 @@
                             <p:calendar id="to" value="#{avisoControle.event.endDate}" locale="pt" timeZone="GMT-3" pattern="dd/MM/yyyy HH:mm"/>
                         </h:panelGrid>
                         <h:panelGrid id="pg" columns="1" style="font-family: Helvetica, Verdana, sans-serif;">
-                            <p:editor id="editor" widgetVar="editorWidget" value="#{avisoControle.avisoSelecionado.descriAviso}" width="680" height="300" />
+                            <p:editor id="editor" widgetVar="editorWidget" value="#{avisoControle.avisoSelecionado.descriAviso}" width="800" height="270" />
                             <p:panel id="p1">                               
                                 <p:panel style="width: 750px;">
                                     <p:fileUpload fileUploadListener="#{avisoControle.processFileUploadDigital}"
@@ -82,9 +82,9 @@
 
                                 </p:panel>
                             </p:panel>
-                            <p:panelGrid columns="2">
-                                <p:commandButton value="Excluir" action="#{avisoControle.delete(avisoControle.avisoSelecionado)}" update="@form" />
+                            <p:panelGrid columns="2">                                
                                 <p:commandButton id="addButton" value="Salvar" actionListener="#{avisoControle.insert()}" oncomplete="PF('myschedule').update();PF('eventDialog').hide();" />
+                                <p:commandButton value="Fechar" onclick="PF('eventDialog').hide();" />
                             </p:panelGrid>
                         </h:panelGrid>
                     </p:dialog>  

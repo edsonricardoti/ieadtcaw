@@ -74,6 +74,9 @@ public class AvisoControle implements Serializable {
 
     @PostConstruct
     public void Init() {
+        event = new DefaultScheduleEvent();
+        eventModel = new DefaultScheduleModel();
+        eventModel.clear();
         Calendar cal = GregorianCalendar.getInstance();
         cal.setTime(now().toDate());
         avisoSelecionado = new Avisos();
@@ -144,7 +147,6 @@ public class AvisoControle implements Serializable {
         avisoSelecionado.setDataFinal(c.getTime());
         update();
 
-
         addMessage(message);
     }
 
@@ -165,7 +167,6 @@ public class AvisoControle implements Serializable {
         dao = new AvisoDAO();
         listaAviso = dao.selectAll();
 
-
     }
 
     public void leuAviso(int l) {
@@ -180,6 +181,10 @@ public class AvisoControle implements Serializable {
 
     public void limpaCampo(int l) {
         aviso = new Avisos();
+        event = new DefaultScheduleEvent();
+        eventModel = new DefaultScheduleModel();
+        eventModel.clear();
+
     }
 
     public String getRealPath() {
@@ -257,7 +262,6 @@ public class AvisoControle implements Serializable {
             aviso.setArquivoAviso(avisoSelecionado.getArquivoAviso());
             eventModel.updateEvent(event);
 
-
             if (dao.update(aviso)) {
                 Init();
                 addInfoMessage("Aviso/Evento alterado!");
@@ -271,6 +275,7 @@ public class AvisoControle implements Serializable {
 
     public void delete(Avisos aviso) {
         if (dao.delete(aviso)) {
+
             addInfoMessage("Aviso excluido!");
         } else {
             addInfoMessage("Selecione um aviso!");

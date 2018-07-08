@@ -36,14 +36,17 @@
                             }
 
                         </style>
+                            <div style=" text-align: center; font-size: 12px;">
+                                <p:outputLabel value="RELATÓRIO FINANCEIRO - #{assinaturaControle.PegaPeriodico(assinaturaControle.idperiodico)}"
+                                               style=" text-transform: uppercase;"/>
+                            </div>
                             <p:dataTable id="tbl" value="#{financeiroControle.missgeral}"
-                                         var="assina" resizeMode="fit"
+                                         var="assina" 
                                          rowKey="#{assina.id}" style=" width: 100%;  "
                                          emptyMessage="Nenhum registro retornado.">
 
                             <f:facet name="header" id="exp">
-                                <p:outputLabel value="RELATÓRIO FINANCEIRO - #{assinaturaControle.PegaPeriodico(assinaturaControle.idperiodico)}"/>
-                                <p:outputLabel value="SETORIAL:2 SETROR:19 CONGREGAÇÃO ALVARO WEYNE"/>
+                                <p:outputLabel value="SETORIAL:2 SETROR:19 CONGREGAÇÃO ALVARO WEYNE" style="font-size: 12px; text-transform: uppercase;"/>
                             </f:facet>
                             <p:columnGroup type="header">
                                 <p:row>
@@ -53,9 +56,9 @@
                                 </p:row>                                
 
                                 <p:row>
-                                    <p:column headerText="Data Assinatura" style="font-size: 9px;" width="15"/>
-                                    <p:column headerText="Nome" width="150" colspan="3" style=" font-size: 9px; "  />
-                                    <p:column headerText="Modalidade" style="font-size: 9px; " width="5"/>
+                                    <p:column headerText="Data Assinatura" style="font-size: 9px;" width="15" sortable="true" sortBy="#{assina.datacadastro}"/>
+                                    <p:column headerText="Nome" width="150" colspan="3" style=" font-size: 9px; " sortable="true" sortBy="#{assina.nome}" />
+                                    <p:column headerText="Modalidade" style="font-size: 9px; " width="5" sortable="true" sortBy="#{assina.modalidade}"/>
                                     <p:column headerText="Parcelas Pagas" style="font-size: 9px; " width="5"/>
                                     <p:column headerText="Valor Pago" style="font-size: 9px; text-align: right;" width="10" />
                                     <p:column headerText="Data Pagamento 1ª Parc." style="font-size: 9px; " width="10"/>
@@ -88,15 +91,15 @@
                             <p:column  width="150" colspan="3">
                                 <p:outputLabel value="#{assina.nome}" style="font-size: 9px; text-transform: uppercase; width: 150px;"/>
                             </p:column>
-                                <p:column width="5">
-                                    <p:outputLabel value="#{assina.modalidade eq 'avista'?'À vista':'Parcel.'}" style="font-size: 9px; text-transform: uppercase;"/>
-                                </p:column>
-                                <p:column  width="5" style=" text-align: center;">
-                                    <p:outputLabel value="#{assina.parcelaspg}" style="font-size: 9px; text-transform: uppercase;"/>
-                                </p:column>
-                                <p:column style=" text-align: right;">
-                                    <p:outputLabel value="#{assina.valortotal}"  style="font-size: 9px; text-transform: uppercase;">
-                                        <f:convertNumber pattern="#,##0.00" minFractionDigits="2"/>
+                            <p:column width="5">
+                                <p:outputLabel value="#{assina.modalidade eq 'avista'?'À vista':'Parcel.'}" style="font-size: 9px; text-transform: uppercase;"/>
+                            </p:column>
+                            <p:column  width="5" style=" text-align: center;">
+                                <p:outputLabel value="#{assina.parcelaspg}" style="font-size: 9px; text-transform: uppercase;"/>
+                            </p:column>
+                            <p:column style=" text-align: right;">
+                                <p:outputLabel value="#{assina.valortotal}"  style="font-size: 9px; text-transform: uppercase;">
+                                    <f:convertNumber pattern="#,##0.00" minFractionDigits="2"/>
                                 </p:outputLabel>
                             </p:column>
                             <p:column>
@@ -115,22 +118,24 @@
                                 </p:outputLabel>
                             </p:column>
                             <p:column>
-                                <p:outputLabel value="#{assina.fone1}" style="font-size: 8px; text-transform: uppercase;"/>
+                                <p:outputLabel value="#{assina.fone1}" style="font-size: 9px; text-transform: uppercase;"/>
                             </p:column>
-                                <p:column><h:outputText value="#{assina.ed1 eq true?'X':''}" style=" text-align:  center; font-size: 7px;"/></p:column>
-                                <p:column><h:outputText value="#{assina.ed2 eq true?'X':''}" style=" text-align:  center; font-size: 7px;"/></p:column>
-                                <p:column style=" text-align:  center; font-size: 7px;"><h:outputText value="#{assina.ed3 eq true?'X':''}" style=" text-align:  center; font-size: 7px;"/></p:column>
-                                <p:column style=" text-align:  center; font-size: 7px;"><h:outputText value="#{assina.ed4 eq true?'X':''}" style=" text-align:  center; font-size: 7px;"/></p:column>
-                                <p:column style=" text-align:  center; font-size: 7px;"><h:outputText value="#{assina.ed5 eq true?'X':''}" style=" text-align:  center; font-size: 7px;"/></p:column>
-                                <p:column style=" text-align:  center; font-size: 7px;"><h:outputText value="#{assina.ed6 eq true?'X':''}" style=" text-align:  center; font-size: 7px;"/></p:column>
-                                <p:column style=" text-align:  center; font-size: 7px;"><h:outputText value="#{assina.ed7 eq true?'X':''}" style=" text-align:  center; font-size: 7px;"/></p:column>
-                                <p:column style=" text-align:  center; font-size: 7px;"><h:outputText value="#{assina.ed8 eq true?'X':''}" style=" text-align:  center; font-size: 7px;"/></p:column>
-                                <p:column style=" text-align:  center; font-size: 7px;"><h:outputText value="#{assina.ed9 eq true?'X':''}" style=" text-align:  center; font-size: 7px;"/></p:column>
-                                <p:column style=" text-align:  center; font-size: 7px;"><h:outputText value="#{assina.ed10 eq true?'X':''}" style=" text-align:  center; font-size: 7px;"/></p:column>
-                                <p:column style=" text-align:  center; font-size: 7px;"><h:outputText value="#{assina.ed11 eq true?'X':''}" style=" text-align:  center; font-size: 7px;"/></p:column>
-                                <p:column style=" text-align:  center; font-size: 7px;"><h:outputText value="#{assina.ed12 eq true?'X':''}" style=" text-align:  center; font-size: 7px;"/></p:column>
-                                <p:column style="font-size: 9px; text-align:  center;">
-                                    <p:outputLabel value="tanto"/>
+                            <p:column><h:outputText value="#{assina.ed1 eq true?'X':''}" style=" text-align:  center; font-size: 7px;"/></p:column>
+                            <p:column><h:outputText value="#{assina.ed2 eq true?'X':''}" style=" text-align:  center; font-size: 7px;"/></p:column>
+                            <p:column style=" text-align:  center; font-size: 7px;"><h:outputText value="#{assina.ed3 eq true?'X':''}" style=" text-align:  center; font-size: 7px;"/></p:column>
+                            <p:column style=" text-align:  center; font-size: 7px;"><h:outputText value="#{assina.ed4 eq true?'X':''}" style=" text-align:  center; font-size: 7px;"/></p:column>
+                            <p:column style=" text-align:  center; font-size: 7px;"><h:outputText value="#{assina.ed5 eq true?'X':''}" style=" text-align:  center; font-size: 7px;"/></p:column>
+                            <p:column style=" text-align:  center; font-size: 7px;"><h:outputText value="#{assina.ed6 eq true?'X':''}" style=" text-align:  center; font-size: 7px;"/></p:column>
+                            <p:column style=" text-align:  center; font-size: 7px;"><h:outputText value="#{assina.ed7 eq true?'X':''}" style=" text-align:  center; font-size: 7px;"/></p:column>
+                            <p:column style=" text-align:  center; font-size: 7px;"><h:outputText value="#{assina.ed8 eq true?'X':''}" style=" text-align:  center; font-size: 7px;"/></p:column>
+                            <p:column style=" text-align:  center; font-size: 7px;"><h:outputText value="#{assina.ed9 eq true?'X':''}" style=" text-align:  center; font-size: 7px;"/></p:column>
+                            <p:column style=" text-align:  center; font-size: 7px;"><h:outputText value="#{assina.ed10 eq true?'X':''}" style=" text-align:  center; font-size: 7px;"/></p:column>
+                            <p:column style=" text-align:  center; font-size: 7px;"><h:outputText value="#{assina.ed11 eq true?'X':''}" style=" text-align:  center; font-size: 7px;"/></p:column>
+                            <p:column style=" text-align:  center; font-size: 7px;"><h:outputText value="#{assina.ed12 eq true?'X':''}" style=" text-align:  center; font-size: 7px;"/></p:column>
+                            <p:column style="font-size: 9px; text-align:  center;">
+                                <p:outputLabel value="#{assinaturaControle.valorperiodico-assina.valortotal}">
+                                    <f:convertNumber pattern="#,##0.00" minFractionDigits="2"/>
+                                </p:outputLabel>
                             </p:column>
 
                         </p:dataTable>

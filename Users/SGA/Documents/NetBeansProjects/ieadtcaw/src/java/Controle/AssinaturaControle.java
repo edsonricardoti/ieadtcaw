@@ -72,6 +72,7 @@ public class AssinaturaControle implements Serializable {
     private Integer idmembros;
     private Integer idperiodico;
     private List<Missgeral> missgeral;
+    private BigDecimal valorperiodico;
 
     public AssinaturaControle() {
         assinatura = new Assinatura();
@@ -151,6 +152,7 @@ public class AssinaturaControle implements Serializable {
         Periodico pediodico = new Periodico();
         periodico = revista.buscarPorID(idperiodico);
         if (periodico != null) {
+            valorperiodico = periodico.getValor();
             return periodico.getTitulo();
         } else {
             return "";
@@ -583,6 +585,14 @@ public class AssinaturaControle implements Serializable {
 
     public void setMissgeral(List<Missgeral> missgeral) {
         this.missgeral = missgeral;
+    }
+
+    public BigDecimal getValorperiodico() {
+        return valorperiodico;
+    }
+
+    public void setValorperiodico(BigDecimal valorperiodico) {
+        this.valorperiodico = valorperiodico;
     }
 
 }

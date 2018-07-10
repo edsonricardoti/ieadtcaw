@@ -16,6 +16,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.Serializable;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
@@ -77,6 +78,7 @@ public class AvisoControle implements Serializable {
         event = new DefaultScheduleEvent();
         eventModel = new DefaultScheduleModel();
         eventModel.clear();
+
         Calendar cal = GregorianCalendar.getInstance();
         cal.setTime(now().toDate());
         avisoSelecionado = new Avisos();
@@ -179,12 +181,18 @@ public class AvisoControle implements Serializable {
         avisoSelecionado = dao.buscarPorId(l);
     }
 
-    public void limpaCampo(int l) {
-        aviso = new Avisos();
+    public void limpaCampo() {
         event = new DefaultScheduleEvent();
         eventModel = new DefaultScheduleModel();
         eventModel.clear();
-
+        avisoSelecionado = new Avisos();
+        eventModel = new DefaultScheduleModel();
+        dao = new AvisoDAO();
+        aviso = new Avisos();
+        listaAviso = dao.selectAll();
+        for (int i = 0; i <= listaAviso.size() - 1; i++) {
+            eventModel.addEvent(new DefaultScheduleEvent(listaAviso.get(i).getTitulo(), listaAviso.get(i).getDataAviso(), listaAviso.get(i).getDataFinal(), listaAviso.get(i).getIdAviso()));
+        }
     }
 
     public String getRealPath() {
@@ -225,6 +233,32 @@ public class AvisoControle implements Serializable {
                     + " foi salvo.");
             getCurrentInstance().addMessage("msg", msg);
         } catch (IOException ex) {
+        }
+    }
+
+    public Date replicarData(Date data) {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(data);
+        int dias = calendar.getActualMaximum(Calendar.DAY_OF_MONTH);
+        int hoje = 0;
+        calendar.add(Calendar.DAY_OF_WEEK, 7);
+        //calendar.setTime(new Date());
+        hoje = Calendar.WEEK_OF_MONTH;
+        System.out.println("Data =" + sdf.format(calendar.getTime()) + " e Dias no mes=" + dias + " Dias da semana no mes=" + hoje);
+        //calendar.set(Calendar.HOUR_OF_DAY, 0);
+        //System.out.println(sdf.format(calendar.getTime()));
+
+        return calendar.getTime();
+
+    }
+
+    public void repetirAgenda(Avisos avisook) {
+        System.out.println("Aviso =" + avisook.getTitulo());
+        avisook.setDataAviso(replicarData(avisook.getDataAviso()));
+        avisook.setDataFinal(replicarData(avisook.getDataFinal()));
+        if (dao.insert(avisook)) {
+            System.out.println("Foi");
         }
     }
 

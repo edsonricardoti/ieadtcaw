@@ -13,7 +13,7 @@
             <h:form>
 
                 <p:menubar style="font-size: 18px;">
-                    <p:submenu label="Cadastro" icon="ui-icon-folder-collapsed" rendered="#{usuarioControle.usuario.administracao}">
+                    <p:submenu label="Cadastro" icon="ui-icon-folder-collapsed" rendered="#{usuarioControle.usuario.secretaria or usuarioControle.usuario.administracao}">
                         <p:submenu label="Membros/Congregados" icon="ui-icon-person">
                             <p:menuitem value="Incluir" icon="ui-icon-circle-plus" ajax="false" url="/sistema/membros/cadastro.xhtml">
                                 <p:ajax resetValues="true"/>

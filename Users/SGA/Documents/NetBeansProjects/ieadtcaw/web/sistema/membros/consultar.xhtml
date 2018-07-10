@@ -11,7 +11,9 @@
         <h:outputScript library="js" name="locale-primefaces.js"/>
         <ui:composition template="/layout.xhtml">            
             <ui:define name="content">
+
                 <h:form id="cadastro">
+
                     <p:panel header="Cadastro de Membros">
                         <p:messages id="messages" closable="true" style="font-size: 12px; text-align: center;" showIcon="false"/>
                         <p:remoteCommand action="#{membroControle.limpaFormulario()}" autoRun="true" update="grades,lista"/>

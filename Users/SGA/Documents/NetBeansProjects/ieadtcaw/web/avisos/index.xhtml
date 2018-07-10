@@ -1,0 +1,113 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+
+
+    <h:head>
+
+
+    </h:head>
+    <h:body>
+        <script type="text/javascript">
+            PrimeFaces.locales['pt'] = {
+                closeText: 'Fechar',
+                prevText: 'Anterior',
+                nextText: 'Próximo',
+                currentText: 'Começo',
+                monthNames: ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'],
+                monthNamesShort: ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun', 'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez'],
+                dayNames: ['Domingo', 'Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta', 'Sábado'],
+                dayNamesShort: ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb'],
+                dayNamesMin: ['D', 'S', 'T', 'Q', 'Q', 'S', 'S'],
+                weekHeader: 'Semana',
+                firstDay: 0,
+                isRTL: false,
+                showMonthAfterYear: false,
+                yearSuffix: '',
+                timeOnlyTitle: 'Só Horas',
+                timeText: 'Tempo',
+                hourText: 'Hora',
+                minuteText: 'Minuto',
+                secondText: 'Segundo',
+                ampm: false,
+                month: 'Mês',
+                week: 'Semana',
+                day: 'Dia',
+                allDayText: 'Todo o Dia'
+            };
+        </script>
+        <p:ajaxStatus onstart="PF('statusDialog').show()"
+                      onsuccess="PF('statusDialog').hide()" />
+        <p:dialog widgetVar="statusDialog"
+                  draggable="false"
+                  closable="false"
+                  resizable="false"
+                  modal="true"
+                  showHeader="false">
+            <p:graphicImage value="../../imagens/loader.gif"/>
+
+        </p:dialog>
+
+        <h:form id="frm1" prependId="false" >
+            <p:remoteCommand actionListener="#{avisoControle.limpaCampo}" autoRun="true" update="schedule" process="@this" immediate="true"/>
+            <p:growl id="messages"  />
+
+            <p:panel style="width: 100%;" header="Igreja Evangélica Assembéia de Deus Templo Central">
+                <p:outputLabel value="Congregação de Álvaro Weyne" style="font-size: 18px; font-family:  cursive; font-weight: bold;"/><br></br>
+            </p:panel>
+            <p:schedule id="schedule" value="#{avisoControle.eventModel}"
+                        widgetVar="myschedule"
+                        aspectRatio="2" locale="pt"
+                        centerHeaderTemplate="title"
+                        timeFormat="HH:mm"
+                        slotMinutes="30"
+                        firstHour="7"
+                        showWeekends="true"
+                        axisFormat="HH:mm"
+                        timeZone="GMT-3"
+                        allDaySlot="false"
+                        resizable="false"
+                        view="agendaWeek"
+                        style="width: 100%; height: 100%; font-size: 14px; text-transform: uppercase;">
+
+                <p:ajax event="dateSelect" listener="#{avisoControle.onDateSelect}" update="@form" oncomplete="PF('eventDialog').show();" />
+                <p:ajax event="eventSelect" listener="#{avisoControle.onEventSelect}" update="@form" oncomplete="PF('eventDialog').show();" />
+                <p:ajax event="eventMove" listener="#{avisoControle.onEventMove}" update="messages" />
+                <p:ajax event="eventResize" listener="#{avisoControle.onEventResize}" update="messages" />
+
+            </p:schedule>
+            <p:dialog widgetVar="eventDialog" height="600" width="90%"
+                      header="Datalhe do evento" 
+                      maximizable="true">
+                <h:panelGrid id="eventDetails" columns="6" style="font-size: 11px;">
+                    <p:outputLabel for="title" value="Título:" />
+                    <p:outputLabel id="title" value="#{avisoControle.event.title}"  style="text-transform: uppercase; width: 300px;"/>
+
+                    <p:outputLabel for="from" value="Início:" />
+                    <p:calendar id="from" value="#{avisoControle.event.startDate}" locale="pt" timeZone="GMT-3" pattern="dd/MM/yyyy HH:mm" disabled="true"/>
+
+                    <p:outputLabel for="to" value="Fim:" />
+                    <p:calendar id="to" value="#{avisoControle.event.endDate}" locale="pt" timeZone="GMT-3" pattern="dd/MM/yyyy HH:mm" disabled="true"/>
+                </h:panelGrid>
+                <h:panelGrid id="pg" columns="1" style="font-family: Helvetica, Verdana, sans-serif; width: 100%; height: 100%;">
+                    <p:editor id="editor" widgetVar="editorWidget" value="#{avisoControle.avisoSelecionado.descriAviso}" style="width: 100%;" height="400"  disabled="true" />
+                    <p:panel id="p1">
+                        <p:panel style="width: 100%;" header="Cartaz">
+                            <p:panelGrid columns="2">
+                                <p:commandLink title="Visualizar" rendered="#{empty avisoControle.avisoSelecionado.arquivoAviso?'false':'true'}" onclick="window.open('../arquivos/#{avisoControle.avisoSelecionado.arquivoAviso}')" >
+                                    <img src="../arquivos/#{avisoControle.avisoSelecionado.arquivoAviso}" style="width: 40px; height: 40px;" alt="Visualizar"/>
+                                </p:commandLink>
+                                <p:commandButton value="Fechar" onclick="PF('eventDialog').hide();" />
+                            </p:panelGrid>
+                        </p:panel>
+                    </p:panel>                   
+                </h:panelGrid>
+            </p:dialog>
+        </h:form>
+
+    </h:body>
+</html>

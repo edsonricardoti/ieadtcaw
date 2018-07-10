@@ -161,6 +161,11 @@ public class FinanceiroControle {
         contribuintes = mdao.buscarPorId(id);
     }
 
+    //funcao dashboard
+    public void dashboardFin() {
+
+    }
+
     public void buscarContribuintes(String nome) {
         List<Membros> lista = null;
         lista = (List<Membros>) mdao.buscarPorNomeLista(nome);
@@ -281,7 +286,6 @@ public class FinanceiroControle {
         //gera planilha de missoes com a situacao dos assinantes
         adao = new AssinaturaDAO();
         missgeral = adao.buscaFinanceiroGeral(idperiodico);
-        
     }
 
     public void buscaPorAno(int ano) throws ParseException {

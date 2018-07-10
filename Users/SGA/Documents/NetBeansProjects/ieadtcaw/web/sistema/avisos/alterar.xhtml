@@ -77,6 +77,9 @@
                                     <img src="../../imagens/avisoLido.png" style="width: 40px; height: 40px;" />
                                 </p:commandLink>
                             </p:column>
+                            <p:column headerText="Prox. Semana" width="10" style="text-align: center;">
+                                <p:commandButton value="Repetir"  action="#{avisoControle.repetirAgenda(lista)}"/>
+                            </p:column>
                             <p:column headerText="Excluir" width="10" style="text-align: center;">
                                 <p:commandButton icon="ui-icon-trash" title="Clique aqui para excluir."
                                                  actionListener="#{avisoControle.delete(lista)}"

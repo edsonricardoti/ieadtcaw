@@ -13,7 +13,18 @@
     </h:head>
     <h:body>
         <ui:composition template="/layout.xhtml">
-            <ui:define name="content">              
+            <ui:define name="content">
+                <p:ajaxStatus onstart="PF('statusDialog').show()"
+                              onsuccess="PF('statusDialog').hide()" />
+                <p:dialog widgetVar="statusDialog"
+                          draggable="false"
+                          closable="false"
+                          resizable="false"
+                          modal="true"
+                          showHeader="false">
+                    <p:graphicImage value="../../imagens/loader.gif"/>
+
+                </p:dialog>
 
                 <h:form id="frm1" prependId="false" >
 
@@ -82,9 +93,10 @@
 
                                 </p:panel>
                             </p:panel>
-                            <p:panelGrid columns="2">                                
+                            <p:panelGrid columns="2">
                                 <p:commandButton id="addButton" value="Salvar" actionListener="#{avisoControle.insert()}" oncomplete="PF('myschedule').update();PF('eventDialog').hide();" />
                                 <p:commandButton value="Fechar" onclick="PF('eventDialog').hide();" />
+
                             </p:panelGrid>
                         </h:panelGrid>
                     </p:dialog>  

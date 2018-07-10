@@ -3,18 +3,15 @@
     <context-param>
         <param-name>primefaces.THEME</param-name>
         <param-value>ui-lightness</param-value>
-    </context-param>    
+    </context-param>
     <context-param>
         <param-name>
             javax.faces.FACELETS_REFRESH_PERIOD
         </param-name>
         <param-value>-1</param-value>
     </context-param>
-    
     <session-config>
-        <session-timeout>
-            30
-        </session-timeout>
+        <session-timeout>60</session-timeout>
     </session-config>
     <servlet>
         <servlet-name>FacesServlet</servlet-name>

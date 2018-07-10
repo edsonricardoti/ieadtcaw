@@ -12,6 +12,17 @@
         <ui:composition template="/layout.xhtml">            
             <ui:define name="content">
                 <p:panel header="Missão - Assinaturas">
+                    <p:ajaxStatus onstart="PF('statusDialog').show()"
+                                  onsuccess="PF('statusDialog').hide()" />
+                    <p:dialog widgetVar="statusDialog"
+                              draggable="false"
+                              closable="false"
+                              resizable="false"
+                              modal="true"
+                              showHeader="false">
+                        <p:graphicImage value="../../imagens/loader.gif"/>
+
+                    </p:dialog>
                     <h:form id="cadastro" prependId="false">
                         <p:remoteCommand action="#{assinaturaControle.atualizaParcelas(assinaturaControle.assinaturaSelecionado.idmembro,assinaturaControle.assinaturaSelecionado.idperiodico)}"
                                          autoRun="true" update="pg" immediate="true"/>

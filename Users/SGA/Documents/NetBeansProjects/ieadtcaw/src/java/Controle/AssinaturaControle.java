@@ -73,6 +73,8 @@ public class AssinaturaControle implements Serializable {
     private Integer idperiodico;
     private List<Missgeral> missgeral;
     private BigDecimal valorperiodico;
+    private BigDecimal subtotalpg;
+    private BigDecimal subtotalsaldo;
 
     public AssinaturaControle() {
         assinatura = new Assinatura();
@@ -96,6 +98,8 @@ public class AssinaturaControle implements Serializable {
         periodicos = revista.selectAll();
         parcelas = new Parcelamentos();
         idperiodico = 0;
+        subtotalpg = BigDecimal.ZERO;
+        subtotalsaldo = BigDecimal.ZERO;
 
         assinaturaSelecionado = new Assinatura();
         //listaMembros = mdao.selectAll();
@@ -120,6 +124,22 @@ public class AssinaturaControle implements Serializable {
 
             addInfoMessage("Pagamento confirmado!");
         };
+
+    }
+
+    public BigDecimal calculaTotais(BigDecimal valor, int tipo) {
+
+        try {
+            if (tipo == 1) {
+            subtotalpg = subtotalpg.add(valor);
+                System.err.println("Entrou valor do sub" + subtotalpg.toString());
+            }
+            if (tipo == 2) {
+                subtotalsaldo = subtotalsaldo.add(valor);
+            }
+        } catch (Exception e) {
+        }
+        return valor;
 
     }
 
@@ -593,6 +613,22 @@ public class AssinaturaControle implements Serializable {
 
     public void setValorperiodico(BigDecimal valorperiodico) {
         this.valorperiodico = valorperiodico;
+    }
+
+    public BigDecimal getSubtotalpg() {
+        return subtotalpg;
+    }
+
+    public void setSubtotalpg(BigDecimal subtotalpg) {
+        this.subtotalpg = subtotalpg;
+    }
+
+    public BigDecimal getSubtotalsaldo() {
+        return subtotalsaldo;
+    }
+
+    public void setSubtotalsaldo(BigDecimal subtotalsaldo) {
+        this.subtotalsaldo = subtotalsaldo;
     }
 
 }

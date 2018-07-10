@@ -42,7 +42,9 @@
                                 <p:outputLabel value=""/>
                                 <p:panelGrid columns="2" id="parcel">
                                     <p:outputLabel id="qtd" value="Quantidade de parcelas:" rendered="#{assinaturaControle.assinatura.modalidade eq 'prazo'?true:false}"/>
-                                    <p:inputNumber id="qtd1" value="#{assinaturaControle.assinatura.qtdparcelas}" decimalPlaces="0" rendered="#{assinaturaControle.assinatura.modalidade eq 'prazo'?true:false}"/>
+                                    <p:spinner value="#{assinaturaControle.assinatura.qtdparcelas}"
+                                               rendered="#{assinaturaControle.assinatura.modalidade eq 'prazo'?true:false}"                                               
+                                               max="3" min="3"/>
                                 </p:panelGrid>
                             </p:panelGrid>
                             <p:panelGrid columns="4" style="font-size: 11px;" rendered="#{assinaturaControle.isRederiza}">

@@ -11,6 +11,17 @@
         <h:outputScript library="js" name="locale-primefaces.js"/>
         <ui:composition template="/layout.xhtml">            
             <ui:define name="content">
+                <p:ajaxStatus onstart="PF('statusDialog').show()"
+                              onsuccess="PF('statusDialog').hide()" />
+                <p:dialog widgetVar="statusDialog"
+                          draggable="false"
+                          closable="false"
+                          resizable="false"
+                          modal="true"
+                          showHeader="false">
+                    <p:graphicImage value="../../imagens/loader.gif"/>
+
+                </p:dialog>
                 <h:form id="cadastro" prependId="false">
                     <script type="text/javascript">
                         $(".valor").keyup(function () {

@@ -35,6 +35,7 @@
                                 background-color: darkgray;
                             }
 
+
                         </style>
                             <div style=" text-align: center; font-size: 12px;">
                                 <p:outputLabel value="RELATÓRIO FINANCEIRO - #{assinaturaControle.PegaPeriodico(assinaturaControle.idperiodico)}"
@@ -98,7 +99,7 @@
                                 <p:outputLabel value="#{assina.parcelaspg}" style="font-size: 9px; text-transform: uppercase;"/>
                             </p:column>
                             <p:column style=" text-align: right;">
-                                <p:outputLabel value="#{assina.valortotal}"  style="font-size: 9px; text-transform: uppercase;">
+                                <p:outputLabel value="#{assinaturaControle.calculaTotais(assina.valortotal, 1)}"  style="font-size: 9px; text-transform: uppercase;">
                                     <f:convertNumber pattern="#,##0.00" minFractionDigits="2"/>
                                 </p:outputLabel>
                             </p:column>
@@ -133,12 +134,23 @@
                             <p:column style=" text-align:  center; font-size: 7px;"><h:outputText value="#{assina.ed11 eq true?'X':''}" style=" text-align:  center; font-size: 7px;"/></p:column>
                             <p:column style=" text-align:  center; font-size: 7px;"><h:outputText value="#{assina.ed12 eq true?'X':''}" style=" text-align:  center; font-size: 7px;"/></p:column>
                             <p:column style="font-size: 9px; text-align:  center;">
-                                <p:outputLabel value="#{assinaturaControle.valorperiodico-assina.valortotal}">
+                                <p:outputLabel value="#{assinaturaControle.calculaTotais(assinaturaControle.valorperiodico-assina.valortotal, 2)}">
                                     <f:convertNumber pattern="#,##0.00" minFractionDigits="2"/>
                                 </p:outputLabel>
                             </p:column>
+                            <f:facet name="footer">
+                                <p:outputLabel value="Total pago R$:#{assinaturaControle.subtotalpg}">
+                                    <f:convertNumber pattern="#,##0.00" minFractionDigits="2"/>
+                                </p:outputLabel>
+                                <p:outputLabel value="  :::::::  " />
+                                <p:outputLabel value="    Total não pago R$:#{assinaturaControle.subtotalsaldo}">
+                                    <f:convertNumber pattern="#,##0.00" minFractionDigits="2"/>
+                                </p:outputLabel>
 
+                            </f:facet>
                         </p:dataTable>
+
+
 
                     </p:panel>
 

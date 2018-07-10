@@ -76,7 +76,7 @@
                                 <p:commandLink title="Aviso já foi lido" rendered="#{lista.lido eq 1}" action="alterando.xhtml" actionListener="#{avisoControle.pegaPraAlterar(lista.idAviso)}" >
                                     <img src="../../imagens/avisoLido.png" style="width: 40px; height: 40px;" />
                                 </p:commandLink>
-                            </p:column>
+                            </p:column>                            
                             <p:column headerText="Excluir" width="10" style="text-align: center;">
                                 <p:commandButton icon="ui-icon-trash" title="Clique aqui para excluir."
                                                  actionListener="#{avisoControle.delete(lista)}"

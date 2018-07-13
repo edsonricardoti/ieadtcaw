@@ -20,6 +20,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
 import javax.annotation.PostConstruct;
@@ -65,12 +66,15 @@ public class AvisoControle implements Serializable {
     private List<Avisos> listaAviso;
     private List<Avisos> listaAvisoHoje;
     private UploadedFile uploadedFile;
+    private Integer qtd;
+    private Date dataini, datafim;
+    private List<Avisos> listaSelecionada;
 
     public AvisoControle() {
         dao = new AvisoDAO();
         aviso = new Avisos();
         avisoSelecionado = new Avisos();
-        listaAviso = dao.selectAll();
+        //listaAviso = dao.selectAll();
     }
 
     @PostConstruct
@@ -78,9 +82,7 @@ public class AvisoControle implements Serializable {
         event = new DefaultScheduleEvent();
         eventModel = new DefaultScheduleModel();
         eventModel.clear();
-
-        Calendar cal = GregorianCalendar.getInstance();
-        cal.setTime(now().toDate());
+        listaAvisoHoje = null;
         avisoSelecionado = new Avisos();
         eventModel = new DefaultScheduleModel();
         dao = new AvisoDAO();
@@ -90,6 +92,10 @@ public class AvisoControle implements Serializable {
             eventModel.addEvent(new DefaultScheduleEvent(listaAviso.get(i).getTitulo(), listaAviso.get(i).getDataAviso(), listaAviso.get(i).getDataFinal(), listaAviso.get(i).getIdAviso()));
         }
 
+    }
+
+    public void pegaSemana(Date dataini, Date datafim) {
+        listaAviso = dao.selectSemana(dataini, datafim);
     }
 
     //acoes com a agenda
@@ -162,12 +168,27 @@ public class AvisoControle implements Serializable {
         FacesContext.getCurrentInstance().addMessage(null, message);
     }
 
+    public void atualizaAgenda() {
+        // event = new DefaultScheduleEvent();
+        // eventModel = new DefaultScheduleModel();
+        eventModel.clear();
+        // listaAvisoHoje = null;
+        // avisoSelecionado = new Avisos();
+        // eventModel = new DefaultScheduleModel();
+        // dao = new AvisoDAO();
+        // aviso = new Avisos();
+        listaAviso = dao.selectAll();
+        for (int i = 0; i <= listaAviso.size() - 1; i++) {
+            eventModel.addEvent(new DefaultScheduleEvent(listaAviso.get(i).getTitulo(), listaAviso.get(i).getDataAviso(), listaAviso.get(i).getDataFinal(), listaAviso.get(i).getIdAviso()));
+        }
+    }
+
     //demais metodos
     public void atualizaTab(int a) {
         listaAviso = null;
         listaAvisoHoje = null;
         dao = new AvisoDAO();
-        listaAviso = dao.selectAll();
+        listaAviso = null; //dao.selectAll();
 
     }
 
@@ -236,29 +257,73 @@ public class AvisoControle implements Serializable {
         }
     }
 
-    public Date replicarData(Date data) {
+    public Date replicarData(Date data, int qtd) {
+        int vai = 7 * qtd;
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        Calendar calendar = Calendar.getInstance();
+        GregorianCalendar calendar = new GregorianCalendar();
         calendar.setTime(data);
-        int dias = calendar.getActualMaximum(Calendar.DAY_OF_MONTH);
-        int hoje = 0;
-        calendar.add(Calendar.DAY_OF_WEEK, 7);
-        //calendar.setTime(new Date());
-        hoje = Calendar.WEEK_OF_MONTH;
-        System.out.println("Data =" + sdf.format(calendar.getTime()) + " e Dias no mes=" + dias + " Dias da semana no mes=" + hoje);
-        //calendar.set(Calendar.HOUR_OF_DAY, 0);
-        //System.out.println(sdf.format(calendar.getTime()));
-
+        calendar.add(GregorianCalendar.DAY_OF_WEEK, vai);
         return calendar.getTime();
 
     }
 
-    public void repetirAgenda(Avisos avisook) {
-        System.out.println("Aviso =" + avisook.getTitulo());
-        avisook.setDataAviso(replicarData(avisook.getDataAviso()));
-        avisook.setDataFinal(replicarData(avisook.getDataFinal()));
-        if (dao.insert(avisook)) {
-            System.out.println("Foi");
+    public void repetirAgenda(int qtdsemanas) {
+
+        System.out.println("Passado qtd=" + qtdsemanas);
+        Avisos av = new Avisos();
+
+        for (Avisos av1 : listaSelecionada) {
+
+            av = dao.buscarPorId(av1.getIdAviso());
+
+            System.out.println("Aviso =" + av.getTitulo());
+            //Date d1 = replicarData(av.getDataAviso());
+            //Date d2 = replicarData(av.getDataFinal());
+            //av.setDataAviso(d1);
+            //av.setDataFinal(d2);
+            av.setLido(2);
+            if (dao.update(av)) {
+                // addInfoMessage("Aviso/Evento salvo com sucesso!");
+            } else {
+                // addErrorMessage("Erro ao salvar o aviso/evento!");
+            }
+
+        }
+        repetePadrao();
+        addInfoMessage("Aviso/Evento repetidos com sucesso!");
+    }
+
+    public void repetePadrao() {
+
+        List<Avisos> lista = dao.marcadosPreplicar();
+        Avisos avis = new Avisos();
+        int qtds = qtd + 1;
+        for (int x = 1; x < qtds; x++) {
+            for (Avisos av : lista) {
+                //av = dao.buscarPorId(avis.getIdAviso());
+                Date d1 = replicarData(av.getDataAviso(), x);
+                Date d2 = replicarData(av.getDataFinal(), x);
+                try {
+                    av.setDataAviso(d1);
+                    av.setDataFinal(d2);
+                    av.setLido(0);
+                } catch (Exception e) {
+                    System.out.println("Erro no passo:" + e);
+                }
+                if (dao.insert(av)) {
+                    // System.out.println("Feito...." + x + " Vez!");
+                }
+
+            }
+            lista = dao.marcadosPreplicar();
+
+        }
+        lista = dao.marcadosPreplicar();
+        for (Avisos volta : lista) {
+            volta.setLido(0);
+            if (dao.update(volta)) {
+                //nada
+            }
         }
     }
 
@@ -315,6 +380,14 @@ public class AvisoControle implements Serializable {
             addInfoMessage("Selecione um aviso!");
         }
 
+    }
+
+    public void deleteMarcados() {
+        for (Avisos apaga : listaSelecionada) {
+            if (dao.delete(apaga)) {
+            }
+        }
+        addInfoMessage("Aviso/Eventos excluidos!");
     }
 
     public void updateFoto() {
@@ -395,6 +468,38 @@ public class AvisoControle implements Serializable {
 
     public void setLazyEventModel(ScheduleModel lazyEventModel) {
         this.lazyEventModel = lazyEventModel;
+    }
+
+    public Integer getQtd() {
+        return qtd;
+    }
+
+    public void setQtd(Integer qtd) {
+        this.qtd = qtd;
+    }
+
+    public Date getDataini() {
+        return dataini;
+    }
+
+    public void setDataini(Date dataini) {
+        this.dataini = dataini;
+    }
+
+    public Date getDatafim() {
+        return datafim;
+    }
+
+    public void setDatafim(Date datafim) {
+        this.datafim = datafim;
+    }
+
+    public List<Avisos> getListaSelecionada() {
+        return listaSelecionada;
+    }
+
+    public void setListaSelecionada(List<Avisos> listaSelecionada) {
+        this.listaSelecionada = listaSelecionada;
     }
 
 }

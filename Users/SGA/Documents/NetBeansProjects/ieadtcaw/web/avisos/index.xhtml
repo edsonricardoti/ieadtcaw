@@ -40,20 +40,10 @@
                 allDayText: 'Todo o Dia'
             };
         </script>
-        <p:ajaxStatus onstart="PF('statusDialog').show()"
-                      onsuccess="PF('statusDialog').hide()" />
-        <p:dialog widgetVar="statusDialog"
-                  draggable="false"
-                  closable="false"
-                  resizable="false"
-                  modal="true"
-                  showHeader="false">
-            <p:graphicImage value="../../imagens/loader.gif"/>
 
-        </p:dialog>
 
         <h:form id="frm1" prependId="false" >
-            <p:remoteCommand actionListener="#{avisoControle.limpaCampo}" autoRun="true" update="schedule" process="@this" immediate="true"/>
+            <p:remoteCommand action="#{avisoControle.atualizaAgenda()}" autoRun="true" update="schedule" process="@this"/>
             <p:growl id="messages"  />
 
             <p:panel style="width: 100%;" header="Igreja Evangélica Assembéia de Deus Templo Central">
@@ -72,17 +62,16 @@
                         allDaySlot="false"
                         resizable="false"
                         view="agendaWeek"
-                        style="width: 100%; height: 100%; font-size: 14px; text-transform: uppercase;">
+                        style="width: 90%; height: 90%; font-size: 14px; text-transform: uppercase;">
 
                 <p:ajax event="dateSelect" listener="#{avisoControle.onDateSelect}" update="@form" oncomplete="PF('eventDialog').show();" />
                 <p:ajax event="eventSelect" listener="#{avisoControle.onEventSelect}" update="@form" oncomplete="PF('eventDialog').show();" />
-                <p:ajax event="eventMove" listener="#{avisoControle.onEventMove}" update="messages" />
-                <p:ajax event="eventResize" listener="#{avisoControle.onEventResize}" update="messages" />
+
 
             </p:schedule>
-            <p:dialog widgetVar="eventDialog" height="600" width="90%"
-                      header="Datalhe do evento" 
-                      maximizable="true">
+            <p:dialog widgetVar="eventDialog"  responsive="true" height="450" width="600"
+                      header="Datalhe do evento" position="left" closeOnEscape="true"
+                      fitViewport="true" >
                 <h:panelGrid id="eventDetails" columns="6" style="font-size: 11px;">
                     <p:outputLabel for="title" value="Título:" />
                     <p:outputLabel id="title" value="#{avisoControle.event.title}"  style="text-transform: uppercase; width: 300px;"/>
@@ -93,13 +82,15 @@
                     <p:outputLabel for="to" value="Fim:" />
                     <p:calendar id="to" value="#{avisoControle.event.endDate}" locale="pt" timeZone="GMT-3" pattern="dd/MM/yyyy HH:mm" disabled="true"/>
                 </h:panelGrid>
-                <h:panelGrid id="pg" columns="1" style="font-family: Helvetica, Verdana, sans-serif; width: 100%; height: 100%;">
-                    <p:editor id="editor" widgetVar="editorWidget" value="#{avisoControle.avisoSelecionado.descriAviso}" style="width: 100%;" height="400"  disabled="true" />
+                <h:panelGrid id="pg" columns="2" style="font-family: Helvetica, Verdana, sans-serif; ">
+                    <p:textEditor id="editor" widgetVar="editorWidget" readonly="true"
+                                  value="#{avisoControle.avisoSelecionado.descriAviso}"
+                                  style="width: 100%; height: calc(60%);"  />
                     <p:panel id="p1">
                         <p:panel style="width: 100%;" header="Cartaz">
-                            <p:panelGrid columns="2">
+                            <p:panelGrid columns="1">
                                 <p:commandLink title="Visualizar" rendered="#{empty avisoControle.avisoSelecionado.arquivoAviso?'false':'true'}" onclick="window.open('../arquivos/#{avisoControle.avisoSelecionado.arquivoAviso}')" >
-                                    <img src="../arquivos/#{avisoControle.avisoSelecionado.arquivoAviso}" style="width: 40px; height: 40px;" alt="Visualizar"/>
+                                    <img src="../arquivos/#{avisoControle.avisoSelecionado.arquivoAviso}" style="width: 150px; height: 150px;" alt="Visualizar"/>
                                 </p:commandLink>
                                 <p:commandButton value="Fechar" onclick="PF('eventDialog').hide();" />
                             </p:panelGrid>

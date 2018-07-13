@@ -6,8 +6,10 @@ import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.IOException;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 import static javax.imageio.ImageIO.read;
 import static javax.imageio.ImageIO.write;
 import org.hibernate.HibernateException;
@@ -25,6 +27,45 @@ public class AvisoDAO {
             session = getSessionFactory().openSession();
             Transaction t = session.beginTransaction();
             List lista = session.createQuery("from Avisos where Year(dataAviso)=Year(now())").list();
+            t.commit();
+            return lista;
+
+        } catch (HibernateException e) {
+            session.getTransaction().rollback();
+            return null;
+        } finally {
+            session.close();
+        }
+    }
+
+    public List<Avisos> marcadosPreplicar() {
+        try {
+            session = getSessionFactory().openSession();
+            Transaction t = session.beginTransaction();
+            List lista = session.createQuery("from Avisos where lido=2").list();
+            t.commit();
+            return lista;
+
+        } catch (HibernateException e) {
+            session.getTransaction().rollback();
+            return null;
+        } finally {
+            session.close();
+        }
+    }
+
+    public List<Avisos> selectSemana(Date dataini, Date datafim) {
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(datafim);
+        cal.add(Calendar.DATE, 1);
+        Date datafim2 = cal.getTime();
+        try {
+            session = getSessionFactory().openSession();
+            Transaction t = session.beginTransaction();
+            List lista = session.createQuery("from Avisos where dataAviso >=:dataini and dataAviso <=:datafim2 order by dataAviso")
+                    .setDate("dataini", dataini)
+                    .setDate("datafim2", datafim2)
+                    .list();
             t.commit();
             return lista;
 
@@ -88,7 +129,7 @@ public class AvisoDAO {
             session.getTransaction().rollback();
             return false;
         } finally {
-//            session.close();
+            session.close();
         }
     }
 

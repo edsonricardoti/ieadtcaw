@@ -43,4 +43,26 @@
         <filter-name>PrimeFaces FileUpload Filter</filter-name>
         <servlet-name>Faces Servlet</servlet-name>
     </filter-mapping>
+    <filter>
+        <filter-name>loginAuth</filter-name>
+        <filter-class>filtros.loginAuth</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>loginAuth</filter-name>
+        <servlet-name>Faces Servlet</servlet-name>
+        <dispatcher>REQUEST</dispatcher>
+        <dispatcher>INCLUDE</dispatcher>
+        <dispatcher>ERROR</dispatcher>
+    </filter-mapping>
+    <filter>
+        <filter-name>appAll</filter-name>
+        <filter-class>filtros.appAll</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>appAll</filter-name>
+        <servlet-name>Faces Servlet</servlet-name>
+        <dispatcher>REQUEST</dispatcher>
+        <dispatcher>INCLUDE</dispatcher>
+        <dispatcher>ERROR</dispatcher>
+    </filter-mapping>
 </web-app>

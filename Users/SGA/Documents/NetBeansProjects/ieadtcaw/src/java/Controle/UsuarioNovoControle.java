@@ -31,6 +31,7 @@ public class UsuarioNovoControle {
     @PostConstruct
     public void init() {
         usuarioSelecionado = new Usuarios();
+        listaDaBusca = dao.selectAll();
     }
 
     public UsuarioNovoControle() {

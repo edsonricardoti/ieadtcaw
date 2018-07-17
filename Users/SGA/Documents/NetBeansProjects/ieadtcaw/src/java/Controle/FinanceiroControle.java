@@ -69,7 +69,6 @@ public class FinanceiroControle {
     private Integer ano;
     private List<Missgeral> missgeral;
 
-
     public FinanceiroControle() {
 
         financeiro = new Financeiro();

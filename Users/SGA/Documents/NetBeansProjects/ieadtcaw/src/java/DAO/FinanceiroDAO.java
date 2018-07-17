@@ -6,7 +6,6 @@
 package DAO;
 
 import Modelo.Relatorios;
-import static Util.HibernateUtil.getSessionFactory;
 import java.util.List;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
@@ -65,7 +64,7 @@ public class FinanceiroDAO {
             // System.out.println("Entrou na busca por data=" + newDateFormat);
             session = getSessionFactory().openSession();
             Transaction t = session.beginTransaction();
-            List financeiro = session.createQuery("from Financeiro where financeiroData>=:dataini and financeiroData<=:datafim")
+            List financeiro = session.createQuery("from Financeiro where financeiroData >=:dataini and financeiroData <=:datafim")
                     .setDate("dataini", dataini)
                     .setDate("datafim", datafim)
                     .setMaxResults(400)

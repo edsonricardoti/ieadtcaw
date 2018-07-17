@@ -80,7 +80,7 @@
                                 <p:column headerText="Excluir" style="text-align: center; font-size: 10px;" width="15">
                                     <p:commandButton icon="ui-icon-trash" title="Clique aqui para excluir."
                                                      actionListener="#{contasapagarControle.delete(buscados)}"
-                                                     action="#{contasapagarControle.buscarLista(contasapagarControle.descricao,'veiculo')}"
+                                                     action="#{contasapagarControle.buscarLista(buscados.descricao, 'veiculo', contasapagarControle.dataini, contasapagarControle.datafim)}"
                                                      update="lista">
                                         <p:confirm header="Confirmação!" message="Você tem certeza?"  icon="ui-icon-alert"/>
                                     </p:commandButton>

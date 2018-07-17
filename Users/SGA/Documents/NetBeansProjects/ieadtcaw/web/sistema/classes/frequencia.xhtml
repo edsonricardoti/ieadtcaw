@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"   
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <h:body>
+        <h:outputScript library="js" name="locale-primefaces.js"/>
+        <ui:composition template="/layout.xhtml">            
+            <ui:define name="content">
+                <p:panel header="Lançamento de frequencia">
+                    <h:form id="cadastro" prependId="false">
+
+                        <p:growl life="3500" redisplay="true" id="messages"/>
+                        <p:panelGrid id="campos" columns="6" style="font-size: 14px;" styleClass="semBorda" columnClasses="textos,campos,textos,campos">
+                            <p:outputLabel value="Nome da Classe:"/>
+                            <p:outputLabel id="nome" style="font-size: 14px;"
+                                           value="#{classeControle.classesSelecionado.classesNome}/#{classeControle.classeSelecionado.classesTipo}"/>
+                            <p:outputLabel for="dti" value="Data de início:" />
+                            <p:outputLabel id="dti" value="#{classeControle.classesSelecionado.classesData}" style="font-size: 14px; text-transform: uppercase;">
+                                <f:convertDateTime pattern="dd/MM/yyyy"/>
+                            </p:outputLabel>
+                            <p:outputLabel value="Quantidade de Membros:" style="font-size: 14px;"/>
+                            <p:outputLabel id="qtdm" value="#{classeControle.classesSelecionado.classesQtdeMemb}" style="font-size: 14px;" />
+                        </p:panelGrid>
+                        <p:remoteCommand immediate="true" autoRun="true" update="meusalunos"
+                                         action="#{classeControle.Alunos(classeControle.classeSelecionado.idclasses)}"/>
+                        <p:dataTable id="meusalunos" rows="8" style="font-size: 12px; width: 450px;"
+                                     value="#{classeControle.alunos}"
+                                     paginator="true" paginatorPosition="bottom"
+                                     var="buscados"                                     
+                                     emptyMessage="Nenhum Aluno matriculado">
+                            <f:facet name="header">
+                                Alunos
+                            </f:facet>
+                            <p:column headerText="Nome">
+                                <p:outputLabel id="nomes" value="#{buscados.membrosNome}" style="font-size: 10px; text-transform: uppercase;"/>
+                            </p:column>
+                            <p:column headerText="Lançar Frequencia" style="text-align: center;">
+                                <p:commandButton icon="ui-icon-clipboard"
+                                                 action="#{classeControle.PegaOaluno(buscados.idmembros)}"
+                                                 oncomplete="PF('freq').show()"  update="@form"/>
+                            </p:column>
+                            <p:column headerText="Atualizar Licoes Discipulado" style="text-align: center;"
+                                      rendered="#{classeControle.classeSelecionado.classesTipo eq 'DISCIPULADO'?false:false}">
+                                <p:commandButton icon="ui-icon-clipboard"
+                                                 actionListener="#{classeControle.PegaOaluno(buscados.idmembros)}"
+                                                 oncomplete="PF('lic').show()" update="@form"/>
+                            </p:column>
+
+                        </p:dataTable>
+
+
+                        <p:button value="Fechar" icon="ui-icon-closethick" outcome="lancarfreq.xhtml"/>
+
+                        <p:dialog dynamic="true" id="janela"
+                                  modal="true" showHeader="true"
+                                  appendTo="@(form)" style="width: 300px; height: 50%;"
+                                  resizable="false"
+                                  header="Controle de Frequência"
+                                  widgetVar="freq"
+                                  closeOnEscape="true">
+                            <p:ajax event="close" listener="#{classeControle.Alunos(classeControle.classeSelecionado.idclasses)}" update="@form"/>
+                            <p:panelGrid id="gd1" columns="2" style="font-size: 10px;">
+                                <p:outputLabel id="l6" value="Trimestre: #{classeControle.trimestre}"/>
+                                <p:outputLabel id="l7" value="Aluno: #{classeControle.nomeAluno}" style="font-size: 10px; text-transform: uppercase; width: 150px;"/>
+                                <p:outputLabel id="l8" value="Lição:"/>
+                                <p:selectOneMenu id="licao" value="#{frequenciaControle.frequenciaSelecionado.licao}">
+                                    <f:selectItem itemLabel=":::Selecione:::" itemValue="0" />
+                                    <f:selectItem itemLabel="1ª Lição" itemValue="1" />
+                                    <f:selectItem itemLabel="2ª Lição" itemValue="2" />
+                                    <f:selectItem itemLabel="3ª Lição" itemValue="3" />
+                                    <f:selectItem itemLabel="4ª Lição" itemValue="4" />
+                                    <f:selectItem itemLabel="5ª Lição" itemValue="5" />
+                                    <f:selectItem itemLabel="6ª Lição" itemValue="6" />
+                                    <f:selectItem itemLabel="7ª Lição" itemValue="7" />
+                                    <f:selectItem itemLabel="8ª Lição" itemValue="8" />
+                                    <f:selectItem itemLabel="9ª Lição" itemValue="97" />
+                                    <f:selectItem itemLabel="10ª Lição" itemValue="10" />
+                                    <f:selectItem itemLabel="11ª Lição" itemValue="11" />
+                                    <f:selectItem itemLabel="12ª Lição" itemValue="12" />
+                                    <f:selectItem itemLabel="13ª Lição" itemValue="13" />
+                                    <f:selectItem itemLabel="14ª Lição" itemValue="14" />
+                                    <f:selectItem itemLabel="15ª Lição" itemValue="15" />
+                                    <f:selectItem itemLabel="16ª Lição" itemValue="15" />
+                                    <f:selectItem itemLabel="17ª Lição" itemValue="15" />
+                                    <f:selectItem itemLabel="18ª Lição" itemValue="15" />
+                                    <f:selectItem itemLabel="19ª Lição" itemValue="15" />
+                                    <f:selectItem itemLabel="20ª Lição" itemValue="15" />
+                                    <f:selectItem itemLabel="21ª Lição" itemValue="15" />
+                                    <f:selectItem itemLabel="22ª Lição" itemValue="15" />
+                                </p:selectOneMenu>
+                                <p:outputLabel id="l9" value="Frequência:"/>
+                                <p:inputSwitch value="#{classeControle.veio}" onLabel="Presente" offLabel="Ausente">
+                                    <p:ajax event="change" listener="#{frequenciaControle.VeioFaltou(classeControle.veio,classeControle.idAlunos,classeControle.classeSelecionado.idclasses, classeControle.trimestre)}" update="@this"/>
+                                </p:inputSwitch>
+                                <p:outputLabel id="localis" value="Local:" rendered="#{classeControle.classeSelecionado.classesTipo eq 'DISCIPULADO'?true:false}"/>
+                                <p:selectOneRadio id="sexo" value="#{frequenciaControle.frequenciaSelecionado.onde}"
+                                                  rendered="#{classeControle.classeSelecionado.classesTipo eq 'DISCIPULADO'?true:false}">
+                                    <f:selectItem itemLabel=" Na Igreja " itemValue="Na Igreja" />
+                                    <f:selectItem itemLabel=" Em casa " itemValue="Em casa" >
+                                    </f:selectItem>
+                                </p:selectOneRadio>
+                                <p:outputLabel value="Agendamento/Observação:"/>
+                                <p:inputText value="#{frequenciaControle.frequencia.agendou}" style="font-size: 10px; text-transform: uppercase; width: 150px;"/>
+
+                            </p:panelGrid>
+                            <p:dataGrid value="#{classeControle.frequenciaLista}" id="historico"
+                                        var="lista1" style="font-size: 12px;" 
+                                        rendered="#{classeControle.classeSelecionado.classesTipo eq 'DISCIPULADO'?true:false}"
+                                        emptyMessage="Nenhuma lição encontrada">
+                                <f:facet name="header">
+                                    Histórico Discipulado
+                                </f:facet>
+                                <p:column headerText="Lição">
+                                    <p:outputLabel value="   Lição #{lista1.licao} : #{lista1.presente eq 1?'Assistiu':'Faltou'} #{lista1.onde}"/>
+                                </p:column>                                
+                            </p:dataGrid>
+                            <p:commandButton id="bt3" value="Salvar" icon="ui-icon-check" actionListener="#{frequenciaControle.VeioFaltou(classeControle.veio,classeControle.idAlunos,classeControle.classeSelecionado.idclasses, classeControle.trimestre)}"
+                                             action="#{frequenciaControle.insert()}" update="@form"/>
+                        </p:dialog>
+                        <p:dialog dynamic="true" id="discipulado"
+                                  modal="true" showHeader="true"
+                                  appendTo="@(form)"
+                                  resizable="false"
+                                  header="Acompanhamento do Discipulado"
+                                  widgetVar="lic"
+                                  closeOnEscape="true"
+                                  width="450"
+                                  height="200">
+                            <p:panelGrid id="gd2" columns="2" style="font-size: 10px;">
+                                <p:outputLabel id="l99" value="Trimestre: #{classeControle.trimestre}"/>
+                                <p:outputLabel id="l77" value="Aluno: #{classeControle.nomeAluno}" style="font-size: 10px; text-transform: uppercase; width: 150px;"/>
+                                <p:outputLabel value="Lições:"/>
+                                <h:panelGrid columns="4" style="font-size: 10px;" >
+                                    <p:selectBooleanCheckbox itemLabel="1ª Lição:" value="#{classeControle.aluno.licao1}" />
+                                    <p:selectBooleanCheckbox itemLabel="2ª Lição:" value="#{classeControle.aluno.licao2}" />
+                                    <p:selectBooleanCheckbox itemLabel="3ª Lição:" value="#{classeControle.aluno.licao3}" />
+                                    <p:selectBooleanCheckbox itemLabel="4ª Lição:" value="#{classeControle.aluno.licao4}" />
+                                    <p:selectBooleanCheckbox itemLabel="5ª Lição:" value="#{classeControle.aluno.licao5}" />
+                                    <p:selectBooleanCheckbox itemLabel="6ª Lição:" value="#{classeControle.aluno.licao6}" />
+                                    <p:selectBooleanCheckbox itemLabel="7ª Lição:" value="#{classeControle.aluno.licao7}" />
+                                    <p:selectBooleanCheckbox itemLabel="8ª Lição:" value="#{classeControle.aluno.licao8}" />
+                                    <p:selectBooleanCheckbox itemLabel="9ª Lição:" value="#{classeControle.aluno.licao9}" />
+                                    <p:selectBooleanCheckbox itemLabel="10ª Lição:" value="#{classeControle.aluno.licao10}" />
+                                    <p:selectBooleanCheckbox itemLabel="11ª Lição:" value="#{classeControle.aluno.licao11}" />
+                                    <p:selectBooleanCheckbox itemLabel="12ª Lição:" value="#{classeControle.aluno.licao12}" />
+                                    <p:selectBooleanCheckbox itemLabel="13ª Lição:" value="#{classeControle.aluno.licao13}" />
+                                    <p:selectBooleanCheckbox itemLabel="14ª Lição:" value="#{classeControle.aluno.licao14}" />
+                                    <p:selectBooleanCheckbox itemLabel="15ª Lição:" value="#{classeControle.aluno.licao15}" />
+                                    <p:selectBooleanCheckbox itemLabel="16ª Lição:" value="#{classeControle.aluno.licao16}" />
+                                    <p:selectBooleanCheckbox itemLabel="17ª Lição:" value="#{classeControle.aluno.licao17}" />
+                                    <p:selectBooleanCheckbox itemLabel="18ª Lição:" value="#{classeControle.aluno.licao18}" />
+                                    <p:selectBooleanCheckbox itemLabel="19ª Lição:" value="#{classeControle.aluno.licao19}" />
+                                    <p:selectBooleanCheckbox itemLabel="20ª Lição:" value="#{classeControle.aluno.licao20}" />
+                                    <p:selectBooleanCheckbox itemLabel="21ª Lição:" value="#{classeControle.aluno.licao21}" />
+                                    <p:selectBooleanCheckbox itemLabel="22ª Lição:" value="#{classeControle.aluno.licao22}" />
+
+                                </h:panelGrid>
+                                <p:commandButton id="bt6" value="Salvar" icon="ui-icon-check" actionListener="#{frequenciaControle.VeioFaltou(classeControle.veio,classeControle.idAlunos,classeControle.classeSelecionado.idclasses, classeControle.trimestre)}"
+                                                 action="#{alunoControle.update(classeControle.aluno)}" update="@form"/>
+                            </p:panelGrid>
+                            <p:ajax event="close" listener="#{classeControle.Alunos(classeControle.classeSelecionado.idclasses)}" update="@form"/>
+
+                        </p:dialog>
+
+
+                    </h:form>
+
+
+                </p:panel>
+            </ui:define>            
+
+        </ui:composition>
+
+    </h:body>
+
+</html>

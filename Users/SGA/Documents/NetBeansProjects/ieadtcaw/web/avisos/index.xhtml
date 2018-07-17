@@ -72,30 +72,38 @@
             <p:dialog widgetVar="eventDialog"  responsive="true" height="450" width="600"
                       header="Datalhe do evento" position="left" closeOnEscape="true"
                       fitViewport="true" >
-                <h:panelGrid id="eventDetails" columns="6" style="font-size: 11px;">
-                    <p:outputLabel for="title" value="Título:" />
-                    <p:outputLabel id="title" value="#{avisoControle.event.title}"  style="text-transform: uppercase; width: 300px;"/>
+                <h:panelGrid columns="1">
+                    <h:panelGrid id="eventDetails" columns="6" style="font-size: 14px;">
+                        <p:outputLabel for="title" value="Título:" />
+                        <p:outputLabel id="title" value="#{avisoControle.event.title}"  style="text-transform: uppercase; width: 300px;"/>
 
-                    <p:outputLabel for="from" value="Início:" />
-                    <p:calendar id="from" value="#{avisoControle.event.startDate}" locale="pt" timeZone="GMT-3" pattern="dd/MM/yyyy HH:mm" disabled="true"/>
+                        <p:outputLabel for="from" value="Início:" />
 
-                    <p:outputLabel for="to" value="Fim:" />
-                    <p:calendar id="to" value="#{avisoControle.event.endDate}" locale="pt" timeZone="GMT-3" pattern="dd/MM/yyyy HH:mm" disabled="true"/>
-                </h:panelGrid>
-                <h:panelGrid id="pg" columns="2" style="font-family: Helvetica, Verdana, sans-serif; ">
-                    <p:textEditor id="editor" widgetVar="editorWidget" readonly="true"
-                                  value="#{avisoControle.avisoSelecionado.descriAviso}"
-                                  style="width: 100%; height: calc(60%);"  />
-                    <p:panel id="p1">
-                        <p:panel style="width: 100%;" header="Cartaz">
-                            <p:panelGrid columns="1">
-                                <p:commandLink title="Visualizar" rendered="#{empty avisoControle.avisoSelecionado.arquivoAviso?'false':'true'}" onclick="window.open('../arquivos/#{avisoControle.avisoSelecionado.arquivoAviso}')" >
-                                    <img src="../arquivos/#{avisoControle.avisoSelecionado.arquivoAviso}" style="width: 150px; height: 150px;" alt="Visualizar"/>
-                                </p:commandLink>
-                                <p:commandButton value="Fechar" onclick="PF('eventDialog').hide();" />
-                            </p:panelGrid>
+                        <p:outputLabel id="from" value="#{avisoControle.event.startDate}" style="font-size: 14px; text-transform: uppercase;">
+                            <f:convertDateTime pattern="dd/MM/yyyy"/>
+                        </p:outputLabel>
+
+                        <p:outputLabel for="to" value="Fim:" />
+                        <p:outputLabel id="to" value="#{avisoControle.event.endDate}" style="font-size: 14px; text-transform: uppercase;">
+                            <f:convertDateTime pattern="dd/MM/yyyy"/>
+                        </p:outputLabel>
+                    </h:panelGrid>                   
+
+                    <p:textEditor id="editor" widgetVar="editorWidget" readonly="true" toolbarVisible="false"
+                                      value="#{avisoControle.avisoSelecionado.descriAviso}"
+                                      style="width: 100%; height: calc(60%);"  />
+                        <p:panel id="p1">
+
+                            <p:panel style="width: 100%;" header="Cartaz">                                
+                                <p:panelGrid columns="1">
+                                        <p:commandLink title="Visualizar" rendered="#{empty avisoControle.avisoSelecionado.arquivoAviso?'false':'true'}" onclick="window.open('../arquivos/#{avisoControle.avisoSelecionado.arquivoAviso}')" >
+                                            <img src="../arquivos/#{avisoControle.avisoSelecionado.arquivoAviso}" style="width: 150px; height: 150px;" alt="Visualizar"/>
+                                        </p:commandLink>
+                                        <p:commandButton value="Fechar" onclick="PF('eventDialog').hide();" />
+                                    </p:panelGrid>                                
+                            </p:panel>
                         </p:panel>
-                    </p:panel>                   
+
                 </h:panelGrid>
             </p:dialog>
         </h:form>

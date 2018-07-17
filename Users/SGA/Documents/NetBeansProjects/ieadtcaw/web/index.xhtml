@@ -16,8 +16,8 @@
         </div>
         <p:separator/>
 
-        <p:growl id="growl" globalOnly="true" life="2000"/>
-        <p:messages autoUpdate="true" style="width: 350px; margin: 0 auto; font-size: 12px;" showIcon="false" showDetail="false"/>
+        <p:growl id="growl" globalOnly="true" life="2000" showDetail="false"/>
+
 
         <h:form id="loginForm" >
 
@@ -43,7 +43,7 @@
 
                     <p:commandButton action="#{usuarioControle.logando()}"                                    
                                         value="Entrar"                                
-                                        ajax="false" 
+                                        ajax="false" update="@form"
                                         icon="ui-icon-check">
                     </p:commandButton>
                     <h:column><p:panel style="width: 100px; border: none;"></p:panel></h:column>

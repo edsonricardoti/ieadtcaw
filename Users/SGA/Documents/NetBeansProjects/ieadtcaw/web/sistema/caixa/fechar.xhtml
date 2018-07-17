@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"   
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <h:body>
+        <h:outputScript library="js" name="locale-primefaces.js"/>
+        <ui:composition template="/layout.xhtml">            
+            <ui:define name="content">
+                <p:ajaxStatus onstart="PF('statusDialog').show()"
+                              onsuccess="PF('statusDialog').hide()" />
+                <p:dialog widgetVar="statusDialog"
+                          draggable="false"
+                          closable="false"
+                          resizable="false"
+                          modal="true"
+                          showHeader="false">
+                    <p:graphicImage value="../../imagens/loader.gif"/>
+
+                </p:dialog>
+                <h:form id="cadastro" prependId="false">
+                    <p:messages id="messages" closable="true" style="font-size: 12px; text-align: center;" showIcon="false"/>
+
+                    <p:panel header="Fechamento do caixa" id="pg2">
+                        <p:panelGrid columns="5" style="font-size: 10px;" styleClass="semBorda">
+                            <p:outputLabel value="Data Ini:"/>
+                            <p:calendar id="dataini" value="#{caixaControle.dataini}" locale="pt" mask="true" pattern="dd/MM/yyyy" showOn="button" rendered="true" requiredMessage="a data inicial é obrigatória!" />
+                            <p:outputLabel value="Data Fim:"/>
+                            <p:calendar id="datafim" value="#{caixaControle.datafim}" locale="pt" mask="true" pattern="dd/MM/yyyy" showOn="button" rendered="true" requiredMessage="a data final é obrigatória!" />
+                            <p:commandButton id="bt" value="Gerar" style="font-size: 10px;"
+                                             action="#{caixaControle.GeraCaixa(caixaControle.dataini, caixaControle.datafim)}" update="pg" />
+                        </p:panelGrid>
+                        <p:panel id="pg" style="width: 640px;">
+                            <style type="text/css">
+                                .ui-datatable .ui-datatable-data .ui-datatable-odd td{
+                                    background-color: #FFFFFF;
+                                }
+                                .ui-datatable .ui-datatable-data .ui-datatable-even td{
+                                    background-color: darkgray;
+                                }
+                                .ui-datatable .ui-datatable-header, .ui-datatable .ui-datatable-footer {
+                                    text-align: center;
+                                    padding: 0px 0px;
+
+                                </style>
+                                <p:dataTable id="lista"  style="font-size: 10px; font-family:  sans-serif; width: 600px;"
+                                             value="#{caixaControle.listaCaixa}"
+                                             var="buscados"
+                                             paginator="false" paginatorPosition="bottom"
+                                             emptyMessage="Nenhum lançamento encontrado">
+                                    <f:facet name="header" id="exp">
+                                        MOVIMENTO DO CAIXA NO PERÍODO DE <p:outputLabel id="datainicio" value="#{caixaControle.dataini}"  style="font-size: 10px; text-transform: uppercase;">
+                                            <f:convertDateTime pattern="dd/MM/yyyy"/></p:outputLabel> ATÉ <p:outputLabel id="datafinal" value="#{caixaControle.datafim}"  style="font-size: 10px; text-transform: uppercase;">
+                                            <f:convertDateTime pattern="dd/MM/yyyy"/></p:outputLabel>
+                                    </f:facet>
+                                    <p:column headerText="Descriçao" width="65">
+                                        <p:outputLabel id="nomecont" value="#{buscados.descricao}" style="text-transform: uppercase; font-size: 10px; font-family:  sans-serif;"/>
+                                    </p:column>
+                                    <p:column headerText="Receita" width="15"
+                                              style="font-size: 10px; font-family:  sans-serif; text-align: right; width: 20px;">
+                                        <p:outputLabel value="#{buscados.receitas}">
+                                            <f:convertNumber pattern="#,##0.00" minFractionDigits="2"/>
+                                        </p:outputLabel>
+                                    </p:column>
+                                    <p:column headerText="Despesas" width="15"
+                                              style="font-size: 10px; font-family:  sans-serif; text-align: right; width: 20px;">
+                                        <p:outputLabel value="#{buscados.despesas}">
+                                            <f:convertNumber pattern="#,##0.00" minFractionDigits="2"/>
+                                        </p:outputLabel>
+                                    </p:column>
+                                    <f:facet name="footer" id="fim">
+
+                                        <div align="right" style="font-size: 12px; font-family:  sans-serif; text-align: right; font-weight: bold;">
+                                            Receitas: <p:outputLabel value="#{caixaControle.totreceita}" style="font-size: 12px; font-family:  sans-serif; text-align: right; font-weight: bold;">
+                                                <f:convertNumber pattern="#,##0.00" minFractionDigits="2"/>
+                                            </p:outputLabel><br></br>
+                                            Despesas: <p:outputLabel value="#{caixaControle.totdespes}" style="font-size: 12px; font-family:  sans-serif; text-align: right; font-weight: bold;">
+                                                    <f:convertNumber pattern="#,##0.00" minFractionDigits="2"/>
+                                                </p:outputLabel><br></br>
+                                                Saldo: <p:outputLabel value="#{caixaControle.saldo}" style="font-size: 12px; font-family:  sans-serif; text-align: right; font-weight: bold;">
+                                                    <f:convertNumber pattern="#,##0.00" minFractionDigits="2" />
+                                                </p:outputLabel>
+                                        </div>
+
+                                    </f:facet>
+
+                                </p:dataTable>
+                        </p:panel>
+                    </p:panel>
+
+                    <p:button value="Fechar" icon="ui-icon-closethick" outcome="/inicio.xhtml"/>
+                    <p:commandButton value="Imprimir" type="button" icon="ui-icon-print"  >
+                        <p:printer target="pg" />
+                    </p:commandButton>
+
+                </h:form>
+            </ui:define>            
+
+        </ui:composition>
+
+    </h:body>
+
+</html>

@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"   
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <h:body>
+        <h:outputScript library="js" name="locale-primefaces.js"/>
+        <ui:composition template="/layout.xhtml">            
+            <ui:define name="content">
+                <h:form id="cadastro">
+                    <p:panel header="Cadastro de Classe">
+                        <p:messages id="messages" closable="true" style="font-size: 12px; text-align: center;" showIcon="false"/>
+                        <p:remoteCommand action="#{classeControle.limpaFormulario()}" autoRun="true" update="grades,lista"/>
+                        <p:panelGrid id="grades" columns="3" style="font-size: 10px;" styleClass="semBorda">
+                            <p:outputLabel value="Nome:"/>
+                            <p:inputText value="#{classeControle.classesSelecionado.classesNome}"/>
+                            <p:commandButton title="Clique aqui para buscar" actionListener="#{classeControle.buscarLista(classeControle.classesSelecionado.classesNome)}" value="Buscar" update="cadastro:lista"/>
+                        </p:panelGrid>
+
+                        <p:dataTable id="lista" rows="10"
+                                     value="#{classeControle.listaDaBusca}"
+                                     var="buscados"
+                                     paginator="true" paginatorPosition="bottom"
+                                     emptyMessage="Nenhum Membro encontrado">
+                            <p:column headerText="Data de início">
+                                <p:outputLabel id="dataCadastro" value="#{buscados.classesData}" style="font-size: 10px; text-transform: uppercase;">
+                                    <f:convertDateTime pattern="dd/MM/yyyy"/>
+                                </p:outputLabel>
+                            </p:column>
+                            <p:column headerText="Nome">
+                                <p:outputLabel value="#{buscados.classesNome}" style="font-size: 10px; text-transform: uppercase;"/>
+                            </p:column>
+                            <p:column headerText="Tipo">
+                                <p:outputLabel value="#{buscados.classesTipo}" style="font-size: 10px; text-transform: uppercase;"/>
+                            </p:column>
+                            <p:column headerText="Lançar Frequencias" style="text-align: center;">
+                                <p:commandButton icon="ui-icon-pencil" actionListener="#{classeControle.buscarPorId(buscados.idclasses)}"
+                                                 style="font-size: 10px;"
+                                                 action="frequencia.xhtml"/>
+                            </p:column>
+
+                        </p:dataTable>
+
+                        <p:button value="Fechar" icon="ui-icon-closethick" outcome="/inicio.xhtml"/>
+                    </p:panel>
+                </h:form>
+            </ui:define>            
+
+        </ui:composition>
+
+    </h:body>
+
+</html>

@@ -42,6 +42,7 @@ public class UsuarioControle {
 
     public void limpaFormulario() {
         usuarioSelecionado = new Usuarios();
+        usuario.setSenhaUsuarios("");
 
     }
 
@@ -75,7 +76,7 @@ public class UsuarioControle {
             usuarioLogado = false;
             FacesContext.getCurrentInstance().getExternalContext().invalidateSession();
             addErrorMessage("Usuário ou Senha incorreto(s)");
-            return "index.xhtml?faces-redirect=true";
+            return "";
         }
 
     }

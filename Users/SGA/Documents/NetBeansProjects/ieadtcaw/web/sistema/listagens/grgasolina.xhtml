@@ -30,7 +30,7 @@
                                          action="#{contasapagarControle.geraGrafico(contasapagarControle.dataini,contasapagarControle.datafim)}"
                                          update="@all" />
                     </p:panelGrid>
-                    <p:panel id="pg" style="width: 1000px;">
+                    <p:panel id="pg" style="width: 100%;">
                         <p:chart id="gr" type="line" model="#{contasapagarControle.lineModel2}" style="height:300px;" widgetVar="chart"/>
                     </p:panel>
                     <p:dialog widgetVar="dlg" showEffect="fade" modal="true" header="Gáfico pronto para a impressão" resizable="false">

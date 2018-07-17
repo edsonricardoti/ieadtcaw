@@ -10,9 +10,9 @@ import java.util.List;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import Modelo.Contasapagar;
-import Modelo.Membros;
 import static Util.HibernateUtil.getSessionFactory;
-import java.text.ParseException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
@@ -94,6 +94,25 @@ public class ContasapagarDAO {
         }
     }
 
+    public List<Contasapagar> buscarDespesas(Date dataini, Date datafim) {
+        try {
+            session = getSessionFactory().openSession();
+            Transaction t = session.beginTransaction();
+            List lista = session.createQuery("from Contasapagar where datalancamento >=:dataini and datalancamento <=:datafim ")
+                    .setDate("dataini", dataini)
+                    .setDate("datafim", datafim)
+                    .list();
+            t.commit();
+            return lista;
+
+        } catch (HibernateException e) {
+            session.getTransaction().rollback();
+            return null;
+        } finally {
+            session.close();
+        }
+    }
+
     public List<Contasapagar> buscarDespesas(String tipo) {
         Calendar cal = GregorianCalendar.getInstance();
         Date hoje;
@@ -113,6 +132,28 @@ public class ContasapagarDAO {
             return null;
         } finally {
             session.close();
+        }
+    }
+
+    public List<Contasapagar> buscarVencidos() {
+        DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+        Calendar cal = GregorianCalendar.getInstance();
+        String dia;
+        cal.add(Calendar.DATE, 7);
+        dia = df.format(cal.getTime());
+        System.out.println("Data gerada=" + dia);
+        try {
+            session = getSessionFactory().openSession();
+            Transaction t = session.beginTransaction();
+            List lista = session.createQuery("from Contasapagar where datediff('" + dia + "',date(datavencimento)) BETWEEN 0 and 7 and datapagamento is null order by datavencimento").list();
+            t.commit();
+            return lista;
+
+        } catch (HibernateException e) {
+            session.getTransaction().rollback();
+            return null;
+        } finally {
+            // session.close();
         }
     }
 

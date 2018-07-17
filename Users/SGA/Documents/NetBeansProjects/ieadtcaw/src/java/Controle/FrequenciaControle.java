@@ -149,6 +149,7 @@ public class FrequenciaControle implements Serializable {
     }
 
     public void limpaFormulario() {
+        createBarModels();
         frequencia = new Frequencia();
         frequenciaSelecionado = new Frequencia();
         listaFrequencia = null;

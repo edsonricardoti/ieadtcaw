@@ -5,7 +5,6 @@
  */
 package Controle;
 
-import DAO.ContasapagarDAO;
 import javax.faces.bean.ManagedBean;
 
 import DAO.ContasapagarDAO;
@@ -15,19 +14,10 @@ import static Util.FacesUtil.addErrorMessage;
 import static Util.FacesUtil.addInfoMessage;
 import java.io.Serializable;
 import java.math.BigDecimal;
-import java.math.BigInteger;
-import java.math.MathContext;
-import java.text.DecimalFormat;
-import java.text.NumberFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javafx.scene.chart.LineChart;
 import javax.annotation.PostConstruct;
 import javax.faces.bean.SessionScoped;
 import org.primefaces.model.chart.Axis;
@@ -116,6 +106,16 @@ public class ContasapagarControle implements Serializable {
         yAxis.setMin(0);
         yAxis.setMax(maximo);
         yAxis.setTickCount(10);
+    }
+
+    public boolean temNotificacao() {
+        dao = new ContasapagarDAO();
+        listaContasapagar = dao.buscarVencidos();
+        if (listaContasapagar.size() == 0) {
+            return false;
+        } else {
+            return true;
+        }
     }
 
     public void geraGrafico(Date datainicio, Date datafinal) {

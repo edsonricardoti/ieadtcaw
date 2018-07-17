@@ -27,7 +27,7 @@
                                      paginator="true" paginatorPosition="bottom"
                                      emptyMessage="Nenhum Usuário encontrado">
                             <p:column headerText="Nome">
-                                <p:outputLabel value="#{buscados.nomeUsuarios}" style="font-size: 10px;"/>
+                                <p:outputLabel value="#{buscados.nomeUsuarios}" style="font-size: 10px; text-transform: uppercase;"/>
                             </p:column>
                             <p:column>
                                 <p:commandButton value="Abrir" actionListener="#{usuarioNovoControle.buscarID(buscados.idUsuarios)}"  style="font-size: 10px;" action="consulta.xhtml"/>

@@ -21,6 +21,8 @@ import javax.persistence.TemporalType;
 )
 public class Contasapagar implements java.io.Serializable {
 
+    private static final long serialVersionUID = 1L;
+
     private Integer idcontasapagar;
     private Date datalancamento;
     private Date datavencimento;

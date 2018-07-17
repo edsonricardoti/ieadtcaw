@@ -20,19 +20,17 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.SessionScoped;
+import javax.inject.Named;
+import javax.enterprise.context.SessionScoped;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import static javax.faces.context.FacesContext.getCurrentInstance;
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletResponse;
-import static org.joda.time.DateTime.now;
 import org.primefaces.event.FileUploadEvent;
 import org.primefaces.event.ScheduleEntryMoveEvent;
 import org.primefaces.event.ScheduleEntryResizeEvent;
@@ -43,13 +41,13 @@ import org.primefaces.model.ScheduleEvent;
 import org.primefaces.model.ScheduleModel;
 import org.primefaces.model.UploadedFile;
 
-@ManagedBean
 @SessionScoped
 
 /**
  *
  * @author Edson Ricardo
  */
+@Named
 public class AvisoControle implements Serializable {
 
     private static final long serialVersionUID = 1L;

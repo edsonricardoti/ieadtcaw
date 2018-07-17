@@ -22,6 +22,8 @@ import javax.persistence.UniqueConstraint;
 )
 public class Membros implements java.io.Serializable {
 
+    private static final long serialVersionUID = 1L;
+
     private Integer idmembros;
     private String membrosNome;
     private Date membrosDataNasc;

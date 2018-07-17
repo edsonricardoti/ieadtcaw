@@ -5,7 +5,7 @@
  */
 package Controle;
 
-import javax.faces.bean.ManagedBean;
+import javax.inject.Named;
 
 import Modelo.Alunos;
 import DAO.AlunoDAO;
@@ -15,9 +15,8 @@ import Modelo.Classes;
 import Modelo.Membros;
 import static Util.FacesUtil.addErrorMessage;
 import static Util.FacesUtil.addInfoMessage;
-import java.text.DateFormat;
+import java.io.Serializable;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -26,17 +25,18 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
-import javax.faces.bean.SessionScoped;
-import org.primefaces.model.DualListModel;
+import javax.enterprise.context.SessionScoped;
 
-@ManagedBean
 @SessionScoped
 
 /**
  *
  * @author Edson Ricardo
  */
-public class AlunoControle {
+@Named
+public class AlunoControle implements Serializable {
+
+    private static final long serialVersionUID = 1L;
 
     private Alunos aluno;
     private AlunoDAO dao;

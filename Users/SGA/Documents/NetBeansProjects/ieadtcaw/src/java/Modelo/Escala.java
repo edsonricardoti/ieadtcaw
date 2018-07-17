@@ -21,6 +21,7 @@ import javax.persistence.TemporalType;
 )
 public class Escala  implements java.io.Serializable {
 
+    private static final long serialVersionUID = 1L;
 
      private Integer idescala;
      private String escalaArquivo;

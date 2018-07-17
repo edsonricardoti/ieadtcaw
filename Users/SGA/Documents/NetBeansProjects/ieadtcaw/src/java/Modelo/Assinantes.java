@@ -9,6 +9,7 @@ import java.math.BigDecimal;
  */
 public class Assinantes implements java.io.Serializable {
 
+    private static final long serialVersionUID = 1L;
 
     private String membrosNome;
     private Integer idmembros;

@@ -5,7 +5,7 @@
  */
 package Controle;
 
-import javax.faces.bean.ManagedBean;
+import javax.inject.Named;
 
 import Modelo.Membros;
 import DAO.MembrosDAO;
@@ -14,22 +14,23 @@ import static Util.FacesUtil.addInfoMessage;
 import com.lowagie.text.Document;
 import com.lowagie.text.PageSize;
 import java.io.Serializable;
-import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
 import javax.annotation.PostConstruct;
-import javax.faces.bean.SessionScoped;
+import javax.enterprise.context.SessionScoped;
 
-@ManagedBean
 @SessionScoped
 
 /**
  *
  * @author Edson Ricardo
  */
-public class MembroControle {
+@Named
+public class MembroControle implements Serializable {
+
+    private static final long serialVersionUID = 1L;
 
     private Membros membro;
     private MembrosDAO dao;
@@ -69,12 +70,20 @@ public class MembroControle {
         this.selectedOptions = selectedOptions;
     }
 
-    public List<Membros> listaFiltrados(String filtro, String nome) {
+    public void listaFiltrados(String filtro, String nome) {
         filtro = filtro.replace("[", "(");
         filtro = filtro.replace("]", ")");
         System.out.println("Filtro = " + selectedOptions);
         listaMembros = dao.selectAllFiltrado(filtro, nome);
-        return listaMembros;
+
+    }
+
+    public void listaFiltradosCad(String filtro, String nome) {
+        filtro = filtro.replace("[", "(");
+        filtro = filtro.replace("]", ")");
+        System.out.println("Filtro = " + selectedOptions);
+        listaMembros = dao.selectAllFiltradoCad(filtro, nome);
+
     }
 
     public List<Membros> listaTodos() {

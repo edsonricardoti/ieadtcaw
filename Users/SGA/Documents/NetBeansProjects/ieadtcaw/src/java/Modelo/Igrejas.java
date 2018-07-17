@@ -18,6 +18,7 @@ import javax.persistence.Table;
 )
 public class Igrejas  implements java.io.Serializable {
 
+    private static final long serialVersionUID = 1L;
 
      private Integer idIgreja;
      private String nome;

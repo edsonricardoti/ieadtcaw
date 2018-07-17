@@ -7,7 +7,6 @@ package DAO;
 
 import Modelo.Igrejas;
 import static Util.HibernateUtil.getSessionFactory;
-import java.util.Date;
 import java.util.List;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;

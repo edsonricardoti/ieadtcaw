@@ -5,24 +5,27 @@
  */
 package Controle;
 
-import javax.faces.bean.ManagedBean;
+import javax.inject.Named;
 
 import Modelo.Veiculos;
 import DAO.VeiculoDAO;
 import static Util.FacesUtil.addErrorMessage;
 import static Util.FacesUtil.addInfoMessage;
+import java.io.Serializable;
 import java.util.List;
 import javax.annotation.PostConstruct;
-import javax.faces.bean.SessionScoped;
+import javax.enterprise.context.SessionScoped;
 
-@ManagedBean
 @SessionScoped
 
 /**
  *
  * @author Edson Ricardo
  */
-public class VeiculoControle {
+@Named
+public class VeiculoControle implements Serializable {
+
+    private static final long serialVersionUID = 1L;
 
     private Veiculos veiculo;
     private VeiculoDAO dao;

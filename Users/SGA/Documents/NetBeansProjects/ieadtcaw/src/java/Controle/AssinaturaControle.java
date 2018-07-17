@@ -5,7 +5,7 @@
  */
 package Controle;
 
-import javax.faces.bean.ManagedBean;
+import javax.inject.Named;
 
 import Modelo.Assinatura;
 import DAO.AssinaturaDAO;
@@ -31,16 +31,16 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
-import javax.faces.bean.SessionScoped;
+import javax.enterprise.context.SessionScoped;
 import org.primefaces.event.RowEditEvent;
 
-@ManagedBean
 @SessionScoped
 
 /**
  *
  * @author Edson Ricardo
  */
+@Named
 public class AssinaturaControle implements Serializable {
 
     private static final long serialVersionUID = 1L;

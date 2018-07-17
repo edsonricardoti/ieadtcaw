@@ -17,17 +17,17 @@
                     <p:panel header="Cadastro de Membros">
                         <p:messages id="messages" closable="true" style="font-size: 12px; text-align: center;" showIcon="false"/>
                         <p:remoteCommand action="#{membroControle.limpaFormulario()}" autoRun="true" update="grades,lista"/>
-                        <p:panelGrid id="grades" columns="7" style="font-size: 10px;" styleClass="semBorda">
+                        <p:panelGrid id="grades" columns="7" style="font-size: 12pt;" styleClass="semBorda">
                             <p:outputLabel value="Nome:"/>
                             <p:inputText value="#{membroControle.nome}"/>
-                            <p:outputLabel value="Seleção:" style="font-size: 12pt;"/>
+                            <p:outputLabel value="ou Seleção:" style="font-size: 12pt;"/>
                             <p:selectManyButton  id="menu" value="#{membroControle.selectedOptions}">
                                 <f:selectItem itemLabel=" Membro " itemValue="'Membro'" />
                                 <f:selectItem itemLabel=" Congregado " itemValue="'Congregado'" />
                                 <f:selectItem itemLabel=" Amigo do evangélho " itemValue="'Amigo'" />
 
                             </p:selectManyButton>
-                            <p:commandButton title="Clique aqui para buscar" actionListener="#{membroControle.listaFiltrados(membroControle.selectedOptions,membroControle.nome)}" value="Buscar" update="cadastro:lista"/>
+                            <p:commandButton title="Clique aqui para buscar" actionListener="#{membroControle.listaFiltradosCad(membroControle.selectedOptions,membroControle.nome)}" value="Buscar" update="cadastro:lista"/>
                         </p:panelGrid>
 
                         <p:dataTable id="lista" rows="10"

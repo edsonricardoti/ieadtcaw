@@ -21,6 +21,7 @@ import javax.persistence.TemporalType;
 )
 public class Ata  implements java.io.Serializable {
 
+    private static final long serialVersionUID = 1L;
 
      private Integer idata;
      private Date ataData;

@@ -5,7 +5,7 @@
  */
 package Controle;
 
-import javax.faces.bean.ManagedBean;
+import javax.inject.Named;
 
 import DAO.ContasapagarDAO;
 import Modelo.Contasapagar;
@@ -19,20 +19,20 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
 import javax.annotation.PostConstruct;
-import javax.faces.bean.SessionScoped;
+import javax.enterprise.context.SessionScoped;
 import org.primefaces.model.chart.Axis;
 import org.primefaces.model.chart.AxisType;
 import org.primefaces.model.chart.CategoryAxis;
 import org.primefaces.model.chart.ChartSeries;
 import org.primefaces.model.chart.LineChartModel;
 
-@ManagedBean
 @SessionScoped
 
 /**
  *
  * @author Edson Ricardo
  */
+@Named
 public class ContasapagarControle implements Serializable {
 
     private static final long serialVersionUID = 1L;

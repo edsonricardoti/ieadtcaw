@@ -7,26 +7,28 @@ package Controle;
 
 import static Util.FacesUtil.addErrorMessage;
 import static Util.FacesUtil.addInfoMessage;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.SessionScoped;
+import javax.inject.Named;
+import javax.enterprise.context.SessionScoped;
 import Modelo.Usuarios;
 import DAO.UsuarioDAO;
+import java.io.Serializable;
 import javax.annotation.PostConstruct;
 import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpSession;
-import org.jboss.weld.context.http.HttpSessionContextImpl;
 
-@ManagedBean
 @SessionScoped
 
 /**
  *
  * @author Edson Ricardo
  */
-public class UsuarioControle {
+@Named
+public class UsuarioControle implements Serializable {
+
+    private static final long serialVersionUID = 1L;
 
     private Usuarios usuario = new Usuarios();
-    private UsuarioDAO dao = new UsuarioDAO();
+    private final UsuarioDAO dao = new UsuarioDAO();
     private Usuarios usuarioSelecionado = new Usuarios();
     private Boolean usuarioLogado;
 
@@ -53,24 +55,15 @@ public class UsuarioControle {
     }
 
     public String logOFF() {
-        usuario = new Usuarios();
-        usuario.setAdministracao(false);
-        usuario.setEbd(false);
-        usuario.setFinanceiro(false);
-        usuario.setIdUsuarios(0);
-        usuario.setMissoes(false);
-        usuario.setNomeUsuarios("");
-        usuario.setSecretaria(false);
-        usuario.setSenhaUsuarios("");
-
-        usuarioLogado = false;
-        usuarioSelecionado = new Usuarios();
+        usuario = null;
+        usuarioSelecionado = null;
         usuarioLogado = false;
         FacesContext fc = FacesContext.getCurrentInstance();
-        HttpSession session = (HttpSession) fc.getExternalContext().getSession(true);
+        HttpSession session = (HttpSession) fc.getExternalContext().getSession(false);
+        session.removeAttribute("usuario");
         session.invalidate();
 
-        return "../index.xhtml?faces-redirect=true";
+        return "index.xhtml?faces-redirect=true";
 
     }
 

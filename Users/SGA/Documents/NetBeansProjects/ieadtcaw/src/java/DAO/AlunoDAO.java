@@ -14,8 +14,6 @@ import java.text.ParseException;
 import java.util.Date;
 import org.hibernate.HibernateException;
 import Modelo.Membros;
-import org.hibernate.Query;
-import org.hibernate.transform.Transformers;
 
 /**
  *

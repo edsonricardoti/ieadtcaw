@@ -22,6 +22,8 @@ import javax.persistence.TemporalType;
 )
 public class Classes implements java.io.Serializable {
 
+    private static final long serialVersionUID = 1L;
+
     private int idclasses;
     private String classesNome;
     private String classesTipo;

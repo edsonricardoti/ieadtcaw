@@ -10,7 +10,6 @@ import java.util.List;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import Modelo.Diasdaescala;
-import Modelo.Escala;
 import java.util.Date;
 import org.hibernate.HibernateException;
 

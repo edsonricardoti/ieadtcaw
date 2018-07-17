@@ -5,7 +5,7 @@
  */
 package Controle;
 
-import javax.faces.bean.ManagedBean;
+import javax.inject.Named;
 
 import Modelo.Criancas;
 import DAO.CriancaDAO;
@@ -18,6 +18,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.Serializable;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -27,26 +28,25 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
-import javax.faces.bean.SessionScoped;
+import javax.enterprise.context.SessionScoped;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import static javax.faces.context.FacesContext.getCurrentInstance;
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletResponse;
-import static javax.ws.rs.core.Response.status;
-import static javax.ws.rs.core.Response.status;
-import static javax.ws.rs.core.Response.status;
 import org.primefaces.event.FileUploadEvent;
 import org.primefaces.model.UploadedFile;
 
-@ManagedBean
 @SessionScoped
 
 /**
  *
  * @author Edson Ricardo
  */
-public class CriancaControle {
+@Named
+public class CriancaControle implements Serializable {
+
+    private static final long serialVersionUID = 1L;
 
     private Criancas crianca;
     private CriancaDAO dao;

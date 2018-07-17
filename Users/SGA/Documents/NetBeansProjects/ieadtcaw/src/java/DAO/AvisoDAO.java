@@ -9,13 +9,11 @@ import java.io.IOException;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
-import java.util.Locale;
 import static javax.imageio.ImageIO.read;
 import static javax.imageio.ImageIO.write;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
-import org.joda.time.DateTime;
 import sun.misc.BASE64Decoder;
 
 public class AvisoDAO {

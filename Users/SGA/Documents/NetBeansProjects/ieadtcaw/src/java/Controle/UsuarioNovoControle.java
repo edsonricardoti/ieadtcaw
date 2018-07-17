@@ -8,20 +8,23 @@ package Controle;
 import static Util.FacesUtil.addErrorMessage;
 import static Util.FacesUtil.addInfoMessage;
 import java.util.List;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.SessionScoped;
+import javax.inject.Named;
+import javax.enterprise.context.SessionScoped;
 import Modelo.Usuarios;
 import DAO.UsuarioDAO;
+import java.io.Serializable;
 import javax.annotation.PostConstruct;
 
-@ManagedBean
 @SessionScoped
 
 /**
  *
  * @author Edson Ricardo
  */
-public class UsuarioNovoControle {
+@Named
+public class UsuarioNovoControle implements Serializable {
+
+    private static final long serialVersionUID = 1L;
 
     Usuarios usuario = new Usuarios();
     UsuarioDAO dao = new UsuarioDAO();

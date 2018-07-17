@@ -11,7 +11,6 @@ import org.hibernate.Session;
 import org.hibernate.Transaction;
 import Modelo.Usuarios;
 import org.hibernate.HibernateException;
-import org.hibernate.Query;
 
 /**
  *

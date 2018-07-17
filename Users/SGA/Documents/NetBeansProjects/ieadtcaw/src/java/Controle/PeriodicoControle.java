@@ -5,28 +5,31 @@
  */
 package Controle;
 
-import javax.faces.bean.ManagedBean;
+import javax.inject.Named;
 
 import Modelo.Periodico;
 import DAO.PeriodicoDAO;
 import static Util.FacesUtil.addErrorMessage;
 import static Util.FacesUtil.addInfoMessage;
+import java.io.Serializable;
 import java.text.ParseException;
 import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
-import javax.faces.bean.SessionScoped;
+import javax.enterprise.context.SessionScoped;
 
-@ManagedBean
 @SessionScoped
 
 /**
  *
  * @author Edson Ricardo
  */
-public class PeriodicoControle {
+@Named
+public class PeriodicoControle implements Serializable {
+
+    private static final long serialVersionUID = 1L;
 
     private Periodico periodico;
     private PeriodicoDAO dao;

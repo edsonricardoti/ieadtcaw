@@ -62,6 +62,33 @@ public class MembrosDAO {
         }
     }
 
+    public List<Membros> selectAllFiltradoCad(String filtro, String nome) {
+        String sql = "from Membros";
+        System.out.println("Filtro =" + filtro);
+        if (filtro.isEmpty() || filtro.equals("()")) {
+            sql = "from Membros where membrosNome like '%" + nome + "%' order by membrosNome";
+        } else {
+            sql = "from Membros where membrosTipo in" + filtro + " order by membrosNome";
+
+        }
+
+        try {
+            session = getSessionFactory().openSession();
+            Transaction t = session.beginTransaction();
+            List lista = session.createQuery(sql)
+                    .setMaxResults(25)
+                    .list();
+            t.commit();
+            return lista;
+
+        } catch (HibernateException e) {
+            session.getTransaction().rollback();
+            return null;
+        } finally {
+            session.close();
+        }
+    }
+
     public List<Membros> selectDirigentes() {
         try {
             session = getSessionFactory().openSession();

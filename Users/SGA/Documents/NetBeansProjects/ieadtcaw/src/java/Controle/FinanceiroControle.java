@@ -6,7 +6,7 @@
 package Controle;
 
 import DAO.AssinaturaDAO;
-import javax.faces.bean.ManagedBean;
+import javax.inject.Named;
 
 import Modelo.Financeiro;
 import DAO.FinanceiroDAO;
@@ -16,6 +16,7 @@ import Modelo.Missgeral;
 import Modelo.Relatorios;
 import static Util.FacesUtil.addErrorMessage;
 import static Util.FacesUtil.addInfoMessage;
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.text.DecimalFormat;
@@ -29,20 +30,22 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
-import javax.faces.bean.SessionScoped;
+import javax.enterprise.context.SessionScoped;
 
-@ManagedBean
 @SessionScoped
 
 /**
  *
  * @author Edson Ricardo
  */
-public class FinanceiroControle {
+@Named
+public class FinanceiroControle implements Serializable {
+
+    private static final long serialVersionUID = 1L;
 
     private Financeiro financeiro;
     private FinanceiroDAO dao;
-    private MembrosDAO mdao;
+    private final MembrosDAO mdao;
     private AssinaturaDAO adao;
     private List<Membros> listaMembros;
     private Financeiro financeiroSelecionado;

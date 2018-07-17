@@ -5,7 +5,7 @@
  */
 package Controle;
 
-import javax.faces.bean.ManagedBean;
+import javax.inject.Named;
 
 import Modelo.Igrejas;
 import DAO.IgrejasDAO;
@@ -14,16 +14,18 @@ import static Util.FacesUtil.addInfoMessage;
 import java.io.Serializable;
 import java.util.List;
 import javax.annotation.PostConstruct;
-import javax.faces.bean.SessionScoped;
+import javax.enterprise.context.SessionScoped;
 
-@ManagedBean
 @SessionScoped
 
 /**
  *
  * @author Edson Ricardo
  */
-public class IgrejaControle {
+@Named
+public class IgrejaControle implements Serializable {
+
+    private static final long serialVersionUID = 1L;
 
     private Igrejas igreja;
     private IgrejasDAO dao;

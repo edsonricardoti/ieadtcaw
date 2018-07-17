@@ -12,21 +12,24 @@ import Modelo.Caixa;
 import Modelo.Contasapagar;
 import Modelo.Financeiro;
 import Modelo.LivroCaixa;
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.text.ParseException;
 import java.util.Date;
 import java.util.List;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.SessionScoped;
+import javax.inject.Named;
+import javax.enterprise.context.SessionScoped;
 
-@ManagedBean
 @SessionScoped
 /**
  *
  * @author SGA
  */
-public class CaixaControle {
+@Named
+public class CaixaControle implements Serializable {
+
+    private static final long serialVersionUID = 1L;
 
     private Financeiro financeiro;
     private Caixa caixa;

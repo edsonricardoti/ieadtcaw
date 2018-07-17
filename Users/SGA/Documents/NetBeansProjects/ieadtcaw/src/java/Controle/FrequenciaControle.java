@@ -5,10 +5,9 @@
  */
 package Controle;
 
-import javax.faces.bean.ManagedBean;
+import javax.inject.Named;
 import DAO.AlunoDAO;
 import DAO.ClassesDAO;
-import DAO.FrequenciaDAO;
 import DAO.MembrosDAO;
 import DAO.FrequenciaDAO;
 import Modelo.Frequencia;
@@ -26,20 +25,19 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
-import javax.faces.bean.SessionScoped;
+import javax.enterprise.context.SessionScoped;
 import org.primefaces.model.chart.Axis;
 import org.primefaces.model.chart.AxisType;
 import org.primefaces.model.chart.BarChartModel;
-import org.primefaces.model.chart.HorizontalBarChartModel;
 import org.primefaces.model.chart.ChartSeries;
 
-@ManagedBean
 @SessionScoped
 
 /**
  *
  * @author Edson Ricardo
  */
+@Named
 public class FrequenciaControle implements Serializable {
 
     private static final long serialVersionUID = 1L;

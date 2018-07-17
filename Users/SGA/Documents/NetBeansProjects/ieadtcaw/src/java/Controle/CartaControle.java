@@ -5,7 +5,7 @@
  */
 package Controle;
 
-import javax.faces.bean.ManagedBean;
+import javax.inject.Named;
 
 import Modelo.Carta;
 import DAO.CartaDAO;
@@ -16,6 +16,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.Serializable;
 import java.text.ParseException;
 import java.util.List;
 import java.util.Random;
@@ -23,7 +24,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
-import javax.faces.bean.SessionScoped;
+import javax.enterprise.context.SessionScoped;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import static javax.faces.context.FacesContext.getCurrentInstance;
@@ -32,14 +33,16 @@ import javax.servlet.http.HttpServletResponse;
 import org.primefaces.event.FileUploadEvent;
 import org.primefaces.model.UploadedFile;
 
-@ManagedBean
 @SessionScoped
 
 /**
  *
  * @author Edson Ricardo
  */
-public class CartaControle {
+@Named
+public class CartaControle implements Serializable {
+
+    private static final long serialVersionUID = 1L;
 
     private Carta carta;
     private CartaDAO dao;

@@ -21,6 +21,8 @@ import javax.persistence.TemporalType;
 )
 public class Financeiro implements java.io.Serializable {
 
+    private static final long serialVersionUID = 1L;
+
     private Integer idfinanceiro;
     private Integer financeiroIdmembro;
     private BigDecimal financeiroValor;

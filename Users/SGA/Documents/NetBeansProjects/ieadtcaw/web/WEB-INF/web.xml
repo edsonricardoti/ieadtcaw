@@ -11,7 +11,7 @@
         <param-value>-1</param-value>
     </context-param>
     <session-config>
-        <session-timeout>60</session-timeout>
+        <session-timeout>30</session-timeout>
     </session-config>
     <servlet>
         <servlet-name>FacesServlet</servlet-name>
@@ -36,7 +36,7 @@
         </init-param>
         <init-param>
             <param-name>thresholdSize</param-name>
-            <param-value>10000</param-value>
+            <param-value>51200</param-value>
         </init-param>
     </filter>
     <filter-mapping>

@@ -6,7 +6,7 @@
 package Controle;
 
 import DAO.AlunoDAO;
-import javax.faces.bean.ManagedBean;
+import javax.inject.Named;
 
 import Modelo.Classes;
 import DAO.ClassesDAO;
@@ -17,6 +17,7 @@ import Modelo.Frequencia;
 import Modelo.Membros;
 import static Util.FacesUtil.addErrorMessage;
 import static Util.FacesUtil.addInfoMessage;
+import java.io.Serializable;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -26,26 +27,28 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
-import javax.faces.bean.SessionScoped;
+import javax.enterprise.context.SessionScoped;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletResponse;
 import org.primefaces.model.UploadedFile;
 
-@ManagedBean
 @SessionScoped
 
 /**
  *
  * @author Edson Ricardo
  */
-public class ClasseControle {
+@Named
+public class ClasseControle implements Serializable {
+
+    private static final long serialVersionUID = 1L;
 
     private Classes classe;
     private ClassesDAO dao;
     private AlunoDAO adao;
-    private MembrosDAO mdao;
+    private final MembrosDAO mdao;
     private List<Frequencia> frequenciaLista;
     private FrequenciaDAO fdao;
     private Classes classeSelecionado;

@@ -10,8 +10,7 @@
     </h:head>
     <h:body>
         <ui:composition>
-            <h:form>
-
+            <h:form>              
                 <p:menubar style="font-size: 18px;">
                     <p:submenu label="Cadastro" icon="ui-icon-folder-collapsed" rendered="#{usuarioControle.usuario.secretaria or usuarioControle.usuario.administracao}">
                         <p:submenu label="Membros/Congregados" icon="ui-icon-person">
@@ -161,7 +160,7 @@
                         <p:menuitem value="Por estado civil" ajax="false" icon="ui-icon-print" url="/sistema/listagens/membrosporestcivil.xhtml" />
                     </p:submenu>
                     <p:menuitem value="Alterar senha" icon=" ui-icon-key" ajax="false" url="/sistema/usuarios/alterarsenha.xhtml"/>
-                    <p:menuitem value="Saír" icon="ui-icon-power" ajax="false" action="#{usuarioControle.logOFF()}"/>
+                    <p:menuitem value="Saír" icon="ui-icon-power" ajax="false" actionListener="#{usuarioControle.logOFF}" action="index.xhtml?faces-redirect=true" update="@all"/>
 
                 </p:menubar>
             </h:form>

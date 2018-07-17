@@ -46,14 +46,32 @@ public class UsuarioControle {
 
     }
 
+    public void buscarID(int id) {
+        usuarioSelecionado = dao.buscarPorID(id);
+        // membro = membroSelecionado;
+
+    }
+
     public String logOFF() {
         usuario = new Usuarios();
-        usuario = null;
+        usuario.setAdministracao(false);
+        usuario.setEbd(false);
+        usuario.setFinanceiro(false);
+        usuario.setIdUsuarios(0);
+        usuario.setMissoes(false);
+        usuario.setNomeUsuarios("");
+        usuario.setSecretaria(false);
+        usuario.setSenhaUsuarios("");
+
         usuarioLogado = false;
         usuarioSelecionado = new Usuarios();
         usuarioLogado = false;
-        FacesContext.getCurrentInstance().getExternalContext().invalidateSession();
-        return "index.xhtml?faces-redirect=true";
+        FacesContext fc = FacesContext.getCurrentInstance();
+        HttpSession session = (HttpSession) fc.getExternalContext().getSession(true);
+        session.invalidate();
+
+        return "../index.xhtml?faces-redirect=true";
+
     }
 
     public String logando() {

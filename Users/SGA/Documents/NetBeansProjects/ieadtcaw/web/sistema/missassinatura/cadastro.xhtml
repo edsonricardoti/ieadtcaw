@@ -35,7 +35,7 @@
                             <p:commandButton title="Clique aqui para buscar" actionListener="#{assinaturaControle.buscarLista(assinaturaControle.nome)}" value="Buscar" update="lista"/>
                         </p:panelGrid>
 
-                        <p:dataTable id="lista" rows="10"
+                        <p:dataTable id="lista" rows="10" sortBy="#{buscados.membrosNome}"
                                      value="#{assinaturaControle.listaMembros}"
                                      var="buscados"
                                      paginator="true" paginatorPosition="bottom"

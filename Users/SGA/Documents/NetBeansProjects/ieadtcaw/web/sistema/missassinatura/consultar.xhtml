@@ -24,7 +24,7 @@
                             <p:commandButton id="caq" title="Clique aqui para buscar" action="#{assinaturaControle.BuscaAssinatura(assinaturaControle.nome)}" value="Buscar" update="cadastro:lista"/>
                         </p:panelGrid>
 
-                        <p:dataTable id="lista" rows="10"
+                        <p:dataTable id="lista" rows="10" sortBy="#{buscados.membrosNome}"
                                      value="#{assinaturaControle.listaAssinantes}"
                                      var="buscados"
                                      style="width: 100%;"

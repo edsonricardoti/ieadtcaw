@@ -5,6 +5,10 @@
         <param-value>ui-lightness</param-value>
     </context-param>
     <context-param>
+        <param-name>primefaces.MOVE_SCRIPTS_TO_BOTTOM</param-name>
+        <param-value>true</param-value>
+    </context-param>
+    <context-param>
         <param-name>
             javax.faces.FACELETS_REFRESH_PERIOD
         </param-name>
@@ -25,6 +29,11 @@
     <welcome-file-list>
         <welcome-file>index.xhtml</welcome-file>
     </welcome-file-list>
+    <error-page>
+        <exception-type>org.jboss.weld.context.NonexistentConversationException</exception-type>
+        <location>/inicio.xhtml?faces-redirect=true</location>
+    </error-page>
+    
     <filter>
         <filter-name>PrimeFaces FileUpload Filter</filter-name>
         <filter-class>  

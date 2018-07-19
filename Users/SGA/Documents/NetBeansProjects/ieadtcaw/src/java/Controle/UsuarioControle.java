@@ -11,6 +11,7 @@ import javax.inject.Named;
 import javax.enterprise.context.SessionScoped;
 import Modelo.Usuarios;
 import DAO.UsuarioDAO;
+import java.io.IOException;
 import java.io.Serializable;
 import javax.annotation.PostConstruct;
 import javax.faces.context.FacesContext;
@@ -54,7 +55,12 @@ public class UsuarioControle implements Serializable {
 
     }
 
-    public String logOFF() {
+    public void keepAlive() {
+        usuarioLogado = true;
+    }
+
+    public void tempoFindou() throws IOException {
+        System.out.println("saiu da aplicacao...");
         usuario = null;
         usuarioSelecionado = null;
         usuarioLogado = false;
@@ -62,8 +68,19 @@ public class UsuarioControle implements Serializable {
         HttpSession session = (HttpSession) fc.getExternalContext().getSession(false);
         session.removeAttribute("usuario");
         session.invalidate();
+        FacesContext.getCurrentInstance().getExternalContext().redirect("/ieadtcaw/index.xhtml?faces-redirect=true");
+    }
 
-        return "index.xhtml?faces-redirect=true";
+    public String logOFF() {
+        System.out.println("saiu da aplicacao...");
+        usuario = null;
+        usuarioSelecionado = null;
+        usuarioLogado = false;
+        FacesContext fc = FacesContext.getCurrentInstance();
+        HttpSession session = (HttpSession) fc.getExternalContext().getSession(false);
+        session.removeAttribute("usuario");
+        session.invalidate();
+        return "/index.xhtml?faces-redirect=true";
 
     }
 

@@ -57,6 +57,7 @@ public class MembroControle implements Serializable {
         dao = new MembrosDAO();
         membroSelecionado = new Membros();
 
+
 //        model = new LazyDataModel<Membros>() {
 //
 //            private static final long serialVersionUID = 1L;
@@ -90,7 +91,7 @@ public class MembroControle implements Serializable {
 
     public void beginConversation() {
         if (conversation.isTransient()) {
-            conversation.setTimeout(1800000L);
+            conversation.setTimeout(60000 * 60);
             conversation.begin();
         }
     }

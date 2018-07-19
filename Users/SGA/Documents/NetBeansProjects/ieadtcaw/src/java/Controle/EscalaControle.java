@@ -25,17 +25,19 @@ import java.util.Date;
 import java.util.List;
 import java.util.Random;
 import javax.annotation.PostConstruct;
+import javax.enterprise.context.Conversation;
+import javax.enterprise.context.ConversationScoped;
 import javax.faces.application.FacesMessage;
-import javax.enterprise.context.SessionScoped;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import static javax.faces.context.FacesContext.getCurrentInstance;
+import javax.inject.Inject;
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletResponse;
 import org.primefaces.event.FileUploadEvent;
 import org.primefaces.model.UploadedFile;
 
-@SessionScoped
+@ConversationScoped
 
 /**
  *
@@ -59,6 +61,9 @@ public class EscalaControle implements Serializable {
     private Date datafim;
     private String periodo;
 
+    @Inject
+    private Conversation conversation;
+
     public EscalaControle() {
         escala = new Escala();
         dao = new EscalaDAO();
@@ -73,6 +78,27 @@ public class EscalaControle implements Serializable {
         isRederiza = false;
         //escalaSelecionado = new Escala();
 
+    }
+
+    public void beginConversation() {
+        if (conversation.isTransient()) {
+            conversation.setTimeout(1800000L);
+            conversation.begin();
+        }
+    }
+
+    public void endConversation() {
+        System.out.println("Finalizou conversacao...");
+        if (!conversation.isTransient()) {
+            conversation.end();
+        }
+
+    }
+
+    public String fechar() throws IOException {
+        endConversation();
+        FacesContext.getCurrentInstance().getExternalContext().redirect("../../inicio.xhtml?faces-redirect=true");
+        return "";
     }
 
     public void limpaFormulario() {
@@ -117,7 +143,7 @@ public class EscalaControle implements Serializable {
         escalaSelecionado = new Escala();
         escalaSelecionado = escala;
         if (dao.insert(escala)) {
-
+            endConversation();
             addInfoMessage("Dados salvo com sucesso!");
         } else {
             addErrorMessage("Erro ao salvar os dados!");

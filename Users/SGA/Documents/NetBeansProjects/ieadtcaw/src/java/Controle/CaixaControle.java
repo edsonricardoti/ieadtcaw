@@ -12,16 +12,21 @@ import Modelo.Caixa;
 import Modelo.Contasapagar;
 import Modelo.Financeiro;
 import Modelo.LivroCaixa;
+import java.io.IOException;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.text.ParseException;
 import java.util.Date;
 import java.util.List;
+import javax.enterprise.context.Conversation;
+import javax.enterprise.context.ConversationScoped;
 import javax.inject.Named;
 import javax.enterprise.context.SessionScoped;
+import javax.faces.context.FacesContext;
+import javax.inject.Inject;
 
-@SessionScoped
+@ConversationScoped
 /**
  *
  * @author SGA
@@ -46,10 +51,34 @@ public class CaixaControle implements Serializable {
     private Date dataini;
     private Date datafim;
 
+    @Inject
+    private Conversation conversation;
+
     public CaixaControle() {
         totreceita = new BigDecimal(BigInteger.ZERO);
         totdespes = new BigDecimal(BigInteger.ZERO);
         saldo = new BigDecimal(BigInteger.ZERO);
+    }
+
+    public void beginConversation() {
+        if (conversation.isTransient()) {
+            conversation.setTimeout(1800000L);
+            conversation.begin();
+        }
+    }
+
+    public void endConversation() {
+        System.out.println("Finalizou conversacao...");
+        if (!conversation.isTransient()) {
+            conversation.end();
+        }
+
+    }
+
+    public String fechar() throws IOException {
+        endConversation();
+        FacesContext.getCurrentInstance().getExternalContext().redirect("../../inicio.xhtml?faces-redirect=true");
+        return "";
     }
 
     public void GeraCaixa(Date dataini, Date datafim) throws ParseException {

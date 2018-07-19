@@ -45,7 +45,9 @@
 
                         </p:dataTable>
 
-                        <p:button value="Fechar" icon="ui-icon-closethick" outcome="/inicio.xhtml"/>
+                        <p:commandButton value="Fechar" ajax="false"
+                                         icon="ui-icon-closethick"
+                                         action="#{membroControle.fechar()}"/>
                     </p:panel>
                 </h:form>
             </ui:define>            

@@ -32,6 +32,9 @@
                         </p:commandButton>
                     </p:dialog>
                     <p:commandButton type="button" value="Exportar" icon="ui-icon-extlink" onclick="exportChart()"/>
+                    <p:commandButton value="Fechar" ajax="false"
+                                     icon="ui-icon-closethick"
+                                     action="#{contasapagarControle.fechar()}"/>
                 </h:form>
             </ui:define>            
 

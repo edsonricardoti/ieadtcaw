@@ -23,6 +23,9 @@
 
                 </p:dialog>
                 <h:form id="cadastro" prependId="false">
+                    <f:metadata>
+                        <f:event listener="#{caixaControle.beginConversation()}" type="preRenderView" />
+                    </f:metadata>
                     <p:messages id="messages" closable="true" style="font-size: 12px; text-align: center;" showIcon="false"/>
 
                     <p:panel header="Fechamento do caixa" id="pg2">
@@ -92,7 +95,9 @@
                         </p:panel>
                     </p:panel>
 
-                    <p:button value="Fechar" icon="ui-icon-closethick" outcome="/inicio.xhtml"/>
+                    <p:commandButton value="Fechar" ajax="false"
+                                     icon="ui-icon-closethick"
+                                     action="#{caixaControle.fechar()}"/>
                     <p:commandButton value="Imprimir" type="button" icon="ui-icon-print"  >
                         <p:printer target="pg" />
                     </p:commandButton>

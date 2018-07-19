@@ -13,24 +13,22 @@
             <ui:define name="content">
 
                 <h:form id="cadastro">
+                    <f:metadata>
+                        <f:event listener="#{membroControle.beginConversation()}" type="preRenderView" />
+                    </f:metadata>
 
                     <p:panel header="Cadastro de Membros">
                         <p:messages id="messages" closable="true" style="font-size: 12px; text-align: center;" showIcon="false"/>
-                        <p:remoteCommand action="#{membroControle.limpaFormulario()}" autoRun="true" update="grades,lista"/>
-                        <p:panelGrid id="grades" columns="7" style="font-size: 12pt;" styleClass="semBorda">
-                            <p:outputLabel value="Nome:"/>
-                            <p:inputText value="#{membroControle.nome}"/>
-                            <p:outputLabel value="ou Seleção:" style="font-size: 12pt;"/>
-                            <p:selectManyButton  id="menu" value="#{membroControle.selectedOptions}">
-                                <f:selectItem itemLabel=" Membro " itemValue="'Membro'" />
-                                <f:selectItem itemLabel=" Congregado " itemValue="'Congregado'" />
-                                <f:selectItem itemLabel=" Amigo do evangélho " itemValue="'Amigo'" />
 
-                            </p:selectManyButton>
-                            <p:commandButton title="Clique aqui para buscar" actionListener="#{membroControle.listaFiltradosCad(membroControle.selectedOptions,membroControle.nome)}" value="Buscar" update="cadastro:lista"/>
+                        <p:panelGrid id="grades" columns="3" style="font-size: 12pt;" styleClass="semBorda">
+                            <p:outputLabel value="Nome:"/>
+                            <p:inputText value="#{membroControle.nome}" size="65"/>
+
+                            <p:commandButton title="Clique aqui para buscar" actionListener="#{membroControle.listaFiltradosCad(membroControle.nome)}"   value="Buscar" update="cadastro:lista" process="@form"/>
+
                         </p:panelGrid>
 
-                        <p:dataTable id="lista" rows="10"
+                        <p:dataTable id="lista" rows="5" sortBy="#{buscados.membrosNome}"
                                      value="#{membroControle.listaMembros}"
                                      var="buscados" style="font-size: 10px; text-transform: uppercase;"
                                      paginator="true" paginatorPosition="bottom"
@@ -42,13 +40,16 @@
                                 <p:outputLabel value="#{buscados.membrosTipo}" style="font-size: 10px; text-transform: uppercase;"/>
                             </p:column>
                             <p:column headerText="Alterar" style="text-align: center;">
-                                <p:commandButton icon="ui-icon-pencil" actionListener="#{membroControle.buscarID(buscados.idmembros)}" style="font-size: 10px;" action="consulta.xhtml"/>
+                                <p:commandButton icon="ui-icon-pencil" action="#{membroControle.buscarIDView(buscados.idmembros)}" style="font-size: 10px;" />
                             </p:column>
 
                         </p:dataTable>
 
-                        <p:button value="Fechar" icon="ui-icon-closethick" outcome="/inicio.xhtml"/>
+                        <p:commandButton value="Fechar" ajax="false" 
+                                         icon="ui-icon-closethick" 
+                                         action="#{membroControle.fechar()}"/>
                     </p:panel>
+
                 </h:form>
             </ui:define>            
 

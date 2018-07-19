@@ -13,9 +13,12 @@
     <ui:composition template="/layout.xhtml">
         <ui:define name="content">
             <h:form id="frm1" prependId="false">
+                <f:metadata>
+                    <f:event listener="#{membroControle.beginConversation()}" type="preRenderView" />
+                </f:metadata>
                 <p:panelGrid columns="3" style="list-style:  none;">
                     <p:outputLabel value="Mês:"/>
-                    <p:selectOneMenu id="mes" value="#{escalaControle.escala.escalaMes}" style="width:125px">
+                    <p:selectOneMenu id="mes" value="#{membroControle.mes}" style="width:125px">
                         <f:selectItem itemLabel="Janeiro" itemValue="1" />
                         <f:selectItem itemLabel="Fevereiro" itemValue="2" />
                         <f:selectItem itemLabel="Marco" itemValue="3" />
@@ -30,7 +33,7 @@
                         <f:selectItem itemLabel="Dezembro" itemValue="12" />
                     </p:selectOneMenu>
                     <p:commandButton value="Buscar"
-                                     action="#{membroControle.buscarAniversariantes(escalaControle.escala.escalaMes)}" update="tbl"/>
+                                     action="#{membroControle.buscarAniversariantes(membroControle.mes)}" update="tbl"/>
                 </p:panelGrid>
                 <p:panel id="pg" style="font-size: 10px;">
                     <p:dataTable id="tbl" value="#{membroControle.listaAniversariantes}" var="membros" stickyHeader="Teste"
@@ -54,7 +57,9 @@
                     </p:dataTable>
                 </p:panel>
                 <p:panelGrid columns="3" layout="grid">
-                    <p:button id="fc" value="Fechar" icon="ui-icon-closethick" outcome="/inicio.xhtml"/>
+                    <p:commandButton value="Fechar" ajax="false"
+                                     icon="ui-icon-closethick"
+                                     action="#{membroControle.fechar()}"/>
                     <p:commandButton value="Imprimir" type="button" icon="ui-icon-print" >
                         <p:printer target="tbl" />
                     </p:commandButton>

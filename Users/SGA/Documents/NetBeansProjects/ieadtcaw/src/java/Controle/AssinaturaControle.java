@@ -21,6 +21,7 @@ import Modelo.Parcelamentos;
 import Modelo.Periodico;
 import static Util.FacesUtil.addErrorMessage;
 import static Util.FacesUtil.addInfoMessage;
+import java.io.IOException;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.text.ParseException;
@@ -31,10 +32,14 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
+import javax.enterprise.context.Conversation;
+import javax.enterprise.context.ConversationScoped;
 import javax.enterprise.context.SessionScoped;
+import javax.faces.context.FacesContext;
+import javax.inject.Inject;
 import org.primefaces.event.RowEditEvent;
 
-@SessionScoped
+@ConversationScoped
 
 /**
  *
@@ -76,6 +81,9 @@ public class AssinaturaControle implements Serializable {
     private BigDecimal subtotalpg;
     private BigDecimal subtotalsaldo;
 
+    @Inject
+    private Conversation conversation;
+
     public AssinaturaControle() {
         assinatura = new Assinatura();
         dao = new AssinaturaDAO();
@@ -104,6 +112,27 @@ public class AssinaturaControle implements Serializable {
         assinaturaSelecionado = new Assinatura();
         //listaMembros = mdao.selectAll();
 
+    }
+
+    public void beginConversation() {
+        if (conversation.isTransient()) {
+            conversation.setTimeout(1800000L);
+            conversation.begin();
+        }
+    }
+
+    public void endConversation() {
+        System.out.println("Finalizou conversacao...");
+        if (!conversation.isTransient()) {
+            conversation.end();
+        }
+
+    }
+
+    public String fechar() throws IOException {
+        endConversation();
+        FacesContext.getCurrentInstance().getExternalContext().redirect("../../inicio.xhtml?faces-redirect=true");
+        return "";
     }
 
     public void onCellEdit(RowEditEvent event) {

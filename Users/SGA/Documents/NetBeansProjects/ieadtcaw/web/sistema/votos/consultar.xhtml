@@ -23,6 +23,9 @@
 
                 </p:dialog>
                 <h:form id="cadastro" prependId="false">
+                    <f:metadata>
+                        <f:event listener="#{financeiroControle.beginConversation()}" type="preRenderView" />
+                    </f:metadata>
                     <script type="text/javascript">
                         $(".valor").keyup(function () {
                             s = $(this).val();
@@ -33,7 +36,7 @@
                         });
                     </script>
                     <p:messages id="messages" closable="true" style="font-size: 12px; text-align: center;" showIcon="false"/>
-                    <p:remoteCommand action="#{alunoControle.limpaFormulario()}" autoRun="true" update="lista"/>
+                    <p:remoteCommand action="#{financeiroControle.limpaFormulario()}" autoRun="true" update="lista"/>
                     <p:panel header="Cadastro de Votos" id="pg">
                         <p:panelGrid columns="5" style="font-size: 10px;" styleClass="semBorda">
                             <p:outputLabel value="Data Ini:"/>
@@ -75,7 +78,9 @@
                         </p:confirmDialog>
                     </p:panel>
 
-                    <p:button value="Fechar" icon="ui-icon-closethick" outcome="/inicio.xhtml"/>
+                    <p:commandButton value="Fechar" ajax="false"
+                                     icon="ui-icon-closethick"
+                                     action="#{financeiroControle.fechar()}"/>
 
                 </h:form>
             </ui:define>            

@@ -12,6 +12,9 @@
         <ui:composition template="/layout.xhtml">            
             <ui:define name="content">
                 <h:form id="cadastro" prependId="false">
+                    <f:metadata>
+                        <f:event listener="#{assinaturaControle.beginConversation()}" type="preRenderView" />
+                    </f:metadata>
                     <p:panel header="Missão - Assinaturas">
                         <p:messages id="messages" closable="true" style="font-size: 12px; text-align: center;" showIcon="false"/>
                         <p:remoteCommand id="cm" action="#{assinaturaControle.limpaFormulario()}" autoRun="true" update="grades,lista"/>
@@ -44,7 +47,9 @@
                             <p:commandButton id="n" value="Não" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
                         </p:confirmDialog>
 
-                        <p:button id="fc" value="Fechar" icon="ui-icon-closethick" outcome="/inicio.xhtml"/>
+                        <p:commandButton value="Fechar" ajax="false"
+                                         icon="ui-icon-closethick"
+                                         action="#{membroControle.fechar()}"/>
                     </p:panel>
                 </h:form>
             </ui:define>            

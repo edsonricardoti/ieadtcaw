@@ -43,10 +43,13 @@
 
 
         <h:form id="frm1" prependId="false" >
+            <f:metadata>
+                <f:event listener="#{avisoControle.beginConversation()}" type="preRenderView" />
+            </f:metadata>
             <p:remoteCommand action="#{avisoControle.atualizaAgenda()}" autoRun="true" update="schedule" process="@this"/>
             <p:growl id="messages"  />
 
-            <p:panel style="width: 100%;" header="Igreja Evangélica Assembéia de Deus Templo Central">
+            <p:panel style="width: 98%;" header="Igreja Evangélica Assembéia de Deus Templo Central">
                 <p:outputLabel value="Congregação de Álvaro Weyne" style="font-size: 18px; font-family:  cursive; font-weight: bold;"/><br></br>
             </p:panel>
             <p:schedule id="schedule" value="#{avisoControle.eventModel}"
@@ -90,19 +93,19 @@
                     </h:panelGrid>                   
 
                     <p:textEditor id="editor" widgetVar="editorWidget" readonly="true" toolbarVisible="false"
-                                      value="#{avisoControle.avisoSelecionado.descriAviso}"
-                                      style="width: 100%; height: calc(60%);"  />
-                        <p:panel id="p1">
+                                  value="#{avisoControle.avisoSelecionado.descriAviso}"
+                                  style="width: 100%; height: calc(60%);"  />
+                    <p:panel id="p1">
 
-                            <p:panel style="width: 100%;" header="Cartaz">                                
-                                <p:panelGrid columns="1">
-                                        <p:commandLink title="Visualizar" rendered="#{empty avisoControle.avisoSelecionado.arquivoAviso?'false':'true'}" onclick="window.open('../arquivos/#{avisoControle.avisoSelecionado.arquivoAviso}')" >
-                                            <img src="../arquivos/#{avisoControle.avisoSelecionado.arquivoAviso}" style="width: 150px; height: 150px;" alt="Visualizar"/>
-                                        </p:commandLink>
-                                        <p:commandButton value="Fechar" onclick="PF('eventDialog').hide();" />
-                                    </p:panelGrid>                                
-                            </p:panel>
+                        <p:panel style="width: 100%;" header="Cartaz">
+                            <p:panelGrid columns="1">
+                                <p:commandLink title="Visualizar" rendered="#{empty avisoControle.avisoSelecionado.arquivoAviso?'false':'true'}" onclick="window.open('../arquivos/#{avisoControle.avisoSelecionado.arquivoAviso}')" >
+                                    <img src="../arquivos/#{avisoControle.avisoSelecionado.arquivoAviso}" style="width: 150px; height: 150px;" alt="Visualizar"/>
+                                </p:commandLink>
+                                <p:commandButton value="Fechar" onclick="PF('eventDialog').hide();" />
+                            </p:panelGrid>
                         </p:panel>
+                    </p:panel>
 
                 </h:panelGrid>
             </p:dialog>

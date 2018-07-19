@@ -62,21 +62,21 @@ public class MembrosDAO {
         }
     }
 
-    public List<Membros> selectAllFiltradoCad(String filtro, String nome) {
+    public List<Membros> selectAllFiltradoCad(String nome) {
         String sql = "from Membros";
-        System.out.println("Filtro =" + filtro);
-        if (filtro.isEmpty() || filtro.equals("()")) {
-            sql = "from Membros where membrosNome like '%" + nome + "%' order by membrosNome";
-        } else {
-            sql = "from Membros where membrosTipo in" + filtro + " order by membrosNome";
 
-        }
+//        if (filtro.isEmpty() || filtro.equals("()")) {
+            sql = "from Membros where membrosNome like '%" + nome + "%' order by membrosNome";
+//        } else {
+//            sql = "from Membros where membrosTipo in" + filtro + " order by membrosNome";
+//
+//        }
 
         try {
             session = getSessionFactory().openSession();
             Transaction t = session.beginTransaction();
             List lista = session.createQuery(sql)
-                    .setMaxResults(25)
+                    .setMaxResults(10)
                     .list();
             t.commit();
             return lista;
@@ -93,7 +93,7 @@ public class MembrosDAO {
         try {
             session = getSessionFactory().openSession();
             Transaction t = session.beginTransaction();
-            List lista = session.createQuery("from Membros where membrosTipo = 'Membro'").list();
+            List lista = session.createQuery("from Membros").list();
             t.commit();
             return lista;
 
@@ -109,7 +109,7 @@ public class MembrosDAO {
         try {
             session = getSessionFactory().openSession();
             Transaction t = session.beginTransaction();
-            List lista = session.createQuery("from Membros where membrosTipo = 'Membro' and membrosEprof=1").list();
+            List lista = session.createQuery("from Membros where membrosEprof=1").list();
             t.commit();
             return lista;
 
@@ -249,7 +249,7 @@ public class MembrosDAO {
         try {
             session = getSessionFactory().openSession();
             Transaction t = session.beginTransaction();
-            List lista = session.createQuery("from Membros where membrosNome like '%" + nome + "%' and membrosTipo = 'Membro'").list();
+            List lista = session.createQuery("from Membros where membrosNome like '%" + nome + "%'").list();
             t.commit();
             return lista;
 

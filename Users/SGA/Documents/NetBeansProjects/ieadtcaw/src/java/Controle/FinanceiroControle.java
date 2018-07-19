@@ -16,6 +16,7 @@ import Modelo.Missgeral;
 import Modelo.Relatorios;
 import static Util.FacesUtil.addErrorMessage;
 import static Util.FacesUtil.addInfoMessage;
+import java.io.IOException;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.math.BigInteger;
@@ -30,9 +31,12 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
-import javax.enterprise.context.SessionScoped;
+import javax.enterprise.context.Conversation;
+import javax.enterprise.context.ConversationScoped;
+import javax.faces.context.FacesContext;
+import javax.inject.Inject;
 
-@SessionScoped
+@ConversationScoped
 
 /**
  *
@@ -72,6 +76,9 @@ public class FinanceiroControle implements Serializable {
     private Integer ano;
     private List<Missgeral> missgeral;
 
+    @Inject
+    private Conversation conversation;
+
     public FinanceiroControle() {
 
         financeiro = new Financeiro();
@@ -109,6 +116,27 @@ public class FinanceiroControle implements Serializable {
         Calendar cal = GregorianCalendar.getInstance();
         ano = cal.get(Calendar.YEAR);
 
+    }
+
+    public void beginConversation() {
+        if (conversation.isTransient()) {
+            conversation.setTimeout(1800000L);
+            conversation.begin();
+        }
+    }
+
+    public void endConversation() {
+        System.out.println("Finalizou conversacao...");
+        if (!conversation.isTransient()) {
+            conversation.end();
+        }
+
+    }
+
+    public String fechar() throws IOException {
+        endConversation();
+        FacesContext.getCurrentInstance().getExternalContext().redirect("../../inicio.xhtml?faces-redirect=true");
+        return "";
     }
 
     public void limpaFormulario() {

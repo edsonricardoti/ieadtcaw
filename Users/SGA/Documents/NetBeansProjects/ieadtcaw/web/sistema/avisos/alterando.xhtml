@@ -80,7 +80,9 @@
                                 <h:column id="c1">
                                     <p:commandButton id="btsalva" value="Salvar" action="#{avisoControle.update()}" update="@form" icon="ui-icon-disk" />
                                     <p:commandButton id="btlimpa" value="Limpar" type="button" onclick="PF('editorWidget').clear();" icon="ui-icon-close" />
-                                    <p:commandButton id="btfecha" value="Fechar"  action="alterar.xhtml" icon="ui-icon-close" />
+                                    <p:commandButton value="Fechar" ajax="false"
+                                                     icon="ui-icon-closethick"
+                                                     action="#{avisoControle.fechar()}"/>
                                 </h:column>
 
                             </h:panelGrid>

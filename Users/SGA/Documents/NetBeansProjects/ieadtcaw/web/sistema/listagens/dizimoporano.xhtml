@@ -12,6 +12,9 @@
         <ui:composition template="/layout.xhtml">
             <ui:define name="content">
                 <h:form id="frm1" prependId="false">
+                    <f:metadata>
+                        <f:event listener="#{financeiroControle.beginConversation()}" type="preRenderView" />
+                    </f:metadata>
                     <p:panelGrid columns="3" style=" font-size: 10px;" styleClass="semBorda">
                         <p:outputLabel value="Ano:"/>
                         <p:inputText value="#{financeiroControle.ano}" size="10"/>
@@ -57,7 +60,9 @@
                     </p:panel>
 
                     <p:panelGrid columns="3" layout="grid">
-                        <p:button id="fc" value="Fechar" icon="ui-icon-closethick" outcome="/inicio.xhtml"/>
+                        <p:commandButton value="Fechar" ajax="false"
+                                         icon="ui-icon-closethick"
+                                         action="#{financeiroControle.fechar()}"/>
                         <p:commandButton value="Imprimir" type="button" icon="ui-icon-print" >
                             <p:printer target="pg" />
                         </p:commandButton>

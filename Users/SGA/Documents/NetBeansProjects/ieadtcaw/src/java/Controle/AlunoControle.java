@@ -15,6 +15,7 @@ import Modelo.Classes;
 import Modelo.Membros;
 import static Util.FacesUtil.addErrorMessage;
 import static Util.FacesUtil.addInfoMessage;
+import java.io.IOException;
 import java.io.Serializable;
 import java.text.ParseException;
 import java.util.ArrayList;
@@ -25,9 +26,13 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
+import javax.enterprise.context.Conversation;
+import javax.enterprise.context.ConversationScoped;
 import javax.enterprise.context.SessionScoped;
+import javax.faces.context.FacesContext;
+import javax.inject.Inject;
 
-@SessionScoped
+@ConversationScoped
 
 /**
  *
@@ -54,6 +59,9 @@ public class AlunoControle implements Serializable {
     private int idDaclasse;
     private List<String> licoesAfazer;
     private Integer idaluno;
+
+    @Inject
+    private Conversation conversation;
 
     public AlunoControle() {
         aluno = new Alunos();
@@ -88,6 +96,27 @@ public class AlunoControle implements Serializable {
 
         licoesAfazer = licoestem;
 
+    }
+
+    public void beginConversation() {
+        if (conversation.isTransient()) {
+            conversation.setTimeout(1800000L);
+            conversation.begin();
+        }
+    }
+
+    public void endConversation() {
+        System.out.println("Finalizou conversacao...");
+        if (!conversation.isTransient()) {
+            conversation.end();
+        }
+
+    }
+
+    public String fechar() throws IOException {
+        endConversation();
+        FacesContext.getCurrentInstance().getExternalContext().redirect("../../inicio.xhtml?faces-redirect=true");
+        return "";
     }
 
     public void limpaFormulario() {

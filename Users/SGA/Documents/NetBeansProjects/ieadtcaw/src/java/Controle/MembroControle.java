@@ -13,40 +13,70 @@ import static Util.FacesUtil.addErrorMessage;
 import static Util.FacesUtil.addInfoMessage;
 import com.lowagie.text.Document;
 import com.lowagie.text.PageSize;
+import java.io.IOException;
 import java.io.Serializable;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
 import javax.annotation.PostConstruct;
-import javax.enterprise.context.SessionScoped;
-
-@SessionScoped
+import javax.enterprise.context.Conversation;
+import javax.enterprise.context.ConversationScoped;
+import javax.faces.context.FacesContext;
+import javax.inject.Inject;
 
 /**
  *
  * @author Edson Ricardo
  */
+@ConversationScoped
 @Named
 public class MembroControle implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
     private Membros membro;
+    private Membross membross;
     private MembrosDAO dao;
     private Membros membroSelecionado;
     private List<Membros> listaMembros;
     private List<Membros> listaDaBusca;
+    private List<Membros> listaProfessores;
     private List<Membros> listaAniversariantes;
     private Boolean isRederiza = false;
     private String Nome;
     private String filtros;
     private List<String> selectedOptions;
+    private Integer mes;
+
+    @Inject
+    private Conversation conversation;
 
     public MembroControle() {
         membro = new Membros();
         dao = new MembrosDAO();
         membroSelecionado = new Membros();
+
+//        model = new LazyDataModel<Membros>() {
+//
+//            private static final long serialVersionUID = 1L;
+//            Membross membross = new Membross();
+//
+//            @Override
+//            public List<Membros> load(int first, int pageSize, String sortField, SortOrder sortOrder, Map<String, Object> filters) {
+//
+//                filtro.setPrimeiroRegistro(first);
+//                filtro.setQuantidadeRegistros(pageSize);
+//                filtro.setAscendente(SortOrder.ASCENDING.equals(sortOrder));
+//                filtro.setPropriedadeOrdenacao(sortField);
+//
+//                setRowCount(membross.quantidadeFiltrados(filtro));
+//
+//                return membross.filtrados(filtro);
+//
+//            }
+//
+//        };
     }
 
     @PostConstruct
@@ -55,10 +85,33 @@ public class MembroControle implements Serializable {
         dao = new MembrosDAO();
         membroSelecionado = new Membros();
 
+        // filtro = new FiltroMembros();
+    }
+
+    public void beginConversation() {
+        if (conversation.isTransient()) {
+            conversation.setTimeout(1800000L);
+            conversation.begin();
+        }
+    }
+
+    public void endConversation() {
+        System.out.println("Finalizou conversacao...");
+        if (!conversation.isTransient()) {
+            conversation.end();
+        }
+
+    }
+
+    public String fechar() throws IOException {
+        endConversation();
+        FacesContext.getCurrentInstance().getExternalContext().redirect("../../inicio.xhtml?faces-redirect=true");
+        return "";
     }
 
     public List<Membros> lista() {
         listaMembros = dao.selectDirigentes();
+        listaProfessor();
         return listaMembros;
     }
 
@@ -78,11 +131,13 @@ public class MembroControle implements Serializable {
 
     }
 
-    public void listaFiltradosCad(String filtro, String nome) {
-        filtro = filtro.replace("[", "(");
-        filtro = filtro.replace("]", ")");
-        System.out.println("Filtro = " + selectedOptions);
-        listaMembros = dao.selectAllFiltradoCad(filtro, nome);
+    //picklist
+    public void listaFiltradosCad(String nome) {
+
+        //filtro.setTipos(meufiltro);
+        // filtro = filtro.replace("[", "(");
+        // filtro = filtro.replace("]", ")");
+        listaMembros = dao.selectAllFiltradoCad(nome);
 
     }
 
@@ -158,24 +213,38 @@ public class MembroControle implements Serializable {
     }
 
     public List<Membros> listaProfessor() {
-        listaMembros = dao.selectProfessor();
-        return listaMembros;
+        listaProfessores = dao.selectProfessor();
+        return listaProfessores;
     }
 
     public void limpaFormulario() {
+
         membro = new Membros();
         membroSelecionado = new Membros();
         listaDaBusca = null;
         listaAniversariantes = null;
         listaMembros = null;
-    }
 
+    }
 
     public void buscarID(int id) {
         System.out.println("Entrou na busca por ID=" + id);
         membroSelecionado = dao.buscarPorId(id);
+
+        // membro = membroSelecionado;
+    }
+
+    public String buscarIDView(int id) {
+        System.out.println("Entrou na busca por ID=" + id);
+        membroSelecionado = dao.buscarPorId(id);
+        return "consulta.xhtml";
         // membro = membroSelecionado;
 
+    }
+
+    public String fecharPg() {
+        endConversation();
+        return "consultar.xhtml";
     }
 
     public void HabilitaProf(Membros habilitado) {
@@ -275,8 +344,8 @@ public class MembroControle implements Serializable {
         Date data = new Date();
         membro.setMembrosCasamento(data);
         if (dao.insert(membro)) {
-
             addInfoMessage("Dados salvo com sucesso!");
+            endConversation();
         } else {
             addErrorMessage("Erro ao salvar os dados! Se estiver cadastrando um Membro verifique se o CPF está correto e se a data de nascimento foi preenchida. Refaça o cadastro.");
         }
@@ -363,6 +432,22 @@ public class MembroControle implements Serializable {
 
     public void setFiltros(String filtros) {
         this.filtros = filtros;
+    }
+
+    public Integer getMes() {
+        return mes;
+    }
+
+    public void setMes(Integer mes) {
+        this.mes = mes;
+    }
+
+    public List<Membros> getListaProfessores() {
+        return listaProfessores;
+    }
+
+    public void setListaProfessores(List<Membros> listaProfessores) {
+        this.listaProfessores = listaProfessores;
     }
 
 }

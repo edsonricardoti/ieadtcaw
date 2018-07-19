@@ -12,6 +12,9 @@
         <ui:composition template="/layout.xhtml">            
             <ui:define name="content">
                 <h:form id="cadastro" prependId="false">
+                    <f:metadata>
+                        <f:event listener="#{escalaControle.beginConversation()}" type="preRenderView" />
+                    </f:metadata>
                     <p:panel header="Cadastro de Escala">
                         <p:messages id="messages" closable="true" style="font-size: 12px; text-align: center;" showIcon="false"/>
 
@@ -67,7 +70,9 @@
                             <p:commandButton value="Não" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
                         </p:confirmDialog>
 
-                        <p:button value="Fechar" icon="ui-icon-closethick" outcome="/inicio.xhtml"/>
+                        <p:commandButton value="Fechar" ajax="false"
+                                         icon="ui-icon-closethick"
+                                         action="#{financeiroControle.fechar()}"/>
                     </p:panel>
                 </h:form>
             </ui:define>            

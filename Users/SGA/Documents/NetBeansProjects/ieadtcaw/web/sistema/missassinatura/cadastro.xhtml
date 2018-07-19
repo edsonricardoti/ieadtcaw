@@ -23,6 +23,9 @@
 
                 </p:dialog>
                 <h:form id="cadastro">
+                    <f:metadata>
+                        <f:event listener="#{assinaturaControle.beginConversation()}" type="preRenderView" />
+                    </f:metadata>
                     <p:messages id="messages" closable="true" style="font-size: 12px; text-align: center;" showIcon="false"/>
                     <p:remoteCommand action="#{assinaturaControle.limpaFormulario()}" autoRun="true" update="grades,lista"/>
                     <p:panel header="Missão - Assinatura">
@@ -47,7 +50,9 @@
                         </p:dataTable>
                     </p:panel>
 
-                    <p:button value="Fechar" icon="ui-icon-closethick" outcome="/inicio.xhtml"/>
+                    <p:commandButton value="Fechar" ajax="false"
+                                     icon="ui-icon-closethick"
+                                     action="#{membroControle.fechar()}"/>
 
                 </h:form>
             </ui:define>            

@@ -21,6 +21,9 @@
                     }
                 </script>
                 <h:form id="frm" prependId="false">
+                    <f:metadata>
+                        <f:event listener="#{contasapagarControle.beginConversation()}" type="preRenderView" />
+                    </f:metadata>
                     <p:panelGrid columns="5" style="font-size: 10px;" styleClass="semBorda">
                         <p:outputLabel value="Data Ini:"/>
                         <p:calendar id="dataini" value="#{contasapagarControle.dataini}" locale="pt" mask="true" pattern="dd/MM/yyyy" showOn="button" rendered="true" requiredMessage="a data inicial é obrigatória!" />
@@ -35,11 +38,14 @@
                     </p:panel>
                     <p:dialog widgetVar="dlg" showEffect="fade" modal="true" header="Gáfico pronto para a impressão" resizable="false">
                         <p:outputPanel id="output" layout="block" style="width:1000px;height:300px"/>
+
                         <p:commandButton value="Imprimir" type="button" icon="ui-icon-print"  >
                             <p:printer target="output" />
                         </p:commandButton>
                     </p:dialog>
-                    <p:commandButton type="button" value="Exportar" icon="ui-icon-extlink" onclick="exportChart()"/>
+                    <p:commandButton type="button" value="Exportar" icon="ui-icon-extlink" onclick="exportChart()"/> <p:commandButton value="Fechar" ajax="false"
+                                                                                                                                      icon="ui-icon-closethick"
+                                                                                                                                      action="#{contasapagarControle.fechar()}"/>
                 </h:form>
             </ui:define>            
 

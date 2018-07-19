@@ -12,6 +12,7 @@ import Modelo.Contasapagar;
 import Modelo.Relatorios;
 import static Util.FacesUtil.addErrorMessage;
 import static Util.FacesUtil.addInfoMessage;
+import java.io.IOException;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Calendar;
@@ -19,14 +20,18 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
 import javax.annotation.PostConstruct;
+import javax.enterprise.context.Conversation;
+import javax.enterprise.context.ConversationScoped;
 import javax.enterprise.context.SessionScoped;
+import javax.faces.context.FacesContext;
+import javax.inject.Inject;
 import org.primefaces.model.chart.Axis;
 import org.primefaces.model.chart.AxisType;
 import org.primefaces.model.chart.CategoryAxis;
 import org.primefaces.model.chart.ChartSeries;
 import org.primefaces.model.chart.LineChartModel;
 
-@SessionScoped
+@ConversationScoped
 
 /**
  *
@@ -49,12 +54,15 @@ public class ContasapagarControle implements Serializable {
     private List<Relatorios> relatoriolista;
     private BigDecimal maximo;
 
+    @Inject
+    private Conversation conversation;
+
     public ContasapagarControle() {
 
         contasapagar = new Contasapagar();
         dao = new ContasapagarDAO();
         contasapagarSelecionado = new Contasapagar();
-        listaContasapagar = dao.buscarDespesas("nada");
+        //listaContasapagar = dao.buscarDespesas("nada");
         maximo = BigDecimal.ZERO;
     }
 
@@ -63,12 +71,33 @@ public class ContasapagarControle implements Serializable {
 
         contasapagar = new Contasapagar();
         dao = new ContasapagarDAO();
-        listaContasapagar = dao.buscarDespesas("nada");
+        //listaContasapagar = dao.buscarDespesas("compras");
         contasapagarSelecionado = new Contasapagar();
         Date data1 = new Date();
         Date data2 = new Date();
         createLineModels(data1, data2);
 
+    }
+
+    public void beginConversation() {
+        if (conversation.isTransient()) {
+            conversation.setTimeout(1800000L);
+            conversation.begin();
+        }
+    }
+
+    public void endConversation() {
+        System.out.println("Finalizou conversacao...");
+        if (!conversation.isTransient()) {
+            conversation.end();
+        }
+
+    }
+
+    public String fechar() throws IOException {
+        endConversation();
+        FacesContext.getCurrentInstance().getExternalContext().redirect("../../inicio.xhtml?faces-redirect=true");
+        return "";
     }
 
     public String NomeDoMes(int i) {

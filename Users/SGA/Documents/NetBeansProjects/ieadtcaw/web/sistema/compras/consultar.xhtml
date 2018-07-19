@@ -12,9 +12,12 @@
         <ui:composition template="/layout.xhtml">            
             <ui:define name="content">
                 <h:form id="cadastro" prependId="false">
+                    <f:metadata>
+                        <f:event listener="#{contasapagarControle.beginConversation()}" type="preRenderView" />
+                    </f:metadata>
                     <p:panel header="Lançamentos de compras">
                         <p:messages id="messages" closable="true" style="font-size: 12px; text-align: center;" showIcon="false"/>
-                        <p:remoteCommand action="#{contasapagarControle.limpaFormulario()}" autoRun="true" update="grades,lista"/>
+
                         <p:panelGrid id="grades" columns="7" style="font-size: 10px;" styleClass="semBorda">
                             <p:outputLabel value="Descrição:"/>
                             <p:inputText value="#{contasapagarControle.descricao}"/>
@@ -87,10 +90,11 @@
                             <p:commandButton value="Sim" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
                             <p:commandButton value="Não" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
                         </p:confirmDialog>
-
-
-                        <p:button value="Fechar" icon="ui-icon-closethick" outcome="/inicio.xhtml"/>
+                        <p:commandButton value="Fechar" ajax="false"
+                                         icon="ui-icon-closethick"
+                                         action="#{contasapagarControle.fechar()}"/>
                     </p:panel>
+
                 </h:form>
             </ui:define>            
 

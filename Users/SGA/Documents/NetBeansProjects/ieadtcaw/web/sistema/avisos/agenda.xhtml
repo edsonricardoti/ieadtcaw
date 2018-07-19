@@ -27,11 +27,15 @@
                 </p:dialog>
 
                 <h:form id="frm1" prependId="false" >
+                    <f:metadata>
+                        <f:event listener="#{avisoControle.beginConversation()}" type="preRenderView" />
+                    </f:metadata>
                     <p:remoteCommand action="#{avisoControle.atualizaAgenda()}" autoRun="true" update="schedule" process="@this"/>
                     <p:growl id="messages"  />
 
                     <div align="left">
                         <h:outputLabel value="Agenda de eventos" style="font-size: 24px; font-weight: bold;"/>
+
                     </div>
                     <p:schedule id="schedule" value="#{avisoControle.eventModel}"
                                 widgetVar="myschedule"
@@ -113,7 +117,8 @@
 
                             </p:column>
                         </p:panelGrid>
-                    </p:dialog>  
+                    </p:dialog>
+
                 </h:form>
             </ui:define>
         </ui:composition>

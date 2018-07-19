@@ -13,7 +13,9 @@
             <ui:define name="content">
                 <p:panel header="Cadastro de Membros">
                     <h:form id="cadastro" prependId="false">
-
+                        <f:metadata>
+                            <f:event listener="#{membroControle.beginConversation()}" type="preRenderView" />
+                        </f:metadata>
                         <p:remoteCommand action="#{membroControle.limpaFormulario()}" autoRun="true"/>
                         <p:messages id="messages" closable="true" style="font-size: 12px; text-align: center;" showIcon="false"/>
                         <f:ajax execute="@this" event="mouseover" listener="#{membroControle.membro.setMembrosTipo('Membro')}"/>

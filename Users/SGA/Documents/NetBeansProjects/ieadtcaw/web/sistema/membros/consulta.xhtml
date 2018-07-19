@@ -138,7 +138,7 @@
                         <p:commandButton icon="ui-icon-trash" title="Clique aqui para excluir." action="#{membroControle.delete(membroControle.membroSelecionado)}" update="cadastro:messages">
                             <p:confirm header="Confirmação!" message="Você tem certeza que deseja excluir esse membro?"  icon="ui-icon-alert"/>
                         </p:commandButton>
-                        <p:button value="Fechar" icon="ui-icon-closethick" outcome="consultar.xhtml"/>
+                        <p:commandButton value="Fechar" icon="ui-icon-closethick" action="#{membroControle.fecharPg()}"/>
                         <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
                             <p:commandButton value="Sim" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
                             <p:commandButton value="Não" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />

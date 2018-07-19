@@ -8,61 +8,64 @@
       xmlns:h="http://xmlns.jcp.org/jsf/html">   
     <h:body onload="PF('noticias').show">
         <ui:composition>
+            <h:form>
+                <f:metadata>
+                    <f:event listener="#{contasapagarControle.beginConversation()}" type="preRenderView" />
+                </f:metadata>
+                <p:dialog closeOnEscape="true"
+                          width="630" height="400"
+                          header="Notificação - Lançamentos que vençem nesta semana"
+                          rendered="#{usuarioControle.usuario.financeiro or usuarioControle.usuario.administracao}"
+                          visible="#{contasapagarControle.temNotificacao()}" widgetVar="noticias">
+                    <p:ajax event="open" listener="#{contasapagarControle.temNotificacao()}" update="lista"/>
+                    <p:ajax event="close" listener="#{contasapagarControle.endConversation()}"/>
+                    <p:dataTable id="lista" rows="10"
+                                 value="#{contasapagarControle.listaContasapagar}"
+                                 var="buscados" style="font-size: 10px;"
+                                 paginator="true" paginatorPosition="bottom"
+                                 emptyMessage="Sem notificações.">
 
+                        <p:column headerText="Descrição" style="font-size: 10px; width: 150px;" >
+                            <p:outputLabel value="#{buscados.descricao}" style="font-size: 10px; text-transform: uppercase;"/>
+                        </p:column>
+                        <p:column headerText="Valor" style="font-size: 10px; text-align: right;" width="15">
+                            <p:outputLabel value="#{buscados.valordespesa}" style="font-size: 10px;">
+                                <f:convertNumber pattern="#,##0.00" minFractionDigits="2"/>
+                            </p:outputLabel>
+                        </p:column>
+                        <p:column headerText="Data lanç." style="font-size: 10px; text-align:  right; width: 50px;">
+                            <p:outputLabel id="dataCadastro" value="#{buscados.datalancamento}" style="font-size: 10px; text-transform: uppercase;">
+                                <f:convertDateTime pattern="dd/MM/yyyy"/>
+                            </p:outputLabel>
+                        </p:column>
+                        <p:column headerText="Vencimento" style="font-size: 10px; text-align:  right; width: 50px;">
+                            <p:outputLabel id="datavc" value="#{buscados.datavencimento}" style="font-size: 10px; text-transform: uppercase;">
+                                <f:convertDateTime pattern="dd/MM/yyyy"/>
+                            </p:outputLabel>
+                        </p:column>
 
-            <p:dialog closeOnEscape="true"
-                      width="600" height="400"
-                      header="Notificação - Lançamentos que vençem nesta semana"
-                      rendered="#{usuarioControle.usuario.financeiro or usuarioControle.usuario.administracao}"
-                      visible="#{contasapagarControle.temNotificacao()}" widgetVar="noticias">
-                <p:ajax event="open" listener="#{contasapagarControle.temNotificacao()}" update="lista"/>
-                <p:dataTable id="lista" rows="10"
-                             value="#{contasapagarControle.listaContasapagar}"
-                             var="buscados" style="font-size: 10px;"
-                             paginator="true" paginatorPosition="bottom"
-                             emptyMessage="Sem notificações.">
+                        <p:column headerText="Pagar" style="text-align: center; font-size: 10px;" width="10">
+                            <p:commandButton title="Clique para pagar." icon="ui-icon-cart" onclick="PF('paga').show()"
+                                             rendered="#{buscados.datapagamento==null?true:false}">
+                                <f:setPropertyActionListener value="#{buscados}" target="#{contasapagarControle.contasapagarSelecionado}"/>
+                            </p:commandButton>
+                            <p:commandButton title="Lanç. já foi pago." icon="ui-icon-check" rendered="#{buscados.datapagamento!=null?true:false}"/>
+                        </p:column>
+                    </p:dataTable>
+                    <p:dialog widgetVar="paga" header="Pagamento" id="pagou">
+                        <p:ajax event="close" update="lista"/>
+                        <p:panelGrid columns="3">
+                            <p:outputLabel value="Data do pagamento:"/>
+                            <p:calendar id="vencto" value="#{contasapagarControle.contasapagarSelecionado.datapagamento}" locale="pt" mask="true" pattern="dd/MM/yyyy" showOn="button"/>
+                            <p:commandButton value="Confirmar" action="#{contasapagarControle.update()}" oncomplete="PF('paga').hide();"/>
+                        </p:panelGrid>
+                    </p:dialog>
 
-                    <p:column headerText="Descrição" style="font-size: 10px; width: 150px;" >
-                        <p:outputLabel value="#{buscados.descricao}" style="font-size: 10px; text-transform: uppercase;"/>
-                    </p:column>
-                    <p:column headerText="Valor" style="font-size: 10px; text-align: right;" width="15">
-                        <p:outputLabel value="#{buscados.valordespesa}" style="font-size: 10px;">
-                            <f:convertNumber pattern="#,##0.00" minFractionDigits="2"/>
-                        </p:outputLabel>
-                    </p:column>
-                    <p:column headerText="Data lanç." style="font-size: 10px; text-align:  right; width: 50px;">
-                        <p:outputLabel id="dataCadastro" value="#{buscados.datalancamento}" style="font-size: 10px; text-transform: uppercase;">
-                            <f:convertDateTime pattern="dd/MM/yyyy"/>
-                        </p:outputLabel>
-                    </p:column>
-                    <p:column headerText="Vencimento" style="font-size: 10px; text-align:  right; width: 50px;">
-                        <p:outputLabel id="datavc" value="#{buscados.datavencimento}" style="font-size: 10px; text-transform: uppercase;">
-                            <f:convertDateTime pattern="dd/MM/yyyy"/>
-                        </p:outputLabel>
-                    </p:column>
-
-                    <p:column headerText="Pagar" style="text-align: center; font-size: 10px;" width="10">
-                        <p:commandButton title="Clique para pagar." icon="ui-icon-cart" onclick="PF('paga').show()"
-                                         rendered="#{buscados.datapagamento==null?true:false}">
-                            <f:setPropertyActionListener value="#{buscados}" target="#{contasapagarControle.contasapagarSelecionado}"/>
-                        </p:commandButton>
-                        <p:commandButton title="Lanç. já foi pago." icon="ui-icon-check" rendered="#{buscados.datapagamento!=null?true:false}"/>
-                    </p:column>
-                </p:dataTable>
-                <p:dialog widgetVar="paga" header="Pagamento" id="pagou">
-                    <p:ajax event="close" update="lista"/>
-                    <p:panelGrid columns="3">
-                        <p:outputLabel value="Data do pagamento:"/>
-                        <p:calendar id="vencto" value="#{contasapagarControle.contasapagarSelecionado.datapagamento}" locale="pt" mask="true" pattern="dd/MM/yyyy" showOn="button"/>
-                        <p:commandButton value="Confirmar" action="#{contasapagarControle.update()}" oncomplete="PF('paga').hide();"/>
-                    </p:panelGrid>
                 </p:dialog>
 
-            </p:dialog>
 
 
-
-
+            </h:form>
         </ui:composition>
     </h:body>
 </html>

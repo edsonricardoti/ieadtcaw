@@ -14,7 +14,7 @@
                 <h:form id="cadastro" prependId="false">
                     <p:panel header="Missão - Periódicos">
                         <p:messages id="messages" closable="true" style="font-size: 12px; text-align: center;" showIcon="false"/>
-                        <p:remoteCommand id="cm" action="#{cartaControle.limpaFormulario()}" autoRun="true" update="grades,lista"/>
+                        <p:remoteCommand id="cm" action="#{periodicoControle.limpaFormulario()}" autoRun="true" update="grades,lista"/>
                         <p:panelGrid id="grades" columns="3" style="font-size: 10px;" styleClass="semBorda">
                             <p:outputLabel id="dd" value="Nome:"/>
                             <p:inputText id="nome" value="#{periodicoControle.nome}" size="35"/>

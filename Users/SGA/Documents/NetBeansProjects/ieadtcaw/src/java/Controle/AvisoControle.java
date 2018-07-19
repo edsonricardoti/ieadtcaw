@@ -23,12 +23,15 @@ import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.Random;
 import javax.annotation.PostConstruct;
+import javax.enterprise.context.Conversation;
+import javax.enterprise.context.ConversationScoped;
 import javax.faces.application.FacesMessage;
 import javax.inject.Named;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import static javax.faces.context.FacesContext.getCurrentInstance;
+import javax.inject.Inject;
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletResponse;
 import org.primefaces.event.FileUploadEvent;
@@ -41,7 +44,7 @@ import org.primefaces.model.ScheduleEvent;
 import org.primefaces.model.ScheduleModel;
 import org.primefaces.model.UploadedFile;
 
-@SessionScoped
+@ConversationScoped
 
 /**
  *
@@ -68,6 +71,9 @@ public class AvisoControle implements Serializable {
     private Date dataini, datafim;
     private List<Avisos> listaSelecionada;
 
+    @Inject
+    private Conversation conversation;
+
     public AvisoControle() {
         dao = new AvisoDAO();
         aviso = new Avisos();
@@ -90,6 +96,27 @@ public class AvisoControle implements Serializable {
             eventModel.addEvent(new DefaultScheduleEvent(listaAviso.get(i).getTitulo(), listaAviso.get(i).getDataAviso(), listaAviso.get(i).getDataFinal(), listaAviso.get(i).getIdAviso()));
         }
 
+    }
+
+    public void beginConversation() {
+        if (conversation.isTransient()) {
+            conversation.setTimeout(1800000L);
+            conversation.begin();
+        }
+    }
+
+    public void endConversation() {
+        System.out.println("Finalizou conversacao...");
+        if (!conversation.isTransient()) {
+            conversation.end();
+        }
+
+    }
+
+    public String fechar() throws IOException {
+        endConversation();
+        FacesContext.getCurrentInstance().getExternalContext().redirect("../../inicio.xhtml?faces-redirect=true");
+        return "";
     }
 
     public void pegaSemana(Date dataini, Date datafim) {

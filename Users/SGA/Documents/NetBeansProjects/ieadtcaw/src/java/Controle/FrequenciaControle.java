@@ -25,6 +25,7 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
+import javax.annotation.PreDestroy;
 import javax.enterprise.context.SessionScoped;
 import org.primefaces.model.chart.Axis;
 import org.primefaces.model.chart.AxisType;
@@ -146,11 +147,21 @@ public class FrequenciaControle implements Serializable {
         yAxis.setMax(65);
     }
 
+    @PreDestroy
     public void limpaFormulario() {
         createBarModels();
         frequencia = new Frequencia();
         frequenciaSelecionado = new Frequencia();
         listaFrequencia = null;
+        dao = null;
+        mdao = null;
+        cdao = null;
+        adao = null;
+        aluno = null;
+        membro = null;
+        listaMembros = null;
+        listaDeAlunos = null;
+
         nomeMembro = "";
         iddomembro = 0;
         relatorioLista = null;

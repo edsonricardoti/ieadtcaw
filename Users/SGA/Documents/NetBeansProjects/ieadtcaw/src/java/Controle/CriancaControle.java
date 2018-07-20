@@ -27,6 +27,7 @@ import java.util.Random;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
+import javax.annotation.PreDestroy;
 import javax.faces.application.FacesMessage;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.context.ExternalContext;
@@ -76,11 +77,14 @@ public class CriancaControle implements Serializable {
         criancaSelecionado = new Criancas();
 
     }
-
+    @PreDestroy
     public void limpaFormulario() {
         crianca = new Criancas();
         criancaSelecionado = new Criancas();
-        listaDaBusca = null;
+    listaDaBusca = null;
+    dao = null;
+    mdao = null;
+    listaCriancas = null;
     }
 
     public void geraCertificado(Criancas crianca) {

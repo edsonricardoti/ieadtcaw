@@ -31,6 +31,7 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
+import javax.annotation.PreDestroy;
 import javax.enterprise.context.Conversation;
 import javax.enterprise.context.ConversationScoped;
 import javax.faces.context.FacesContext;
@@ -139,6 +140,7 @@ public class FinanceiroControle implements Serializable {
         return "";
     }
 
+    @PreDestroy
     public void limpaFormulario() {
         financeiro = new Financeiro();
         financeiroSelecionado = new Financeiro();

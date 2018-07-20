@@ -104,7 +104,7 @@
                             <p:confirm header="Confirmação!" message="Você tem certeza que deseja excluir a classe #{classeControle.classesSelecionado.classesNome}?"  icon="ui-icon-alert"/>
                         </p:commandButton>
 
-                        <p:button value="Fechar" icon="ui-icon-closethick" outcome="consultar.xhtml"/>
+                        <p:commandButton value="Fechar" icon="ui-icon-closethick" action="#{classeControle.destroiObj()}"/>
                         <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
                             <p:commandButton value="Sim" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
                             <p:commandButton value="Não" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
@@ -147,7 +147,7 @@
                                     <f:selectItem itemLabel="22ª Lição" itemValue="15" />
                                 </p:selectOneMenu>
                                 <p:outputLabel id="l9" value="Frequência:"/>
-                                <p:inputSwitch value="#{classeControle.veio}" onLabel="Presente" offLabel="Ausente">
+                                <p:inputSwitch value="#{classeControle.veio}" onLabel="Confirmada" offLabel="Presente">
                                     <p:ajax event="change" listener="#{frequenciaControle.VeioFaltou(classeControle.veio,classeControle.idAlunos,classeControle.classeSelecionado.idclasses, classeControle.trimestre)}" update="@this"/>
                                 </p:inputSwitch>
                                 <p:outputLabel id="localis" value="Local:" rendered="#{classeControle.classeSelecionado.classesTipo eq 'DISCIPULADO'?true:false}"/>

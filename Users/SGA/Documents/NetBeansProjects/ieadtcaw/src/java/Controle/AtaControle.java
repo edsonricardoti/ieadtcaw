@@ -24,6 +24,7 @@ import java.util.Random;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
+import javax.annotation.PreDestroy;
 import javax.faces.application.FacesMessage;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.context.ExternalContext;
@@ -59,6 +60,17 @@ public class AtaControle implements Serializable {
         ataSelecionado = new Ata();
     }
 
+    @PreDestroy
+    public void limpaFormulario() {
+        ata = null;
+        dao = null;
+        ataSelecionado = null;
+        listaAta = null;
+        listaDaBusca = null;
+        isRederiza = null;
+        uploadedFile = null;
+    }
+
     @PostConstruct
     public void init() {
         ata = new Ata();
@@ -67,11 +79,6 @@ public class AtaControle implements Serializable {
 
     }
 
-    public void limpaFormulario() {
-        ata = new Ata();
-        ataSelecionado = new Ata();
-        listaDaBusca = null;
-    }
 
     public void buscarLista(Date data) {
 

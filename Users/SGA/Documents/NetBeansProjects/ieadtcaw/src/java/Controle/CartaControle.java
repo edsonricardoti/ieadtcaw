@@ -23,6 +23,7 @@ import java.util.Random;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
+import javax.annotation.PreDestroy;
 import javax.faces.application.FacesMessage;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.context.ExternalContext;
@@ -66,10 +67,13 @@ public class CartaControle implements Serializable {
 
     }
 
+    @PreDestroy
     public void limpaFormulario() {
         carta = new Carta();
         cartaSelecionado = new Carta();
         listaDaBusca = null;
+        dao = null;
+        listaCarta = null;
     }
 
     public void buscarLista(String nome) {
@@ -173,7 +177,6 @@ public class CartaControle implements Serializable {
     public void setCartaSelecionado(Carta cartaSelecionado) {
         this.cartaSelecionado = cartaSelecionado;
     }
-
 
     public List<Carta> getListaCarta() {
         return listaCarta;

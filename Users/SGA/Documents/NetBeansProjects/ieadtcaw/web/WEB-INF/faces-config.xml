@@ -15,7 +15,12 @@
         <lifecycle>
             <phase-listener id="nocache">Util.CacheControlPhaseListener</phase-listener>
         </lifecycle>
-    </application>   
+        <resource-bundle>
+            <base-name>/MyBundle</base-name>
+            <var>myBundle</var>
+        </resource-bundle>
+        <navigation-handler>org.primefaces.mobile.application.MobileNavigationHandler</navigation-handler>
+    </application>
     
    
     

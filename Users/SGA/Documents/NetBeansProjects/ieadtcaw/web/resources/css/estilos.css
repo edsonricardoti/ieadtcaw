@@ -120,22 +120,27 @@ iframe{
 }
 #cabecalhoPgLogin{ 
     width: 100%;
-    height: 100px;
-    background-color: #2c539e;
+    height: 120px;
+    background-color: goldenrod;
     color: #ffffff; 
     font-size: 8pt;
     font-family: "Arial", sans-serif;
+    text-align: right;
 }
 #cabecalhoPgLogin img{ 
-    float: right;
+    float: left;
+    margin-left: 8px;
+    margin-top: 8px;
     margin-right: 20px;
 }
 #cabecalhoPgLogin h1{
-    margin-left: 30px;
+    float: right;
+    margin-top: 10px;
+    margin-right: 10px;
 }
 #cabecalhoPgLogin h2{
-    margin-top: -18px;
-    margin-left: 30px;
+    margin-top: 40px;
+    margin-right: 10px;
 }
 .buttonFiscalizacao{
     width: 230px;   
@@ -238,8 +243,8 @@ form .botoesAtalho{
 
 /*==============================================*/
 
- #tabViewPF label{
-     text-align: right;
+#tabViewPF label{
+    text-align: right;
 }
 
 /*formulario pessoa fisica dados pessoais*/
@@ -342,8 +347,8 @@ form .botoesAtalho{
 
 /*esconde '*' dos campos dos form*/
 .ui-outputlabel-rfi{ 
-   position: absolute;
-   visibility: hidden;
+    position: absolute;
+    visibility: hidden;
 }
 /*itens de menu*/
 .ui-selectonemenu-item {
@@ -370,7 +375,7 @@ form .botoesAtalho{
     font-size: 9pt;
     min-width: 50px;
     width: 100%;
-   
+
 }
 
 /*fonte tabela juridico*/
@@ -379,7 +384,7 @@ form .botoesAtalho{
 }
 
 #FinanceiroPJEditForm .informFinan{
-     font-size: 9pt;
+    font-size: 9pt;
     min-width: 50px;
     width: 100%;
 }

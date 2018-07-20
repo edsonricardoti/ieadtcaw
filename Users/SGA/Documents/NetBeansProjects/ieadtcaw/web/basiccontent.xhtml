@@ -15,10 +15,14 @@
                 <p:dialog closeOnEscape="true"
                           width="630" height="400"
                           header="Notificação - Lançamentos que vençem nesta semana"
-                          rendered="#{usuarioControle.usuario.financeiro or usuarioControle.usuario.administracao}"
+                          rendered="#{(usuarioControle.usuario.financeiro or usuarioControle.usuario.administracao) and usuarioControle.naomostra}"
                           visible="#{contasapagarControle.temNotificacao()}" widgetVar="noticias">
                     <p:ajax event="open" listener="#{contasapagarControle.temNotificacao()}" update="lista"/>
                     <p:ajax event="close" listener="#{contasapagarControle.endConversation()}"/>
+                    <p:outputLabel  value="Manter sempre visível? " />
+                    <p:selectBooleanCheckbox value="#{usuarioControle.naomostra}">
+                        <p:ajax  listener="#{usuarioControle.naoMostraJanelas()}" />
+                    </p:selectBooleanCheckbox>
                     <p:dataTable id="lista" rows="10"
                                  value="#{contasapagarControle.listaContasapagar}"
                                  var="buscados" style="font-size: 10px;"

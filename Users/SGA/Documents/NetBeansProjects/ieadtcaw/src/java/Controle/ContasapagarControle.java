@@ -20,6 +20,7 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
 import javax.annotation.PostConstruct;
+import javax.annotation.PreDestroy;
 import javax.enterprise.context.Conversation;
 import javax.enterprise.context.ConversationScoped;
 import javax.enterprise.context.SessionScoped;
@@ -112,10 +113,13 @@ public class ContasapagarControle implements Serializable {
 
     }
 
+    @PreDestroy
     public void limpaFormulario() {
-        listaContasapagar = dao.buscarDespesas("nada");
+        listaContasapagar = null;
         contasapagar = new Contasapagar();
         contasapagarSelecionado = new Contasapagar();
+        relatoriolista = null;
+        dao = null;
     }
 
     public LineChartModel getLineModel2() {

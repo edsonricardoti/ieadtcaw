@@ -33,6 +33,10 @@
         <exception-type>org.jboss.weld.context.NonexistentConversationException</exception-type>
         <location>/inicio.xhtml?faces-redirect=true</location>
     </error-page>
+    <error-page>
+        <exception-type>org.jboss.weld.context.BusyConversationException</exception-type>
+        <location>/inicio.xhtml?faces-redirect=true</location>
+    </error-page>
     
     <filter>
         <filter-name>PrimeFaces FileUpload Filter</filter-name>

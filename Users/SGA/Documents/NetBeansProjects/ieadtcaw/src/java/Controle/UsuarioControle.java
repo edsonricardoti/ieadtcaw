@@ -32,11 +32,13 @@ public class UsuarioControle implements Serializable {
     private final UsuarioDAO dao = new UsuarioDAO();
     private Usuarios usuarioSelecionado = new Usuarios();
     private Boolean usuarioLogado;
+    private Boolean naomostra;
 
     @PostConstruct
     public void init() {
         usuarioSelecionado = new Usuarios();
         usuario = new Usuarios();
+        naomostra = true;
     }
 
     public UsuarioControle() {
@@ -47,6 +49,10 @@ public class UsuarioControle implements Serializable {
         usuarioSelecionado = new Usuarios();
         usuario.setSenhaUsuarios("");
 
+    }
+
+    public void naoMostraJanelas() {
+        naomostra = false;
     }
 
     public void buscarID(int id) {
@@ -160,6 +166,14 @@ public class UsuarioControle implements Serializable {
 
     public void setUsuarioLogado(Boolean usuarioLogado) {
         this.usuarioLogado = usuarioLogado;
+    }
+
+    public Boolean getNaomostra() {
+        return naomostra;
+    }
+
+    public void setNaomostra(Boolean naomostra) {
+        this.naomostra = naomostra;
     }
 
 }

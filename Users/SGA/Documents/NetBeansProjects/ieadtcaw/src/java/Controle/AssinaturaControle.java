@@ -32,6 +32,7 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
+import javax.annotation.PreDestroy;
 import javax.enterprise.context.Conversation;
 import javax.enterprise.context.ConversationScoped;
 import javax.enterprise.context.SessionScoped;
@@ -160,7 +161,7 @@ public class AssinaturaControle implements Serializable {
 
         try {
             if (tipo == 1) {
-            subtotalpg = subtotalpg.add(valor);
+                subtotalpg = subtotalpg.add(valor);
                 System.err.println("Entrou valor do sub" + subtotalpg.toString());
             }
             if (tipo == 2) {
@@ -172,12 +173,13 @@ public class AssinaturaControle implements Serializable {
 
     }
 
+    @PreDestroy
     public void limpaFormulario() {
         assinatura = new Assinatura();
         assinaturaSelecionado = new Assinatura();
         listaDaBusca = null;
         membro = new Membros();
-        //listaMembros = null;        
+        listaMembros = null;
         isRederiza = false;
         nome = "";
 

@@ -19,6 +19,7 @@ import java.math.BigInteger;
 import java.text.ParseException;
 import java.util.Date;
 import java.util.List;
+import javax.annotation.PreDestroy;
 import javax.enterprise.context.Conversation;
 import javax.enterprise.context.ConversationScoped;
 import javax.inject.Named;
@@ -73,6 +74,24 @@ public class CaixaControle implements Serializable {
             conversation.end();
         }
 
+    }
+
+    @PreDestroy
+    public void destroi() {
+        financeiro = null;
+        caixa = null;
+        dao = null;
+        totreceita = null;
+        totdespes = null;
+        saldo = null;
+        listaReceitas = null;
+        listaCaixa = null;
+        fdao = null;
+        contasapagar = null;
+        cdao = null;
+        listaDespesas = null;
+        dataini = null;
+        datafim = null;
     }
 
     public String fechar() throws IOException {

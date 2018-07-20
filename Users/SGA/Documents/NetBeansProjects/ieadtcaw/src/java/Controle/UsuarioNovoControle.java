@@ -14,6 +14,7 @@ import Modelo.Usuarios;
 import DAO.UsuarioDAO;
 import java.io.Serializable;
 import javax.annotation.PostConstruct;
+import javax.annotation.PreDestroy;
 
 @SessionScoped
 
@@ -47,10 +48,12 @@ public class UsuarioNovoControle implements Serializable {
         usuario = null;
     }
 
+    @PreDestroy
     public void limpaFormulario() {
         usuario = new Usuarios();
         usuarioSelecionado = new Usuarios();
         listaDaBusca = null;
+        dao = null;
     }
 
     public void buscarLista(String nome) {

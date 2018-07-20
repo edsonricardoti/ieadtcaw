@@ -52,7 +52,7 @@ public class ContasapagarDAO {
 
         } catch (HibernateException e) {
             System.out.println("Erro encontrado:" + e);
-            session.getTransaction().rollback();
+//            session.getTransaction().rollback();
             return null;
         } finally {
             session.close();

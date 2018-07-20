@@ -94,7 +94,7 @@
                                     <f:selectItem itemLabel="22ª Lição" itemValue="15" />
                                 </p:selectOneMenu>
                                 <p:outputLabel id="l9" value="Frequência:"/>
-                                <p:inputSwitch value="#{classeControle.veio}" onLabel="Presente" offLabel="Ausente">
+                                <p:inputSwitch value="#{classeControle.veio}" onLabel="Confirmada" offLabel="Presente">
                                     <p:ajax event="change" listener="#{frequenciaControle.VeioFaltou(classeControle.veio,classeControle.idAlunos,classeControle.classeSelecionado.idclasses, classeControle.trimestre)}" update="@this"/>
                                 </p:inputSwitch>
                                 <p:outputLabel id="localis" value="Local:" rendered="#{classeControle.classeSelecionado.classesTipo eq 'DISCIPULADO'?true:false}"/>

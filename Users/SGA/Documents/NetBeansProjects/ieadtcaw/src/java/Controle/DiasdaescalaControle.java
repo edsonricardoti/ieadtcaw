@@ -20,6 +20,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import javax.annotation.PostConstruct;
+import javax.annotation.PreDestroy;
 import javax.enterprise.context.SessionScoped;
 import org.primefaces.model.DefaultScheduleEvent;
 import org.primefaces.model.DefaultScheduleModel;
@@ -65,10 +66,15 @@ public class DiasdaescalaControle implements Serializable {
 
     }
 
+    @PreDestroy
     public void limpaFormulario() {
         diasescala = new Diasdaescala();
         escalaSelecionado = new Diasdaescala();
         listaDaBusca = null;
+        dao = null;
+        listaDiasdaescala = null;
+        escala = null;
+        edao = null;
     }
 
     public String traduzSemana(Date data) {

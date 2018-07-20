@@ -25,6 +25,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Random;
 import javax.annotation.PostConstruct;
+import javax.annotation.PreDestroy;
 import javax.enterprise.context.Conversation;
 import javax.enterprise.context.ConversationScoped;
 import javax.faces.application.FacesMessage;
@@ -101,10 +102,15 @@ public class EscalaControle implements Serializable {
         return "";
     }
 
+    @PreDestroy
     public void limpaFormulario() {
         escala = new Escala();
         escalaSelecionado = new Escala();
         listaDaBusca = null;
+        dao = null;
+        listaEscala = null;
+        listaFilhos = null;
+        dao = null;
     }
 
     public void buscarLista(int mes) {

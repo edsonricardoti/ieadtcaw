@@ -14,6 +14,7 @@ import static Util.FacesUtil.addInfoMessage;
 import java.io.Serializable;
 import java.util.List;
 import javax.annotation.PostConstruct;
+import javax.annotation.PreDestroy;
 import javax.enterprise.context.SessionScoped;
 
 @SessionScoped
@@ -48,12 +49,14 @@ public class IgrejaControle implements Serializable {
 
     }
 
+    @PreDestroy
     public void limpaFormulario() {
         igreja = new Igrejas();
         igrejaSelecionado = new Igrejas();
-        //List<Igrejas> lista;
-        //lista = dao.selectAll();
-        //listaDaBusca = lista;
+        listaIgrejas = null;
+        listaDaBusca = null;
+        dao = null;
+
     }
 
     public void buscarLista(String nome) {

@@ -14,6 +14,7 @@ import static Util.FacesUtil.addInfoMessage;
 import java.io.Serializable;
 import java.util.List;
 import javax.annotation.PostConstruct;
+import javax.annotation.PreDestroy;
 import javax.enterprise.context.SessionScoped;
 
 @SessionScoped
@@ -48,10 +49,13 @@ public class VeiculoControle implements Serializable {
 
     }
 
+    @PreDestroy
     public void limpaFormulario() {
         veiculo = new Veiculos();
         veiculoSelecionado = new Veiculos();
         listaDaBusca = null;
+        listaVeiculos = null;
+        dao = null;
     }
 
     public void buscarLista(String placa) {

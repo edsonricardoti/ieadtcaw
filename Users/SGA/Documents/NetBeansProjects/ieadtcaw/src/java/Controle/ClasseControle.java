@@ -17,6 +17,7 @@ import Modelo.Frequencia;
 import Modelo.Membros;
 import static Util.FacesUtil.addErrorMessage;
 import static Util.FacesUtil.addInfoMessage;
+import java.io.IOException;
 import java.io.Serializable;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -27,6 +28,7 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
+import javax.annotation.PreDestroy;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
@@ -48,7 +50,7 @@ public class ClasseControle implements Serializable {
     private Classes classe;
     private ClassesDAO dao;
     private AlunoDAO adao;
-    private final MembrosDAO mdao;
+    private MembrosDAO mdao;
     private List<Frequencia> frequenciaLista;
     private FrequenciaDAO fdao;
     private Classes classeSelecionado;
@@ -94,6 +96,37 @@ public class ClasseControle implements Serializable {
         listaClasses = null;
     }
 
+    @PreDestroy
+    public void destroi() {
+        classe = null;
+        dao = null;
+        adao = null;
+        mdao = null;
+        frequenciaLista = null;
+        fdao = null;
+        classeSelecionado = null;
+        listaClasses = null;
+        listaDaBusca = null;
+        listaDeAlunos = null;
+        isRederiza = null;
+        uploadedFile = null;
+        alunos = null;
+        aluno = null;
+        membro = null;
+        trimestre = null;
+        veio = null;
+        idAlunos = null;
+        nomeAluno = null;
+    }
+
+    public void destroiObj() throws IOException {
+        classe = new Classes();
+        classeSelecionado = new Classes();
+        listaDaBusca = null;
+        listaClasses = null;
+        FacesContext.getCurrentInstance().getExternalContext().redirect("consultar.xhtml");
+    }
+
     public void Alunos(int classe) throws ParseException {
 
         adao = new AlunoDAO();
@@ -109,7 +142,6 @@ public class ClasseControle implements Serializable {
         fdao = new FrequenciaDAO();
         frequenciaLista = fdao.buscarLicoesAluno(idBuscado, classeSelecionado.getIdclasses());
 
-
     }
 
     public void buscarLista(String nome) {
@@ -117,8 +149,10 @@ public class ClasseControle implements Serializable {
         List<Classes> lista = null;
         try {
             lista = (List<Classes>) dao.buscarPorNome(nome);
+
         } catch (ParseException ex) {
-            Logger.getLogger(ClasseControle.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ClasseControle.class
+                    .getName()).log(Level.SEVERE, null, ex);
         }
         listaDaBusca = lista;
     }

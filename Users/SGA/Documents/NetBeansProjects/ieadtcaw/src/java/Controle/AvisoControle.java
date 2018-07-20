@@ -23,11 +23,11 @@ import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.Random;
 import javax.annotation.PostConstruct;
+import javax.annotation.PreDestroy;
 import javax.enterprise.context.Conversation;
 import javax.enterprise.context.ConversationScoped;
 import javax.faces.application.FacesMessage;
 import javax.inject.Named;
-import javax.enterprise.context.SessionScoped;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import static javax.faces.context.FacesContext.getCurrentInstance;
@@ -351,9 +351,17 @@ public class AvisoControle implements Serializable {
             }
         }
     }
-
+    @PreDestroy
     public void destroy() {
-        aviso = new Avisos();
+
+     event = new DefaultScheduleEvent();
+     eventModel = new DefaultScheduleModel();
+     eventModel.clear();
+     avisoSelecionado = new Avisos();
+     eventModel = new DefaultScheduleModel();
+     dao = new AvisoDAO();
+     aviso = new Avisos();
+     listaAviso = null;
 
     }
 

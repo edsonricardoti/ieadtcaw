@@ -20,6 +20,7 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
 import javax.annotation.PostConstruct;
+import javax.annotation.PreDestroy;
 import javax.enterprise.context.Conversation;
 import javax.enterprise.context.ConversationScoped;
 import javax.faces.context.FacesContext;
@@ -56,7 +57,6 @@ public class MembroControle implements Serializable {
         membro = new Membros();
         dao = new MembrosDAO();
         membroSelecionado = new Membros();
-
 
 //        model = new LazyDataModel<Membros>() {
 //
@@ -218,6 +218,7 @@ public class MembroControle implements Serializable {
         return listaProfessores;
     }
 
+    @PreDestroy
     public void limpaFormulario() {
 
         membro = new Membros();
@@ -225,6 +226,10 @@ public class MembroControle implements Serializable {
         listaDaBusca = null;
         listaAniversariantes = null;
         listaMembros = null;
+        membross = null;
+        dao = null;
+        listaDaBusca = null;
+        listaProfessores = null;
 
     }
 

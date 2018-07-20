@@ -5,21 +5,23 @@
       xmlns:f="http://java.sun.com/jsf/core">
     <h:head>
         <title>Login</title>
-        <link href="${facesContext.externalContext.requestContextPath}/resources/css/estilos.css" 
+        <link href="${facesContext.externalContext.requestContextPath}/resources/css/estilos.css"
               rel="stylesheet"
               type="text/css" />
     </h:head>
     <h:body>
 
-        <div id="cabecalhoPgLogin">           
-            <img src="imagens/logo.jpg" width="400" height="100"/>
+        <div id="cabecalhoPgLogin">
+            <img src="imagens/logo.jpg" style="width: 300px; height: 100px;"/><br></br>
+            <h1>I-E-A-D-T-C-A-W</h1><br></br>
+            <h2>Sistema Administrativo</h2>
         </div>
         <p:separator/>
 
         <p:growl id="growl" globalOnly="true" life="2000" showDetail="false"/>
 
 
-        <h:form id="loginForm" >           
+        <h:form id="loginForm" >
 
             <p:panel style="width: 350px;margin-left: auto;margin-right: auto; margin-top: 80px;" >
                 <p><img src="imagens/login.png" width="150" height="150" />Acesso</p>
@@ -39,14 +41,14 @@
                 <p:separator style="height:5px" /><br></br>
                 <h:panelGrid columns="3"><h:column><p:panel style="width: 100px; border: none;"></p:panel></h:column>
 
-                    <p:commandButton action="#{usuarioControle.logando()}"                                    
-                                        value="Entrar"                                
-                                        ajax="false" update="@form"
-                                        icon="ui-icon-check">
+                    <p:commandButton action="#{usuarioControle.logando()}"
+                                     value="Entrar"
+                                     ajax="false" update="@form"
+                                     icon="ui-icon-check">
                     </p:commandButton>
                     <h:column><p:panel style="width: 100px; border: none;"></p:panel></h:column>
 
-                    
+
                 </h:panelGrid>
 
             </p:panel>

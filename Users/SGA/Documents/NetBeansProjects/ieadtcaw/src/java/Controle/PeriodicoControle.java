@@ -18,6 +18,7 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
+import javax.annotation.PreDestroy;
 import javax.enterprise.context.SessionScoped;
 
 @SessionScoped
@@ -54,10 +55,13 @@ public class PeriodicoControle implements Serializable {
 
     }
 
+    @PreDestroy
     public void limpaFormulario() {
         periodico = new Periodico();
         periodicoSelecionado = new Periodico();
         listaDaBusca = null;
+        listaPeriodico = null;
+        dao = null;
 
     }
 
@@ -164,6 +168,5 @@ public class PeriodicoControle implements Serializable {
     public void setNome(String nome) {
         this.nome = nome;
     }
-
 
 }

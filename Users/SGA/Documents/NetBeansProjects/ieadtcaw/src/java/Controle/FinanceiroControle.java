@@ -652,4 +652,8 @@ public class FinanceiroControle implements Serializable {
         this.missgeral = missgeral;
     }
 
+    public Conversation getConversation() {
+        return conversation;
+    }
+
 }

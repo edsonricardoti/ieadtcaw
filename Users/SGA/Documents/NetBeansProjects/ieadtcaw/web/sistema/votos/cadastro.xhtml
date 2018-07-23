@@ -33,7 +33,9 @@
                                 <p:outputLabel id="nomes" value="#{buscados.membrosNome}" style="font-size: 10px; text-transform: uppercase;"/>
                             </p:column>                            
                             <p:column headerText="Incluir" style="text-align: center;">
-                                <p:commandButton icon="ui-icon-pencil" actionListener="#{financeiroControle.buscaMembro(buscados.idmembros)}" style="font-size: 10px; text-transform: uppercase;" action="inclui.xhtml"/>
+                                <p:commandButton icon="ui-icon-pencil" actionListener="#{financeiroControle.buscaMembro(buscados.idmembros)}" style="font-size: 10px; text-transform: uppercase;" action="inclui.xhtml">
+                                    <f:param name="cid" value="#{financeiroControle.conversation.id}" />
+                                </p:commandButton>
                             </p:column>
 
                         </p:dataTable>

@@ -456,4 +456,8 @@ public class MembroControle implements Serializable {
         this.listaProfessores = listaProfessores;
     }
 
+    public Conversation getConversation() {
+        return conversation;
+    }
+
 }

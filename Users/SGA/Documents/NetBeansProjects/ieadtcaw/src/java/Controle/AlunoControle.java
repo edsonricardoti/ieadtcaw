@@ -389,4 +389,8 @@ public class AlunoControle implements Serializable {
         this.idaluno = idaluno;
     }
 
+    public Conversation getConversation() {
+        return conversation;
+    }
+
 }

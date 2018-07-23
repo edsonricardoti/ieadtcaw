@@ -662,4 +662,8 @@ public class AssinaturaControle implements Serializable {
         this.subtotalsaldo = subtotalsaldo;
     }
 
+    public Conversation getConversation() {
+        return conversation;
+    }
+
 }

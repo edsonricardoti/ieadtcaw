@@ -17,6 +17,7 @@
                           header="Notificação - Lançamentos que vençem nesta semana"
                           rendered="#{(usuarioControle.usuario.financeiro or usuarioControle.usuario.administracao) and usuarioControle.naomostra}"
                           visible="#{contasapagarControle.temNotificacao()}" widgetVar="noticias">
+
                     <p:ajax event="open" listener="#{contasapagarControle.temNotificacao()}" update="lista"/>
                     <p:ajax event="close" listener="#{contasapagarControle.endConversation()}"/>
                     <p:outputLabel  value="Manter sempre visível? " />

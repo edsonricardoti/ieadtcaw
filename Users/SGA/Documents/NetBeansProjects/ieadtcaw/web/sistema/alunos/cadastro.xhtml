@@ -33,7 +33,9 @@
                                 <p:outputLabel id="dataCadastro" value="#{buscados.membrosNome}" style="font-size: 10px; text-transform: uppercase;"/>
                             </p:column>                            
                             <p:column headerText="Incluir" style="text-align: center; font-size: 10px; ">
-                                <p:commandButton icon="ui-icon-pencil" actionListener="#{alunoControle.buscarPorMembroPorId(buscados.idmembros)}" action="inclui.xhtml"/>
+                                <p:commandButton icon="ui-icon-pencil" actionListener="#{alunoControle.buscarPorMembroPorId(buscados.idmembros)}" action="inclui.xhtml">
+                                    <f:param name="cid" value="#{alunoControle.conversation.id}" />
+                                </p:commandButton>
                             </p:column>
 
                         </p:dataTable>

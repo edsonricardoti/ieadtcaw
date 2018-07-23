@@ -41,7 +41,9 @@
                                 <p:outputLabel value="#{buscados.membrosTipo}" style="font-size: 10px; text-transform: uppercase;"/>
                             </p:column>
                             <p:column headerText="Alterar" style="text-align: center;">
-                                <p:commandButton icon="ui-icon-pencil" action="#{membroControle.buscarIDView(buscados.idmembros)}" style="font-size: 10px;" />
+                                <p:commandButton icon="ui-icon-pencil" action="#{membroControle.buscarIDView(buscados.idmembros)}" style="font-size: 10px;" >
+                                    <f:param name="cid" value="#{membroControle.conversation.id}" />
+                                </p:commandButton>
                             </p:column>
 
                         </p:dataTable>

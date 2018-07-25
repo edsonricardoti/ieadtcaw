@@ -10,7 +10,9 @@ import javax.inject.Named;
 import Modelo.Diasdaescala;
 import DAO.DiasdaescalaDAO;
 import DAO.EscalaDAO;
+import DAO.MembrosDAO;
 import Modelo.Escala;
+import Modelo.Membros;
 import static Util.FacesUtil.addErrorMessage;
 import static Util.FacesUtil.addInfoMessage;
 import java.io.Serializable;
@@ -45,6 +47,8 @@ public class DiasdaescalaControle implements Serializable {
     private List<Diasdaescala> listaDaBusca;
     private Escala escala;
     private EscalaDAO edao;
+    private Membros membro;
+    private MembrosDAO mdao;
     private Date dataini;
     private Date datafim;
     private Boolean isRenderiza;
@@ -104,6 +108,20 @@ public class DiasdaescalaControle implements Serializable {
         lista = dao.buscarPorMesSemanaLista(mes);
         listaDaBusca = lista;
         diasescala = new Diasdaescala();
+
+    }
+
+    public String pegaNomeAux(int id) {
+        String nomes;
+        if (id != 0) {
+        mdao = new MembrosDAO();
+        membro = new Membros();
+        membro = mdao.buscarPorId(id);
+        nomes = membro.getMembrosNome();
+            return nomes;
+        } else {
+            return "";
+        }
 
     }
 

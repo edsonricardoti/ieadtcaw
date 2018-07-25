@@ -91,6 +91,7 @@ public class EscalaControle implements Serializable {
         }
     }
 
+
     public void endConversation() {
         System.out.println("Finalizou conversacao...");
         if (!conversation.isTransient()) {

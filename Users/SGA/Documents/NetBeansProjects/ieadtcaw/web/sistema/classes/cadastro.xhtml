@@ -37,7 +37,7 @@
                                 <f:selectItem itemLabel=":::Selecione:::" />
                                 <f:selectItems value="#{membroControle.listaProfessor()}"
                                                var="diri"
-                                               itemLabel="#{diri.membrosNome}"
+                                               itemLabel="#{diri.membrosNome.toUpperCase()}"
                                                itemValue="#{diri.membrosNome}"/>
                             </p:selectOneMenu>
                             <p:outputLabel value="Líder 2:"/>
@@ -45,7 +45,7 @@
                                 <f:selectItem itemLabel=":::Selecione:::" />
                                 <f:selectItems value="#{membroControle.listaProfessor()}"
                                                var="diri"
-                                               itemLabel="#{diri.membrosNome}"
+                                               itemLabel="#{diri.membrosNome.toUpperCase()}"
                                                itemValue="#{diri.membrosNome}"/>
                             </p:selectOneMenu>
                             <p:outputLabel value="Líder 3:"/>
@@ -53,7 +53,7 @@
                                 <f:selectItem itemLabel=":::Selecione:::" />
                                 <f:selectItems value="#{membroControle.listaProfessor()}"
                                                var="diri"
-                                               itemLabel="#{diri.membrosNome}"
+                                               itemLabel="#{diri.membrosNome.toUpperCase()}"
                                                itemValue="#{diri.membrosNome}"/>
                             </p:selectOneMenu>
                             <p:outputLabel value="Líder 4:"/>
@@ -61,7 +61,7 @@
                                 <f:selectItem itemLabel=":::Selecione:::" />
                                 <f:selectItems value="#{membroControle.listaProfessor()}"
                                                var="diri"
-                                               itemLabel="#{diri.membrosNome}"
+                                               itemLabel="#{diri.membrosNome.toUpperCase()}"
                                                itemValue="#{diri.membrosNome}"/>
                             </p:selectOneMenu>
                             <p:outputLabel for="dte" value="Data de encerramento:" />

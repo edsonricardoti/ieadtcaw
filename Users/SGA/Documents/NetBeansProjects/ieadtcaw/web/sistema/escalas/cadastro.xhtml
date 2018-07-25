@@ -11,7 +11,7 @@
         <h:outputScript library="js" name="locale-primefaces.js"/>
         <ui:composition template="/layout.xhtml">            
             <ui:define name="content">
-                <p:panel header="Cadastro de Escala">
+                <p:panel header="Cadastro de Escala" >
                     <h:form id="cadastro" prependId="false">
                         <f:metadata>
                             <f:event listener="#{escalaControle.beginConversation()}" type="preRenderView" />
@@ -147,6 +147,7 @@
 
                     </h:form>
                 </p:panel>
+
             </ui:define>            
 
         </ui:composition>

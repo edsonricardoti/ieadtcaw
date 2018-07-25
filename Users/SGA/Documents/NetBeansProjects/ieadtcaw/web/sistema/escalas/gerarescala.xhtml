@@ -29,7 +29,7 @@
                         <p:panel>
                             <p:outputLabel value="Antes de gerar as escalas, você deve cadastrar a primeira escala do ano. Adicione todos os trabalhos da semana."/>
                         </p:panel>
-                        <p:panelGrid id="campos" columns="6" style="font-size: 14px;"
+                        <p:panelGrid id="campos" columns="5" style="font-size: 14px;"
                                      styleClass="semBorda">
                             <p:outputLabel value="Quantidade de semanas:" />
                             <p:inputText value="#{gerador.qtdsemanas}" size="4"/>
@@ -57,7 +57,7 @@
 
                     </h:form>
                     <h:form id="form2">
-                        <p:commandButton id="btdel" icon="ui-icon-trash" title="Clique aqui para excluir." action="#{gerador.deleteAll(gerador.iddaescala)}" update="@form">
+                        <p:commandButton value="Excluír Escalas Geradas" id="btdel" icon="ui-icon-trash" title="Clique aqui para excluir." action="#{gerador.deleteAll(gerador.iddaescala)}" update="@form">
                             <p:confirm header="Confirmação!" message="Você tem certeza que deseja excluir as escalas geradas. Confirma?"  icon="ui-icon-alert"/>
                         </p:commandButton>
                         <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">

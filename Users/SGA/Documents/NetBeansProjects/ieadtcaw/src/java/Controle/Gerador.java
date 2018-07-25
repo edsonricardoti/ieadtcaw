@@ -22,6 +22,7 @@ import DAO.DiasdaescalaDAO;
 import static Util.FacesUtil.addInfoMessage;
 import static Util.HibernateUtil.getSessionFactory;
 import java.io.Serializable;
+import static java.time.Instant.now;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.inject.Named;
@@ -51,19 +52,11 @@ public class Gerador implements Serializable {
 
     private Session session;
 
-//    public static void main(String[] args) throws ParseException {
-//        System.out.println("Eu sou o seu primeiro programa.");
-//        teste pp = new teste();
-//        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-//        GregorianCalendar calendar = new GregorianCalendar();
-//        calendar.setTime(calendar.getTime());
-//        pp.geraEscala(1, 6, 7);
-//
-//    }
     public Gerador() {
         System.out.println("Entrou na classe...");
         edao = new EscalaDAO();
         listaEscala = edao.selectAll();
+        //qtdsemanas = semanasNoano();
     }
 
     public String NomeDoMes(int i) {

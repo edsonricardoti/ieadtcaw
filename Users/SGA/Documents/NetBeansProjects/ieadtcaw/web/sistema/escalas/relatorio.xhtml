@@ -12,13 +12,17 @@
         <ui:composition template="/layout.xhtml">
             <ui:define name="content">
                 <h:form id="frm1" prependId="false" style="background-color:  #FFFFFF;">
-                    <p:panelGrid columns="5" style="font-size: 10px;" styleClass="semBorda">
+                    <p:panelGrid columns="7" style="font-size: 10px;" styleClass="semBorda">
                         <p:outputLabel value="Data Ini:"/>
                         <p:calendar id="dataini" value="#{diasdaescalaControle.dataini}" locale="pt" mask="true" pattern="dd/MM/yyyy" showOn="button" rendered="true" requiredMessage="a data inicial é obrigatória!" />
                         <p:outputLabel value="Data Fim:"/>
                         <p:calendar id="datafim" value="#{diasdaescalaControle.datafim}" locale="pt" mask="true" pattern="dd/MM/yyyy" showOn="button" rendered="true" requiredMessage="a data final é obrigatória!" />
                         <p:commandButton id="bt" value="Buscar" style="font-size: 10px;"
                                          action="#{diasdaescalaControle.relatorio(diasdaescalaControle.dataini, diasdaescalaControle.datafim)}" update="@form" />
+                        <p:commandButton value="Imprimir" type="button" icon="ui-icon-print">
+                            <p:printer target="pg" />
+                        </p:commandButton>
+                        <p:button id="fc" value="Fechar" icon="ui-icon-closethick" outcome="/inicio.xhtml"/>
                     </p:panelGrid>
                     <p:panel id="pg" rendered="#{diasdaescalaControle.isRenderiza}"
                              style="font-size: 10px; width: 1000px; background:  #FFFFFF;">
@@ -59,31 +63,23 @@
                         </p:dataTable><br/><br/>
                         <div style="width: 100%; text-align: left;">
                             <p:outputLabel value="MANENEDORES DE ÓRDEM:" style="font-size: 18px; text-transform:  uppercase; font-weight: bold;"/><br/><br/>
-                            <p:outputLabel value="Portão Principal: #{diasdaescalaControle.escala.escalaPortao}" style="font-size: 16px; text-transform:  uppercase;"/><br/>
-                            <p:outputLabel value="Porta do Templo: #{diasdaescalaControle.escala.escalaPorta}" style="font-size: 16px; text-transform:  uppercase;"/><br/>
-                            <p:outputLabel value="Galeria da Escada: #{diasdaescalaControle.escala.escalaGaleria}" style="font-size: 16px; text-transform:  uppercase;"/><br/>
-                            <p:outputLabel value="Dentro do Templo: #{diasdaescalaControle.escala.escalaDentro}" style="font-size: 16px; text-transform:  uppercase;"/><br/>
-                            <p:outputLabel value="Corredor do Templo: #{diasdaescalaControle.escala.escalaCorredor}" style="font-size: 16px; text-transform:  uppercase;"/><br/><br/>
+                            <p:outputLabel value="Portão Principal: #{diasdaescalaControle.pegaNomeAux(diasdaescalaControle.escala.escalaPortao)}" style="font-size: 16px; text-transform:  uppercase;"/><br/>
+                            <p:outputLabel value="Porta do Templo: #{diasdaescalaControle.pegaNomeAux(diasdaescalaControle.escala.escalaPorta)}" style="font-size: 16px; text-transform:  uppercase;"/><br/>
+                            <p:outputLabel value="Galeria da Escada: #{diasdaescalaControle.pegaNomeAux(diasdaescalaControle.escala.escalaGaleria)}" style="font-size: 16px; text-transform:  uppercase;"/><br/>
+                            <p:outputLabel value="Dentro do Templo: #{diasdaescalaControle.pegaNomeAux(diasdaescalaControle.escala.escalaDentro)}" style="font-size: 16px; text-transform:  uppercase;"/><br/>
+                            <p:outputLabel value="Corredor do Templo: #{diasdaescalaControle.pegaNomeAux(diasdaescalaControle.escala.escalaCorredor)}" style="font-size: 16px; text-transform:  uppercase;"/><br/><br/>
 
                             <p:outputLabel value="Oficiais da Semana:" style="font-size: 18px; text-transform:  uppercase; font-weight: bold;"/><br/><br/>
-                            <p:outputLabel value="#{diasdaescalaControle.escala.escalaOficial1}" style="font-size: 16px; text-transform:  uppercase;"/><br/>
-                            <p:outputLabel value="#{diasdaescalaControle.escala.escalaOficial2}" style="font-size: 16px; text-transform:  uppercase;"/><br/>
-                            <p:outputLabel value="#{diasdaescalaControle.escala.escalaOficial3}" style="font-size: 16px; text-transform:  uppercase;"/><br/>
-                            <p:outputLabel value="#{diasdaescalaControle.escala.escalaOficial4}" style="font-size: 16px; text-transform:  uppercase;"/><br/>
+                            <p:outputLabel value="#{diasdaescalaControle.pegaNomeAux(diasdaescalaControle.escala.escalaOficial1)}" style="font-size: 16px; text-transform:  uppercase;"/><br/>
+                            <p:outputLabel value="#{diasdaescalaControle.pegaNomeAux(diasdaescalaControle.escala.escalaOficial2)}" style="font-size: 16px; text-transform:  uppercase;"/><br/>
+                            <p:outputLabel value="#{diasdaescalaControle.pegaNomeAux(diasdaescalaControle.escala.escalaOficial3)}" style="font-size: 16px; text-transform:  uppercase;"/><br/>
+                            <p:outputLabel value="#{diasdaescalaControle.pegaNomeAux(diasdaescalaControle.escala.escalaOficial4)}" style="font-size: 16px; text-transform:  uppercase;"/><br/>
                             <p:outputLabel value="SECRETÁRIOS:" style="font-size: 18px; text-transform:  uppercase; font-weight: bold;"/><br/><br/>
-                            <p:outputLabel value="#{diasdaescalaControle.escala.secretario1}" style="font-size: 16px; text-transform:  uppercase;"/><br/>
-                            <p:outputLabel value="#{diasdaescalaControle.escala.secretario2}" style="font-size: 16px; text-transform:  uppercase;"/><br/>
+                            <p:outputLabel value="#{diasdaescalaControle.pegaNomeAux(diasdaescalaControle.escala.secretario1)}" style="font-size: 16px; text-transform:  uppercase;"/><br/>
+                            <p:outputLabel value="#{diasdaescalaControle.pegaNomeAux(diasdaescalaControle.escala.secretario2)}" style="font-size: 16px; text-transform:  uppercase;"/><br/>
                         </div>
 
                     </p:panel>
-
-                    <p:panelGrid columns="3" layout="grid">
-                        <p:button id="fc" value="Fechar" icon="ui-icon-closethick" outcome="/inicio.xhtml"/>
-                        <p:commandButton value="Imprimir" type="button" icon="ui-icon-print">
-                            <p:printer target="pg" />
-                        </p:commandButton>
-                    </p:panelGrid>
-
 
                 </h:form>
             </ui:define>

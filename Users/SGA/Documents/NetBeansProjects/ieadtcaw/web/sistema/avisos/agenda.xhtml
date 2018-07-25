@@ -25,6 +25,33 @@
                     <p:graphicImage value="../../imagens/loader.gif"/>
 
                 </p:dialog>
+                <h:form id="form2">
+                    <p:panelGrid columns="12" styleClass="semBorda">
+
+                        <p:column width="10"></p:column>
+                        <p:column width="10"></p:column>
+                        <p:column width="10"></p:column>
+                        <p:column width="10"></p:column>
+                        <p:column></p:column>
+                        <p:column>
+                            <div align="left">
+                                <h:outputLabel value="Agenda de eventos" style="font-size: 24px; font-weight: bold;"/>
+
+                            </div>
+                        </p:column>
+                        <p:column width="10"></p:column>
+                        <p:column width="10"></p:column>
+                        <p:column width="10"></p:column>
+                        <p:column width="10"></p:column>
+                        <p:column width="10"></p:column>
+
+                        <p:column>
+                            <p:commandButton value="Fechar" ajax="false"
+                                             icon="ui-icon-closethick"
+                                             action="#{avisoControle.fechar()}"/>
+                        </p:column>
+                    </p:panelGrid>
+                </h:form>
 
                 <h:form id="frm1" prependId="false" >
                     <f:metadata>
@@ -33,10 +60,6 @@
                     <p:remoteCommand action="#{avisoControle.atualizaAgenda()}" autoRun="true" update="schedule" process="@this"/>
                     <p:growl id="messages"  />
 
-                    <div align="left">
-                        <h:outputLabel value="Agenda de eventos" style="font-size: 24px; font-weight: bold;"/>
-
-                    </div>
                     <p:schedule id="schedule" value="#{avisoControle.eventModel}"
                                 widgetVar="myschedule"
                                 aspectRatio="2" locale="pt"

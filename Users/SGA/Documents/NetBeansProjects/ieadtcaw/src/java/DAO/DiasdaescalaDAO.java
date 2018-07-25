@@ -22,11 +22,12 @@ public class DiasdaescalaDAO {
     private Session session;
 
     public List<Diasdaescala> selectAll(int id) {
+        System.out.println("ID passado p/ deletar = " + id);
         try {
 
             session = getSessionFactory().openSession();
             Transaction t = session.beginTransaction();
-            List lista = session.createQuery("from Diasdaescala where idescalapai=" + id + "").list();
+            List lista = session.createQuery("from Diasdaescala where idescalapai =" + id + "").list();
             t.commit();
             return lista;
 
@@ -44,6 +45,24 @@ public class DiasdaescalaDAO {
             session = getSessionFactory().openSession();
             Transaction t = session.beginTransaction();
             Diasdaescala escala = (Diasdaescala) session.createQuery("from Diasdaescala where data=" + data + "'")
+                    .uniqueResult();
+            t.commit();
+            return escala;
+
+        } catch (HibernateException e) {
+            session.getTransaction().rollback();
+            return null;
+        } finally {
+            session.close();
+        }
+    }
+
+    public Diasdaescala buscarPorID(int id) {
+
+        try {
+            session = getSessionFactory().openSession();
+            Transaction t = session.beginTransaction();
+            Diasdaescala escala = (Diasdaescala) session.createQuery("from Diasdaescala where id=" + id)
                     .uniqueResult();
             t.commit();
             return escala;
@@ -82,6 +101,23 @@ public class DiasdaescalaDAO {
             session = getSessionFactory().openSession();
             Transaction t = session.beginTransaction();
             List lista = session.createQuery("from Diasdaescala where month(data) =" + mes + " and year(data)=year(Now())").list();
+            t.commit();
+            return lista;
+
+        } catch (HibernateException e) {
+            session.getTransaction().rollback();
+            return null;
+        } finally {
+            session.close();
+        }
+    }
+
+    public List<Diasdaescala> buscarPorIdEscala(int id) {
+
+        try {
+            session = getSessionFactory().openSession();
+            Transaction t = session.beginTransaction();
+            List lista = session.createQuery("from Diasdaescala where idescalapai=" + id).list();
             t.commit();
             return lista;
 

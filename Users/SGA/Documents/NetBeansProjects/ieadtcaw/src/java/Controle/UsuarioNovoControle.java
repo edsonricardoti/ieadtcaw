@@ -49,6 +49,13 @@ public class UsuarioNovoControle implements Serializable {
     }
 
     @PreDestroy
+    public void destroi() {
+        usuario = null;
+        usuarioSelecionado = null;
+        listaDaBusca = null;
+        dao = null;
+    }
+
     public void limpaFormulario() {
         usuario = new Usuarios();
         usuarioSelecionado = new Usuarios();

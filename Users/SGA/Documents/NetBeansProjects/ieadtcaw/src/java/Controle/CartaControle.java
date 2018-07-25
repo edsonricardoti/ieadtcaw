@@ -68,6 +68,14 @@ public class CartaControle implements Serializable {
     }
 
     @PreDestroy
+    public void destroi() {
+        carta = new Carta();
+        cartaSelecionado = new Carta();
+        listaDaBusca = null;
+        dao = null;
+        listaCarta = null;
+    }
+
     public void limpaFormulario() {
         carta = new Carta();
         cartaSelecionado = new Carta();

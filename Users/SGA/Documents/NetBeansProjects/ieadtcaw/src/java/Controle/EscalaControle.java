@@ -61,6 +61,9 @@ public class EscalaControle implements Serializable {
     private Date dataini;
     private Date datafim;
     private String periodo;
+    private Boolean emtodos;
+    private Integer tipo;
+    private Integer idAuxiliar;
 
     @Inject
     private Conversation conversation;
@@ -103,6 +106,16 @@ public class EscalaControle implements Serializable {
     }
 
     @PreDestroy
+    public void destroi() {
+        escala = null;
+        escalaSelecionado = null;
+        listaDaBusca = null;
+        dao = null;
+        listaEscala = null;
+        listaFilhos = null;
+        dao = null;
+    }
+
     public void limpaFormulario() {
         escala = new Escala();
         escalaSelecionado = new Escala();
@@ -130,6 +143,58 @@ public class EscalaControle implements Serializable {
         }
         return texto;
     }
+//rotinas para alteracao do auxiliar em todas as escalas
+
+    public void marcaTipo(int tipos, int idauxiliares) {
+        tipo = tipos;
+        idAuxiliar = idauxiliares;
+
+    }
+
+    public void alterarEmTodas() {
+        listaEscala = dao.selectAll();
+        for (Escala esca : listaEscala) {
+            if (tipo == 1) {
+                esca.setEscalaPortao(idAuxiliar);
+            }
+            if (tipo == 2) {
+                esca.setEscalaPorta(idAuxiliar);
+            }
+            if (tipo == 3) {
+                esca.setEscalaGaleria(idAuxiliar);
+            }
+            if (tipo == 4) {
+                esca.setEscalaDentro(idAuxiliar);
+            }
+            if (tipo == 5) {
+                esca.setEscalaCorredor(idAuxiliar);
+            }
+            if (tipo == 6) {
+                esca.setEscalaOficial1(idAuxiliar);
+            }
+            if (tipo == 7) {
+                esca.setEscalaOficial2(idAuxiliar);
+            }
+            if (tipo == 8) {
+                esca.setEscalaOficial3(idAuxiliar);
+            }
+            if (tipo == 9) {
+                esca.setEscalaOficial4(idAuxiliar);
+            }
+            if (tipo == 10) {
+                esca.setSecretario1(idAuxiliar);
+            }
+            if (tipo == 11) {
+                esca.setSecretario2(idAuxiliar);
+            }
+
+            if (dao.update(esca)) {
+                System.out.println("Feito a troca...");
+            }
+
+        }
+    }
+    //fim das rotinas de alteracao do auxiliar
 
     public void PegaFilho(Escala escala) {
         fdao = new DiasdaescalaDAO();
@@ -149,7 +214,6 @@ public class EscalaControle implements Serializable {
         escalaSelecionado = new Escala();
         escalaSelecionado = escala;
         if (dao.insert(escala)) {
-            endConversation();
             addInfoMessage("Dados salvo com sucesso!");
         } else {
             addErrorMessage("Erro ao salvar os dados!");
@@ -294,6 +358,34 @@ public class EscalaControle implements Serializable {
 
     public void setPeriodo(String periodo) {
         this.periodo = periodo;
+    }
+
+    public Conversation getConversation() {
+        return conversation;
+    }
+
+    public Boolean getEmtodos() {
+        return emtodos;
+    }
+
+    public void setEmtodos(Boolean emtodos) {
+        this.emtodos = emtodos;
+    }
+
+    public Integer getTipo() {
+        return tipo;
+    }
+
+    public void setTipo(Integer tipo) {
+        this.tipo = tipo;
+    }
+
+    public Integer getIdAuxiliar() {
+        return idAuxiliar;
+    }
+
+    public void setIdAuxiliar(Integer idAuxiliar) {
+        this.idAuxiliar = idAuxiliar;
     }
 
 }

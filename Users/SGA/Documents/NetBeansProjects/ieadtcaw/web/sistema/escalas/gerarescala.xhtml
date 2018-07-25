@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"   
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <h:body>
+        <h:outputScript library="js" name="locale-primefaces.js"/>
+        <ui:composition template="/layout.xhtml">            
+            <ui:define name="content">
+                <p:panel header="Gerar Escalas">
+                    <h:form id="cadastro" prependId="false">
+                        <p:ajaxStatus onstart="PF('statusDialog').show()"
+                                      onsuccess="PF('statusDialog').hide()" />
+                        <p:dialog widgetVar="statusDialog"
+                                  draggable="false"
+                                  closable="false"
+                                  resizable="false"
+                                  modal="true"
+                                  showHeader="false">
+                            <p:graphicImage value="../../imagens/loader.gif"/>
+
+                        </p:dialog>
+
+                        <p:messages id="messages" closable="true" style="font-size: 12px; text-align: center;" showIcon="false"/>
+                        <p:panel>
+                            <p:outputLabel value="Antes de gerar as escalas, você deve cadastrar a primeira escala do ano. Adicione todos os trabalhos da semana."/>
+                        </p:panel>
+                        <p:panelGrid id="campos" columns="6" style="font-size: 14px;"
+                                     styleClass="semBorda">
+                            <p:outputLabel value="Quantidade de semanas:" />
+                            <p:inputText value="#{gerador.qtdsemanas}" size="4"/>
+                            <p:outputLabel value="Selecione a primeira escala do ano:"/>
+                            <p:selectOneMenu id="l1" value="#{gerador.iddaescala}" required="true" requiredMessage="Selecione a primeira escala do ano!" >
+                                <f:selectItem itemLabel=":::Selecione:::" />
+                                <f:selectItems value="#{gerador.listaEscala}"
+                                               var="escala"
+                                               itemLabel="#{gerador.NomeDoMes(escala.escalaMes)} | Semana #{escala.escalaSemana}"
+                                               itemValue="#{escala.idescala}"/>
+                                <p:ajax event="change" listener="#{gerador.setIddaescala(gerador.iddaescala)}" update="btgera, form2:btdel"/>
+                            </p:selectOneMenu>
+
+
+                            <p:commandButton id="btgera" icon="ui-icon-check" title="Clique aqui para gerar" actionListener="#{gerador.geraEscala(gerador.qtdsemanas, gerador.iddaescala)}" value="Gerar">
+                                <p:confirm header="Confirmação!" message="Você tem certeza que deseja prosseguir. A semana selecionada é a primeira de Janeiro. Confirma?"  icon="ui-icon-alert"/>
+                            </p:commandButton>
+
+                            <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+                                <p:commandButton value="Sim" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+                                <p:commandButton value="Não" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+                            </p:confirmDialog>
+                        </p:panelGrid>
+
+
+                    </h:form>
+                    <h:form id="form2">
+                        <p:commandButton id="btdel" icon="ui-icon-trash" title="Clique aqui para excluir." action="#{gerador.deleteAll(gerador.iddaescala)}" update="@form">
+                            <p:confirm header="Confirmação!" message="Você tem certeza que deseja excluir as escalas geradas. Confirma?"  icon="ui-icon-alert"/>
+                        </p:commandButton>
+                        <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+                            <p:commandButton value="Sim" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+                            <p:commandButton value="Não" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+                        </p:confirmDialog>
+                    </h:form>
+                </p:panel>
+            </ui:define>            
+
+        </ui:composition>
+
+    </h:body>
+
+</html>

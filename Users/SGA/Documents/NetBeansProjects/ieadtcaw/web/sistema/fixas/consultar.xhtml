@@ -17,7 +17,7 @@
                     </f:metadata>
                     <p:panel header="Lançamentos de dispesas fixas">
                         <p:messages id="messages" closable="true" style="font-size: 12px; text-align: center;" showIcon="false"/>
-                        <p:remoteCommand action="#{contasapagarControle.limpaFormulario()}" autoRun="true" update="grades,lista"/>
+
                         <p:panelGrid id="grades" columns="7" style="font-size: 10px;" styleClass="semBorda">
                             <p:outputLabel value="Descrição:"/>
                             <p:inputText value="#{contasapagarControle.descricao}"/>

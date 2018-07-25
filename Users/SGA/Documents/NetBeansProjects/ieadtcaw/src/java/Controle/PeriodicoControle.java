@@ -56,6 +56,15 @@ public class PeriodicoControle implements Serializable {
     }
 
     @PreDestroy
+    public void destroi() {
+        periodico = null;
+        periodicoSelecionado = null;
+        listaDaBusca = null;
+        listaPeriodico = null;
+        dao = null;
+
+    }
+
     public void limpaFormulario() {
         periodico = new Periodico();
         periodicoSelecionado = new Periodico();

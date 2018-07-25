@@ -320,6 +320,12 @@ public class FinanceiroControle implements Serializable {
         missgeral = adao.buscaFinanceiroGeral(idperiodico);
     }
 
+    public void buscaCarnesNaoPagos() throws ParseException {
+        //gera planilha de missoes com a situacao dos assinantes
+        adao = new AssinaturaDAO();
+        missgeral = adao.buscaCarnesNaoPagos();
+    }
+
     public void buscaPorAno(int ano) throws ParseException {
         //busca pelo mes digitado e o ano atual do sistema
         dizimoPorano = dao.buscarDizimoPorAno(ano);

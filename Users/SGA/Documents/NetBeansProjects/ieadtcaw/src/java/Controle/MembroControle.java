@@ -85,6 +85,7 @@ public class MembroControle implements Serializable {
         membro = new Membros();
         dao = new MembrosDAO();
         membroSelecionado = new Membros();
+        listaMembros = dao.selectAll();
 
         // filtro = new FiltroMembros();
     }
@@ -350,6 +351,22 @@ public class MembroControle implements Serializable {
         Date data = new Date();
         membro.setMembrosCasamento(data);
         if (dao.insert(membro)) {
+            limpaFormulario();
+            endConversation();
+            addInfoMessage("Dados salvo com sucesso!");
+            endConversation();
+        } else {
+            addErrorMessage("Erro ao salvar os dados! Se estiver cadastrando um Membro verifique se o CPF está correto e se a data de nascimento foi preenchida. Refaça o cadastro.");
+        }
+    }
+
+    public void maisum() throws IOException {
+        Date data = new Date();
+        membro.setMembrosCasamento(data);
+        if (dao.insert(membro)) {
+            limpaFormulario();
+            endConversation();
+            FacesContext.getCurrentInstance().getExternalContext().redirect("cadastro.xhtml");
             addInfoMessage("Dados salvo com sucesso!");
             endConversation();
         } else {

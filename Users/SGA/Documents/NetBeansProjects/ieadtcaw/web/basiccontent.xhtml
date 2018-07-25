@@ -68,8 +68,35 @@
 
                 </p:dialog>
 
+                <p:dialog closeOnEscape="true"
+                          width="630" height="400"
+                          header="Notificação - Carnês em aberto"
+                          rendered="#{usuarioControle.usuario.missoes and usuarioControle.naomostra}"
+                          visible="#{contasapagarControle.temCarnesNotificacao()}" widgetVar="noticiasCarne">
 
+                    <p:ajax event="open" listener="#{contasapagarControle.temCarnesNotificacao()}" update="lista2"/>
+                    <p:ajax event="close" listener="#{contasapagarControle.temCarnesNotificacao()}"/>
+                    <p:outputLabel  value="Manter sempre visível? " />
+                    <p:selectBooleanCheckbox value="#{usuarioControle.naomostra}">
+                        <p:ajax  listener="#{usuarioControle.naoMostraJanelas()}" />
+                    </p:selectBooleanCheckbox>
+                    <p:dataTable id="lista2" rows="10"
+                                 value="#{contasapagarControle.missgeral}"
+                                 var="buscados" style="font-size: 10px;"
+                                 paginator="true" paginatorPosition="bottom"
+                                 emptyMessage="Sem notificações.">
 
+                        <p:column headerText="Membro/Congregado" style="font-size: 10px; width: 150px;" >
+                            <p:outputLabel value="#{buscados.nome}" style="font-size: 10px; text-transform: uppercase;"/>
+                        </p:column>                        
+                        <p:column headerText="Parcela" style="font-size: 10px; text-align:  right; width: 50px;">
+                            <p:outputLabel id="parc" 
+                                           value="#{buscados.parcela1 eq null?'01':buscados.parcela2 eq null?'02':buscados.parcela3 eq null?'03':''}" style="font-size: 10px; text-transform: uppercase;">
+
+                            </p:outputLabel>
+                        </p:column> 
+                    </p:dataTable>
+                </p:dialog>
             </h:form>
         </ui:composition>
     </h:body>

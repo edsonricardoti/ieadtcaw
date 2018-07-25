@@ -28,7 +28,7 @@
                                     <f:selectItem itemLabel=":::Selecione:::" />
                                     <f:selectItems value="#{assinaturaControle.periodicos}"
                                                    var="revista"
-                                                   itemLabel="#{revista.titulo}"
+                                                   itemLabel="#{revista.titulo.toUpperCase()}"
                                                    itemValue="#{revista.idperiodico}"/>
                                 </p:selectOneMenu>
                                 <p:outputLabel value="Modalidade:"/>

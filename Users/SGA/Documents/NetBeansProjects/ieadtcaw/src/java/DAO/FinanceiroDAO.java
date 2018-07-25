@@ -80,6 +80,7 @@ public class FinanceiroDAO {
         }
     }
 
+
     public List<Relatorios> buscarDizimoPorMes(int mes) throws ParseException {
 
         try {
@@ -186,6 +187,7 @@ public class FinanceiroDAO {
             session.close();
         }
     }
+
     public List<Relatorios> buscarMissGeralPorPeriodo(Date dataini, Date datafim) throws ParseException {
 
         try {

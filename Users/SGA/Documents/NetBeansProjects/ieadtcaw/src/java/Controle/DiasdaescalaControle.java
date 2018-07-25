@@ -67,6 +67,16 @@ public class DiasdaescalaControle implements Serializable {
     }
 
     @PreDestroy
+    public void destroi() {
+        diasescala = null;
+        escalaSelecionado = null;
+        listaDaBusca = null;
+        dao = null;
+        listaDiasdaescala = null;
+        escala = null;
+        edao = null;
+    }
+
     public void limpaFormulario() {
         diasescala = new Diasdaescala();
         escalaSelecionado = new Diasdaescala();
@@ -120,6 +130,10 @@ public class DiasdaescalaControle implements Serializable {
 
     }
 
+    public void buscaID(int id) {
+        escalaSelecionado = dao.buscarPorID(id);
+    }
+
     public void insert(Escala escala) {
         diasescala.setIdescalapai(escala.getIdescala());
         if (dao.insert(diasescala)) {
@@ -142,9 +156,9 @@ public class DiasdaescalaControle implements Serializable {
     public void update() {
 
         if (dao.update(escalaSelecionado)) {
-            addInfoMessage("Diasdaescala alterada com sucesso!");
+            //addInfoMessage("Diasdaescala alterada com sucesso!");
         } else {
-            addInfoMessage("Diasdaescala não alterada");
+            addInfoMessage("Trabalho não alterado!");
         }
 
     }

@@ -16,9 +16,10 @@
                         <f:metadata>
                             <f:event listener="#{escalaControle.beginConversation()}" type="preRenderView" />
                         </f:metadata>
-                        <p:remoteCommand action="#{escalaControle.limpaFormulario()}" autoRun="true"/>
-                        <p:messages id="messages" closable="true" style="font-size: 12px; text-align: center;" showIcon="false"/>                        
-                        <p:panelGrid id="campos" columns="4" style="font-size: 14px;"
+
+                        <p:messages id="messages" closable="true" style="font-size: 12px; text-align: center;" showIcon="false"/>
+
+                        <p:panelGrid id="campos" columns="4" style="font-size: 12px;"
                                      styleClass="semBorda" columnClasses="textos,campos,textos,campos">
                             <p:outputLabel for="dtcad" value="Data cadastro:" />
                             <p:calendar id="dtcad" value="#{escalaControle.escala.escalaData}" locale="pt" mask="true" pattern="dd/MM/yyyy" showOn="button" rendered="true" requiredMessage="a data é obrigatória!" />
@@ -44,33 +45,102 @@
                                 <f:selectItem itemLabel="3ª Semana" itemValue="3" />
                                 <f:selectItem itemLabel="4ª Semana" itemValue="4" />
                                 <f:selectItem itemLabel="5ª Semana" itemValue="5" />
-
+                                <f:selectItem itemLabel="6ª Semana" itemValue="6" />
                             </p:selectOneMenu>
+
                             <p:outputLabel value="Portão principal:"/>
-                            <p:inputText value="#{escalaControle.escala.escalaPortao}" style="width: 300px; font-size: 10px; text-transform:  uppercase;"/>
+                            <p:selectOneMenu id="l2" value="#{escalaControle.escala.escalaPortao}" >
+                                <f:selectItem itemLabel=":::Selecione:::"  />
+                                <f:selectItems value="#{membroControle.listaMembros}"
+                                               var="diri"
+                                               itemLabel="#{diri.membrosNome.toUpperCase()}"
+                                               itemValue="#{diri.idmembros}"/>
+                            </p:selectOneMenu>
                             <p:outputLabel value="Porta do templo:"/>
-                            <p:inputText value="#{escalaControle.escala.escalaPorta}" style="width: 300px; font-size: 10px; text-transform:  uppercase;"/>
+                            <p:selectOneMenu id="l3" value="#{escalaControle.escala.escalaPorta}" >
+                                <f:selectItem itemLabel=":::Selecione:::" />
+                                <f:selectItems value="#{membroControle.listaMembros}"
+                                               var="diri" 
+                                               itemLabel="#{diri.membrosNome.toUpperCase()}"
+                                               itemValue="#{diri.idmembros}"/>
+                            </p:selectOneMenu>                            
                             <p:outputLabel value="Galeria da escada:"/>
-                            <p:inputText value="#{escalaControle.escala.escalaGaleria}" style="width: 300px; font-size: 10px; text-transform:  uppercase;"/>
+                            <p:selectOneMenu id="l4" value="#{escalaControle.escala.escalaGaleria}" >
+                                <f:selectItem itemLabel=":::Selecione:::"  />
+                                <f:selectItems value="#{membroControle.listaMembros}"
+                                               var="diri"
+                                               itemLabel="#{diri.membrosNome.toUpperCase()}"
+                                               itemValue="#{diri.idmembros}"/>
+                            </p:selectOneMenu>
                             <p:outputLabel value="Dentro do templo:"/>
-                            <p:inputText value="#{escalaControle.escala.escalaDentro}" style="width: 300px; font-size: 10px; text-transform:  uppercase;"/>
+                            <p:selectOneMenu id="l5" value="#{escalaControle.escala.escalaDentro}" >
+                                <f:selectItem itemLabel=":::Selecione:::"  />
+                                <f:selectItems value="#{membroControle.listaMembros}"
+                                               var="diri"
+                                               itemLabel="#{diri.membrosNome.toUpperCase()}"
+                                               itemValue="#{diri.idmembros}"/>
+                            </p:selectOneMenu>
                             <p:outputLabel value="Corredor do templo:"/>
-                            <p:inputText value="#{escalaControle.escala.escalaCorredor}" style="width: 300px; font-size: 10px; text-transform:  uppercase;"/>
-                            <p:outputLabel value="1 Oficial da semana:"/>
-                            <p:inputText value="#{escalaControle.escala.escalaOficial1}" style="width: 300px; font-size: 10px; text-transform:  uppercase;"/>
-                            <p:outputLabel value="2 Oficial da semana:"/>
-                            <p:inputText value="#{escalaControle.escala.escalaOficial2}" style="width: 300px; font-size: 10px; text-transform:  uppercase;"/>
-                            <p:outputLabel value="3 Oficial da semana:"/>
-                            <p:inputText value="#{escalaControle.escala.escalaOficial3}" style="width: 300px; font-size: 10px; text-transform:  uppercase;"/>
-                            <p:outputLabel value="4 Oficial da semana:"/>
-                            <p:inputText value="#{escalaControle.escala.escalaOficial4}" style="width: 300px; font-size: 10px; text-transform:  uppercase;"/>
-                            <p:outputLabel value="Secretário 1:"/>
-                            <p:inputText value="#{escalaControle.escala.secretario1}" style="width: 300px; font-size: 10px; text-transform:  uppercase;"/>
-                            <p:outputLabel value="Secretário 2"/>
-                            <p:inputText value="#{escalaControle.escala.secretario2}" style="width: 300px; font-size: 10px; text-transform:  uppercase;"/>
+                            <p:selectOneMenu id="l6" value="#{escalaControle.escala.escalaCorredor}" >
+                                <f:selectItem itemLabel=":::Selecione:::"  />
+                                <f:selectItems value="#{membroControle.listaMembros}"
+                                               var="diri"
+                                               itemLabel="#{diri.membrosNome.toUpperCase()}"
+                                               itemValue="#{diri.idmembros}"/>
+                            </p:selectOneMenu>
+                            <p:outputLabel value="1º Oficial da semana:"/>
+                            <p:selectOneMenu id="l27" value="#{escalaControle.escala.escalaOficial1}" >
+                                <f:selectItem itemLabel=":::Selecione:::"  />
+                                <f:selectItems value="#{membroControle.listaMembros}"
+                                               var="memb"
+                                               itemLabel="#{memb.membrosNome.toUpperCase()}"
+                                               itemValue="#{memb.idmembros}"/>
+                            </p:selectOneMenu>
+                            <p:outputLabel value="2º Oficial da semana:"/>
+                            <p:selectOneMenu id="l8" value="#{escalaControle.escala.escalaOficial2}" >
+                                <f:selectItem itemLabel=":::Selecione:::"  />
+                                <f:selectItems value="#{membroControle.listaMembros}"
+                                               var="diri"
+                                               itemLabel="#{diri.membrosNome.toUpperCase()}"
+                                               itemValue="#{diri.idmembros}"/>
+                            </p:selectOneMenu>                           
+                            <p:outputLabel value="3º Oficial da semana:"/>
+                            <p:selectOneMenu id="l9" value="#{escalaControle.escala.escalaOficial3}" >
+                                <f:selectItem itemLabel=":::Selecione:::"  />
+                                <f:selectItems value="#{membroControle.listaMembros}"
+                                               var="diri"
+                                               itemLabel="#{diri.membrosNome.toUpperCase()}"
+                                               itemValue="#{diri.idmembros}"/>
+                            </p:selectOneMenu>
+                            <p:outputLabel value="4º Oficial da semana:"/>
+                            <p:selectOneMenu id="l20" value="#{escalaControle.escala.escalaOficial4}" >
+                                <f:selectItem itemLabel=":::Selecione:::"  />
+                                <f:selectItems value="#{membroControle.listaMembros}"
+                                               var="diri"
+                                               itemLabel="#{diri.membrosNome.toUpperCase()}"
+                                               itemValue="#{diri.idmembros}"/>
+                            </p:selectOneMenu>
+                            <p:outputLabel value="1º Secretário:"/>
+                            <p:selectOneMenu id="l21" value="#{escalaControle.escala.secretario1}" >
+                                <f:selectItem itemLabel=":::Selecione:::"  />
+                                <f:selectItems value="#{membroControle.listaMembros}"
+                                               var="diri"
+                                               itemLabel="#{diri.membrosNome.toUpperCase()}"
+                                               itemValue="#{diri.idmembros}"/>
+                            </p:selectOneMenu>
+                            <p:outputLabel value="2º Secretário"/>
+                            <p:selectOneMenu id="l22" value="#{escalaControle.escala.secretario2}" >
+                                <f:selectItem itemLabel=":::Selecione:::"  />
+                                <f:selectItems value="#{membroControle.listaMembros}"
+                                               var="diri"
+                                               itemLabel="#{diri.membrosNome.toUpperCase()}"
+                                               itemValue="#{diri.idmembros}"/>
+                            </p:selectOneMenu>
                         </p:panelGrid>
 
-                        <p:commandButton icon="ui-icon-check" title="Clique aqui para salvar o cadastro" actionListener="#{escalaControle.insert()}" value="Salvar" action="consulta.xhtml" />
+                        <p:commandButton icon="ui-icon-check" title="Clique aqui para salvar o cadastro" actionListener="#{escalaControle.insert()}" value="Salvar" action="consulta.xhtml">
+                            <f:param name="cid" value="#{escalaControle.conversation.id}" />
+                        </p:commandButton>
                         <p:commandButton value="Fechar" ajax="false"
                                          icon="ui-icon-closethick"
                                          action="#{escalaControle.fechar()}"/>

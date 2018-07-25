@@ -5,16 +5,22 @@
  */
 package Controle;
 
+import DAO.AssinaturaDAO;
 import javax.inject.Named;
 
 import DAO.ContasapagarDAO;
+import DAO.FinanceiroDAO;
 import Modelo.Contasapagar;
+import Modelo.Missgeral;
 import Modelo.Relatorios;
 import static Util.FacesUtil.addErrorMessage;
 import static Util.FacesUtil.addInfoMessage;
 import java.io.IOException;
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
@@ -44,6 +50,9 @@ public class ContasapagarControle implements Serializable {
 
     private Contasapagar contasapagar;
     private ContasapagarDAO dao;
+    private AssinaturaDAO adao;
+    private List<Missgeral> missgeral;
+    ;
     private Contasapagar contasapagarSelecionado;
     private List<Contasapagar> listaContasapagar;
     private Boolean isRederiza = false;
@@ -71,6 +80,7 @@ public class ContasapagarControle implements Serializable {
 
         contasapagar = new Contasapagar();
         dao = new ContasapagarDAO();
+        adao = new AssinaturaDAO();
         //listaContasapagar = dao.buscarDespesas("compras");
         contasapagarSelecionado = new Contasapagar();
         Date data1 = new Date();
@@ -113,6 +123,16 @@ public class ContasapagarControle implements Serializable {
     }
 
     @PreDestroy
+    public void destroi() {
+        listaContasapagar = null;
+        contasapagar = null;
+        contasapagarSelecionado = null;
+        relatoriolista = null;
+        dao = null;
+        adao = null;
+        missgeral = null;
+    }
+
     public void limpaFormulario() {
         listaContasapagar = null;
         contasapagar = new Contasapagar();
@@ -124,6 +144,7 @@ public class ContasapagarControle implements Serializable {
     public LineChartModel getLineModel2() {
         return lineModel2;
     }
+
 
     private void createLineModels(Date inicio, Date fim) {
 
@@ -144,6 +165,17 @@ public class ContasapagarControle implements Serializable {
         dao = new ContasapagarDAO();
         listaContasapagar = dao.buscarVencidos();
         if (listaContasapagar.size() == 0) {
+            return false;
+        } else {
+            return true;
+        }
+    }
+
+    public boolean temCarnesNotificacao() throws ParseException {
+        adao = new AssinaturaDAO();
+        missgeral = adao.buscaCarnesNaoPagos();
+
+        if (missgeral.size() == 0) {
             return false;
         } else {
             return true;
@@ -313,6 +345,14 @@ public class ContasapagarControle implements Serializable {
 
     public void setMaximo(BigDecimal maximo) {
         this.maximo = maximo;
+    }
+
+    public List<Missgeral> getMissgeral() {
+        return missgeral;
+    }
+
+    public void setMissgeral(List<Missgeral> missgeral) {
+        this.missgeral = missgeral;
     }
 
 }

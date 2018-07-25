@@ -77,14 +77,24 @@ public class CriancaControle implements Serializable {
         criancaSelecionado = new Criancas();
 
     }
-    @PreDestroy
+
     public void limpaFormulario() {
         crianca = new Criancas();
         criancaSelecionado = new Criancas();
-    listaDaBusca = null;
-    dao = null;
-    mdao = null;
-    listaCriancas = null;
+        listaDaBusca = null;
+        dao = null;
+        mdao = null;
+        listaCriancas = null;
+    }
+
+    @PreDestroy
+    public void destroi() {
+        crianca = null;
+        criancaSelecionado = null;
+        listaDaBusca = null;
+        dao = null;
+        mdao = null;
+        listaCriancas = null;
     }
 
     public void geraCertificado(Criancas crianca) {

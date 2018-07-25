@@ -87,7 +87,7 @@ public class ContasapagarDAO {
             return lista;
 
         } catch (HibernateException e) {
-            session.getTransaction().rollback();
+            System.out.println("Erro da lista: ");
             return null;
         } finally {
             session.close();

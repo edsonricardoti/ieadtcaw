@@ -80,7 +80,7 @@ public class EscalaDAO {
         try {
             session = getSessionFactory().openSession();
             Transaction t = session.beginTransaction();
-            Escala escala = (Escala) session.createQuery("from Escala where idescala=:id")
+            Escala escala = (Escala) session.createQuery("from Escala where idescala =:id")
                     .setInteger("id", id)
                     .uniqueResult();
             t.commit();
@@ -140,6 +140,7 @@ public class EscalaDAO {
             session.close();
         }
     }
+
 
     public boolean update(Escala escala) {
         try {

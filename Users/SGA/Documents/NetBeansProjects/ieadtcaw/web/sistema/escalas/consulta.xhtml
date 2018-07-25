@@ -11,13 +11,16 @@
         <h:outputScript library="js" name="locale-primefaces.js"/>
         <ui:composition template="/layout.xhtml">            
             <ui:define name="content">
-                <p:panel header="Cadastro de Escala">
+                <p:panel header="Cadastro de Escala" style="width: 100%;">
                     <h:form id="cadastro" prependId="false">
 
                         <p:messages id="messages" closable="true" style="font-size: 12px; text-align: center;" showIcon="false"/>
-                        <p:tabView>
+                        <p:tabView activeIndex="1" style="width: 100%;">
                             <p:tab title="Mantenedores de Ordem">
-                                <p:panelGrid id="campos" columns="4" style="font-size: 12px;" styleClass="semBorda">
+                                <p:panelGrid id="campos" columns="4"
+                                             columnClasses="textos,campos,textos,campos"
+                                             style="font-size: 12px;"
+                                             styleClass="semBorda" >
                                     <p:outputLabel for="dtcad" value="Data cadastro:" />
                                     <p:calendar id="dtcad" value="#{escalaControle.escalaSelecionado.escalaData}" locale="pt"
                                                 style="font-size: 10px;"
@@ -45,30 +48,120 @@
                                         <f:selectItem itemLabel="3ª Semana" itemValue="3" />
                                         <f:selectItem itemLabel="4ª Semana" itemValue="4" />
                                         <f:selectItem itemLabel="5ª Semana" itemValue="5" />
+                                        <f:selectItem itemLabel="6ª Semana" itemValue="6" />
 
                                     </p:selectOneMenu>
                                     <p:outputLabel value="Portão principal:"/>
-                                    <p:inputText value="#{escalaControle.escalaSelecionado.escalaPortao}" style="width: 300px; font-size: 10px; text-transform:  uppercase;"/>
+                                    <p:selectOneMenu id="l2" value="#{escalaControle.escalaSelecionado.escalaPortao}" >
+                                        <f:selectItem itemLabel=":::Selecione:::"  />
+                                        <f:selectItems value="#{membroControle.listaMembros}"
+                                                       var="diri" 
+                                                       itemLabel="#{diri.membrosNome.toUpperCase()}"
+                                                       itemValue="#{diri.idmembros}"/>
+                                        <p:ajax event="change" oncomplete="PF('portaos').show()"
+                                                update="portao" listener="#{escalaControle.marcaTipo(1,escalaControle.escalaSelecionado.escalaPortao)}"/>
+
+                                    </p:selectOneMenu>
                                     <p:outputLabel value="Porta do templo:"/>
-                                    <p:inputText value="#{escalaControle.escalaSelecionado.escalaPorta}" style="width: 300px; font-size: 10px; text-transform:  uppercase;"/>
+                                    <p:selectOneMenu id="l3" value="#{escalaControle.escalaSelecionado.escalaPorta}" >
+                                        <f:selectItem itemLabel=":::Selecione:::" />
+                                        <f:selectItems value="#{membroControle.listaMembros}"
+                                                       var="diri"
+                                                       itemLabel="#{diri.membrosNome.toUpperCase()}"
+                                                       itemValue="#{diri.idmembros}"/>
+                                        <p:ajax event="change" oncomplete="PF('portaos').show()"
+                                                update="portao" listener="#{escalaControle.marcaTipo(2,escalaControle.escalaSelecionado.escalaPorta)}"/>
+                                    </p:selectOneMenu>
                                     <p:outputLabel value="Galeria da escada:"/>
-                                    <p:inputText value="#{escalaControle.escalaSelecionado.escalaGaleria}" style="width: 300px; font-size: 10px; text-transform:  uppercase;"/>
+                                    <p:selectOneMenu id="l4" value="#{escalaControle.escalaSelecionado.escalaGaleria}" >
+                                        <f:selectItem itemLabel=":::Selecione:::"  />
+                                        <f:selectItems value="#{membroControle.listaMembros}"
+                                                       var="diri"
+                                                       itemLabel="#{diri.membrosNome.toUpperCase()}"
+                                                       itemValue="#{diri.idmembros}"/>
+                                        <p:ajax event="change" oncomplete="PF('portaos').show()"
+                                                update="portao" listener="#{escalaControle.marcaTipo(3,escalaControle.escalaSelecionado.escalaGaleria)}"/>
+                                    </p:selectOneMenu>
                                     <p:outputLabel value="Dentro do templo:"/>
-                                    <p:inputText value="#{escalaControle.escalaSelecionado.escalaDentro}" style="width: 300px; font-size: 10px; text-transform:  uppercase;"/>
+                                    <p:selectOneMenu id="l5" value="#{escalaControle.escalaSelecionado.escalaDentro}" >
+                                        <f:selectItem itemLabel=":::Selecione:::"  />
+                                        <f:selectItems value="#{membroControle.listaMembros}"
+                                                       var="diri"
+                                                       itemLabel="#{diri.membrosNome.toUpperCase()}"
+                                                       itemValue="#{diri.idmembros}"/>
+                                        <p:ajax event="change" oncomplete="PF('portaos').show()"
+                                                update="portao" listener="#{escalaControle.marcaTipo(4,escalaControle.escalaSelecionado.escalaDentro)}"/>
+                                    </p:selectOneMenu>
                                     <p:outputLabel value="Corredor do templo:"/>
-                                    <p:inputText value="#{escalaControle.escalaSelecionado.escalaCorredor}" style="width: 300px; font-size: 10px; text-transform:  uppercase;"/>
-                                    <p:outputLabel value="1 Oficial da semana:"/>
-                                    <p:inputText value="#{escalaControle.escalaSelecionado.escalaOficial1}" style="width: 300px; font-size: 10px; text-transform:  uppercase;"/>
-                                    <p:outputLabel value="2 Oficial da semana:"/>
-                                    <p:inputText value="#{escalaControle.escalaSelecionado.escalaOficial2}" style="width: 300px; font-size: 10px; text-transform:  uppercase;"/>
-                                    <p:outputLabel value="3 Oficial da semana:"/>
-                                    <p:inputText value="#{escalaControle.escalaSelecionado.escalaOficial3}" style="width: 300px; font-size: 10px; text-transform:  uppercase;"/>
-                                    <p:outputLabel value="4 Oficial da semana:"/>
-                                    <p:inputText value="#{escalaControle.escalaSelecionado.escalaOficial4}" style="width: 300px; font-size: 10px; text-transform:  uppercase;"/>
-                                    <p:outputLabel value="Secretário 1:"/>
-                                    <p:inputText value="#{escalaControle.escalaSelecionado.secretario1}" style="width: 300px; font-size: 10px; text-transform:  uppercase;" />
-                                    <p:outputLabel value="Secretário 2"/>
-                                    <p:inputText value="#{escalaControle.escalaSelecionado.secretario2}" style="width: 300px; font-size: 10px; text-transform:  uppercase;"/>
+                                    <p:selectOneMenu id="l6" value="#{escalaControle.escalaSelecionado.escalaCorredor}" >
+                                        <f:selectItem itemLabel=":::Selecione:::"  />
+                                        <f:selectItems value="#{membroControle.listaMembros}"
+                                                       var="diri"
+                                                       itemLabel="#{diri.membrosNome.toUpperCase()}"
+                                                       itemValue="#{diri.idmembros}"/>
+                                        <p:ajax event="change" oncomplete="PF('portaos').show()"
+                                                update="portao" listener="#{escalaControle.marcaTipo(5,escalaControle.escalaSelecionado.escalaCorredor)}"/>
+                                    </p:selectOneMenu>
+                                    <p:outputLabel value="1º Oficial da semana:"/>
+                                    <p:selectOneMenu id="l27" value="#{escalaControle.escalaSelecionado.escalaOficial1}" >
+                                        <f:selectItem itemLabel=":::Selecione:::"  />
+                                        <f:selectItems value="#{membroControle.listaMembros}"
+                                                       var="memb"
+                                                       itemLabel="#{memb.membrosNome.toUpperCase()}"
+                                                       itemValue="#{memb.idmembros}"/>
+                                        <p:ajax event="change" oncomplete="PF('portaos').show()"
+                                                update="portao" listener="#{escalaControle.marcaTipo(6,escalaControle.escalaSelecionado.escalaOficial1)}"/>
+                                    </p:selectOneMenu>
+                                    <p:outputLabel value="2º Oficial da semana:"/>
+                                    <p:selectOneMenu id="l8" value="#{escalaControle.escalaSelecionado.escalaOficial2}" >
+                                        <f:selectItem itemLabel=":::Selecione:::"  />
+                                        <f:selectItems value="#{membroControle.listaMembros}"
+                                                       var="diri"
+                                                       itemLabel="#{diri.membrosNome.toUpperCase()}"
+                                                       itemValue="#{diri.idmembros}"/>
+                                        <p:ajax event="change" oncomplete="PF('portaos').show()"
+                                                update="portao" listener="#{escalaControle.marcaTipo(7,escalaControle.escalaSelecionado.escalaOficial2)}"/>
+                                    </p:selectOneMenu>
+                                    <p:outputLabel value="3º Oficial da semana:"/>
+                                    <p:selectOneMenu id="l9" value="#{escalaControle.escalaSelecionado.escalaOficial3}" >
+                                        <f:selectItem itemLabel=":::Selecione:::"  />
+                                        <f:selectItems value="#{membroControle.listaMembros}"
+                                                       var="diri"
+                                                       itemLabel="#{diri.membrosNome.toUpperCase()}"
+                                                       itemValue="#{diri.idmembros}"/>
+                                        <p:ajax event="change" oncomplete="PF('portaos').show()"
+                                                update="portao" listener="#{escalaControle.marcaTipo(8,escalaControle.escalaSelecionado.escalaOficial3)}"/>
+                                    </p:selectOneMenu>
+                                    <p:outputLabel value="4º Oficial da semana:"/>
+                                    <p:selectOneMenu id="l20" value="#{escalaControle.escalaSelecionado.escalaOficial4}" >
+                                        <f:selectItem itemLabel=":::Selecione:::"  />
+                                        <f:selectItems value="#{membroControle.listaMembros}"
+                                                       var="diri"
+                                                       itemLabel="#{diri.membrosNome.toUpperCase()}"
+                                                       itemValue="#{diri.idmembros}"/>
+                                        <p:ajax event="change" oncomplete="PF('portaos').show()"
+                                                update="portao" listener="#{escalaControle.marcaTipo(9,escalaControle.escalaSelecionado.escalaOficial4)}"/>
+                                    </p:selectOneMenu>
+                                    <p:outputLabel value="1º Secretário:"/>
+                                    <p:selectOneMenu id="l21" value="#{escalaControle.escalaSelecionado.secretario1}" >
+                                        <f:selectItem itemLabel=":::Selecione:::"  />
+                                        <f:selectItems value="#{membroControle.listaMembros}"
+                                                       var="diri"
+                                                       itemLabel="#{diri.membrosNome.toUpperCase()}"
+                                                       itemValue="#{diri.idmembros}"/>
+                                        <p:ajax event="change" oncomplete="PF('portaos').show()"
+                                                update="portao" listener="#{escalaControle.marcaTipo(10,escalaControle.escalaSelecionado.secretario1)}"/>
+                                    </p:selectOneMenu>
+                                    <p:outputLabel value="2º Secretário"/>
+                                    <p:selectOneMenu id="l22" value="#{escalaControle.escalaSelecionado.secretario2}" >
+                                        <f:selectItem itemLabel=":::Selecione:::"  />
+                                        <f:selectItems value="#{membroControle.listaMembros}"
+                                                       var="diri"
+                                                       itemLabel="#{diri.membrosNome.toUpperCase()}"
+                                                       itemValue="#{diri.idmembros}"/>
+                                        <p:ajax event="change" oncomplete="PF('portaos').show()"
+                                                update="portao" listener="#{escalaControle.marcaTipo(11,escalaControle.escalaSelecionado.secretario2)}"/>
+                                    </p:selectOneMenu>
                                 </p:panelGrid>
                             </p:tab>
                             <p:tab title="Trabalhos da Semana" id="lanamento">
@@ -107,6 +200,11 @@
                                     <p:column headerText="Evento" style="font-size: 10px;">
                                         <p:outputLabel value="#{filhos.evento}" style="font-size: 10px; text-transform: uppercase;"/>
                                     </p:column>
+                                    <p:column headerText="Alterar" style="text-align: center; font-size: 10px; width: 40px;">
+                                        <p:commandButton title="Clique aqui para alterar" actionListener="#{diasdaescalaControle.buscaID(filhos.id)}"
+                                                         oncomplete="PF('alterafilho').show()"
+                                                         icon="ui-icon-pencil" update="muda"/>
+                                    </p:column>
                                     <p:column headerText="Excluir" style="text-align: center; font-size: 10px; width: 40px;">
                                         <p:commandButton icon="ui-icon-trash" title="Clique aqui para excluir."
                                                          action="#{diasdaescalaControle.delete(filhos)}"
@@ -119,9 +217,48 @@
                                     <p:commandButton value="Sim" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
                                     <p:commandButton value="Não" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
                                 </p:confirmDialog>
-                            </p:tab>
+                            </p:tab>                         
 
                         </p:tabView>
+                        <p:dialog appendTo="@(form)" modal="true"
+                                  width="805" height="150"
+                                  id="muda" widgetVar="alterafilho">
+                            <p:ajax event="close" listener="#{escalaControle.PegaFilho(escalaControle.escalaSelecionado)}" update="@form"/>
+                            <p:fieldset legend="Lançamento dos trabalhos:" style="margin-bottom:20px; font-size: 12px;">
+                                <p:panelGrid columns="4" styleClass="semBorda">
+                                    <p:column headerText="Data" style="font-size: 12px;">
+                                        <p:outputLabel value="Data:" style="font-size: 12px;"/>
+                                        <p:calendar id="dtemiss1" value="#{diasdaescalaControle.escalaSelecionado.data}" style="font-size: 10px;"
+                                                    locale="pt" mask="true" pattern="dd/MM/yyyy" showOn="button"/>
+                                    </p:column>
+                                    <p:column headerText="Hora" style="font-size: 12px;">
+                                        <p:outputLabel value="Hora:" style="font-size: 12px;"/>
+                                        <p:inputMask value="#{diasdaescalaControle.escalaSelecionado.hora}" mask="99:99" style="width: 35px; font-size: 12px;"/>
+                                    </p:column>
+                                    <p:column headerText="Evento" style="font-size: 12px;" width="65">
+                                        <p:outputLabel value="Evento:" style="font-size: 12px;"/>
+                                        <p:inputText value="#{diasdaescalaControle.escalaSelecionado.evento}" style="width: 300px; font-size: 10px; text-transform:  uppercase;"/>
+                                    </p:column>
+
+                                    <p:commandButton style="font-size: 10px;" value="Salvar" actionListener="#{diasdaescalaControle.update()}"
+                                                     oncomplete="PF('alterafilho').hide()"
+                                                     update="@form"/>
+
+                                </p:panelGrid>
+                            </p:fieldset>
+                        </p:dialog>
+                        <p:dialog width="387" header="Alteração de auxiliar de trabalho"
+                                  height="77"
+                                  id="portao"
+                                  widgetVar="portaos">
+                            <p:panelGrid columns="2" styleClass="semBorda">
+                                <p:outputLabel value="Alterar em todas as escalas? "/>
+                                <p:column></p:column>
+                                <p:commandButton value="SIM" actionListener="#{escalaControle.alterarEmTodas()}" onclick="PF('portaos').hide()"/>
+                                <p:commandButton value="NÃO" onclick="PF('portaos').hide()"/>
+                            </p:panelGrid>
+
+                        </p:dialog>
                         <p:commandButton icon="ui-icon-check" title="Clique aqui para salvar o cadastro" action="#{escalaControle.update()}" value="Salvar" update="cadastro:messages"/>
                         <p:button value="Fechar" icon="ui-icon-closethick" outcome="consultar.xhtml"/>
                     </h:form>

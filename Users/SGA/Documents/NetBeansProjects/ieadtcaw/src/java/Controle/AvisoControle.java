@@ -351,6 +351,7 @@ public class AvisoControle implements Serializable {
             }
         }
     }
+
     @PreDestroy
     public void destroy() {
 

@@ -50,6 +50,14 @@ public class VeiculoControle implements Serializable {
     }
 
     @PreDestroy
+    public void destroi() {
+        veiculo = null;
+        veiculoSelecionado = null;
+        listaDaBusca = null;
+        listaVeiculos = null;
+        dao = null;
+    }
+
     public void limpaFormulario() {
         veiculo = new Veiculos();
         veiculoSelecionado = new Veiculos();

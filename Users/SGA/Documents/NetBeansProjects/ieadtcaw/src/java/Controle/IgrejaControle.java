@@ -50,6 +50,15 @@ public class IgrejaControle implements Serializable {
     }
 
     @PreDestroy
+    public void destroi() {
+        igreja = null;
+        igrejaSelecionado = null;
+        listaIgrejas = null;
+        listaDaBusca = null;
+        dao = null;
+
+    }
+
     public void limpaFormulario() {
         igreja = new Igrejas();
         igrejaSelecionado = new Igrejas();

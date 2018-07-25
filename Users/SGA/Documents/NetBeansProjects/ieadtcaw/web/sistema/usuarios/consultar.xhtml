@@ -14,7 +14,7 @@
                 <h:form id="cadastro">
                     <p:panel header="Cadastro de Usuários">
                         <p:messages id="messages" closable="true" style="font-size: 12px; text-align: center;" showIcon="false"/>
-                        <p:remoteCommand action="#{usuarioNovoControle.limpaFormulario()}" autoRun="true" update="grades,lista"/>
+
                         <p:panelGrid id="grades" columns="3" style="font-size: 10px;" styleClass="semBorda">
                             <p:outputLabel value="Nome:"/>
                             <p:inputText value="#{usuarioNovoControle.usuario.nomeUsuarios}"/>

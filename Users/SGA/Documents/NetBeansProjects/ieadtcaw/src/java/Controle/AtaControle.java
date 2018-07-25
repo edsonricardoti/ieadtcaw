@@ -60,8 +60,17 @@ public class AtaControle implements Serializable {
         ataSelecionado = new Ata();
     }
 
-    @PreDestroy
     public void limpaFormulario() {
+        dao = new AtaDAO();
+        ataSelecionado = new Ata();
+        listaAta = null;
+        listaDaBusca = null;
+        isRederiza = null;
+        uploadedFile = null;
+    }
+
+    @PreDestroy
+    public void destroi() {
         ata = null;
         dao = null;
         ataSelecionado = null;
@@ -78,7 +87,6 @@ public class AtaControle implements Serializable {
         ataSelecionado = new Ata();
 
     }
-
 
     public void buscarLista(Date data) {
 

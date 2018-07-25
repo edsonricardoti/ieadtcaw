@@ -193,6 +193,42 @@ public class AssinaturaDAO {
         }
     }
 
+    public List<Missgeral> buscaCarnesNaoPagos() throws ParseException {
+
+
+        try {
+
+            session = getSessionFactory().openSession();
+            Transaction t = session.beginTransaction();
+            Query financeiro = session.createQuery("select a.datacadastro as datacadastro, m.membrosNome as nome,m.membrosFone as fone1,m.membrosCelular as fone2,a.modalidade as modalidade,\n"
+                    + "(select count(1) from Parcelamentos as pp where pp.idmembro = a.idmembro and pp.idperiodico = a.idperiodico and pp.datapagamento is not null) as parcelaspg,\n"
+                    + "(select sum(pp.valorparcela) from Parcelamentos as pp where pp.idmembro=a.idmembro and pp.idperiodico=a.idperiodico and pp.datapagamento is not null) as valortotal,"
+                    + "(select pp.datapagamento from Parcelamentos as pp where pp.idmembro=a.idmembro and pp.idperiodico=a.idperiodico and pp.numparcela=1) as parcela1,\n"
+                    + "(select pp.datapagamento from Parcelamentos as pp where pp.idmembro=a.idmembro and pp.idperiodico=a.idperiodico and pp.numparcela=2) as parcela2,\n"
+                    + "(select pp.datapagamento from Parcelamentos as pp where pp.idmembro=a.idmembro and pp.idperiodico=a.idperiodico and pp.numparcela=3) as parcela3,\n"
+                    + "a.ed1 as ed1,a.ed2 as ed2,a.ed3 as ed3,a.ed4 as ed4,a.ed5 as ed5,a.ed6 as ed6,a.ed7 as ed7,a.ed8 as ed8,a.ed9 as ed9,a.ed10 as ed10,a.ed11 as ed11,a.ed12 as ed12 \n"
+                    + " from Membros as m, Assinatura as a,Parcelamentos as p\n"
+                    + " where m.idmembros = a.idmembro and a.idmembro = p.idmembro and a.idperiodico = p.idperiodico and p.datapagamento is null\n"
+                    + " group by a.idmembro,a.idperiodico")
+                    .setMaxResults(10000)
+                    .setResultTransformer(Transformers.aliasToBean(Missgeral.class));
+            if (!t.wasCommitted()) {
+                t.commit();
+            }
+
+            List<Missgeral> resultado = financeiro.list();
+
+            return resultado;
+
+        } catch (HibernateException e) {
+            System.out.println("Erro encontrado: " + e);
+//            session.getTransaction().rollback();
+            return null;
+        } finally {
+            session.close();
+        }
+    }
+
     public Assinatura buscarPorID(int id) {
 
         try {

@@ -13,9 +13,7 @@
             <ui:define name="content">
                 <p:panel header="Cadastro de Classe">
                     <h:form id="cadastro" prependId="false">
-                        <f:metadata>
-                            <f:event listener="#{membroControle.beginConversation()}" type="preRenderView" />
-                        </f:metadata>
+
                         <p:growl life="3500" redisplay="true" id="messages"/>
                         <p:panelGrid id="campos" columns="4" style="font-size: 14px;" styleClass="semBorda" columnClasses="textos,campos,textos,campos">
                             <p:outputLabel value="Nome da Classe:"/>

@@ -57,9 +57,7 @@
 
                 </p:dialog>
                 <h:form id="frm1" prependId="false">
-                    <f:metadata>
-                        <f:event listener="#{avisoControle.beginConversation()}" type="preRenderView" />
-                    </f:metadata>
+
                     <p:growl id="messages"  />
                     <p:remoteCommand action="#{avisoControle.atualizaTab(0)}" autoRun="true" update="pg"/>
                     <p:panelGrid columns="5" style="font-size: 10px;" styleClass="semBorda">

@@ -23,13 +23,15 @@ import java.util.Date;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
-import javax.enterprise.context.SessionScoped;
+import javax.inject.Inject;
+import org.apache.myfaces.extensions.cdi.core.api.scope.conversation.Conversation;
+import org.apache.myfaces.extensions.cdi.core.api.scope.conversation.ViewAccessScoped;
 import org.primefaces.model.DefaultScheduleEvent;
 import org.primefaces.model.DefaultScheduleModel;
 import org.primefaces.model.ScheduleEvent;
 import org.primefaces.model.ScheduleModel;
 
-@SessionScoped
+@ViewAccessScoped
 
 /**
  *
@@ -55,6 +57,9 @@ public class DiasdaescalaControle implements Serializable {
     private ScheduleModel eventModel;
     private ScheduleEvent event = new DefaultScheduleEvent();
 
+    @Inject
+    private Conversation conversation;
+
     public DiasdaescalaControle() {
         diasescala = new Diasdaescala();
         dao = new DiasdaescalaDAO();
@@ -79,6 +84,7 @@ public class DiasdaescalaControle implements Serializable {
         listaDiasdaescala = null;
         escala = null;
         edao = null;
+        this.conversation.close();
     }
 
     public void limpaFormulario() {

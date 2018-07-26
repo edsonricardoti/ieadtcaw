@@ -13,9 +13,7 @@
         <ui:composition template="/layout.xhtml">
             <ui:define name="content">
                 <h:form id="frm1" prependId="false">
-                    <f:metadata>
-                        <f:event listener="#{membroControle.beginConversation()}" type="preRenderView" />
-                    </f:metadata>
+
                     <p:panelGrid columns="3" style="list-style:  none;">
                         <p:outputLabel value="Mês:"/>
                         <p:selectOneMenu id="mes" value="#{membroControle.mes}" style="width:125px">

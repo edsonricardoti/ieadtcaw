@@ -46,9 +46,7 @@
             <h3 style="margin-top:0">Leitura de avisos</h3>
 
             <h:form id="frm1" prependId="false">
-                <f:metadata>
-                    <f:event listener="#{membroControle.beginConversation()}" type="preRenderView" />
-                </f:metadata>
+
                 <p:remoteCommand action="#{avisoControle.atualizaTab(0)}" autoRun="true" update="painel1"/>
                     <p:panel id="painel1">
                         <p:dataTable id="datalist" value="#{avisoControle.listaAvisoHoje}" var="lista"

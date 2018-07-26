@@ -20,14 +20,13 @@ import java.text.ParseException;
 import java.util.Date;
 import java.util.List;
 import javax.annotation.PreDestroy;
-import javax.enterprise.context.Conversation;
-import javax.enterprise.context.ConversationScoped;
 import javax.inject.Named;
-import javax.enterprise.context.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
+import org.apache.myfaces.extensions.cdi.core.api.scope.conversation.Conversation;
+import org.apache.myfaces.extensions.cdi.core.api.scope.conversation.ViewAccessScoped;
 
-@ConversationScoped
+@ViewAccessScoped
 /**
  *
  * @author SGA
@@ -61,21 +60,6 @@ public class CaixaControle implements Serializable {
         saldo = new BigDecimal(BigInteger.ZERO);
     }
 
-    public void beginConversation() {
-        if (conversation.isTransient()) {
-            conversation.setTimeout(1800000L);
-            conversation.begin();
-        }
-    }
-
-    public void endConversation() {
-        System.out.println("Finalizou conversacao...");
-        if (!conversation.isTransient()) {
-            conversation.end();
-        }
-
-    }
-
     @PreDestroy
     public void destroi() {
         financeiro = null;
@@ -95,7 +79,7 @@ public class CaixaControle implements Serializable {
     }
 
     public String fechar() throws IOException {
-        endConversation();
+        this.conversation.close();
         FacesContext.getCurrentInstance().getExternalContext().redirect("../../inicio.xhtml?faces-redirect=true");
         return "";
     }

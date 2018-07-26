@@ -10,13 +10,16 @@ import java.util.List;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import Modelo.Usuarios;
+import java.io.Serializable;
 import org.hibernate.HibernateException;
 
 /**
  *
  * @author Edson Ricardo
  */
-public class UsuarioDAO {
+public class UsuarioDAO implements Serializable {
+
+    private static final long serialVersionUID = 1L;
 
     private Session session;
     

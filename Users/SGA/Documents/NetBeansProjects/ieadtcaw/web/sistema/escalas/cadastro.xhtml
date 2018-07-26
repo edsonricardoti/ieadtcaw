@@ -13,9 +13,7 @@
             <ui:define name="content">
                 <p:panel header="Cadastro de Escala" >
                     <h:form id="cadastro" prependId="false">
-                        <f:metadata>
-                            <f:event listener="#{escalaControle.beginConversation()}" type="preRenderView" />
-                        </f:metadata>
+
 
                         <p:messages id="messages" closable="true" style="font-size: 12px; text-align: center;" showIcon="false"/>
 
@@ -139,7 +137,7 @@
                         </p:panelGrid>
 
                         <p:commandButton icon="ui-icon-check" title="Clique aqui para salvar o cadastro" actionListener="#{escalaControle.insert()}" value="Salvar" action="consulta.xhtml">
-                            <f:param name="cid" value="#{escalaControle.conversation.id}" />
+
                         </p:commandButton>
                         <p:commandButton value="Fechar" ajax="false"
                                          icon="ui-icon-closethick"

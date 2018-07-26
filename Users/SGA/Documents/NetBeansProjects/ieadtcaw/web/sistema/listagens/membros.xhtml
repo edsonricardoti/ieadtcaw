@@ -24,10 +24,8 @@
 
                 </p:dialog>
                 <h:form id="frm1" prependId="false">
-                    <f:metadata>
-                        <f:event listener="#{membroControle.beginConversation()}" type="preRenderView" />
-                    </f:metadata>
-                    <p:remoteCommand action="#{membroControle.limpaFormulario()}" autoRun="true" update="pg"/>
+
+
                     <p:panelGrid id="grades" columns="5" style="font-size: 10px;" styleClass="semBorda">
                         <p:outputLabel value="Seleção:" style="font-size: 12pt;"/>
                         <p:selectManyButton  id="menu" value="#{membroControle.selectedOptions}">

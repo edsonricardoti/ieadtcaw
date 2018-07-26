@@ -9,14 +9,16 @@ import static Util.FacesUtil.addErrorMessage;
 import static Util.FacesUtil.addInfoMessage;
 import java.util.List;
 import javax.inject.Named;
-import javax.enterprise.context.SessionScoped;
 import Modelo.Usuarios;
 import DAO.UsuarioDAO;
 import java.io.Serializable;
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
+import javax.inject.Inject;
+import org.apache.myfaces.extensions.cdi.core.api.scope.conversation.Conversation;
+import org.apache.myfaces.extensions.cdi.core.api.scope.conversation.ViewAccessScoped;
 
-@SessionScoped
+@ViewAccessScoped
 
 /**
  *
@@ -31,6 +33,9 @@ public class UsuarioNovoControle implements Serializable {
     UsuarioDAO dao = new UsuarioDAO();
     Usuarios usuarioSelecionado = new Usuarios();
     private List<Usuarios> listaDaBusca;
+
+    @Inject
+    private Conversation conversation;
 
     @PostConstruct
     public void init() {
@@ -54,6 +59,7 @@ public class UsuarioNovoControle implements Serializable {
         usuarioSelecionado = null;
         listaDaBusca = null;
         dao = null;
+        this.conversation.close();
     }
 
     public void limpaFormulario() {

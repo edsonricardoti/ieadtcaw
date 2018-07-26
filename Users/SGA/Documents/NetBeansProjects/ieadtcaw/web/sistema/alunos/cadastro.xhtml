@@ -12,9 +12,7 @@
         <ui:composition template="/layout.xhtml">            
             <ui:define name="content">
                 <h:form id="cadastro">
-                    <f:metadata>
-                        <f:event listener="#{alunoControle.beginConversation()}" type="preRenderView" />
-                    </f:metadata>
+
                     <p:messages id="messages" closable="true" style="font-size: 12px; text-align: center;" showIcon="false"/>
                     <p:remoteCommand action="#{alunoControle.limpaFormulario()}" autoRun="true" update="grades,lista"/>
                     <p:panel header="Cadastro de Aluno">
@@ -34,7 +32,7 @@
                             </p:column>                            
                             <p:column headerText="Incluir" style="text-align: center; font-size: 10px; ">
                                 <p:commandButton icon="ui-icon-pencil" actionListener="#{alunoControle.buscarPorMembroPorId(buscados.idmembros)}" action="inclui.xhtml">
-                                    <f:param name="cid" value="#{alunoControle.conversation.id}" />
+
                                 </p:commandButton>
                             </p:column>
 

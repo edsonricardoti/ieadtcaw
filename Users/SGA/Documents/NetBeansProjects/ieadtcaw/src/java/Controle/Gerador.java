@@ -5,37 +5,29 @@
  */
 package Controle;
 
-import java.text.DateFormat;
-import java.text.DateFormatSymbols;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
-import java.util.Locale;
 import Modelo.Escala;
 import Modelo.Diasdaescala;
 import DAO.EscalaDAO;
 import DAO.DiasdaescalaDAO;
 import static Util.FacesUtil.addInfoMessage;
-import static Util.HibernateUtil.getSessionFactory;
 import java.io.Serializable;
-import static java.time.Instant.now;
-import javax.enterprise.context.SessionScoped;
 import javax.faces.context.FacesContext;
+import javax.inject.Inject;
 import javax.inject.Named;
-import org.hibernate.HibernateException;
+import org.apache.myfaces.extensions.cdi.core.api.scope.conversation.Conversation;
+import org.apache.myfaces.extensions.cdi.core.api.scope.conversation.ViewAccessScoped;
 import org.hibernate.Session;
-import org.hibernate.Transaction;
 
 /**
  *
  * @author SGA
  */
 @Named
-@SessionScoped
+@ViewAccessScoped
 
 public class Gerador implements Serializable {
 
@@ -50,7 +42,9 @@ public class Gerador implements Serializable {
     private int qtdsemanas;
     private int iddaescala;
 
-    private Session session;
+    @Inject
+    private Conversation conversation;
+
 
     public Gerador() {
         System.out.println("Entrou na classe...");

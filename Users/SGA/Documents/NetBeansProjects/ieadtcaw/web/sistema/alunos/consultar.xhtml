@@ -12,9 +12,7 @@
         <ui:composition template="/layout.xhtml">            
             <ui:define name="content">
                 <h:form id="cadastro" prependId="false">
-                    <f:metadata>
-                        <f:event listener="#{alunoControle.beginConversation()}" type="preRenderView" />
-                    </f:metadata>
+
                     <p:messages id="messages" closable="true" style="font-size: 12px; text-align: center;" showIcon="false"/>
                     <p:remoteCommand action="#{alunoControle.limpaFormulario()}" autoRun="true" update="grades,lista"/>
                     <p:panel header="Cadastro de Aluno">

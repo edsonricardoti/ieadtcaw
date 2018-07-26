@@ -9,9 +9,7 @@
     <h:body onload="PF('noticias').show">
         <ui:composition>
             <h:form>
-                <f:metadata>
-                    <f:event listener="#{contasapagarControle.beginConversation()}" type="preRenderView" />
-                </f:metadata>
+
                 <p:dialog closeOnEscape="true"
                           width="630" height="400"
                           header="Notificação - Lançamentos que vençem nesta semana"
@@ -19,7 +17,7 @@
                           visible="#{contasapagarControle.temNotificacao()}" widgetVar="noticias">
 
                     <p:ajax event="open" listener="#{contasapagarControle.temNotificacao()}" update="lista"/>
-                    <p:ajax event="close" listener="#{contasapagarControle.endConversation()}"/>
+
                     <p:outputLabel  value="Manter sempre visível? " />
                     <p:selectBooleanCheckbox value="#{usuarioControle.naomostra}">
                         <p:ajax  listener="#{usuarioControle.naoMostraJanelas()}" />

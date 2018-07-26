@@ -15,9 +15,12 @@ import java.io.Serializable;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
-import javax.enterprise.context.SessionScoped;
+import javax.inject.Inject;
+import org.apache.myfaces.extensions.cdi.core.api.scope.conversation.Conversation;
+import org.apache.myfaces.extensions.cdi.core.api.scope.conversation.ViewAccessScoped;
 
-@SessionScoped
+
+@ViewAccessScoped
 
 /**
  *
@@ -34,6 +37,9 @@ public class VeiculoControle implements Serializable {
     private List<Veiculos> listaVeiculos;
     private List<Veiculos> listaDaBusca;
     private Boolean isRederiza = false;
+
+    @Inject
+    private Conversation conversation;
 
     public VeiculoControle() {
         veiculo = new Veiculos();
@@ -56,6 +62,7 @@ public class VeiculoControle implements Serializable {
         listaDaBusca = null;
         listaVeiculos = null;
         dao = null;
+        this.conversation.close();
     }
 
     public void limpaFormulario() {

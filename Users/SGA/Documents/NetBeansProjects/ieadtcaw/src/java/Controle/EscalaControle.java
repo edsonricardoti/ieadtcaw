@@ -26,8 +26,6 @@ import java.util.List;
 import java.util.Random;
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
-import javax.enterprise.context.Conversation;
-import javax.enterprise.context.ConversationScoped;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
@@ -35,10 +33,12 @@ import static javax.faces.context.FacesContext.getCurrentInstance;
 import javax.inject.Inject;
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletResponse;
+import org.apache.myfaces.extensions.cdi.core.api.scope.conversation.Conversation;
+import org.apache.myfaces.extensions.cdi.core.api.scope.conversation.ViewAccessScoped;
 import org.primefaces.event.FileUploadEvent;
 import org.primefaces.model.UploadedFile;
 
-@ConversationScoped
+@ViewAccessScoped
 
 /**
  *
@@ -84,24 +84,8 @@ public class EscalaControle implements Serializable {
 
     }
 
-    public void beginConversation() {
-        if (conversation.isTransient()) {
-            conversation.setTimeout(1800000L);
-            conversation.begin();
-        }
-    }
-
-
-    public void endConversation() {
-        System.out.println("Finalizou conversacao...");
-        if (!conversation.isTransient()) {
-            conversation.end();
-        }
-
-    }
-
     public String fechar() throws IOException {
-        endConversation();
+        this.conversation.close();
         FacesContext.getCurrentInstance().getExternalContext().redirect("../../inicio.xhtml?faces-redirect=true");
         return "";
     }

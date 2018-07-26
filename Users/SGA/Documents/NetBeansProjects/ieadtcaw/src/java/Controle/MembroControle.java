@@ -21,16 +21,17 @@ import java.util.GregorianCalendar;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
-import javax.enterprise.context.Conversation;
-import javax.enterprise.context.ConversationScoped;
+
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
+import org.apache.myfaces.extensions.cdi.core.api.scope.conversation.Conversation;
+import org.apache.myfaces.extensions.cdi.core.api.scope.conversation.ViewAccessScoped;
 
 /**
  *
  * @author Edson Ricardo
  */
-@ConversationScoped
+@ViewAccessScoped
 @Named
 public class MembroControle implements Serializable {
 
@@ -85,28 +86,13 @@ public class MembroControle implements Serializable {
         membro = new Membros();
         dao = new MembrosDAO();
         membroSelecionado = new Membros();
-        listaMembros = dao.selectAll();
+        //listaMembros = dao.selectAll();
 
         // filtro = new FiltroMembros();
     }
 
-    public void beginConversation() {
-        if (conversation.isTransient()) {
-            conversation.setTimeout(60000 * 60);
-            conversation.begin();
-        }
-    }
-
-    public void endConversation() {
-        System.out.println("Finalizou conversacao...");
-        if (!conversation.isTransient()) {
-            conversation.end();
-        }
-
-    }
-
     public String fechar() throws IOException {
-        endConversation();
+        this.conversation.close();
         FacesContext.getCurrentInstance().getExternalContext().redirect("../../inicio.xhtml?faces-redirect=true");
         return "";
     }
@@ -126,10 +112,13 @@ public class MembroControle implements Serializable {
     }
 
     public void listaFiltrados(String filtro, String nome) {
+        System.out.println("Passado filtro=" + filtro + " e nome =" + nome);
         filtro = filtro.replace("[", "(");
         filtro = filtro.replace("]", ")");
         System.out.println("Filtro = " + selectedOptions);
-        listaMembros = dao.selectAllFiltrado(filtro, nome);
+        if (filtro != "") {
+            listaMembros = dao.selectAllFiltrado(filtro, nome);
+        }
 
     }
 
@@ -219,7 +208,6 @@ public class MembroControle implements Serializable {
         return listaProfessores;
     }
 
-    @PreDestroy
     public void limpaFormulario() {
 
         membro = new Membros();
@@ -232,6 +220,19 @@ public class MembroControle implements Serializable {
         listaDaBusca = null;
         listaProfessores = null;
 
+    }
+
+    @PreDestroy
+    public void destroi() {
+        membro = new Membros();
+        membroSelecionado = new Membros();
+        listaDaBusca = null;
+        listaAniversariantes = null;
+        listaMembros = null;
+        membross = null;
+        dao = null;
+        listaDaBusca = null;
+        listaProfessores = null;
     }
 
     public void buscarID(int id) {
@@ -250,7 +251,7 @@ public class MembroControle implements Serializable {
     }
 
     public String fecharPg() {
-        endConversation();
+
         return "consultar.xhtml";
     }
 
@@ -352,9 +353,7 @@ public class MembroControle implements Serializable {
         membro.setMembrosCasamento(data);
         if (dao.insert(membro)) {
             limpaFormulario();
-            endConversation();
             addInfoMessage("Dados salvo com sucesso!");
-            endConversation();
         } else {
             addErrorMessage("Erro ao salvar os dados! Se estiver cadastrando um Membro verifique se o CPF está correto e se a data de nascimento foi preenchida. Refaça o cadastro.");
         }
@@ -364,11 +363,11 @@ public class MembroControle implements Serializable {
         Date data = new Date();
         membro.setMembrosCasamento(data);
         if (dao.insert(membro)) {
-            limpaFormulario();
-            endConversation();
-            FacesContext.getCurrentInstance().getExternalContext().redirect("cadastro.xhtml");
+            membro = new Membros();
             addInfoMessage("Dados salvo com sucesso!");
-            endConversation();
+            FacesContext.getCurrentInstance().getExternalContext().redirect("cadastro.xhtml");
+
+
         } else {
             addErrorMessage("Erro ao salvar os dados! Se estiver cadastrando um Membro verifique se o CPF está correto e se a data de nascimento foi preenchida. Refaça o cadastro.");
         }

@@ -12,9 +12,7 @@
         <ui:composition template="/layout.xhtml">            
             <ui:define name="content">
                 <h:form id="cadastro" prependId="false">
-                    <f:metadata>
-                        <f:event listener="#{escalaControle.beginConversation()}" type="preRenderView" />
-                    </f:metadata>
+
                     <p:panel header="Cadastro de Escala">
                         <p:messages id="messages" closable="true" style="font-size: 12px; text-align: center;" showIcon="false"/>
 

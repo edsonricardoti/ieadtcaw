@@ -11,7 +11,7 @@
     <h:body>
         <ui:composition>
             <h:form>              
-                <p:menubar style="font-size: 18px;">
+                <p:menubar style="font-size: 14px; height: 25px;">
                     <p:submenu label="Cadastro" icon="ui-icon-folder-collapsed" rendered="#{usuarioControle.usuario.secretaria or usuarioControle.usuario.administracao}">
                         <p:submenu label="Membros/Congregados" icon="ui-icon-person">
                             <p:menuitem value="Incluir" icon="ui-icon-circle-plus" ajax="false" url="/sistema/membros/cadastro.xhtml">
@@ -161,10 +161,27 @@
                         <p:menuitem value="Por estado civil" ajax="false" icon="ui-icon-print" url="/sistema/listagens/membrosporestcivil.xhtml" />
                     </p:submenu>
                     <p:menuitem value="Alterar senha" icon=" ui-icon-key" ajax="false" url="/sistema/usuarios/alterarsenha.xhtml"/>
+                    <p:menuitem value="Sobre" icon=" ui-icon-help" onclick="PF('sobre').show()"/>
                     <p:menuitem value="Saír" icon="ui-icon-power" ajax="false" action="#{usuarioControle.logOFF}"/>
 
                 </p:menubar>
             </h:form>
+            <p:dialog header="Sobre" width="510" height="285"
+                      widgetVar="sobre">
+
+                <p:panel style="width: 100%; height: 79%;">
+                    <h:outputText value="Versão 1.0 - 25/07/2018"/><br></br>
+                    <h:outputText value="Este software possui licença GNU. Foi    "/><br></br>
+                    <h:outputText value="desenvolvido específicamente para a      "/><br></br>
+                    <h:outputText value="Igreja Evangélica Assembléia de Deus     "/><br></br>
+                    <h:outputText value="Templo Central Congregação de Ávaro Weyne"/><br></br>
+                    <h:outputText value="                                         "/><br></br>
+                    <h:outputText value="Cantem ao Senhor com ações de graças ao  "/>
+                    <h:outputText value="som da harpa façam música para o nosso    "/>
+                    <h:outputText value="Deus. Salmos 147:7"/>
+                </p:panel>
+
+            </p:dialog>
         </ui:composition>
     </h:body>
 </html>

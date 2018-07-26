@@ -7,6 +7,7 @@ package DAO;
 
 import Modelo.Membros;
 import static Util.HibernateUtil.getSessionFactory;
+import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 import org.hibernate.HibernateException;
@@ -17,7 +18,9 @@ import org.hibernate.Transaction;
  *
  * @author Edson Ricardo
  */
-public class MembrosDAO {
+public class MembrosDAO implements Serializable {
+
+    private static final long serialVersionUID = 1L;
 
     private Session session;
 

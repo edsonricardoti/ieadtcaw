@@ -29,14 +29,16 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
-import javax.enterprise.context.SessionScoped;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
+import javax.inject.Inject;
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletResponse;
+import org.apache.myfaces.extensions.cdi.core.api.scope.conversation.Conversation;
+import org.apache.myfaces.extensions.cdi.core.api.scope.conversation.ViewAccessScoped;
 import org.primefaces.model.UploadedFile;
 
-@SessionScoped
+@ViewAccessScoped
 
 /**
  *
@@ -66,6 +68,10 @@ public class ClasseControle implements Serializable {
     private Boolean veio;
     private Integer idAlunos;
     private String nomeAluno;
+
+    @Inject
+    private Conversation conversation;
+
 
     public ClasseControle() {
         classe = new Classes();
@@ -117,6 +123,7 @@ public class ClasseControle implements Serializable {
         veio = null;
         idAlunos = null;
         nomeAluno = null;
+        this.conversation.close();
     }
 
     public void destroiObj() throws IOException {

@@ -12,16 +12,14 @@
         <ui:composition template="/layout.xhtml">
             <ui:define name="content">
                 <h:form id="frm1" prependId="false">
-                    <f:metadata>
-                        <f:event listener="#{financeiroControle.beginConversation()}" type="preRenderView" />
-                    </f:metadata>
+
                     <p:panelGrid columns="5" style="font-size: 10px;" styleClass="semBorda">
                         <p:outputLabel value="Periódico:"/>
                         <p:selectOneMenu id="l1" value="#{assinaturaControle.idperiodico}" style="text-transform: uppercase;">
                             <f:selectItem itemLabel=":::Selecione:::" />
                             <f:selectItems value="#{assinaturaControle.periodicos}"
                                            var="revista"
-                                           itemLabel="#{revista.titulo}"
+                                           itemLabel="#{revista.titulo.toUpperCase()}"
                                            itemValue="#{revista.idperiodico}"/>
                             <p:ajax event="change" update="bt"/>
                         </p:selectOneMenu>

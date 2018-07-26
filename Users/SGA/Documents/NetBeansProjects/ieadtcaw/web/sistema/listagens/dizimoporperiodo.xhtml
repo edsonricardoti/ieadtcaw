@@ -13,9 +13,7 @@
         <ui:composition template="/layout.xhtml">
             <ui:define name="content">
                 <h:form id="frm1" prependId="false">
-                    <f:metadata>
-                        <f:event listener="#{financeiroControle.beginConversation()}" type="preRenderView" />
-                    </f:metadata>
+
                     <p:panelGrid columns="5" style="font-size: 10px;" styleClass="semBorda">
                         <p:outputLabel value="Data Ini:"/>
                         <p:calendar id="dataini" value="#{financeiroControle.dataini}" locale="pt" mask="true" pattern="dd/MM/yyyy" showOn="button" rendered="true" requiredMessage="a data inicial é obrigatória!" />

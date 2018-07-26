@@ -12,11 +12,7 @@
         <ui:composition template="/layout.xhtml">            
             <ui:define name="content">
 
-                <h:form id="cadastro">
-                    <f:metadata>
-                        <f:event listener="#{membroControle.beginConversation()}" type="preRenderView" />
-                    </f:metadata>
-
+                <h:form id="cadastro">                    
 
                     <p:panel header="Cadastro de Membros">
                         <p:messages id="messages" closable="true" style="font-size: 12px; text-align: center;" showIcon="false"/>
@@ -42,7 +38,7 @@
                             </p:column>
                             <p:column headerText="Alterar" style="text-align: center;">
                                 <p:commandButton icon="ui-icon-pencil" action="#{membroControle.buscarIDView(buscados.idmembros)}" style="font-size: 10px;" >
-                                    <f:param name="cid" value="#{membroControle.conversation.id}" />
+
                                 </p:commandButton>
                             </p:column>
 

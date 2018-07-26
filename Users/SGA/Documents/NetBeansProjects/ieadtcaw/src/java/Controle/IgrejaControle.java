@@ -15,9 +15,12 @@ import java.io.Serializable;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
-import javax.enterprise.context.SessionScoped;
+import javax.inject.Inject;
+import org.apache.myfaces.extensions.cdi.core.api.scope.conversation.Conversation;
+import org.apache.myfaces.extensions.cdi.core.api.scope.conversation.ViewAccessScoped;
 
-@SessionScoped
+
+@ViewAccessScoped
 
 /**
  *
@@ -34,6 +37,9 @@ public class IgrejaControle implements Serializable {
     private List<Igrejas> listaIgrejas;
     private List<Igrejas> listaDaBusca;
     private Boolean isRederiza = false;
+
+    @Inject
+    private Conversation conversation;
 
     public IgrejaControle() {
         igreja = new Igrejas();
@@ -56,7 +62,7 @@ public class IgrejaControle implements Serializable {
         listaIgrejas = null;
         listaDaBusca = null;
         dao = null;
-
+        this.conversation.close();
     }
 
     public void limpaFormulario() {

@@ -13,9 +13,7 @@
         <ui:composition template="/layout.xhtml">
             <ui:define name="content">
                 <h:form id="frm1" prependId="false">
-                    <f:metadata>
-                        <f:event listener="#{financeiroControle.beginConversation()}" type="preRenderView" />
-                    </f:metadata>
+
                     <p:panelGrid columns="3" style="font-size: 10px;" styleClass="semBorda" >
                         <p:outputLabel value="Ano:"/>
                         <p:inputText value="#{financeiroControle.financeiro.financeiroIdmembro}" size="10"/>

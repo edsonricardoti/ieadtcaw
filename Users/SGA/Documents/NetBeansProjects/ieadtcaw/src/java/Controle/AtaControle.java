@@ -26,16 +26,18 @@ import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
 import javax.faces.application.FacesMessage;
-import javax.enterprise.context.SessionScoped;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import static javax.faces.context.FacesContext.getCurrentInstance;
+import javax.inject.Inject;
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletResponse;
+import org.apache.myfaces.extensions.cdi.core.api.scope.conversation.Conversation;
+import org.apache.myfaces.extensions.cdi.core.api.scope.conversation.ViewAccessScoped;
 import org.primefaces.event.FileUploadEvent;
 import org.primefaces.model.UploadedFile;
 
-@SessionScoped
+@ViewAccessScoped
 
 /**
  *
@@ -53,6 +55,9 @@ public class AtaControle implements Serializable {
     private List<Ata> listaDaBusca;
     private Boolean isRederiza = false;
     private UploadedFile uploadedFile;
+
+    @Inject
+    private Conversation conversation;
 
     public AtaControle() {
         ata = new Ata();
@@ -78,6 +83,7 @@ public class AtaControle implements Serializable {
         listaDaBusca = null;
         isRederiza = null;
         uploadedFile = null;
+        this.conversation.close();
     }
 
     @PostConstruct

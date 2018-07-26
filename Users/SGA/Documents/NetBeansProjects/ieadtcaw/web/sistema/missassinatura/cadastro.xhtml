@@ -23,9 +23,7 @@
 
                 </p:dialog>
                 <h:form id="cadastro">
-                    <f:metadata>
-                        <f:event listener="#{assinaturaControle.beginConversation()}" type="preRenderView" />
-                    </f:metadata>
+
                     <p:messages id="messages" closable="true" style="font-size: 12px; text-align: center;" showIcon="false"/>
                     <p:remoteCommand action="#{assinaturaControle.limpaFormulario()}" autoRun="true" update="grades,lista"/>
                     <p:panel header="Missão - Assinatura">
@@ -45,7 +43,7 @@
                             </p:column>                            
                             <p:column headerText="Incluir" style="text-align: center; font-size: 10px; ">
                                 <p:commandButton icon="ui-icon-pencil"  action="cadastroinclui.xhtml" actionListener="#{assinaturaControle.PreparaInclusao(buscados)}">
-                                    <f:param name="cid" value="#{assinaturaControle.conversation.id}" />
+
                                 </p:commandButton>
                             </p:column>
 

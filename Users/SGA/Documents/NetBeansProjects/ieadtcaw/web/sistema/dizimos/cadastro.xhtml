@@ -12,9 +12,7 @@
         <ui:composition template="/layout.xhtml">            
             <ui:define name="content">
                 <h:form id="cadastro">
-                    <f:metadata>
-                        <f:event listener="#{financeiroControle.beginConversation()}" type="preRenderView" />
-                    </f:metadata>
+
                     <p:messages id="messages" closable="true" style="font-size: 12px; text-align: center;" showIcon="false"/>
                     <p:remoteCommand action="#{financeiroControle.limpaFormulario()}" autoRun="true" update="grades,lista"/>
                     <p:panel header="Cadastro de Dízimos">
@@ -34,7 +32,7 @@
                             </p:column>                            
                             <p:column headerText="Incluir" style="text-align: center;">
                                 <p:commandButton icon="ui-icon-pencil" actionListener="#{financeiroControle.buscaMembro(buscados.idmembros)}" style="font-size: 10px; text-transform: uppercase;" action="inclui.xhtml">
-                                    <f:param name="cid" value="#{financeiroControle.conversation.id}" />
+
                                 </p:commandButton>
                             </p:column>
 

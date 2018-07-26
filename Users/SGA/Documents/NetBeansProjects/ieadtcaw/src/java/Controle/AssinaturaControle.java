@@ -33,14 +33,13 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
-import javax.enterprise.context.Conversation;
-import javax.enterprise.context.ConversationScoped;
-import javax.enterprise.context.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
+import org.apache.myfaces.extensions.cdi.core.api.scope.conversation.Conversation;
+import org.apache.myfaces.extensions.cdi.core.api.scope.conversation.ViewAccessScoped;
 import org.primefaces.event.RowEditEvent;
 
-@ConversationScoped
+@ViewAccessScoped
 
 /**
  *
@@ -115,23 +114,9 @@ public class AssinaturaControle implements Serializable {
 
     }
 
-    public void beginConversation() {
-        if (conversation.isTransient()) {
-            conversation.setTimeout(1800000L);
-            conversation.begin();
-        }
-    }
-
-    public void endConversation() {
-        System.out.println("Finalizou conversacao...");
-        if (!conversation.isTransient()) {
-            conversation.end();
-        }
-
-    }
 
     public String fechar() throws IOException {
-        endConversation();
+        this.conversation.close();
         FacesContext.getCurrentInstance().getExternalContext().redirect("../../inicio.xhtml?faces-redirect=true");
         return "";
     }

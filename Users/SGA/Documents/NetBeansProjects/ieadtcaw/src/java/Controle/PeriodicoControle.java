@@ -19,9 +19,12 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
-import javax.enterprise.context.SessionScoped;
+import javax.inject.Inject;
+import org.apache.myfaces.extensions.cdi.core.api.scope.conversation.Conversation;
+import org.apache.myfaces.extensions.cdi.core.api.scope.conversation.ViewAccessScoped;
 
-@SessionScoped
+
+@ViewAccessScoped
 
 /**
  *
@@ -39,6 +42,9 @@ public class PeriodicoControle implements Serializable {
     private List<Periodico> listaDaBusca;
     private Boolean isRederiza = false;
     private String nome;
+
+    @Inject
+    private Conversation conversation;
 
     public PeriodicoControle() {
         periodico = new Periodico();
@@ -62,7 +68,7 @@ public class PeriodicoControle implements Serializable {
         listaDaBusca = null;
         listaPeriodico = null;
         dao = null;
-
+        this.conversation.close();
     }
 
     public void limpaFormulario() {

@@ -23,9 +23,7 @@
 
                 </p:dialog>
                 <h:form id="cadastro" prependId="false">
-                    <f:metadata>
-                        <f:event listener="#{financeiroControle.beginConversation()}" type="preRenderView" />
-                    </f:metadata>
+
                     <p:messages id="messages" closable="true" style="font-size: 12px; text-align: center;" showIcon="false"/>
                     <p:remoteCommand action="#{financeiroControle.limpaFormulario()}" autoRun="true" update="lista"/>
                     <p:panel header="Cadastro de Ofertas" id="pg">

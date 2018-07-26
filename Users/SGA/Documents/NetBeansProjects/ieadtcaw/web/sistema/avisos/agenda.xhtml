@@ -54,9 +54,7 @@
                 </h:form>
 
                 <h:form id="frm1" prependId="false" >
-                    <f:metadata>
-                        <f:event listener="#{avisoControle.beginConversation()}" type="preRenderView" />
-                    </f:metadata>
+
                     <p:remoteCommand action="#{avisoControle.atualizaAgenda()}" autoRun="true" update="schedule" process="@this"/>
                     <p:growl id="messages"  />
 

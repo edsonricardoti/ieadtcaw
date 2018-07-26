@@ -12,9 +12,7 @@
         <ui:composition template="/layout.xhtml">            
             <ui:define name="content">
                 <h:form id="cadastro" prependId="false">
-                    <f:metadata>
-                        <f:event listener="#{assinaturaControle.beginConversation()}" type="preRenderView" />
-                    </f:metadata>
+
                     <p:panel header="Missão - Assinaturas">
                         <p:messages id="messages" closable="true" style="font-size: 12px; text-align: center;" showIcon="false"/>
                         <p:remoteCommand id="cm" action="#{assinaturaControle.limpaFormulario()}" autoRun="true" update="grades,lista"/>

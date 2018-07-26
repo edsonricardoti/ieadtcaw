@@ -29,16 +29,18 @@ import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
 import javax.faces.application.FacesMessage;
-import javax.enterprise.context.SessionScoped;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import static javax.faces.context.FacesContext.getCurrentInstance;
+import javax.inject.Inject;
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletResponse;
+import org.apache.myfaces.extensions.cdi.core.api.scope.conversation.Conversation;
+import org.apache.myfaces.extensions.cdi.core.api.scope.conversation.ViewAccessScoped;
 import org.primefaces.event.FileUploadEvent;
 import org.primefaces.model.UploadedFile;
 
-@SessionScoped
+@ViewAccessScoped
 
 /**
  *
@@ -63,6 +65,9 @@ public class CriancaControle implements Serializable {
     private String nascido;
     private String pastor;
     private String dtapresentacao;
+
+    @Inject
+    private Conversation conversation;
 
     public CriancaControle() {
         crianca = new Criancas();
@@ -95,6 +100,7 @@ public class CriancaControle implements Serializable {
         dao = null;
         mdao = null;
         listaCriancas = null;
+        this.conversation.close();
     }
 
     public void geraCertificado(Criancas crianca) {

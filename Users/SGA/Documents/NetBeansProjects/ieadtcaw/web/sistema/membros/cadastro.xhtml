@@ -13,135 +13,143 @@
             <ui:define name="content">
 
                 <p:panel header="Cadastro de Membros">
-                        <h:form id="cadastro" prependId="false">
+                    <h:form id="cadastro" prependId="false">
 
+                        <p:messages id="messages" closable="true" style="font-size: 12px; text-align: center;" showIcon="false"/>
+                        <f:ajax execute="@this" event="mouseover" listener="#{membroControle.membro.setMembrosTipo('Membro')}"/>
+                        <p:tabView>
+                            <p:tab id="db1" title="Dados Básicos" >
+                                <p:panelGrid id="campos" columns="4" style="font-size: 14px;" styleClass="semBorda" columnClasses="textos,campos,textos,campos">
+                                    <p:outputLabel value="Situação:"/>
+                                    <p:panelGrid columns="3">
+                                        <p:selectOneRadio id="tipo" value="#{membroControle.membro.membrosTipo}" style="font-size: 11px;">
+                                            <f:selectItem itemLabel=" Membro " itemValue="Membro" />
+                                            <f:selectItem itemLabel=" Congregado " itemValue="Congregado" />
+                                            <f:selectItem itemLabel=" Amigo do Evangélho " itemValue="Amigo"/>
 
-                            <p:messages id="messages" closable="true" style="font-size: 12px; text-align: center;" showIcon="false"/>
-                            <f:ajax execute="@this" event="mouseover" listener="#{membroControle.membro.setMembrosTipo('Membro')}"/>
-                            <p:panelGrid id="campos" columns="4" style="font-size: 14px;" styleClass="semBorda" columnClasses="textos,campos,textos,campos">
-                                <p:outputLabel value="Situação:"/>
-                                <p:panelGrid columns="3">
-                                    <p:selectOneRadio id="tipo" value="#{membroControle.membro.membrosTipo}" style="font-size: 11px;">
-                                        <f:selectItem itemLabel=" Membro " itemValue="Membro" />
-                                        <f:selectItem itemLabel=" Congregado " itemValue="Congregado" />
-                                        <f:selectItem itemLabel=" Amigo do Evangélho " itemValue="Amigo"/>
+                                        </p:selectOneRadio>
+                                    </p:panelGrid><p:column></p:column><p:column></p:column>
+                                    <p:outputLabel value="Nome completo:"/>
+                                    <p:inputText styleClass="cmpoCadastro" id="nome" label="Nome completo" value="#{membroControle.membro.membrosNome}" size="35" required="true" requiredMessage="O nome do membro é obrigatório!" />
+                                    <p:outputLabel for="sexo" value="Sexo:" />
+                                    <p:selectOneRadio id="sexo" value="#{membroControle.membro.membrosSexo}">
+                                        <f:selectItem itemLabel=" Masculino " itemValue="Masculino" />
+                                        <f:selectItem itemLabel=" Feminino " itemValue="Feminino" />
 
                                     </p:selectOneRadio>
+                                    <p:outputLabel value="Endereço:"/>
+                                    <p:inputText styleClass="cmpoCadastro" id="endereco" label="Endereço:" value="#{membroControle.membro.membrosEndereco}" size="35" />
+                                    <p:outputLabel value="Número:"/>
+                                    <p:inputText styleClass="cmpoCadastro" id="numero" label="Numero:" value="#{membroControle.membro.membrosNumero}"/>
+                                    <p:outputLabel value="Complemento:"/>
+                                    <p:inputText styleClass="cmpoCadastro" id="complemento" label="Complemento" value="#{membroControle.membro.membrosComplemento}"/>
+                                    <p:outputLabel value="Bairro:"/>
+                                    <p:inputText styleClass="cmpoCadastro" id="bairro" label="Bairro" value="#{membroControle.membro.membrosBairro}"/>
+                                    <p:outputLabel value="Cidade"/>
+                                    <p:inputText styleClass="cmpoCadastro" id="cidade" label="Cidade" value="#{membroControle.membro.membrosCidade}"/>
+                                    <p:outputLabel value="Estado"/>
+                                    <p:selectOneMenu id="uf" value="#{membroControle.membro.membrosUf}">
+                                        <f:selectItem itemLabel="UF" />
+                                        <f:selectItem itemLabel="AC" itemValue="AC"/>
+                                        <f:selectItem itemLabel="AL" itemValue="AL"/>
+                                        <f:selectItem itemLabel="AM" itemValue="AM"/>
+                                        <f:selectItem itemLabel="AP" itemValue="AP"/>
+                                        <f:selectItem itemLabel="BA" itemValue="BA"/>
+                                        <f:selectItem itemLabel="CE" itemValue="CE"/>
+                                        <f:selectItem itemLabel="DF" itemValue="DF"/>
+                                        <f:selectItem itemLabel="ES" itemValue="ES"/>
+                                        <f:selectItem itemLabel="GO" itemValue="GO"/>
+                                        <f:selectItem itemLabel="MA" itemValue="MA"/>
+                                        <f:selectItem itemLabel="MG" itemValue="MG"/>
+                                        <f:selectItem itemLabel="MS" itemValue="MS"/>
+                                        <f:selectItem itemLabel="MT" itemValue="MT"/>
+                                        <f:selectItem itemLabel="PA" itemValue="PA"/>
+                                        <f:selectItem itemLabel="PB" itemValue="PB"/>
+                                        <f:selectItem itemLabel="PE" itemValue="PE"/>
+                                        <f:selectItem itemLabel="PI" itemValue="PI"/>
+                                        <f:selectItem itemLabel="PR" itemValue="PR"/>
+                                        <f:selectItem itemLabel="RJ" itemValue="RJ"/>
+                                        <f:selectItem itemLabel="RN" itemValue="RN"/>
+                                        <f:selectItem itemLabel="RO" itemValue="RO"/>
+                                        <f:selectItem itemLabel="RR"  itemValue="RR"/>
+                                        <f:selectItem itemLabel="RS"  itemValue="RS"/>
+                                        <f:selectItem itemLabel="SC" itemValue="SC"/>
+                                        <f:selectItem itemLabel="SE" itemValue="SE"/>
+                                        <f:selectItem itemLabel="SP" itemValue="SP"/>
+                                        <f:selectItem itemLabel="TO" itemValue="TO"/>
+                                    </p:selectOneMenu>
+                                    <p:outputLabel value="CEP:"/>
+                                    <p:inputMask id="cep" mask="99999-999" value="#{membroControle.membro.membrosCep}"/>
+                                    <p:outputLabel value="Naturalidade:"/>
+                                    <p:inputText styleClass="cmpoCadastro" id="natu" label="Naturalidade" value="#{membroControle.membro.membrosNaturalidade}"/>
+                                    <p:outputLabel value="RG:"/>
+                                    <p:inputText styleClass="cmpoCadastro" id="rg" label="RG" value="#{membroControle.membro.membrosRg}"/>
+                                    <p:outputLabel value="CPF:"/>
+                                    <p:inputMask id="cpf" mask="999.999.999-99" value="#{membroControle.membro.membrosCpf}"/>
+                                    <p:outputLabel value="Fone:"/>
+                                    <p:inputText styleClass="cmpoCadastro" id="fone" label="Fone" value="#{membroControle.membro.membrosFone}"/>
+                                    <p:outputLabel value="Celular:"/>
+                                    <p:inputText styleClass="cmpoCadastro" id="celular" label="Celular" value="#{membroControle.membro.membrosCelular}"/>
+                                    <p:outputLabel for="datanasc" value="Data do Nascimento:" />
+                                    <p:calendar id="datanasc" value="#{membroControle.membro.membrosDataNasc}" locale="pt" mask="true" pattern="dd/MM/yyyy" showOn="button" />
+                                    <p:outputLabel for="estadocivil" value="Estado Civil:" />
+                                    <p:selectOneMenu  id="estadocivil" value="#{membroControle.membro.membrosEstadoCivil}">
+                                        <p:ajax event="change" update="@form" listener="#{membroControle.renderizar(membroControle.membro.membrosEstadoCivil)}"/>
+                                        <f:selectItem itemLabel=":::Selecione:::" itemValue="null" />
+                                        <f:selectItem itemLabel="Casado(a)" itemValue="Casado(a)" />
+                                        <f:selectItem itemLabel="Solteiro(a)" itemValue="Solteiro(a)" />
+                                        <f:selectItem itemLabel="Divorciado(a)" itemValue="Divorciado(a)" />
+                                        <f:selectItem itemLabel="Viúvo(a)" itemValue="Viúvo(a)" />
+                                    </p:selectOneMenu>
+                                    <p:outputLabel id="dcl" value="Data de casamento"  rendered="#{membroControle.isRederiza}"/>
+                                    <p:calendar id="datacasam" value="#{membroControle.membro.membrosDataCasamento}" locale="pt" mask="true" pattern="dd/MM/yyyy" showOn="button" rendered="#{membroControle.isRederiza}"/>
+                                    <p:outputLabel value="Filhos:"/>
+                                    <p:inputText styleClass="cmpoCadastro" id="filho" label="Filhos" value="#{membroControle.membro.membrosFilhos}"/>
+                                    <p:column></p:column><p:column></p:column>
                                 </p:panelGrid>
-                                <p:outputLabel value="Nome completo:"/>
-                                <p:inputText styleClass="cmpoCadastro" id="nome" label="Nome completo" value="#{membroControle.membro.membrosNome}" size="35" required="true" requiredMessage="O nome do membro é obrigatório!" />
-                                <p:outputLabel for="sexo" value="Sexo:" />
-                                <p:selectOneRadio id="sexo" value="#{membroControle.membro.membrosSexo}">
-                                    <f:selectItem itemLabel=" Masculino " itemValue="Masculino" />
-                                    <f:selectItem itemLabel=" Feminino " itemValue="Feminino" />
+                            </p:tab>
+                            <p:tab id="dc1" title="Dados Complementares" >
+                                <p:panelGrid id="campos2" columns="4" style="font-size: 14px;" styleClass="semBorda" columnClasses="textos,campos,textos,campos">
+                                    <p:outputLabel value="Profissão"/>
+                                    <p:inputText styleClass="cmpoCadastro" id="profissao" label="Profissao" value="#{membroControle.membro.membrosProfissao}" size="35"/>
+                                    <p:outputLabel value="Empresa:"/>
+                                    <p:inputText styleClass="cmpoCadastro" id="empresa" label="Empresa" value="#{membroControle.membro.membrosEmpresa}" size="35"/>
+                                    <p:outputLabel value="Tel. Comercial:"/>
+                                    <p:inputText styleClass="cmpoCadastro" id="tel" label="Tel Comercial" value="#{membroControle.membro.membrosFoneCom}"/>
+                                    <p:outputLabel value="Cart. de Membro:"/>
+                                    <p:inputText styleClass="cmpoCadastro" id="cart" label="Cart Membro" value="#{membroControle.membro.membrosCarteiraMemb}"/>
+                                    <p:outputLabel value="Data Emissão:"/>
+                                    <p:calendar id="dtemiss" value="#{membroControle.membro.membrosDtEmissao}" locale="pt" mask="true" pattern="dd/MM/yyyy" showOn="button"/>
+                                    <p:outputLabel value="Data Conv.:"/>
+                                    <p:calendar id="dtconv" value="#{membroControle.membro.membrosDtConversao}" locale="pt" mask="true" pattern="dd/MM/yyyy" showOn="button"/>
+                                    <p:outputLabel value="Data Batismo:"/>
+                                    <p:calendar id="tdbatism" value="#{membroControle.membro.membrosDtBatismo}" locale="pt" mask="true" pattern="dd/MM/yyyy" showOn="button"/>
+                                    <p:outputLabel for="cargo" value="Cargo na Igreja:" />
+                                    <p:selectOneMenu id="cargo" value="#{membroControle.membro.membrosCargoIgreja}" style="width:125px">
+                                        <f:selectItem itemLabel=":::Selecione:::" itemValue="" />
+                                        <f:selectItem itemLabel="Pastor" itemValue="Pastor" />
+                                        <f:selectItem itemLabel="Presbitero" itemValue="Presbitero" />
+                                        <f:selectItem itemLabel="Diácono" itemValue="Diácono" />
+                                        <f:selectItem itemLabel="Obreiro" itemValue="Obreiro" />
+                                        <f:selectItem itemLabel="Tesoureiro" itemValue="Tesoureiro" />
+                                        <f:selectItem itemLabel="Secretário" itemValue="Secretário" />
+                                    </p:selectOneMenu>
+                                    <p:outputLabel value="É professor na EBD?"/>
+                                    <p:inputSwitch value="#{membroControle.membro.membrosEprof}" style="width: 55px;" onLabel="SIM" offLabel="NÃO" />
+                                    <p:outputLabel value="Congregação:"/>
+                                    <p:inputText styleClass="cmpoCadastro" id="congrega" label="gongrega" value="#{membroControle.membro.membrosObs}"/>
+                                    <p:outputLabel value="Data da ultima visita:"/>
+                                    <p:calendar id="dtultvisi" value="#{membroControle.membro.membrosUltimaVisita}" locale="pt" mask="true" pattern="dd/MM/yyyy" showOn="button"/>
+                                    <p:column></p:column><p:column></p:column>
+                                </p:panelGrid>
+                            </p:tab>
+                        </p:tabView>
+                        <p:commandButton icon="ui-icon-check" title="Clique aqui para salvar o cadastro" action="#{membroControle.insert()}" value="Salvar" update="cadastro:messages"/>
+                        <p:commandButton icon="ui-icon-check" title="Clique aqui para salvar o cadastro" actionListener="#{membroControle.maisum()}" value="Continuar Incluindo" update="cadastro:messages"/>
+                        <p:button value="Fechar" icon="ui-icon-closethick" outcome="/inicio.xhtml"/>
 
-                                </p:selectOneRadio>
-                                <p:outputLabel value="Endereço:"/>
-                                <p:inputText styleClass="cmpoCadastro" id="endereco" label="Endereço:" value="#{membroControle.membro.membrosEndereco}" size="35" />
-                                <p:outputLabel value="Número:"/>
-                                <p:inputText styleClass="cmpoCadastro" id="numero" label="Numero:" value="#{membroControle.membro.membrosNumero}"/>
-                                <p:outputLabel value="Complemento:"/>
-                                <p:inputText styleClass="cmpoCadastro" id="complemento" label="Complemento" value="#{membroControle.membro.membrosComplemento}"/>
-                                <p:outputLabel value="Bairro:"/>
-                                <p:inputText styleClass="cmpoCadastro" id="bairro" label="Bairro" value="#{membroControle.membro.membrosBairro}"/>
-                                <p:outputLabel value="Cidade"/>
-                                <p:inputText styleClass="cmpoCadastro" id="cidade" label="Cidade" value="#{membroControle.membro.membrosCidade}"/>
-                                <p:outputLabel value="Estado"/>
-                                <p:selectOneMenu id="uf" value="#{membroControle.membro.membrosUf}">
-                                    <f:selectItem itemLabel="UF" />
-                                    <f:selectItem itemLabel="AC" itemValue="AC"/>
-                                    <f:selectItem itemLabel="AL" itemValue="AL"/>
-                                    <f:selectItem itemLabel="AM" itemValue="AM"/>
-                                    <f:selectItem itemLabel="AP" itemValue="AP"/>
-                                    <f:selectItem itemLabel="BA" itemValue="BA"/>
-                                    <f:selectItem itemLabel="CE" itemValue="CE"/>
-                                    <f:selectItem itemLabel="DF" itemValue="DF"/>
-                                    <f:selectItem itemLabel="ES" itemValue="ES"/>
-                                    <f:selectItem itemLabel="GO" itemValue="GO"/>
-                                    <f:selectItem itemLabel="MA" itemValue="MA"/>
-                                    <f:selectItem itemLabel="MG" itemValue="MG"/>
-                                    <f:selectItem itemLabel="MS" itemValue="MS"/>
-                                    <f:selectItem itemLabel="MT" itemValue="MT"/>
-                                    <f:selectItem itemLabel="PA" itemValue="PA"/>
-                                    <f:selectItem itemLabel="PB" itemValue="PB"/>
-                                    <f:selectItem itemLabel="PE" itemValue="PE"/>
-                                    <f:selectItem itemLabel="PI" itemValue="PI"/>
-                                    <f:selectItem itemLabel="PR" itemValue="PR"/>
-                                    <f:selectItem itemLabel="RJ" itemValue="RJ"/>
-                                    <f:selectItem itemLabel="RN" itemValue="RN"/>
-                                    <f:selectItem itemLabel="RO" itemValue="RO"/>
-                                    <f:selectItem itemLabel="RR"  itemValue="RR"/>
-                                    <f:selectItem itemLabel="RS"  itemValue="RS"/>
-                                    <f:selectItem itemLabel="SC" itemValue="SC"/>
-                                    <f:selectItem itemLabel="SE" itemValue="SE"/>
-                                    <f:selectItem itemLabel="SP" itemValue="SP"/>
-                                    <f:selectItem itemLabel="TO" itemValue="TO"/>
-                                </p:selectOneMenu>
-                                <p:outputLabel value="CEP:"/>
-                                <p:inputMask id="cep" mask="99999-999" value="#{membroControle.membro.membrosCep}"/>
-                                <p:outputLabel value="Naturalidade:"/>
-                                <p:inputText styleClass="cmpoCadastro" id="natu" label="Naturalidade" value="#{membroControle.membro.membrosNaturalidade}"/>
-                                <p:outputLabel value="RG:"/>
-                                <p:inputText styleClass="cmpoCadastro" id="rg" label="RG" value="#{membroControle.membro.membrosRg}"/>
-                                <p:outputLabel value="CPF:"/>
-                                <p:inputMask id="cpf" mask="999.999.999-99" value="#{membroControle.membro.membrosCpf}"/>
-                                <p:outputLabel value="Fone:"/>
-                                <p:inputText styleClass="cmpoCadastro" id="fone" label="Fone" value="#{membroControle.membro.membrosFone}"/>
-                                <p:outputLabel value="Celular:"/>
-                                <p:inputText styleClass="cmpoCadastro" id="celular" label="Celular" value="#{membroControle.membro.membrosCelular}"/>
-                                <p:outputLabel for="datanasc" value="Data do Nascimento:" />
-                                <p:calendar id="datanasc" value="#{membroControle.membro.membrosDataNasc}" locale="pt" mask="true" pattern="dd/MM/yyyy" showOn="button" />
-                                <p:outputLabel for="estadocivil" value="Estado Civil:" />
-                                <p:selectOneMenu  id="estadocivil" value="#{membroControle.membro.membrosEstadoCivil}">
-                                    <p:ajax event="change" update="@form" listener="#{membroControle.renderizar(membroControle.membro.membrosEstadoCivil)}"/>
-                                    <f:selectItem itemLabel=":::Selecione:::" itemValue="null" />
-                                    <f:selectItem itemLabel="Casado(a)" itemValue="Casado(a)" />
-                                    <f:selectItem itemLabel="Solteiro(a)" itemValue="Solteiro(a)" />
-                                    <f:selectItem itemLabel="Divorciado(a)" itemValue="Divorciado(a)" />
-                                    <f:selectItem itemLabel="Viúvo(a)" itemValue="Viúvo(a)" />
-                                </p:selectOneMenu>
-                                <p:outputLabel id="dcl" value="Data de casamento"  rendered="#{membroControle.isRederiza}"/>
-                                <p:calendar id="datacasam" value="#{membroControle.membro.membrosDataCasamento}" locale="pt" mask="true" pattern="dd/MM/yyyy" showOn="button" rendered="#{membroControle.isRederiza}"/>
-                                <p:outputLabel value="Filhos:"/>
-                                <p:inputText styleClass="cmpoCadastro" id="filho" label="Filhos" value="#{membroControle.membro.membrosFilhos}"/>
-                                <p:outputLabel value="Profissão"/>
-                                <p:inputText styleClass="cmpoCadastro" id="profissao" label="Profissao" value="#{membroControle.membro.membrosProfissao}" size="35"/>
-                                <p:outputLabel value="Empresa:"/>
-                                <p:inputText styleClass="cmpoCadastro" id="empresa" label="Empresa" value="#{membroControle.membro.membrosEmpresa}" size="35"/>
-                                <p:outputLabel value="Tel. Comercial:"/>
-                                <p:inputText styleClass="cmpoCadastro" id="tel" label="Tel Comercial" value="#{membroControle.membro.membrosFoneCom}"/>
-                                <p:outputLabel value="Cart. de Membro:"/>
-                                <p:inputText styleClass="cmpoCadastro" id="cart" label="Cart Membro" value="#{membroControle.membro.membrosCarteiraMemb}"/>
-                                <p:outputLabel value="Data Emissão:"/>
-                                <p:calendar id="dtemiss" value="#{membroControle.membro.membrosDtEmissao}" locale="pt" mask="true" pattern="dd/MM/yyyy" showOn="button"/>
-                                <p:outputLabel value="Data Conv.:"/>
-                                <p:calendar id="dtconv" value="#{membroControle.membro.membrosDtConversao}" locale="pt" mask="true" pattern="dd/MM/yyyy" showOn="button"/>
-                                <p:outputLabel value="Data Batismo:"/>
-                                <p:calendar id="tdbatism" value="#{membroControle.membro.membrosDtBatismo}" locale="pt" mask="true" pattern="dd/MM/yyyy" showOn="button"/>
-                                <p:outputLabel for="cargo" value="Cargo na Igreja:" />
-                                <p:selectOneMenu id="cargo" value="#{membroControle.membro.membrosCargoIgreja}" style="width:125px">
-                                    <f:selectItem itemLabel=":::Selecione:::" itemValue="" />
-                                    <f:selectItem itemLabel="Pastor" itemValue="Pastor" />
-                                    <f:selectItem itemLabel="Presbitero" itemValue="Presbitero" />
-                                    <f:selectItem itemLabel="Diácono" itemValue="Diácono" />
-                                    <f:selectItem itemLabel="Obreiro" itemValue="Obreiro" />
-                                    <f:selectItem itemLabel="Tesoureiro" itemValue="Tesoureiro" />
-                                    <f:selectItem itemLabel="Secretário" itemValue="Secretário" />
-                                </p:selectOneMenu>
-                                <p:outputLabel value="É professor na EBD?"/>
-                                <p:inputSwitch value="#{membroControle.membro.membrosEprof}" style="width: 55px;" onLabel="SIM" offLabel="NÃO" />
-                                <p:outputLabel value="Congregação:"/>
-                                <p:inputText styleClass="cmpoCadastro" id="congrega" label="gongrega" value="#{membroControle.membro.membrosObs}"/>
-                                <p:outputLabel value="Data da ultima visita:"/>
-                                <p:calendar id="dtultvisi" value="#{membroControle.membro.membrosUltimaVisita}" locale="pt" mask="true" pattern="dd/MM/yyyy" showOn="button"/>
-
-                            </p:panelGrid>
-                            <p:commandButton icon="ui-icon-check" title="Clique aqui para salvar o cadastro" action="#{membroControle.insert()}" value="Salvar" update="cadastro:messages"/>
-                            <p:commandButton icon="ui-icon-check" title="Clique aqui para salvar o cadastro" actionListener="#{membroControle.maisum()}" value="Continuar Incluindo" update="cadastro:messages"/>
-                            <p:button value="Fechar" icon="ui-icon-closethick" outcome="/inicio.xhtml"/>
-
-                        </h:form>
-                    </p:panel>
+                    </h:form>
+                </p:panel>
 
             </ui:define>
 

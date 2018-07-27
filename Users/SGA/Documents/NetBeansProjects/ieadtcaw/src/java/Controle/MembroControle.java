@@ -86,7 +86,7 @@ public class MembroControle implements Serializable {
         membro = new Membros();
         dao = new MembrosDAO();
         membroSelecionado = new Membros();
-        //listaMembros = dao.selectAll();
+        listaMembros = dao.selectAll();
 
         // filtro = new FiltroMembros();
     }
@@ -245,6 +245,14 @@ public class MembroControle implements Serializable {
     public String buscarIDView(int id) {
         System.out.println("Entrou na busca por ID=" + id);
         membroSelecionado = dao.buscarPorId(id);
+        String ec = membroSelecionado.getMembrosEstadoCivil();
+        if ("Casado(a)".equals(ec)) {
+            isRederiza = true;
+        } else {
+            membro.setMembrosDataCasamento(null);
+            membroSelecionado.setMembrosDataCasamento(null);
+            isRederiza = false;
+        }
         return "consulta.xhtml";
         // membro = membroSelecionado;
 
@@ -366,7 +374,6 @@ public class MembroControle implements Serializable {
             membro = new Membros();
             addInfoMessage("Dados salvo com sucesso!");
             FacesContext.getCurrentInstance().getExternalContext().redirect("cadastro.xhtml");
-
 
         } else {
             addErrorMessage("Erro ao salvar os dados! Se estiver cadastrando um Membro verifique se o CPF está correto e se a data de nascimento foi preenchida. Refaça o cadastro.");

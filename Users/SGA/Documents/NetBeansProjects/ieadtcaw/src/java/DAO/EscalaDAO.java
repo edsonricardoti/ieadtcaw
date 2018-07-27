@@ -10,6 +10,7 @@ import java.util.List;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import Modelo.Escala;
+import java.io.Serializable;
 import java.util.Date;
 import org.hibernate.HibernateException;
 
@@ -17,7 +18,9 @@ import org.hibernate.HibernateException;
  *
  * @author Edson Ricardo
  */
-public class EscalaDAO {
+public class EscalaDAO implements Serializable {
+
+    private static final long serialVersionUID = 1L;
 
     private Session session;
 

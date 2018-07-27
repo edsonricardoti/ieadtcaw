@@ -4,14 +4,15 @@
       xmlns:ui="http://java.sun.com/jsf/facelets"
       xmlns:p="http://primefaces.org/ui"
       xmlns:h="http://xmlns.jcp.org/jsf/html"      
-      xmlns:f="http://xmlns.jcp.org/jsf/core">
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
     <h:head>
         <title>IEADTCAW Sistema</title>
     </h:head>
     <h:body>
         <ui:composition>
             <h:form>              
-                <p:menubar style="font-size: 14px; height: 25px;">
+                <p:menubar style="font-size: 14px; height: 25px; font-weight: bold;">
                     <p:submenu label="Cadastro" icon="ui-icon-folder-collapsed" rendered="#{usuarioControle.usuario.secretaria or usuarioControle.usuario.administracao}">
                         <p:submenu label="Membros/Congregados" icon="ui-icon-person">
                             <p:menuitem value="Incluir" icon="ui-icon-circle-plus" ajax="false" url="/sistema/membros/cadastro.xhtml">
@@ -163,8 +164,7 @@
                     <p:menuitem value="Alterar senha" icon=" ui-icon-key" ajax="false" url="/sistema/usuarios/alterarsenha.xhtml"/>
                     <p:menuitem value="Sobre" icon=" ui-icon-help" onclick="PF('sobre').show()"/>
                     <p:menuitem value="Saír" icon="ui-icon-power" ajax="false" action="#{usuarioControle.logOFF}"/>
-
-                </p:menubar>
+                </p:menubar><br></br>
             </h:form>
             <p:dialog header="Sobre" width="510" height="285"
                       widgetVar="sobre">

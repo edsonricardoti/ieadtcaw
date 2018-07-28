@@ -188,6 +188,7 @@ public class FrequenciaControle implements Serializable {
     }
 
     public String PegaNomeAluno(int idaluno) {
+        mdao = new MembrosDAO();
         membro = mdao.buscarPorId(idaluno);
         nomeMembro = membro.getMembrosNome();
         return nomeMembro;
@@ -229,6 +230,9 @@ public class FrequenciaControle implements Serializable {
     }
 
     public void presencaPorClasse(int idclasse, int trimestre, int ano) {
+        cdao = new ClassesDAO();
+        dao = new FrequenciaDAO();
+        System.out.println("id ="+idclasse+" trimestre ="+trimestre+" ano="+ano);
         nomeDaClasse = cdao.buscarPorID(idclasse).getClassesNome();
         relatorioLista = null;
         double p = 0;

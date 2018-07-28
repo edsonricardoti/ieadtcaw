@@ -15,6 +15,7 @@ import org.hibernate.HibernateException;
 import Modelo.Membros;
 import Modelo.Relatorios;
 import static Util.HibernateUtil.getSessionFactory;
+import java.io.Serializable;
 import org.hibernate.Query;
 import org.hibernate.transform.Transformers;
 
@@ -23,7 +24,9 @@ import org.hibernate.transform.Transformers;
  *
  * @author Edson Ricardo
  */
-public class FrequenciaDAO {
+public class FrequenciaDAO implements Serializable{
+    
+    private static final long serialVersionUID = 1L;
 
     private Session session;
 

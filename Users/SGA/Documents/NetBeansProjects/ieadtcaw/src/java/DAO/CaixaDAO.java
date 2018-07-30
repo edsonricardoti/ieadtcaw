@@ -117,6 +117,28 @@ public class CaixaDAO implements Serializable {
         }
     }
 
+    public List<Caixa> buscarPorDatas(Date dataini, Date datafim) throws ParseException {
+
+        try {
+
+            session = getSessionFactory().openSession();
+            Transaction t = session.beginTransaction();
+            List caixas = session.createQuery("from Caixa where dtlancamento >=:dataini and dtlancamento <=:datafim")
+                    .setDate("dataini", dataini)
+                    .setDate("datafim", datafim)
+                    .setMaxResults(100)
+                    .list();
+            t.commit();
+            return caixas;
+
+        } catch (HibernateException e) {
+            session.getTransaction().rollback();
+            return null;
+        } finally {
+            session.close();
+        }
+    }
+
     public Caixa buscarPorID(int id) {
 
         try {

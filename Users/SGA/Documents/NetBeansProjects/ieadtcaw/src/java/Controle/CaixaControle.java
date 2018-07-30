@@ -12,6 +12,7 @@ import Modelo.Caixa;
 import Modelo.Contasapagar;
 import Modelo.Financeiro;
 import Modelo.LivroCaixa;
+import static Util.FacesUtil.addInfoMessage;
 import java.io.IOException;
 import java.io.Serializable;
 import java.math.BigDecimal;
@@ -44,12 +45,14 @@ public class CaixaControle implements Serializable {
     private BigDecimal saldo = BigDecimal.ZERO;
     private List<Financeiro> listaReceitas;
     private List<LivroCaixa> listaCaixa;
+    private List<Caixa> listaDoCaixa;
     private FinanceiroDAO fdao;
     private Contasapagar contasapagar;
     private ContasapagarDAO cdao;
     private List<Contasapagar> listaDespesas;
     private Date dataini;
     private Date datafim;
+    private String descricao;
 
     @Inject
     private Conversation conversation;
@@ -58,6 +61,7 @@ public class CaixaControle implements Serializable {
         totreceita = new BigDecimal(BigInteger.ZERO);
         totdespes = new BigDecimal(BigInteger.ZERO);
         saldo = new BigDecimal(BigInteger.ZERO);
+        dao = new CaixaDAO();
     }
 
     @PreDestroy
@@ -164,6 +168,20 @@ public class CaixaControle implements Serializable {
 
     }
 
+    public void BuscarPorData(Date dataini, Date datafim) throws ParseException {
+
+        listaDoCaixa = dao.buscarPorDatas(dataini, datafim);
+    }
+
+    public void delete(Caixa caixa) {
+        if (dao.delete(caixa)) {
+            addInfoMessage("Apresentação de Criança excluida!");
+        } else {
+            addInfoMessage("Selecione uma Apresentação de Criança!");
+        }
+
+    }
+
     public Financeiro getFinanceiro() {
         return financeiro;
     }
@@ -242,6 +260,22 @@ public class CaixaControle implements Serializable {
 
     public void setListaCaixa(List<LivroCaixa> listaCaixa) {
         this.listaCaixa = listaCaixa;
+    }
+
+    public String getDescricao() {
+        return descricao;
+    }
+
+    public void setDescricao(String descricao) {
+        this.descricao = descricao;
+    }
+
+    public List<Caixa> getListaDoCaixa() {
+        return listaDoCaixa;
+    }
+
+    public void setListaDoCaixa(List<Caixa> listaDoCaixa) {
+        this.listaDoCaixa = listaDoCaixa;
     }
 
 }

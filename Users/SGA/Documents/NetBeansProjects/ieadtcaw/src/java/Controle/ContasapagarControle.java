@@ -49,7 +49,6 @@ public class ContasapagarControle implements Serializable {
     private ContasapagarDAO dao;
     private AssinaturaDAO adao;
     private List<Missgeral> missgeral;
-    ;
     private Contasapagar contasapagarSelecionado;
     private List<Contasapagar> listaContasapagar;
     private Boolean isRederiza = false;
@@ -238,6 +237,7 @@ public class ContasapagarControle implements Serializable {
     }
 
     public void delete(Contasapagar contasapagar) {
+
         if (dao.delete(contasapagar)) {
             addInfoMessage("Dados excluidos!");
         } else {

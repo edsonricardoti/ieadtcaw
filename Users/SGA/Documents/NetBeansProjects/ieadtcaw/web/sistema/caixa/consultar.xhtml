@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"   
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <h:body>
+        <h:outputScript library="js" name="locale-primefaces.js"/>
+        <ui:composition template="/layout.xhtml">            
+            <ui:define name="content">
+                <h:form id="cadastro" prependId="false">
+
+                    <p:panel header="Lançamentos do Caixa">
+                        <p:messages id="messages" closable="true" style="font-size: 12px; text-align: center;" showIcon="false"/>
+
+                        <p:panelGrid id="grades" columns="5" style="font-size: 10px;" styleClass="semBorda">
+
+                            <p:outputLabel value="Data Ini:"/>
+                            <p:calendar id="dataini" value="#{caixaControle.dataini}" locale="pt" mask="true" pattern="dd/MM/yyyy" showOn="button" rendered="true" requiredMessage="a data inicial é obrigatória!" />
+                            <p:outputLabel value="Data Fim:"/>
+                            <p:calendar id="datafim" value="#{caixaControle.datafim}" locale="pt" mask="true" pattern="dd/MM/yyyy" showOn="button" rendered="true" requiredMessage="a data final é obrigatória!" />
+                            <p:commandButton title="Clique aqui para buscar" actionListener="#{caixaControle.BuscarPorData(caixaControle.dataini, caixaControle.datafim)}" value="Buscar" update="cadastro:lista"/>
+                        </p:panelGrid>
+
+                        <p:dataTable id="lista" rows="10"
+                                     value="#{caixaControle.listaDoCaixa}"
+                                     var="buscados" style="font-size: 10px;"
+                                     paginator="true" paginatorPosition="bottom"
+                                     emptyMessage="Nenhum lançamento encontrado. Digite uma descrição ou clique em Buscar para todos.">
+                            <p:column headerText="Descrição" style="font-size: 10px; width: 120px;" >
+                                <p:outputLabel value="#{buscados.descricao}" style="font-size: 10px; text-transform: uppercase;"/>
+                            </p:column>                            
+                            <p:column headerText="Data lanç." style="font-size: 10px; text-align:  right; width: 50px;">
+                                <p:outputLabel id="dataCadastro" value="#{buscados.dtlancamento}" style="font-size: 10px; text-transform: uppercase;">
+                                    <f:convertDateTime pattern="dd/MM/yyyy"/>
+                                </p:outputLabel>
+                            </p:column>                           
+
+                            <p:column headerText="Excluir" style="text-align: center; font-size: 10px; width: 50px;">
+                                <p:commandButton icon="ui-icon-trash" title="Clique aqui para excluir."
+                                                 actionListener="#{caixaControle.delete(buscados)}"
+
+                                                 update="lista">
+                                    <p:confirm header="Confirmação!" message="Você tem certeza?"  icon="ui-icon-alert"/>
+
+                                </p:commandButton>
+                            </p:column>
+
+                        </p:dataTable>                       
+                        <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+                            <p:commandButton value="Sim" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+                            <p:commandButton value="Não" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+                        </p:confirmDialog>
+                        <p:commandButton value="Fechar" ajax="false"
+                                         icon="ui-icon-closethick"
+                                         action="#{caixaControle.fechar()}"/>
+                    </p:panel>
+
+                </h:form>
+            </ui:define>            
+
+        </ui:composition>
+
+    </h:body>
+
+</html>

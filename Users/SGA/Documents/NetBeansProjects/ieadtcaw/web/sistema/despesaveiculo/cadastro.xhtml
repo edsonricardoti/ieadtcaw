@@ -12,9 +12,7 @@
         <ui:composition template="/layout.xhtml">            
             <ui:define name="content">
                 <p:panel header="Lançamentos de despesas com veículo">
-                    <h:form>
-                        <p:remoteCommand action="#{contasapagarControle.limpaFormulario()}" autoRun="true" update="cadastro"/>
-                    </h:form>
+
                     <h:form id="cadastro" prependId="false">
                         <script type="text/javascript">
                             $(".valor").keyup(function () {

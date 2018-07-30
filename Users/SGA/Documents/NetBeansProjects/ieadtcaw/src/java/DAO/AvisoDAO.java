@@ -6,6 +6,7 @@ import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.IOException;
+import java.io.Serializable;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -16,7 +17,9 @@ import org.hibernate.Session;
 import org.hibernate.Transaction;
 import sun.misc.BASE64Decoder;
 
-public class AvisoDAO {
+public class AvisoDAO implements Serializable {
+
+    private static final long serialVersionUID = 1L;
 
     private Session session;
 

@@ -14,12 +14,15 @@ import java.text.ParseException;
 import java.util.Date;
 import org.hibernate.HibernateException;
 import Modelo.Membros;
+import java.io.Serializable;
 
 /**
  *
  * @author Edson Ricardo
  */
-public class AlunoDAO {
+public class AlunoDAO implements Serializable {
+
+    private static final long serialVersionUID = 1L;
 
     private Session session;
 

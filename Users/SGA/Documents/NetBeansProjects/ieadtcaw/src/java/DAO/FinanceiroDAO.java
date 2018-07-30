@@ -12,6 +12,7 @@ import org.hibernate.Transaction;
 import Modelo.Financeiro;
 import Modelo.Membros;
 import static Util.HibernateUtil.getSessionFactory;
+import java.io.Serializable;
 import java.text.ParseException;
 import java.util.Date;
 import org.hibernate.HibernateException;
@@ -22,7 +23,9 @@ import org.hibernate.transform.Transformers;
  *
  * @author Edson Ricardo
  */
-public class FinanceiroDAO {
+public class FinanceiroDAO implements Serializable {
+
+    private static final long serialVersionUID = 1L;
 
     private Session session;
 

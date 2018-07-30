@@ -7,6 +7,7 @@ package DAO;
 
 import Modelo.Igrejas;
 import static Util.HibernateUtil.getSessionFactory;
+import java.io.Serializable;
 import java.util.List;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
@@ -16,9 +17,10 @@ import org.hibernate.Transaction;
  *
  * @author SGA
  */
-public class IgrejasDAO {
+public class IgrejasDAO implements Serializable {
 
-   
+    private static final long serialVersionUID = 1L;
+
 
         private Session session;
 

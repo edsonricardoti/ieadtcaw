@@ -10,6 +10,7 @@ import java.util.List;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import Modelo.Periodico;
+import java.io.Serializable;
 import java.text.ParseException;
 import java.util.Date;
 import org.hibernate.HibernateException;
@@ -18,7 +19,9 @@ import org.hibernate.HibernateException;
  *
  * @author Edson Ricardo
  */
-public class PeriodicoDAO {
+public class PeriodicoDAO implements Serializable {
+
+    private static final long serialVersionUID = 1L;
 
     private Session session;
 

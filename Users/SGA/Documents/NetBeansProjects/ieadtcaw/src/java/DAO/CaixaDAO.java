@@ -11,6 +11,7 @@ import org.hibernate.Session;
 import org.hibernate.Transaction;
 import Modelo.Caixa;
 import Modelo.LivroCaixa;
+import java.io.Serializable;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -22,7 +23,9 @@ import org.hibernate.transform.Transformers;
  *
  * @author Edson Ricardo
  */
-public class CaixaDAO {
+public class CaixaDAO implements Serializable {
+
+    private static final long serialVersionUID = 1L;
 
     private Session session;
 

@@ -11,6 +11,7 @@ import org.hibernate.Session;
 import org.hibernate.Transaction;
 import Modelo.Contasapagar;
 import static Util.HibernateUtil.getSessionFactory;
+import java.io.Serializable;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -25,7 +26,9 @@ import org.hibernate.transform.Transformers;
  *
  * @author Edson Ricardo
  */
-public class ContasapagarDAO {
+public class ContasapagarDAO implements Serializable {
+
+    private static final long serialVersionUID = 1L;
 
     private Session session;
 

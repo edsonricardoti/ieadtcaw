@@ -13,8 +13,10 @@ import Modelo.Assinatura;
 import Modelo.Membros;
 import Modelo.Missgeral;
 import static Util.HibernateUtil.getSessionFactory;
+import java.io.Serializable;
 import java.text.ParseException;
 import java.util.Date;
+import javax.xml.rpc.encoding.Serializer;
 import org.hibernate.HibernateException;
 import org.hibernate.Query;
 import org.hibernate.transform.Transformers;
@@ -23,7 +25,9 @@ import org.hibernate.transform.Transformers;
  *
  * @author Edson Ricardo
  */
-public class AssinaturaDAO {
+public class AssinaturaDAO implements Serializable {
+
+    private static final long serialVersionUID = 1L;
 
     private Session session;
 

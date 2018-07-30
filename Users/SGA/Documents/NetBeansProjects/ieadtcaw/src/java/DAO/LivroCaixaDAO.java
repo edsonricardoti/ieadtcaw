@@ -8,6 +8,7 @@ package DAO;
 import java.util.List;
 import org.hibernate.Session;
 import Modelo.LivroCaixa;
+import java.io.Serializable;
 import java.text.ParseException;
 import java.util.Date;
 
@@ -15,7 +16,7 @@ import java.util.Date;
  *
  * @author Edson Ricardo
  */
-public class LivroCaixaDAO {
+public class LivroCaixaDAO implements Serializable {
 
     private Session session;
 

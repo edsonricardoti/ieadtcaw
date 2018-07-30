@@ -8,8 +8,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import static javax.persistence.GenerationType.IDENTITY;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
@@ -41,7 +39,6 @@ public class Classes implements java.io.Serializable {
     public Classes() {
     }
 
-    
     public Classes(int idclasses) {
         this.idclasses = idclasses;
     }
@@ -61,7 +58,7 @@ public class Classes implements java.io.Serializable {
     }
 
     @Id
-    @GeneratedValue(strategy = IDENTITY)
+
     @Column(name = "idclasses", unique = true, nullable = false)
     public int getIdclasses() {
         return this.idclasses;

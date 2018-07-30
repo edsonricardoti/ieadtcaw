@@ -24,8 +24,8 @@ import org.hibernate.transform.Transformers;
  *
  * @author Edson Ricardo
  */
-public class FrequenciaDAO implements Serializable{
-    
+public class FrequenciaDAO implements Serializable {
+
     private static final long serialVersionUID = 1L;
 
     private Session session;

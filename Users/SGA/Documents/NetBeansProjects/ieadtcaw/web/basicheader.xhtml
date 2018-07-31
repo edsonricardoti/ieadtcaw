@@ -129,6 +129,16 @@
                         </p:submenu>
 
                     </p:submenu>
+                    <p:submenu id="patri" label="Patrimônio" icon="ui-icon-print" rendered="#{usuarioControle.usuario.secretaria or usuarioControle.usuario.administracao}">
+                        <p:submenu label="Classificação Contábil" icon="ui-icon-arrowthick-1-ne" >
+                            <p:menuitem value="Incluir" icon="ui-icon-circle-plus" ajax="false" url="/sistema/classecontabil/cadastro.xhtml" />
+                            <p:menuitem value="Consultar/Alterar/Excluir" icon="ui-icon-folder-open" ajax="false" url="/sistema/classecontabil/consultar.xhtml" />
+
+                        </p:submenu>
+                        <p:menuitem value="Cadastrar Bens" icon="ui-icon-circle-plus" ajax="false" url="/sistema/patrimonio/cadastro.xhtml"/>
+                        <p:menuitem value="Consultar/Alterar/Excluir" ajax="false" icon="ui-icon-folder-open" url="/sistema/patrimonio/consultar.xhtml"/>
+                        <p:menuitem value="Inevtário" ajax="false" icon="ui-icon-print"  url="/sistema/patrimonio/inventario.xhtml"/>
+                    </p:submenu>
                     <p:submenu label="Missões" icon="ui-icon-arrowthick-1-ne" rendered="#{usuarioControle.usuario.missoes or usuarioControle.usuario.administracao}" >
                         <p:submenu label="Periódicos" icon="ui-icon-arrowthick-1-ne" >
                             <p:menuitem value="Incluir" icon="ui-icon-circle-plus" ajax="false" url="/sistema/missperiodicos/cadastro.xhtml" />

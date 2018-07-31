@@ -41,5 +41,6 @@ Contributor(s):
 -->
 <hibernate-reverse-engineering>
   <schema-selection match-catalog="dadosk"/>
-  <table-filter match-name="missgeral"/>
+  <table-filter match-name="classecontabil"/>
+  <table-filter match-name="patrimonio"/>
 </hibernate-reverse-engineering>

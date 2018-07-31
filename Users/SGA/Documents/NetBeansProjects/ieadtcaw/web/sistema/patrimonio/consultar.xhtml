@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"   
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <h:body>
+        <h:outputScript library="js" name="locale-primefaces.js"/>
+        <ui:composition template="/layout.xhtml">            
+            <ui:define name="content">
+
+                <h:form id="cadastro">                    
+
+                    <p:panel header="Cadastro do Patrimônio">
+                        <p:messages id="messages" closable="true" style="font-size: 12px; text-align: center;" showIcon="false"/>
+
+                        <p:panelGrid id="grades" columns="3" style="font-size: 12pt;" styleClass="semBorda">
+                            <p:outputLabel value="Descrição:"/>
+                            <p:inputText value="#{patrimonioControle.nome}" size="65"/>
+
+                            <p:commandButton title="Clique aqui para buscar" actionListener="#{patrimonioControle.buscarPorDescricao(patrimonioControle.nome)}"   value="Buscar" update="cadastro:lista" process="@form"/>
+
+                        </p:panelGrid>
+
+                        <p:dataTable id="lista" rows="5" sortBy="#{buscados.descricao}"
+                                     value="#{patrimonioControle.listaDaBusca}"
+                                     var="buscados" style="font-size: 10px; text-transform: uppercase;"
+                                     paginator="true" paginatorPosition="bottom"
+                                     emptyMessage="Nenhum Membro encontrado">
+                            <p:column headerText="Descrição" sortable="true">
+                                <p:outputLabel value="#{buscados.descricao}" style="font-size: 10px; text-transform: uppercase;"/>
+                            </p:column>
+                            <p:column headerText="Tipo" style="text-align: left;" sortable="true">
+                                <p:outputLabel value="#{patrimonioControle.pegaTipo(buscados.id)}" style="font-size: 10px; text-transform: uppercase;"/>
+                            </p:column>
+                            <p:column headerText="Identificação" style="text-align: right;" sortable="true">
+                                <p:outputLabel value="#{buscados.id}" style="font-size: 10px; text-transform: uppercase;"/>
+                            </p:column>
+                            <p:column headerText="Valor" style="font-size: 10px; font-family:  sans-serif; text-align: right;" width="55">
+                                <p:outputLabel value="#{buscados.valor}">
+                                    <f:convertNumber pattern="#,##0.00" minFractionDigits="2"/>
+                                </p:outputLabel>
+                            </p:column>
+                            <p:column headerText="Alterar" style="text-align: center;">
+                                <p:commandButton icon="ui-icon-pencil" actionListener="#{patrimonioControle.buscarID(buscados.id)}" action="consulta.xhtml" style="font-size: 10px;" >
+
+                                </p:commandButton>
+                            </p:column>
+
+                        </p:dataTable>
+
+                        <p:commandButton value="Fechar" ajax="false" 
+                                         icon="ui-icon-closethick" 
+                                         action="#{patrimonioControle.fechar()}"/>
+                    </p:panel>
+
+                </h:form>
+            </ui:define>            
+
+        </ui:composition>
+
+    </h:body>
+
+</html>

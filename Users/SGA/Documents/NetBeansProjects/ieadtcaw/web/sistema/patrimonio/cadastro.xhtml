@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"   
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <h:body>
+        <h:outputScript library="js" name="locale-primefaces.js"/>
+        <ui:composition template="/layout.xhtml">            
+            <ui:define name="content">
+
+                <p:panel header="Cadastro do Patrimônio">
+                    <h:form id="cadastro" prependId="false">
+                        <script type="text/javascript">
+                                                    $(".valor").keyup(function () {
+                                                        s = $(this).val();
+                                                        if (!(s.toString().search(/^-?([0-9]|[.]|[,]|[-])+$/) == 0)) {
+                                                            $(this).val('');
+                                                        }
+                                                        $(this).val($(this).val().replace(".", ","));
+                                                    });
+                        </script>
+                        <p:messages id="messages" closable="true" style="font-size: 12px; text-align: center;" showIcon="false"/>                        
+
+                        <p:panelGrid id="campos" columns="2" style="font-size: 14px;" styleClass="semBorda" columnClasses="textos,campos,textos,campos">
+
+                            <p:outputLabel value="Descrição:"/>
+                            <p:inputText styleClass="cmpoCadastro" id="nome" label="Descrição" value="#{patrimonioControle.patrimonio.descricao}" size="35" required="true" requiredMessage="O Descriçãp é obrigatória!" />
+                            <p:outputLabel value="Classificação Contábil:"/>
+                            <p:selectOneMenu id="l1" value="#{patrimonioControle.patrimonio.idcontabil}" >
+                                <f:selectItem itemLabel=":::Selecione:::" />
+                                <f:selectItems value="#{classecontabilControle.listaClassecontabil}"
+                                               var="classe"
+                                               itemLabel="#{classe.tipo.toUpperCase()}"
+                                               itemValue="#{classe.id}"/>
+                            </p:selectOneMenu>
+                            <p:outputLabel value="Situação:"/>
+                            <p:selectOneMenu  id="situacao" value="#{patrimonioControle.patrimonio.situacao}">
+                                <f:selectItem itemLabel=":::Selecione:::" itemValue="null" />
+                                <f:selectItem itemLabel="Quitado" itemValue="Quitado" />
+                                <f:selectItem itemLabel="Não Quitado" itemValue="Não Quitado" />
+                                <f:selectItem itemLabel="Doado" itemValue="Doado" />
+                            </p:selectOneMenu>
+                            <p:outputLabel value="Estado:"/>
+                            <p:selectOneMenu  id="estado" value="#{patrimonioControle.patrimonio.situacao}">
+                                <f:selectItem itemLabel=":::Selecione:::" itemValue="null" />
+                                <f:selectItem itemLabel="Bom" itemValue="Bom" />
+                                <f:selectItem itemLabel="Ruim" itemValue="Ruim" />
+                                <f:selectItem itemLabel="Usado" itemValue="Usado" />
+                                <f:selectItem itemLabel="Novo" itemValue="Novo" />
+                            </p:selectOneMenu>                            
+                            <p:outputLabel for="dtaquisi" value="Data de Aquisição:" />
+                            <p:calendar id="dtaquisi" value="#{patrimonioControle.patrimonio.dataaquisicao}" locale="pt" mask="true" pattern="dd/MM/yyyy" showOn="button" />
+                            <p:outputLabel value="Valor:"/>
+                            <p:inputText value="#{patrimonioControle.patrimonio.valor}"
+                                         styleClass="valor" onfocus="maskMoney(this)"
+                                         required="true" requiredMessage="O valor é obrigatório!"
+                                         id="valor">
+                                <f:convertNumber pattern="#,##0.00" minFractionDigits="2" />
+                            </p:inputText>
+                            <p:outputLabel value="Foto:"/>
+                            <p:fileUpload fileUploadListener="#{patrimonioControle.processFileUploadDigital}"
+                                          uploadLabel="Enviar"
+                                          cancelLabel="Cancelar"
+                                          label="Adicionar"
+                                          fileLimit="1"
+                                          multiple="false"
+                                          invalidFileMessage="Somente arquivos JPG,PDF,GIF,PNG,DOC ou PPT"
+                                          allowTypes="/(\.|\/)(jpg|pdf|ppt|png|doc|gif)$/"
+                                          mode="advanced"
+                                          immediate="true"
+
+                                          style="width: 700px;">
+
+                            </p:fileUpload>
+                            <p:outputLabel value="Observação:"/>
+                            <p:inputText styleClass="obs" id="filho" label="Obs." value="#{patrimonioControle.patrimonio.obs}"/>
+
+                        </p:panelGrid>
+                        <p:commandButton icon="ui-icon-check" title="Clique aqui para salvar o cadastro" action="#{patrimonioControle.insert()}" value="Salvar" update="cadastro:messages"/>
+                        <p:commandButton icon="ui-icon-check" title="Clique aqui para salvar o cadastro" actionListener="#{patrimonioControle.maisum()}" value="Continuar Incluindo" update="cadastro:messages"/>
+                        <p:button value="Fechar" icon="ui-icon-closethick" outcome="/inicio.xhtml"/>
+
+                    </h:form>
+                </p:panel>
+
+            </ui:define>
+
+        </ui:composition>
+
+    </h:body>
+
+</html>

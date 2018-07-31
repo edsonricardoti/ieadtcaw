@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"   
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <h:body>
+        <h:outputScript library="js" name="locale-primefaces.js"/>
+        <ui:composition template="/layout.xhtml">            
+            <ui:define name="content">
+                <h:form id="cadastro" prependId="false">
+                    <p:panel header="Classificação Contábil">
+                        <p:messages id="messages" closable="true" style="font-size: 12px; text-align: center;" showIcon="false"/>
+                        <p:remoteCommand action="#{classecontabilControle.limpaFormulario()}" autoRun="true" update="grades,lista"/>
+
+                        <p:dataTable id="lista" rows="10"
+                                     value="#{classecontabilControle.listaClassecontabil}"
+                                     var="buscados"
+                                     paginator="true" paginatorPosition="bottom"
+                                     emptyMessage="Nenhuma classe registrada">
+                            <p:column headerText="Tipo">
+                                <p:outputLabel value="#{buscados.tipo}" style="font-size: 10px; text-transform: uppercase;"/>
+                            </p:column>
+                            <p:column headerText="Alterar" style="text-align: center;">
+                                <p:commandButton icon="ui-icon-pencil" actionListener="#{classecontabilControle.buscar(buscados.id)}"  style="font-size: 10px;" action="consulta.xhtml"/>
+                            </p:column>
+
+                        </p:dataTable>
+
+                        <p:button value="Fechar" icon="ui-icon-closethick" outcome="/inicio.xhtml"/>
+                    </p:panel>
+                </h:form>
+            </ui:define>            
+
+        </ui:composition>
+
+    </h:body>
+
+</html>

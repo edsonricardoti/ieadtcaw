@@ -63,25 +63,28 @@ Contributor(s):
     <mapping class="Modelo.Carta"/>
     <mapping class="Modelo.Veiculos"/>
     <mapping class="Modelo.Escala"/>
-    <mapping class="Modelo.Alunos"/>
     <mapping class="Modelo.Financeiro"/>
-    <mapping class="Modelo.Missgeral"/>
     <mapping class="Modelo.Diasdaescala"/>
-    <mapping class="Modelo.Assinatura"/>
-    <mapping class="Modelo.Avisos"/>
-    <mapping class="Modelo.Relatorios"/>
-    <mapping class="Modelo.Assinantes"/>
     <mapping class="Modelo.Caixa"/>
     <mapping class="Modelo.Criancas"/>
     <mapping class="Modelo.Igrejas"/>
     <mapping class="Modelo.Membros"/>
-    <mapping class="Modelo.Contasapagar"/>
+    <mapping class="Modelo.Patrimonio"/>
     <mapping class="Modelo.Ata"/>
     <mapping class="Modelo.Frequencia"/>
-    <mapping class="Modelo.Contasareceber"/>
     <mapping class="Modelo.Usuarios"/>
-    <mapping class="Modelo.Parcelamentos"/>
+    <mapping class="Modelo.Classecontabil"/>
     <mapping class="Modelo.Classes"/>
     <mapping class="Modelo.Periodico"/>
+    <mapping class="Modelo.LivroCaixa"/>
+    <mapping class="Modelo.Alunos"/>
+    <mapping class="Modelo.Missgeral"/>
+    <mapping class="Modelo.Assinatura"/>
+    <mapping class="Modelo.Avisos"/>
+    <mapping class="Modelo.Relatorios"/>
+    <mapping class="Modelo.Assinantes"/>
+    <mapping class="Modelo.Contasapagar"/>
+    <mapping class="Modelo.Contasareceber"/>
+    <mapping class="Modelo.Parcelamentos"/>
   </session-factory>
 </hibernate-configuration>

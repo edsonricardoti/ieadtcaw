@@ -1,5 +1,5 @@
 package Modelo;
-// Generated 05/07/2018 17:58:24 by Hibernate Tools 4.3.1
+// Generated 31/07/2018 13:06:40 by Hibernate Tools 4.3.1
 
 
 import java.math.BigDecimal;
@@ -22,7 +22,6 @@ import javax.persistence.TemporalType;
 )
 public class Relatorios  implements java.io.Serializable {
 
-    private static final long serialVersionUID = 1L;
 
      private Integer id;
      private BigDecimal abril;

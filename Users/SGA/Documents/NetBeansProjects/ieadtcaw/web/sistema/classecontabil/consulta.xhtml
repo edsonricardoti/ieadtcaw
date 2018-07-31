@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"   
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <h:body>
+        <h:outputScript library="js" name="locale-primefaces.js"/>
+        <ui:composition template="/layout.xhtml">            
+            <ui:define name="content">
+                <p:panel header="Classificação Contábil">
+                    <h:form id="cadastro">
+
+                        <p:messages id="messages" closable="true" style="font-size: 12px; text-align: center;" showIcon="false"/>
+
+                        <p:panelGrid id="campos" columns="2" style="font-size: 14px;" styleClass="semBorda" columnClasses="textos,campos,textos,campos">
+                            <p:outputLabel value="Descrição:"/>
+                            <p:inputText id="nome" label="descri" value="#{classecontabilControle.classecontabilSelecionado.tipo}" size="35" required="true" requiredMessage="O nome da Igreja é obrigatório!" />
+
+
+                        </p:panelGrid>
+                        <p:commandButton icon="ui-icon-check" title="Clique aqui para salvar." action="#{classecontabilControle.update()}" value="Salvar" update="cadastro:messages"/>
+                        <p:commandButton icon="ui-icon-trash" title="Clique aqui para excluir." action="#{classecontabilControle.delete(classecontabilControle.classecontabilSelecionado)}" update="cadastro:messages">
+                            <p:confirm header="Confirmação!" message="Você tem certeza?"  icon="ui-icon-alert"/>
+                        </p:commandButton>
+                        <p:button value="Fechar" outcome="consultar.xhtml" icon="ui-icon-closethick" />
+                        <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+                            <p:commandButton value="Sim" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+                            <p:commandButton value="Não" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+                        </p:confirmDialog>
+
+                    </h:form>
+                </p:panel>
+            </ui:define>            
+
+        </ui:composition>
+
+    </h:body>
+
+</html>

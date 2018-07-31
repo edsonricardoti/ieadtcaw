@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:fn="http://java.sun.com/jsp/jstl/functions">
+
+    <h:body>
+        <h:outputScript library="js" name="locale-primefaces.js"/>
+        <ui:composition template="/layout.xhtml">
+            <ui:define name="content">
+                <h:form id="frm1" prependId="false">
+
+                    <p:panelGrid columns="3" style="font-size: 10px;" styleClass="semBorda" >
+                        <p:outputLabel value="Ano:"/>
+                        <p:inputText value="#{patrimonioControle.ano}" size="10"/>
+                        <p:commandButton id="bt" value="Buscar"
+                                         action="#{patrimonioControle.geraInvetario(patrimonioControle.ano)}" update="pg" />
+                    </p:panelGrid>
+                    <p:panel id="pg" style="font-size: 10px;">
+                        <style type="text/css">
+                            .ui-datatable .ui-datatable-data .ui-datatable-odd td{
+                                background-color: #FFFFFF;                               
+                            }
+                            .ui-datatable .ui-datatable-data .ui-datatable-even td{
+                                background-color: darkgray;                                
+                            }
+                            .ui-datatable .ui-datatable-header, .ui-datatable .ui-datatable-footer {
+                                text-align: center;
+                                padding: 0px 0px;
+                            }
+
+                        </style>
+
+
+                            <p:dataTable id="tbl" value="#{patrimonioControle.listaPatrimonio}" var="patri" rowKey="#{dizimo.id}"
+                                         emptyMessage="Nenhum registro retornado." 
+                                         style="font-size: 10px; font-family:  sans-serif;">
+
+                            <f:facet name="header" id="exp">
+                                INVENTÁRIO DO ANO <p:outputLabel value="#{patrimonioControle.ano}"/>
+                            </f:facet>
+                            <p:column headerText="Classificação" width="150" style="font-size: 10px; font-family:  sans-serif; text-align: left; text-transform: uppercase;">
+                                <p:outputLabel value="#{patrimonioControle.pegaTipo(patri.idcontabil)}" style="font-size: 10px; font-family:  sans-serif; text-align: right;"/>
+                            </p:column>
+                                <p:column headerText="Identificador" width="15" style="font-size: 10px; font-family:  sans-serif; text-align: left; text-transform: uppercase;">
+                                    <p:outputLabel value="#{patri.id}" style="font-size: 10px; font-family:  sans-serif; text-align: right;"/>
+                            </p:column>
+                            <p:column headerText="Descrição" width="150" style="font-size: 10px; font-family:  sans-serif; text-align: left; text-transform: uppercase;">
+                                <p:outputLabel value="#{patri.descricao}" style="font-size: 10px; font-family:  sans-serif; text-align: right;"/>
+                            </p:column>
+                            <p:column headerText="Data de Aquisição">
+                                <p:outputLabel id="dataCadastro" value="#{patri.dataaquisicao}" style="font-size: 10px; text-transform: uppercase;">
+                                    <f:convertDateTime pattern="dd/MM/yyyy"/>
+                                </p:outputLabel>
+                            </p:column>
+                            <p:column headerText="Situação" width="50" style="font-size: 10px; font-family:  sans-serif; text-align: left; text-transform: uppercase;">
+                                <p:outputLabel value="#{patri.situacao}" style="font-size: 10px; font-family:  sans-serif; text-align: right;"/>
+                            </p:column>
+                            <p:column headerText="Valor" style="font-size: 10px; font-family:  sans-serif; text-align: right;">
+                                <p:outputLabel value="#{patri.valor}" style="font-size: 10px; font-family:  sans-serif; text-align: right;">
+                                    <f:convertNumber pattern="#,##0.00" minFractionDigits="2"/>
+                                </p:outputLabel>
+                            </p:column>                           
+                            <f:facet name="footer" id="fim">
+                                <div align="right">
+                                    <h:outputText value="#{fn:length(patrimonioControle.listaPatrimonio)}"/>
+                                    <h:outputText value=" bem(ns). "/>
+                                </div>
+                            </f:facet>
+
+                        </p:dataTable>
+                    </p:panel>
+
+                    <p:panelGrid columns="3" layout="grid">
+                        <p:commandButton value="Fechar" ajax="false"
+                                         icon="ui-icon-closethick"
+                                         action="#{financeiroControle.fechar()}"/>
+                        <p:commandButton value="Imprimir" type="button" icon="ui-icon-print" >
+                            <p:printer target="pg" />
+                        </p:commandButton>
+                    </p:panelGrid>
+
+
+                </h:form>
+            </ui:define>
+
+        </ui:composition>
+
+    </h:body>
+
+</html>

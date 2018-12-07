@@ -26,15 +26,18 @@ public class CriancaDAO implements Serializable {
     private Session session;
 
     public List<Criancas> selectAll() {
+
+        session = getSessionFactory().openSession();
+        Transaction t = session.beginTransaction();
         try {
-            session = getSessionFactory().openSession();
-            Transaction t = session.beginTransaction();
             List lista = session.createQuery("from Criancas").list();
             t.commit();
             return lista;
 
         } catch (HibernateException e) {
-            session.getTransaction().rollback();
+            if (t != null) {
+                t.rollback();
+            }
             return null;
         } finally {
             session.close();
@@ -43,11 +46,12 @@ public class CriancaDAO implements Serializable {
 
     public List<Criancas> buscarPorData(Date data) throws ParseException {
         System.out.println("Data enviada=" + data);
+
+        // String newDateFormat = new SimpleDateFormat("dd-MM-yyyy").format(d);
+        // System.out.println("Entrou na busca por data=" + newDateFormat);
+        session = getSessionFactory().openSession();
+        Transaction t = session.beginTransaction();
         try {
-            // String newDateFormat = new SimpleDateFormat("dd-MM-yyyy").format(d);
-            // System.out.println("Entrou na busca por data=" + newDateFormat);
-            session = getSessionFactory().openSession();
-            Transaction t = session.beginTransaction();
             List criancas = session.createQuery("from Criancas where criancasData=:data")
                     .setDate("data", data)
                     .setMaxResults(100)
@@ -56,7 +60,9 @@ public class CriancaDAO implements Serializable {
             return criancas;
 
         } catch (HibernateException e) {
-            session.getTransaction().rollback();
+            if (t != null) {
+                t.rollback();
+            }
             return null;
         } finally {
             session.close();
@@ -65,11 +71,11 @@ public class CriancaDAO implements Serializable {
 
     public List<Criancas> buscarPorDtiniDtfim(Date dtini, Date dtfim) throws ParseException {
 
+        // String newDateFormat = new SimpleDateFormat("dd-MM-yyyy").format(d);
+        // System.out.println("Entrou na busca por data=" + newDateFormat);
+        session = getSessionFactory().openSession();
+        Transaction t = session.beginTransaction();
         try {
-            // String newDateFormat = new SimpleDateFormat("dd-MM-yyyy").format(d);
-            // System.out.println("Entrou na busca por data=" + newDateFormat);
-            session = getSessionFactory().openSession();
-            Transaction t = session.beginTransaction();
             List criancas = session.createQuery("from Criancas where criancasData>=:dtini and criancasData<=:dtfim")
                     .setDate("dtini", dtini)
                     .setDate("dtfim", dtfim)
@@ -79,7 +85,9 @@ public class CriancaDAO implements Serializable {
             return criancas;
 
         } catch (HibernateException e) {
-            session.getTransaction().rollback();
+            if (t != null) {
+                t.rollback();
+            }
             return null;
         } finally {
             session.close();
@@ -88,10 +96,9 @@ public class CriancaDAO implements Serializable {
 
     public List<Criancas> buscarPorNome(String nome) throws ParseException {
 
+        session = getSessionFactory().openSession();
+        Transaction t = session.beginTransaction();
         try {
-
-            session = getSessionFactory().openSession();
-            Transaction t = session.beginTransaction();
             List criancas = session.createQuery("from Criancas where criancasNome like:nome")
                     .setString("nome", "%" + nome + "%")
                     .setMaxResults(100)
@@ -100,7 +107,9 @@ public class CriancaDAO implements Serializable {
             return criancas;
 
         } catch (HibernateException e) {
-            session.getTransaction().rollback();
+            if (t != null) {
+                t.rollback();
+            }
             return null;
         } finally {
             session.close();
@@ -109,16 +118,18 @@ public class CriancaDAO implements Serializable {
 
     public Criancas buscarPorID(int id) {
 
+        session = getSessionFactory().openSession();
+        Transaction t = session.beginTransaction();
         try {
-            session = getSessionFactory().openSession();
-            Transaction t = session.beginTransaction();
             Criancas criancas = (Criancas) session.createQuery("from Criancas where idcriancas=" + id)
                     .uniqueResult();
             t.commit();
             return criancas;
 
         } catch (HibernateException e) {
-            session.getTransaction().rollback();
+            if (t != null) {
+                t.rollback();
+            }
             return null;
         } finally {
             session.close();
@@ -126,14 +137,17 @@ public class CriancaDAO implements Serializable {
     }
 
     public boolean insert(Criancas crianca) {
+
+        session = getSessionFactory().openSession();
+        Transaction t = session.beginTransaction();
         try {
-            session = getSessionFactory().openSession();
-            Transaction t = session.beginTransaction();
             session.save(crianca);
             t.commit();
             return true;
         } catch (HibernateException e) {
-            session.getTransaction().rollback();
+            if (t != null) {
+                t.rollback();
+            }
             return false;
         } finally {
             session.close();
@@ -141,14 +155,16 @@ public class CriancaDAO implements Serializable {
     }
 
     public boolean delete(Criancas crianca) {
+        session = getSessionFactory().openSession();
+        Transaction t = session.beginTransaction();
         try {
-            session = getSessionFactory().openSession();
-            Transaction t = session.beginTransaction();
             session.delete(crianca);
             t.commit();
             return true;
         } catch (HibernateException e) {
-            session.getTransaction().rollback();
+            if (t != null) {
+                t.rollback();
+            }
             return false;
         } finally {
             session.close();
@@ -156,15 +172,18 @@ public class CriancaDAO implements Serializable {
     }
 
     public boolean update(Criancas crianca) {
-        try {
+     
             session = getSessionFactory().openSession();
             Transaction t = session.beginTransaction();
+            try{
             session.update(crianca);
             t.commit();
             return true;
         } catch (HibernateException e) {
             System.out.println("Erro: " + e);
-            session.getTransaction().rollback();
+            if (t != null) {
+                t.rollback();
+            }
             return false;
         } finally {
             session.close();

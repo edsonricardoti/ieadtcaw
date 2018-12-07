@@ -30,15 +30,16 @@ public class FinanceiroDAO implements Serializable {
     private Session session;
 
     public List<Financeiro> selectAll() {
-        try {
+       
             session = getSessionFactory().openSession();
             Transaction t = session.beginTransaction();
+            try{
             List lista = session.createQuery("from Financeiro").list();
             t.commit();
             return lista;
 
         } catch (HibernateException e) {
-            session.getTransaction().rollback();
+            if(t != null){ t.rollback();}
             return null;
         } finally {
             session.close();
@@ -46,15 +47,16 @@ public class FinanceiroDAO implements Serializable {
     }
 
     public List<Relatorios> selectAllDizimo() {
-        try {
+       
             session = getSessionFactory().openSession();
             Transaction t = session.beginTransaction();
+            try{
             List lista = session.createQuery("from dizimopormes").list();
             t.commit();
             return lista;
 
         } catch (HibernateException e) {
-            session.getTransaction().rollback();
+            if(t != null){ t.rollback();}
             return null;
         } finally {
             session.close();
@@ -62,11 +64,12 @@ public class FinanceiroDAO implements Serializable {
     }
 
     public List<Financeiro> buscarPorPeriodo(Date dataini, Date datafim) throws ParseException {
-        try {
+        
             // String newDateFormat = new SimpleDateFormat("dd-MM-yyyy").format(d);
             // System.out.println("Entrou na busca por data=" + newDateFormat);
             session = getSessionFactory().openSession();
             Transaction t = session.beginTransaction();
+            try{
             List financeiro = session.createQuery("from Financeiro where financeiroData >=:dataini and financeiroData <=:datafim")
                     .setDate("dataini", dataini)
                     .setDate("datafim", datafim)
@@ -76,7 +79,7 @@ public class FinanceiroDAO implements Serializable {
             return financeiro;
 
         } catch (HibernateException e) {
-            session.getTransaction().rollback();
+            if(t != null){ t.rollback();}
             return null;
         } finally {
             session.close();
@@ -86,10 +89,11 @@ public class FinanceiroDAO implements Serializable {
 
     public List<Relatorios> buscarDizimoPorMes(int mes) throws ParseException {
 
-        try {
+       
 
             session = getSessionFactory().openSession();
             Transaction t = session.beginTransaction();
+            try{
             Query financeiro = session.createQuery("select m.membrosNome as nome, sum(f.financeiroValor) as total from Financeiro as f, Membros as m\n"
                     + " where m.idmembros=f.financeiroIdmembro and month(f.financeiroData)=:mes and year(f.financeiroData) = year(now()) and f.financeiroTipo = 'dizimo'\n"
                     + " group by f.financeiroIdmembro")
@@ -105,7 +109,7 @@ public class FinanceiroDAO implements Serializable {
             return resultado;
 
         } catch (HibernateException e) {
-            session.getTransaction().rollback();
+            if(t != null){ t.rollback();}
             return null;
         } finally {
             session.close();
@@ -114,10 +118,11 @@ public class FinanceiroDAO implements Serializable {
 
     public List<Relatorios> buscarDizimoPorPeriodo(Date dataini, Date datafim, String tipo) throws ParseException {
 
-        try {
+       
 
             session = getSessionFactory().openSession();
             Transaction t = session.beginTransaction();
+            try{
             Query financeiro = session.createQuery("select f.idfinanceiro as idfinanceiro, f.financeiroData as data, m.membrosNome as nome, sum(f.financeiroValor) as total from Financeiro as f, Membros as m\n"
                     + " where m.idmembros=f.financeiroIdmembro and f.financeiroData >=:dataini and f.financeiroData <=:datafim and f.financeiroTipo=:tipo\n"
                     + " group by f.financeiroIdmembro")
@@ -135,7 +140,7 @@ public class FinanceiroDAO implements Serializable {
             return resultado;
 
         } catch (HibernateException e) {
-            session.getTransaction().rollback();
+            if(t != null){ t.rollback();}
             return null;
         } finally {
             session.close();
@@ -143,9 +148,10 @@ public class FinanceiroDAO implements Serializable {
     }
 
     public Membros buscarPorId(int id) {
-        try {
+      
             session = getSessionFactory().openSession();
             Transaction t = session.beginTransaction();
+            try{
             Membros membro = (Membros) session.createQuery("from Membros where idmembros=:id")
                     .setInteger("id", id)
                     .uniqueResult();
@@ -153,7 +159,7 @@ public class FinanceiroDAO implements Serializable {
             return membro;
 
         } catch (HibernateException e) {
-            session.getTransaction().rollback();
+            if(t != null){ t.rollback();}
             return null;
         } finally {
             session.close();
@@ -162,10 +168,11 @@ public class FinanceiroDAO implements Serializable {
 
     public List<Relatorios> buscarGeralPorPeriodo(Date dataini, Date datafim) throws ParseException {
 
-        try {
+      
 
             session = getSessionFactory().openSession();
             Transaction t = session.beginTransaction();
+            try{
             Query financeiro = session.createQuery("select month(f.financeiroData) as mes, sum(case financeiroTipo when 'dizimo' then f.financeiroValor else 0 end) as dizimos,\n"
                     + " sum(case financeiroTipo when 'alcada' then f.financeiroValor else 0 end) as alcadas,\n"
                     + " sum(case financeiroTipo when 'oferta' then f.financeiroValor else 0 end) as ofertas,\n"
@@ -184,7 +191,7 @@ public class FinanceiroDAO implements Serializable {
             return resultado;
 
         } catch (HibernateException e) {
-            session.getTransaction().rollback();
+            if(t != null){ t.rollback();}
             return null;
         } finally {
             session.close();
@@ -193,10 +200,11 @@ public class FinanceiroDAO implements Serializable {
 
     public List<Relatorios> buscarMissGeralPorPeriodo(Date dataini, Date datafim) throws ParseException {
 
-        try {
+      
 
             session = getSessionFactory().openSession();
             Transaction t = session.beginTransaction();
+            try{
             Query financeiro = session.createQuery("select month(f.financeiroData) as mes,\n"
                     + " sum(case financeiroTipo when 'missalcada' then f.financeiroValor else 0 end) as alcadas,\n"
                     + " sum(case financeiroTipo when 'missoferta' then f.financeiroValor else 0 end) as ofertas,\n"
@@ -216,7 +224,7 @@ public class FinanceiroDAO implements Serializable {
             return resultado;
 
         } catch (HibernateException e) {
-            session.getTransaction().rollback();
+            if(t != null){ t.rollback();}
             return null;
         } finally {
             session.close();
@@ -225,10 +233,11 @@ public class FinanceiroDAO implements Serializable {
 
     public List<Relatorios> buscarDizimoNosMese(int ano) throws ParseException {
 
-        try {
+      
 
             session = getSessionFactory().openSession();
             Transaction t = session.beginTransaction();
+            try{
             Query financeiro = session.createQuery("select m.membrosNome as nome,\n"
                     + " sum(case month(f.financeiroData) when 1 then f.financeiroValor else 0 end) as janeiro,\n"
                     + " sum(case month(f.financeiroData) when 2 then f.financeiroValor else 0 end) as fevereiro,\n"
@@ -259,7 +268,7 @@ public class FinanceiroDAO implements Serializable {
             return resultado;
 
         } catch (HibernateException e) {
-            session.getTransaction().rollback();
+            if(t != null){ t.rollback();}
             return null;
         } finally {
             session.close();
@@ -268,10 +277,11 @@ public class FinanceiroDAO implements Serializable {
 
     public List<Relatorios> buscarDizimoPorAno(int ano) throws ParseException {
 
-        try {
+      
 
             session = getSessionFactory().openSession();
             Transaction t = session.beginTransaction();
+            try{
             Query financeiro = session.createQuery("select month(f.financeiroData) as mes, sum(f.financeiroValor) as total from Financeiro as f, Membros as m\n"
                     + " where m.idmembros=f.financeiroIdmembro and year(f.financeiroData) =:ano and f.financeiroTipo = 'dizimo'\n"
                     + " group by month(f.financeiroData)")
@@ -287,7 +297,7 @@ public class FinanceiroDAO implements Serializable {
             return resultado;
 
         } catch (HibernateException e) {
-            session.getTransaction().rollback();
+            if(t != null){ t.rollback();}
             return null;
         } finally {
             session.close();
@@ -296,16 +306,17 @@ public class FinanceiroDAO implements Serializable {
 
     public Financeiro buscarPorID(int id) {
 
-        try {
+       
             session = getSessionFactory().openSession();
             Transaction t = session.beginTransaction();
+            try{
             Financeiro cl = (Financeiro) session.createQuery("from Financeiro where idfinanceiro=" + id)
                     .uniqueResult();
             t.commit();
             return cl;
 
         } catch (HibernateException e) {
-            session.getTransaction().rollback();
+            if(t != null){ t.rollback();}
             return null;
         } finally {
             session.close();
@@ -313,14 +324,15 @@ public class FinanceiroDAO implements Serializable {
     }
 
     public boolean insert(Financeiro financeiro) {
-        try {
+       
             session = getSessionFactory().openSession();
             Transaction t = session.beginTransaction();
+            try{
             session.save(financeiro);
             t.commit();
             return true;
         } catch (HibernateException e) {
-            session.getTransaction().rollback();
+            if(t != null){ t.rollback();}
             return false;
         } finally {
             session.close();
@@ -328,14 +340,15 @@ public class FinanceiroDAO implements Serializable {
     }
 
     public boolean insertDizimo(Relatorios dizimo) {
-        try {
+       
             session = getSessionFactory().openSession();
             Transaction t = session.beginTransaction();
+            try{
             session.save(dizimo);
             t.commit();
             return true;
         } catch (HibernateException e) {
-            session.getTransaction().rollback();
+            if(t != null){ t.rollback();}
             return false;
         } finally {
             session.close();
@@ -343,14 +356,15 @@ public class FinanceiroDAO implements Serializable {
     }
 
     public boolean delete(Financeiro financeiro) {
-        try {
+     
             session = getSessionFactory().openSession();
             Transaction t = session.beginTransaction();
+            try{
             session.delete(financeiro);
             t.commit();
             return true;
         } catch (HibernateException e) {
-            session.getTransaction().rollback();
+            if(t != null){ t.rollback();}
             return false;
         } finally {
             session.close();
@@ -358,15 +372,16 @@ public class FinanceiroDAO implements Serializable {
     }
 
     public boolean update(Financeiro financeiro) {
-        try {
+     
             session = getSessionFactory().openSession();
             Transaction t = session.beginTransaction();
+            try{
             session.update(financeiro);
             t.commit();
             return true;
         } catch (HibernateException e) {
             System.out.println("Erro: " + e);
-            session.getTransaction().rollback();
+            if(t != null){ t.rollback();}
             return false;
         } finally {
             session.close();

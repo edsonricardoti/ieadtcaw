@@ -24,15 +24,17 @@ public class VeiculoDAO implements Serializable {
     private Session session;
 
     public List<Veiculos> selectAll() {
+        session = getSessionFactory().openSession();
+        Transaction t = session.beginTransaction();
         try {
-            session = getSessionFactory().openSession();
-            Transaction t = session.beginTransaction();
             List lista = session.createQuery("from Veiculos").list();
             t.commit();
             return lista;
 
         } catch (HibernateException e) {
-            session.getTransaction().rollback();
+            if (t != null) {
+                t.rollback();
+            }
             return null;
         } finally {
             session.close();
@@ -41,16 +43,18 @@ public class VeiculoDAO implements Serializable {
 
     public Veiculos buscarPorPlaca(String placa) {
 
+        session = getSessionFactory().openSession();
+        Transaction t = session.beginTransaction();
         try {
-            session = getSessionFactory().openSession();
-            Transaction t = session.beginTransaction();
             Veiculos veiculo = (Veiculos) session.createQuery("from Veiculos where veiculosPlaca like '%" + placa + "%'")
                     .uniqueResult();
             t.commit();
             return veiculo;
 
         } catch (HibernateException e) {
-            session.getTransaction().rollback();
+            if (t != null) {
+                t.rollback();
+            }
             return null;
         } finally {
             session.close();
@@ -59,15 +63,17 @@ public class VeiculoDAO implements Serializable {
 
     public List<Veiculos> buscarPorPlacaLista(String placa) {
 
+        session = getSessionFactory().openSession();
+        Transaction t = session.beginTransaction();
         try {
-            session = getSessionFactory().openSession();
-            Transaction t = session.beginTransaction();
             List lista = session.createQuery("from Veiculos where veiculosPlaca like '%" + placa + "%'").list();
             t.commit();
             return lista;
 
         } catch (HibernateException e) {
-            session.getTransaction().rollback();
+            if (t != null) {
+                t.rollback();
+            }
             return null;
         } finally {
             session.close();
@@ -75,14 +81,17 @@ public class VeiculoDAO implements Serializable {
     }
 
     public boolean insert(Veiculos veiculo) {
+
+        session = getSessionFactory().openSession();
+        Transaction t = session.beginTransaction();
         try {
-            session = getSessionFactory().openSession();
-            Transaction t = session.beginTransaction();
             session.save(veiculo);
             t.commit();
             return true;
         } catch (HibernateException e) {
-            session.getTransaction().rollback();
+            if (t != null) {
+                t.rollback();
+            }
             return false;
         } finally {
             session.close();
@@ -90,14 +99,17 @@ public class VeiculoDAO implements Serializable {
     }
 
     public boolean delete(Veiculos veiculo) {
+
+        session = getSessionFactory().openSession();
+        Transaction t = session.beginTransaction();
         try {
-            session = getSessionFactory().openSession();
-            Transaction t = session.beginTransaction();
             session.delete(veiculo);
             t.commit();
             return true;
         } catch (HibernateException e) {
-            session.getTransaction().rollback();
+            if (t != null) {
+                t.rollback();
+            }
             return false;
         } finally {
             session.close();
@@ -105,14 +117,17 @@ public class VeiculoDAO implements Serializable {
     }
 
     public boolean update(Veiculos veiculo) {
+
+        session = getSessionFactory().openSession();
+        Transaction t = session.beginTransaction();
         try {
-            session = getSessionFactory().openSession();
-            Transaction t = session.beginTransaction();
             session.update(veiculo);
             t.commit();
             return true;
         } catch (HibernateException e) {
-            session.getTransaction().rollback();
+            if (t != null) {
+                t.rollback();
+            }
             return false;
         } finally {
             session.close();

@@ -16,7 +16,6 @@ import static Util.HibernateUtil.getSessionFactory;
 import java.io.Serializable;
 import java.text.ParseException;
 import java.util.Date;
-import javax.xml.rpc.encoding.Serializer;
 import org.hibernate.HibernateException;
 import org.hibernate.Query;
 import org.hibernate.transform.Transformers;
@@ -32,15 +31,18 @@ public class AssinaturaDAO implements Serializable {
     private Session session;
 
     public List<Assinatura> selectAll() {
+
+        session = getSessionFactory().openSession();
+        Transaction t = session.beginTransaction();
         try {
-            session = getSessionFactory().openSession();
-            Transaction t = session.beginTransaction();
             List lista = session.createQuery("from Assinatura").list();
             t.commit();
             return lista;
 
         } catch (HibernateException e) {
-            session.getTransaction().rollback();
+            if (t != null) {
+                t.rollback();
+            }
             return null;
         } finally {
             session.close();
@@ -49,11 +51,12 @@ public class AssinaturaDAO implements Serializable {
 
     public List<Assinatura> buscarPorData(Date data) throws ParseException {
         System.out.println("Data enviada=" + data);
+
+        // String newDateFormat = new SimpleDateFormat("dd-MM-yyyy").format(d);
+        // System.out.println("Entrou na busca por data=" + newDateFormat);
+        session = getSessionFactory().openSession();
+        Transaction t = session.beginTransaction();
         try {
-            // String newDateFormat = new SimpleDateFormat("dd-MM-yyyy").format(d);
-            // System.out.println("Entrou na busca por data=" + newDateFormat);
-            session = getSessionFactory().openSession();
-            Transaction t = session.beginTransaction();
             List criancas = session.createQuery("from Assinatura where dataassinatura=:data")
                     .setDate("data", data)
                     .setMaxResults(100)
@@ -62,7 +65,9 @@ public class AssinaturaDAO implements Serializable {
             return criancas;
 
         } catch (HibernateException e) {
-            session.getTransaction().rollback();
+            if (t != null) {
+                t.rollback();
+            }
             return null;
         } finally {
             session.close();
@@ -71,11 +76,11 @@ public class AssinaturaDAO implements Serializable {
 
     public List<Assinatura> buscarPorDtiniDtfim(Date dtini, Date dtfim) throws ParseException {
 
+        // String newDateFormat = new SimpleDateFormat("dd-MM-yyyy").format(d);
+        // System.out.println("Entrou na busca por data=" + newDateFormat);
+        session = getSessionFactory().openSession();
+        Transaction t = session.beginTransaction();
         try {
-            // String newDateFormat = new SimpleDateFormat("dd-MM-yyyy").format(d);
-            // System.out.println("Entrou na busca por data=" + newDateFormat);
-            session = getSessionFactory().openSession();
-            Transaction t = session.beginTransaction();
             List criancas = session.createQuery("from Assinatura where dataassinatura>=:dtini and dataassinatura<=:dtfim")
                     .setDate("dtini", dtini)
                     .setDate("dtfim", dtfim)
@@ -85,7 +90,9 @@ public class AssinaturaDAO implements Serializable {
             return criancas;
 
         } catch (HibernateException e) {
-            session.getTransaction().rollback();
+            if (t != null) {
+                t.rollback();
+            }
             return null;
         } finally {
             session.close();
@@ -94,10 +101,9 @@ public class AssinaturaDAO implements Serializable {
 
     public List<Membros> buscarPorNome(String nome) throws ParseException {
 
+        session = getSessionFactory().openSession();
+        Transaction t = session.beginTransaction();
         try {
-
-            session = getSessionFactory().openSession();
-            Transaction t = session.beginTransaction();
             List criancas = session.createQuery("from Membros where membrosNome like:nome")
                     .setString("nome", "%" + nome + "%")
                     .setMaxResults(100)
@@ -106,7 +112,9 @@ public class AssinaturaDAO implements Serializable {
             return criancas;
 
         } catch (HibernateException e) {
-            session.getTransaction().rollback();
+            if (t != null) {
+                t.rollback();
+            }
             return null;
         } finally {
             session.close();
@@ -115,10 +123,9 @@ public class AssinaturaDAO implements Serializable {
 
     public List<Assinatura> buscarPorAssinaMembro(int idmembro) throws ParseException {
 
+        session = getSessionFactory().openSession();
+        Transaction t = session.beginTransaction();
         try {
-
-            session = getSessionFactory().openSession();
-            Transaction t = session.beginTransaction();
             List criancas = session.createQuery("from Assinatura where idmembro=:idmembro")
                     .setInteger("idmembro", idmembro)
                     .setMaxResults(100)
@@ -127,7 +134,9 @@ public class AssinaturaDAO implements Serializable {
             return criancas;
 
         } catch (HibernateException e) {
-            session.getTransaction().rollback();
+            if (t != null) {
+                t.rollback();
+            }
             return null;
         } finally {
             session.close();
@@ -136,10 +145,9 @@ public class AssinaturaDAO implements Serializable {
 
     public List<Assinantes> buscaAssinantes(String nome) throws ParseException {
 
+        session = getSessionFactory().openSession();
+        Transaction t = session.beginTransaction();
         try {
-
-            session = getSessionFactory().openSession();
-            Transaction t = session.beginTransaction();
             Query financeiro = session.createQuery("select m.membrosNome as membrosNome,m.idmembros as idmembros,a.idassinatura as idassinatura,a.valortotal as valortotal,a.idperiodico as idperiodico,a.modalidade as modalidade\n"
                     + " from Membros as m,Assinatura as a\n"
                     + " where m.idmembros=a.idmembro and m.membrosNome like '%" + nome + "%'")
@@ -155,7 +163,9 @@ public class AssinaturaDAO implements Serializable {
 
         } catch (HibernateException e) {
             System.out.println("Erro encontrado: " + e);
-//            session.getTransaction().rollback();
+            if (t != null) {
+                t.rollback();
+            }
             return null;
         } finally {
             session.close();
@@ -164,10 +174,11 @@ public class AssinaturaDAO implements Serializable {
 
     public List<Missgeral> buscaFinanceiroGeral(int id) throws ParseException {
 
-        try {
+    
 
             session = getSessionFactory().openSession();
             Transaction t = session.beginTransaction();
+            try{
             Query financeiro = session.createQuery("select a.datacadastro as datacadastro, m.membrosNome as nome,m.membrosFone as fone1,m.membrosCelular as fone2,a.modalidade as modalidade,\n"
                     + "(select count(1) from Parcelamentos as pp where pp.idmembro = a.idmembro and pp.idperiodico = a.idperiodico and pp.datapagamento is not null) as parcelaspg,\n"
                     + "(select sum(pp.valorparcela) from Parcelamentos as pp where pp.idmembro=a.idmembro and pp.idperiodico=a.idperiodico and pp.datapagamento is not null) as valortotal,(select pp.datapagamento from Parcelamentos as pp where pp.idmembro=a.idmembro and pp.idperiodico=a.idperiodico and pp.numparcela=1) as parcela1,\n"
@@ -190,7 +201,7 @@ public class AssinaturaDAO implements Serializable {
 
         } catch (HibernateException e) {
             System.out.println("Erro encontrado: " + e);
-//            session.getTransaction().rollback();
+if(t != null){ t.rollback();}
             return null;
         } finally {
             session.close();
@@ -199,11 +210,11 @@ public class AssinaturaDAO implements Serializable {
 
     public List<Missgeral> buscaCarnesNaoPagos() throws ParseException {
 
-
-        try {
+    
 
             session = getSessionFactory().openSession();
             Transaction t = session.beginTransaction();
+            try{
             Query financeiro = session.createQuery("select a.datacadastro as datacadastro, m.membrosNome as nome,m.membrosFone as fone1,m.membrosCelular as fone2,a.modalidade as modalidade,\n"
                     + "(select count(1) from Parcelamentos as pp where pp.idmembro = a.idmembro and pp.idperiodico = a.idperiodico and pp.datapagamento is not null) as parcelaspg,\n"
                     + "(select sum(pp.valorparcela) from Parcelamentos as pp where pp.idmembro=a.idmembro and pp.idperiodico=a.idperiodico and pp.datapagamento is not null) as valortotal,"
@@ -226,7 +237,7 @@ public class AssinaturaDAO implements Serializable {
 
         } catch (HibernateException e) {
             System.out.println("Erro encontrado: " + e);
-//            session.getTransaction().rollback();
+if(t != null){ t.rollback();}
             return null;
         } finally {
             session.close();
@@ -235,16 +246,17 @@ public class AssinaturaDAO implements Serializable {
 
     public Assinatura buscarPorID(int id) {
 
-        try {
+      
             session = getSessionFactory().openSession();
             Transaction t = session.beginTransaction();
+            try{
             Assinatura criancas = (Assinatura) session.createQuery("from Assinatura where idassinatura=" + id)
                     .uniqueResult();
             t.commit();
             return criancas;
 
         } catch (HibernateException e) {
-            session.getTransaction().rollback();
+           if(t != null){ t.rollback();}
             return null;
         } finally {
             session.close();
@@ -253,16 +265,17 @@ public class AssinaturaDAO implements Serializable {
 
     public Assinatura buscarPorAssinatura(int idassina, int idmembro, int idperiodico) {
 
-        try {
+     
             session = getSessionFactory().openSession();
             Transaction t = session.beginTransaction();
+            try{
             Assinatura criancas = (Assinatura) session.createQuery("from Assinatura where idassinatura=" + idassina + " and idperiodico=" + idperiodico + " and idmembro=" + idmembro)
                     .uniqueResult();
             t.commit();
             return criancas;
 
         } catch (HibernateException e) {
-            session.getTransaction().rollback();
+           if(t != null){ t.rollback();}
             return null;
         } finally {
             session.close();
@@ -270,14 +283,15 @@ public class AssinaturaDAO implements Serializable {
     }
 
     public boolean insert(Assinatura crianca) {
-        try {
+     
             session = getSessionFactory().openSession();
             Transaction t = session.beginTransaction();
+            try{
             session.save(crianca);
             t.commit();
             return true;
         } catch (HibernateException e) {
-            session.getTransaction().rollback();
+           if(t != null){ t.rollback();}
             return false;
         } finally {
             session.close();
@@ -285,14 +299,15 @@ public class AssinaturaDAO implements Serializable {
     }
 
     public boolean delete(Assinatura crianca) {
-        try {
+     
             session = getSessionFactory().openSession();
             Transaction t = session.beginTransaction();
+            try{
             session.delete(crianca);
             t.commit();
             return true;
         } catch (HibernateException e) {
-            session.getTransaction().rollback();
+           if(t != null){ t.rollback();}
             return false;
         } finally {
             session.close();
@@ -300,15 +315,16 @@ public class AssinaturaDAO implements Serializable {
     }
 
     public boolean update(Assinatura crianca) {
-        try {
+      
             session = getSessionFactory().openSession();
             Transaction t = session.beginTransaction();
+            try{
             session.update(crianca);
             t.commit();
             return true;
         } catch (HibernateException e) {
             System.out.println("Erro: " + e);
-            session.getTransaction().rollback();
+           if(t != null){ t.rollback();}
             return false;
         } finally {
             session.close();

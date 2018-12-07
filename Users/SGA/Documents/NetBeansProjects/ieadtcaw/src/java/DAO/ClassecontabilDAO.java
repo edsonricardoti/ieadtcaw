@@ -25,15 +25,16 @@ public class ClassecontabilDAO implements Serializable {
         private Session session;
 
     public List<Classecontabil> selectAll() {
-            try {
+           
                 session = getSessionFactory().openSession();
                 Transaction t = session.beginTransaction();
+                try{
                 List lista = session.createQuery("from Classecontabil").list();
                 t.commit();
                 return lista;
 
             } catch (HibernateException e) {
-                session.getTransaction().rollback();
+                if(t != null){ t.rollback();}
                 return null;
             } finally {
                 session.close();
@@ -42,9 +43,10 @@ public class ClassecontabilDAO implements Serializable {
 
 
     public Classecontabil buscarPorId(Integer id) {
-            try {
+         
                 session = getSessionFactory().openSession();
                 Transaction t = session.beginTransaction();
+                try{
                 Classecontabil classecontabil = (Classecontabil) session.createQuery("from Classecontabil where id=:id")
                         .setInteger("id", id)
                         .uniqueResult();
@@ -52,7 +54,7 @@ public class ClassecontabilDAO implements Serializable {
                 return classecontabil;
 
             } catch (HibernateException e) {
-                session.getTransaction().rollback();
+                if(t != null){ t.rollback();}
                 return null;
             } finally {
                 session.close();
@@ -63,14 +65,15 @@ public class ClassecontabilDAO implements Serializable {
         
     public boolean insert(Classecontabil classecontabil) {
             
-            try {
+        
                 session = getSessionFactory().openSession();
                 Transaction t = session.beginTransaction();
+                try{
                 session.save(classecontabil);
                 t.commit();
                 return true;
             } catch (HibernateException e) {
-                session.getTransaction().rollback();
+                if(t != null){ t.rollback();}
                 return false;
             } finally {
             session.close();
@@ -78,14 +81,15 @@ public class ClassecontabilDAO implements Serializable {
         }
 
     public boolean delete(Classecontabil classecontabil) {
-            try {
+          
                 session = getSessionFactory().openSession();
                 Transaction t = session.beginTransaction();
+                try{
                 session.delete(classecontabil);
                 t.commit();
                 return true;
             } catch (HibernateException e) {
-                session.getTransaction().rollback();
+                if(t != null){ t.rollback();}
                 return false;
             } finally {
                 session.close();
@@ -93,14 +97,15 @@ public class ClassecontabilDAO implements Serializable {
         }
 
     public boolean update(Classecontabil classecontabil) {
-            try {
+          
                 session = getSessionFactory().openSession();
                 Transaction t = session.beginTransaction();
+                try{
                 session.update(classecontabil);
                 t.commit();
                 return true;
             } catch (HibernateException e) {
-                session.getTransaction().rollback();
+                if(t != null){ t.rollback();}
                 return false;
             } finally {
                 session.close();

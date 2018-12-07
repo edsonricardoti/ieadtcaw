@@ -34,10 +34,11 @@ public class ContasapagarDAO implements Serializable {
 
     public List<Relatorios> gasolinaXmanutencao(Date dataini, Date datafim) {
 
-        try {
+      
 
             session = getSessionFactory().openSession();
             Transaction t = session.beginTransaction();
+            try{
             Query financeiro = session.createQuery("select month(c.datalancamento) as mes,sum(case when c.descricao = 'gasolina' then c.valordespesa end) as gasolina,\n"
                     + "sum(case when c.descricao <> 'gasolina' then c.valordespesa end) as manutencao\n"
                     + " from Contasapagar as c where c.datalancamento >=:dataini and c.datalancamento <=:datafim and c.tipo = 'veiculo' group by month(c.datalancamento))")
@@ -55,7 +56,7 @@ public class ContasapagarDAO implements Serializable {
 
         } catch (HibernateException e) {
             System.out.println("Erro encontrado:" + e);
-//            session.getTransaction().rollback();
+         if(t != null){ t.rollback();}
             return null;
         } finally {
             session.close();
@@ -63,15 +64,16 @@ public class ContasapagarDAO implements Serializable {
     }
 
     public List<Contasapagar> selectAll() {
-        try {
+      
             session = getSessionFactory().openSession();
             Transaction t = session.beginTransaction();
+            try{
             List lista = session.createQuery("from Contasapagar where tipo='nada'").list();
             t.commit();
             return lista;
 
         } catch (HibernateException e) {
-            session.getTransaction().rollback();
+            if(t != null){ t.rollback();}
             return null;
         } finally {
             session.close();
@@ -79,9 +81,10 @@ public class ContasapagarDAO implements Serializable {
     }
 
     public List<Contasapagar> buscarUmaLista(String descricao, String tipo, Date dataini, Date datafim) {
-        try {
+      
             session = getSessionFactory().openSession();
             Transaction t = session.beginTransaction();
+            try{
             List lista = session.createQuery("from Contasapagar where descricao like '%" + descricao + "%' and tipo='" + tipo + "' and datalancamento >=:dataini and datalancamento <=:datafim ")
                     .setDate("dataini", dataini)
                     .setDate("datafim", datafim)
@@ -98,9 +101,10 @@ public class ContasapagarDAO implements Serializable {
     }
 
     public List<Contasapagar> buscarDespesas(Date dataini, Date datafim) {
-        try {
+       
             session = getSessionFactory().openSession();
             Transaction t = session.beginTransaction();
+            try{
             List lista = session.createQuery("from Contasapagar where datalancamento >=:dataini and datalancamento <=:datafim ")
                     .setDate("dataini", dataini)
                     .setDate("datafim", datafim)
@@ -109,7 +113,7 @@ public class ContasapagarDAO implements Serializable {
             return lista;
 
         } catch (HibernateException e) {
-            session.getTransaction().rollback();
+            if(t != null){ t.rollback();}
             return null;
         } finally {
             session.close();
@@ -120,9 +124,10 @@ public class ContasapagarDAO implements Serializable {
         Calendar cal = GregorianCalendar.getInstance();
         Date hoje;
         hoje = cal.getTime();
-        try {
+      
             session = getSessionFactory().openSession();
             Transaction t = session.beginTransaction();
+            try{
             List lista = session.createQuery("from Contasapagar where tipo=:tipo and datalancamento=:hoje")
                     .setString("tipo", tipo)
                     .setDate("hoje", hoje)
@@ -131,7 +136,7 @@ public class ContasapagarDAO implements Serializable {
             return lista;
 
         } catch (HibernateException e) {
-            session.getTransaction().rollback();
+            if(t != null){ t.rollback();}
             return null;
         } finally {
             session.close();
@@ -145,15 +150,16 @@ public class ContasapagarDAO implements Serializable {
         cal.add(Calendar.DATE, 7);
         dia = df.format(cal.getTime());
         System.out.println("Data gerada=" + dia);
-        try {
+      
             session = getSessionFactory().openSession();
             Transaction t = session.beginTransaction();
+            try{
             List lista = session.createQuery("from Contasapagar where datediff('" + dia + "',date(datavencimento)) BETWEEN 0 and 7 and datapagamento is null order by datavencimento").list();
             t.commit();
             return lista;
 
         } catch (HibernateException e) {
-            session.getTransaction().rollback();
+            if(t != null){ t.rollback();}
             return null;
         } finally {
             // session.close();
@@ -162,16 +168,17 @@ public class ContasapagarDAO implements Serializable {
 
     public Contasapagar buscarPorID(int id) {
 
-        try {
+    
             session = getSessionFactory().openSession();
             Transaction t = session.beginTransaction();
+            try{
             Contasapagar cl = (Contasapagar) session.createQuery("from Contasapagar where idcontasapagar=" + id)
                     .uniqueResult();
             t.commit();
             return cl;
 
         } catch (HibernateException e) {
-            session.getTransaction().rollback();
+            if(t != null){ t.rollback();}
             return null;
         } finally {
             session.close();
@@ -179,14 +186,15 @@ public class ContasapagarDAO implements Serializable {
     }
 
     public boolean insert(Contasapagar contasapagar) {
-        try {
+      
             session = getSessionFactory().openSession();
             Transaction t = session.beginTransaction();
+            try{
             session.save(contasapagar);
             t.commit();
             return true;
         } catch (HibernateException e) {
-            session.getTransaction().rollback();
+            if(t != null){ t.rollback();}
             return false;
         } finally {
             session.close();
@@ -194,14 +202,15 @@ public class ContasapagarDAO implements Serializable {
     }
 
     public boolean insertDizimo(Relatorios dizimo) {
-        try {
+       
             session = getSessionFactory().openSession();
             Transaction t = session.beginTransaction();
+            try{
             session.save(dizimo);
             t.commit();
             return true;
         } catch (HibernateException e) {
-            session.getTransaction().rollback();
+            if(t != null){ t.rollback();}
             return false;
         } finally {
             session.close();
@@ -209,14 +218,15 @@ public class ContasapagarDAO implements Serializable {
     }
 
     public boolean delete(Contasapagar contasapagar) {
-        try {
+      
             session = getSessionFactory().openSession();
             Transaction t = session.beginTransaction();
+            try{
             session.delete(contasapagar);
             t.commit();
             return true;
         } catch (HibernateException e) {
-            session.getTransaction().rollback();
+            if(t != null){ t.rollback();}
             return false;
         } finally {
             session.close();
@@ -224,16 +234,17 @@ public class ContasapagarDAO implements Serializable {
     }
 
     public boolean update(Contasapagar contasapagar) {
-        try {
+      
             session = getSessionFactory().openSession();
             Transaction t = session.beginTransaction();
+            try{
             session.update(contasapagar);
             t.commit();
             return true;
         } catch (HibernateException e) {
             System.out.println("Erro: " + e);
             System.out.println("Erro encontrado :" + e);
-            session.getTransaction().rollback();
+            if(t != null){ t.rollback();}
             return false;
         } finally {
             session.close();

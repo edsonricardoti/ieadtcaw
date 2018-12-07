@@ -21,35 +21,40 @@ public class PatrimonioDAO implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-
-        private Session session;
+    private Session session;
 
     public List<Patrimonio> selectAll() {
-            try {
-                session = getSessionFactory().openSession();
-                Transaction t = session.beginTransaction();
-                List lista = session.createQuery("from Patrimonio").list();
-                t.commit();
-                return lista;
 
-            } catch (HibernateException e) {
-                session.getTransaction().rollback();
-                return null;
-            } finally {
-                session.close();
+        session = getSessionFactory().openSession();
+        Transaction t = session.beginTransaction();
+        try {
+            List lista = session.createQuery("from Patrimonio").list();
+            t.commit();
+            return lista;
+
+        } catch (HibernateException e) {
+            if (t != null) {
+                t.rollback();
             }
+            return null;
+        } finally {
+            session.close();
+        }
     }
 
     public List<Patrimonio> geraInventario(int ano) {
+
+        session = getSessionFactory().openSession();
+        Transaction t = session.beginTransaction();
         try {
-            session = getSessionFactory().openSession();
-            Transaction t = session.beginTransaction();
             List lista = session.createQuery("from Patrimonio where Year(dataaquisicao)=" + ano).list();
             t.commit();
             return lista;
 
         } catch (HibernateException e) {
-            session.getTransaction().rollback();
+            if (t != null) {
+                t.rollback();
+            }
             return null;
         } finally {
             session.close();
@@ -57,87 +62,97 @@ public class PatrimonioDAO implements Serializable {
     }
 
     public Patrimonio buscarPorId(Integer id) {
-            try {
-                session = getSessionFactory().openSession();
-                Transaction t = session.beginTransaction();
-                Patrimonio patrimonio = (Patrimonio) session.createQuery("from Patrimonio where id=:id")
-                        .setInteger("id", id)
-                        .uniqueResult();
-                t.commit();
-                return patrimonio;
 
-            } catch (HibernateException e) {
-                session.getTransaction().rollback();
-                return null;
-            } finally {
-                session.close();
+        session = getSessionFactory().openSession();
+        Transaction t = session.beginTransaction();
+        try {
+            Patrimonio patrimonio = (Patrimonio) session.createQuery("from Patrimonio where id=:id")
+                    .setInteger("id", id)
+                    .uniqueResult();
+            t.commit();
+            return patrimonio;
+
+        } catch (HibernateException e) {
+            if (t != null) {
+                t.rollback();
             }
+            return null;
+        } finally {
+            session.close();
+        }
     }
-        
-        
+
     public List<Patrimonio> buscarPorNomeLista(String descricao) {
 
-            try {
-                session = getSessionFactory().openSession();
-                Transaction t = session.beginTransaction();
-                List lista = session.createQuery("from Patrimonio where descricao like '%" + descricao + "%'").list();
-                t.commit();
-                return lista;
+        session = getSessionFactory().openSession();
+        Transaction t = session.beginTransaction();
+        try {
+            List lista = session.createQuery("from Patrimonio where descricao like '%" + descricao + "%'").list();
+            t.commit();
+            return lista;
 
-            } catch (HibernateException e) {
-                session.getTransaction().rollback();
-                return null;
-            } finally {
-                session.close();
+        } catch (HibernateException e) {
+            if (t != null) {
+                t.rollback();
             }
-        }
-        
-    public boolean insert(Patrimonio patrimonio) {
-            
-            try {
-                session = getSessionFactory().openSession();
-                Transaction t = session.beginTransaction();
-                session.save(patrimonio);
-                t.commit();
-                return true;
-            } catch (HibernateException e) {
-                session.getTransaction().rollback();
-                return false;
-            } finally {
+            return null;
+        } finally {
             session.close();
-            }
         }
+    }
+
+    public boolean insert(Patrimonio patrimonio) {
+
+        session = getSessionFactory().openSession();
+        Transaction t = session.beginTransaction();
+        try {
+            session.save(patrimonio);
+            t.commit();
+            return true;
+        } catch (HibernateException e) {
+            if (t != null) {
+                t.rollback();
+            }
+            return false;
+        } finally {
+            session.close();
+        }
+    }
 
     public boolean delete(Patrimonio patrimonio) {
-            try {
-                session = getSessionFactory().openSession();
-                Transaction t = session.beginTransaction();
-                session.delete(patrimonio);
-                t.commit();
-                return true;
-            } catch (HibernateException e) {
-                session.getTransaction().rollback();
-                return false;
-            } finally {
-                session.close();
+
+        session = getSessionFactory().openSession();
+        Transaction t = session.beginTransaction();
+        try {
+            session.delete(patrimonio);
+            t.commit();
+            return true;
+        } catch (HibernateException e) {
+            if (t != null) {
+                t.rollback();
             }
+            return false;
+        } finally {
+            session.close();
         }
+    }
 
     public boolean update(Patrimonio patrimonio) {
-            try {
-                session = getSessionFactory().openSession();
-                Transaction t = session.beginTransaction();
-                session.update(patrimonio);
-                t.commit();
-                return true;
-            } catch (HibernateException e) {
-                session.getTransaction().rollback();
-                return false;
-            } finally {
-                session.close();
-            }
-        }
 
-        
- 
+        session = getSessionFactory().openSession();
+        Transaction t = session.beginTransaction();
+        try {
+            session.update(patrimonio);
+            t.commit();
+            return true;
+        } catch (HibernateException e) {
+            if (t != null) {
+                t.rollback();
+            }
+            return false;
+        } finally {
+            session.close();
+        }
+    }
+
 }

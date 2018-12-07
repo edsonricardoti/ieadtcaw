@@ -26,16 +26,17 @@ public class DiasdaescalaDAO implements Serializable {
 
     public List<Diasdaescala> selectAll(int id) {
         System.out.println("ID passado p/ deletar = " + id);
-        try {
+      
 
             session = getSessionFactory().openSession();
             Transaction t = session.beginTransaction();
+            try{
             List lista = session.createQuery("from Diasdaescala where idescalapai =" + id + "").list();
             t.commit();
             return lista;
 
         } catch (HibernateException e) {
-            session.getTransaction().rollback();
+            if(t != null){ t.rollback();}
             return null;
         } finally {
             session.close();
@@ -44,16 +45,17 @@ public class DiasdaescalaDAO implements Serializable {
 
     public Diasdaescala buscarPorData(Date data) {
 
-        try {
+      
             session = getSessionFactory().openSession();
             Transaction t = session.beginTransaction();
+            try{
             Diasdaescala escala = (Diasdaescala) session.createQuery("from Diasdaescala where data=" + data + "'")
                     .uniqueResult();
             t.commit();
             return escala;
 
         } catch (HibernateException e) {
-            session.getTransaction().rollback();
+            if(t != null){ t.rollback();}
             return null;
         } finally {
             session.close();
@@ -62,16 +64,17 @@ public class DiasdaescalaDAO implements Serializable {
 
     public Diasdaescala buscarPorID(int id) {
 
-        try {
+      
             session = getSessionFactory().openSession();
             Transaction t = session.beginTransaction();
+            try{
             Diasdaescala escala = (Diasdaescala) session.createQuery("from Diasdaescala where id=" + id)
                     .uniqueResult();
             t.commit();
             return escala;
 
         } catch (HibernateException e) {
-            session.getTransaction().rollback();
+            if(t != null){ t.rollback();}
             return null;
         } finally {
             session.close();
@@ -80,9 +83,10 @@ public class DiasdaescalaDAO implements Serializable {
 
     public List<Diasdaescala> buscarPorPeriodo(Date dataini, Date datafim) {
 
-        try {
+      
             session = getSessionFactory().openSession();
             Transaction t = session.beginTransaction();
+            try{
             List escala = session.createQuery("from Diasdaescala where data >=:dataini and data <=:datafim order by data,hora")
                     .setDate("dataini", dataini)
                     .setDate("datafim", datafim)
@@ -91,7 +95,7 @@ public class DiasdaescalaDAO implements Serializable {
             return escala;
 
         } catch (HibernateException e) {
-            session.getTransaction().rollback();
+            if(t != null){ t.rollback();}
             return null;
         } finally {
             session.close();
@@ -100,15 +104,16 @@ public class DiasdaescalaDAO implements Serializable {
 
     public List<Diasdaescala> buscarPorMesSemanaLista(int mes) {
 
-        try {
+      
             session = getSessionFactory().openSession();
             Transaction t = session.beginTransaction();
+            try{
             List lista = session.createQuery("from Diasdaescala where month(data) =" + mes + " and year(data)=year(Now())").list();
             t.commit();
             return lista;
 
         } catch (HibernateException e) {
-            session.getTransaction().rollback();
+            if(t != null){ t.rollback();}
             return null;
         } finally {
             session.close();
@@ -117,15 +122,16 @@ public class DiasdaescalaDAO implements Serializable {
 
     public List<Diasdaescala> buscarPorIdEscala(int id) {
 
-        try {
+      
             session = getSessionFactory().openSession();
             Transaction t = session.beginTransaction();
+            try{
             List lista = session.createQuery("from Diasdaescala where idescalapai=" + id).list();
             t.commit();
             return lista;
 
         } catch (HibernateException e) {
-            session.getTransaction().rollback();
+            if(t != null){ t.rollback();}
             return null;
         } finally {
             session.close();
@@ -133,14 +139,15 @@ public class DiasdaescalaDAO implements Serializable {
     }
 
     public boolean insert(Diasdaescala escala) {
-        try {
+      
             session = getSessionFactory().openSession();
             Transaction t = session.beginTransaction();
+            try{
             session.save(escala);
             t.commit();
             return true;
         } catch (HibernateException e) {
-            session.getTransaction().rollback();
+            if(t != null){ t.rollback();}
             return false;
         } finally {
             session.close();
@@ -148,14 +155,15 @@ public class DiasdaescalaDAO implements Serializable {
     }
 
     public boolean delete(Diasdaescala escala) {
-        try {
+      
             session = getSessionFactory().openSession();
             Transaction t = session.beginTransaction();
+            try{
             session.delete(escala);
             t.commit();
             return true;
         } catch (HibernateException e) {
-            session.getTransaction().rollback();
+            if(t != null){ t.rollback();}
             return false;
         } finally {
             session.close();
@@ -163,14 +171,15 @@ public class DiasdaescalaDAO implements Serializable {
     }
 
     public boolean update(Diasdaescala escala) {
-        try {
+    
             session = getSessionFactory().openSession();
             Transaction t = session.beginTransaction();
+            try{
             session.update(escala);
             t.commit();
             return true;
         } catch (HibernateException e) {
-            session.getTransaction().rollback();
+            if(t != null){ t.rollback();}
             return false;
         } finally {
             session.close();

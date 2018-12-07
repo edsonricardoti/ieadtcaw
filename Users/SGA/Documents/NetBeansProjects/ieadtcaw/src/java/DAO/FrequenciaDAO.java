@@ -41,10 +41,11 @@ public class FrequenciaDAO implements Serializable {
                     + ", Membros as m where f.idmembro=m.idmembros and f.ano=:ano and f.trimestre=:trimestre and f.idclasse=:idclasse\n"
                     + " group by f.idmembro,f.trimestre";
         }
-        try {
+        
 
             session = getSessionFactory().openSession();
             Transaction t = session.beginTransaction();
+            try{
             Query financeiro = session.createQuery(SQL)
                     .setInteger("idclasse", idclasse)
                     .setInteger("trimestre", trimestre)
@@ -61,7 +62,7 @@ public class FrequenciaDAO implements Serializable {
 
         } catch (HibernateException e) {
             System.out.println("Erro apresentado=" + e);
-//            session.getTransaction().rollback();
+//            if(t != null){ t.rollback();}
             return null;
         } finally {
             session.close();
@@ -70,10 +71,11 @@ public class FrequenciaDAO implements Serializable {
 
     public List<Relatorios> graficoPorclassePeriodo() throws ParseException {
 
-        try {
+        
 
             session = getSessionFactory().openSession();
             Transaction t = session.beginTransaction();
+            try{
             Query financeiro = session.createQuery("select c.classesNome as nome,\n"
                     + " sum(case f.trimestre when 1 then f.presente else 0 end) as trimestre1,\n"
                     + " sum(case f.trimestre when 2 then f.presente else 0 end) as trimestre2,\n"
@@ -92,7 +94,7 @@ public class FrequenciaDAO implements Serializable {
 
         } catch (HibernateException e) {
             System.out.println("Erro apresentado: " + e);
-//            session.getTransaction().rollback();
+//            if(t != null){ t.rollback();}
             return null;
         } finally {
             session.close();
@@ -101,11 +103,12 @@ public class FrequenciaDAO implements Serializable {
 
     public List<Membros> buscarPorData(Date data) throws ParseException {
         System.out.println("Data enviada=" + data);
-        try {
+       
             // String newDateFormat = new SimpleDateFormat("dd-MM-yyyy").format(d);
             // System.out.println("Entrou na busca por data=" + newDateFormat);
             session = getSessionFactory().openSession();
             Transaction t = session.beginTransaction();
+            try{
             List frequencias = session.createQuery("from Membros as m where m.idmembros in(select a.frequenciasIdmembro from Frequencia as a where a.frequenciasData=:data)")
                     .setDate("data", data)
                     .setMaxResults(10000)
@@ -115,7 +118,7 @@ public class FrequenciaDAO implements Serializable {
             return frequencias;
 
         } catch (HibernateException e) {
-            session.getTransaction().rollback();
+            if(t != null){ t.rollback();}
             return null;
         } finally {
             session.close();
@@ -124,11 +127,12 @@ public class FrequenciaDAO implements Serializable {
 
     public List<Membros> buscarPorDtiniDtfim(Date dtini, Date dtfim) throws ParseException {
 
-        try {
+       
             // String newDateFormat = new SimpleDateFormat("dd-MM-yyyy").format(d);
             // System.out.println("Entrou na busca por data=" + newDateFormat);
             session = getSessionFactory().openSession();
             Transaction t = session.beginTransaction();
+            try{
             List frequencias = session.createQuery("from Membros as m where m.idmembros in(select a.frequenciasIdmembro from Frequencia as a where a.frequenciasData>=:dtini and a.frequenciasData<=:dtfim)")
                     .setDate("dtini", dtini)
                     .setDate("dtfim", dtfim)
@@ -139,7 +143,7 @@ public class FrequenciaDAO implements Serializable {
             return frequencias;
 
         } catch (HibernateException e) {
-            session.getTransaction().rollback();
+            if(t != null){ t.rollback();}
             return null;
         } finally {
             session.close();
@@ -148,10 +152,13 @@ public class FrequenciaDAO implements Serializable {
 
     public List<Membros> buscarPorNome(String nome) throws ParseException {
 
-        try {
+        
 
             session = getSessionFactory().openSession();
             Transaction t = session.beginTransaction();
+            
+            
+            try{
             List frequencias = session.createQuery("from Membros as m where m.membrosNome=:nome and m.idmembros in(select a.frequenciasIdmembro from Frequencia as a)")
                     .setString("nome", nome)
                     .setMaxResults(10000)
@@ -162,7 +169,7 @@ public class FrequenciaDAO implements Serializable {
             return frequencias;
 
         } catch (HibernateException e) {
-            session.getTransaction().rollback();
+            if(t != null){ t.rollback();}
             return null;
         } finally {
             session.close();
@@ -171,10 +178,11 @@ public class FrequenciaDAO implements Serializable {
 
     public List<Membros> buscarFrequenciaPorClasse(int id) {
 
-        try {
+       
 
             session = getSessionFactory().openSession();
             Transaction t = session.beginTransaction();
+            try{
             List frequencias = session.createQuery("from Membros as m where m.idmembros in(select a.frequenciasIdmembro from Frequencia as a where a.idclasse=:id)")
                     .setInteger("id", id)
                     .setMaxResults(10000)
@@ -187,7 +195,7 @@ public class FrequenciaDAO implements Serializable {
             return frequencias;
 
         } catch (HibernateException e) {
-            session.getTransaction().rollback();
+            if(t != null){ t.rollback();}
             return null;
         } finally {
             session.close();
@@ -196,9 +204,10 @@ public class FrequenciaDAO implements Serializable {
 
     public Membros buscarPorID(int id, int idclasse) {
 
-        try {
+       
             session = getSessionFactory().openSession();
             Transaction t = session.beginTransaction();
+            try{
             Membros frequencias = (Membros) session.createQuery("from Membros as m where m.idmembros=:id and m.idmembros in(select a.frequenciasIdmembro from Frequencia as a where a.frequenciasIdmembro=:id and a.idclasse=:idclasse)")
                     .setInteger("id", id)
                     .setInteger("idclasse", idclasse)
@@ -207,7 +216,7 @@ public class FrequenciaDAO implements Serializable {
             return frequencias;
 
         } catch (HibernateException e) {
-            session.getTransaction().rollback();
+            if(t != null){ t.rollback();}
             return null;
         } finally {
             session.close();
@@ -216,9 +225,10 @@ public class FrequenciaDAO implements Serializable {
 
     public Frequencia buscarAlunoPorID(int id, int idclasse) {
 
-        try {
+        
             session = getSessionFactory().openSession();
             Transaction t = session.beginTransaction();
+            try{
             Frequencia frequencias = (Frequencia) session.createQuery("from Frequencia where idmembro =:id and idclasse =:idclasse order by licao ASC")
                     .setInteger("id", id)
                     .setInteger("idclasse", idclasse)
@@ -227,7 +237,7 @@ public class FrequenciaDAO implements Serializable {
             return frequencias;
 
         } catch (HibernateException e) {
-            session.getTransaction().rollback();
+            if(t != null){ t.rollback();}
             return null;
         } finally {
             session.close();
@@ -236,9 +246,10 @@ public class FrequenciaDAO implements Serializable {
 
     public List<Frequencia> buscarLicoesAluno(int id, int idclasse) {
 
-        try {
+        
             session = getSessionFactory().openSession();
             Transaction t = session.beginTransaction();
+            try{
             List frequencias = session.createQuery("from Frequencia where idmembro=:id and idclasse=:idclasse")
                     .setInteger("id", id)
                     .setInteger("idclasse", idclasse)
@@ -248,7 +259,7 @@ public class FrequenciaDAO implements Serializable {
             return frequencias;
 
         } catch (HibernateException e) {
-            session.getTransaction().rollback();
+            if(t != null){ t.rollback();}
             return null;
         } finally {
             session.close();
@@ -257,9 +268,10 @@ public class FrequenciaDAO implements Serializable {
 
     public List<Frequencia> buscarPresencaLicoes(int idclasse, int trimestre, int ano) {
 
-        try {
+        
             session = getSessionFactory().openSession();
             Transaction t = session.beginTransaction();
+            try{
             List frequencias = session.createQuery("from Frequencia where idclasse =:idclasse and trimestre =:trimestre and ano =:ano order by idmembro,licao")
                     .setInteger("idclasse", idclasse)
                     .setInteger("trimestre", trimestre)
@@ -270,7 +282,7 @@ public class FrequenciaDAO implements Serializable {
             return frequencias;
 
         } catch (HibernateException e) {
-            session.getTransaction().rollback();
+            if(t != null){ t.rollback();}
             return null;
         } finally {
             session.close();
@@ -278,14 +290,15 @@ public class FrequenciaDAO implements Serializable {
     }
 
     public boolean insert(Frequencia frequencia) {
-        try {
+       
             session = getSessionFactory().openSession();
             Transaction t = session.beginTransaction();
+            try{
             session.save(frequencia);
             t.commit();
             return true;
         } catch (HibernateException e) {
-            session.getTransaction().rollback();
+            if(t != null){ t.rollback();}
             return false;
         } finally {
             session.close();
@@ -293,14 +306,15 @@ public class FrequenciaDAO implements Serializable {
     }
 
     public boolean delete(Frequencia frequencia) {
-        try {
+        
             session = getSessionFactory().openSession();
             Transaction t = session.beginTransaction();
+            try{
             session.delete(frequencia);
             t.commit();
             return true;
         } catch (HibernateException e) {
-            session.getTransaction().rollback();
+            if(t != null){ t.rollback();}
             return false;
         } finally {
             session.close();
@@ -308,15 +322,16 @@ public class FrequenciaDAO implements Serializable {
     }
 
     public boolean update(Frequencia frequencia) {
-        try {
+        
             session = getSessionFactory().openSession();
             Transaction t = session.beginTransaction();
+            try{
             session.update(frequencia);
             t.commit();
             return true;
         } catch (HibernateException e) {
             System.out.println("Erro: " + e);
-            session.getTransaction().rollback();
+            if(t != null){ t.rollback();}
             return false;
         } finally {
             session.close();

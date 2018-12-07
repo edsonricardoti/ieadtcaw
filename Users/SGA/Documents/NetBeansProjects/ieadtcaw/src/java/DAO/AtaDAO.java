@@ -26,15 +26,16 @@ public class AtaDAO implements Serializable {
     private Session session;
 
     public List<Ata> selectAll() {
-        try {
+    
             session = getSessionFactory().openSession();
             Transaction t = session.beginTransaction();
+            try{
             List lista = session.createQuery("from Ata").list();
             t.commit();
             return lista;
 
         } catch (HibernateException e) {
-            session.getTransaction().rollback();
+           if(t != null){ t.rollback();}
             return null;
         } finally {
             session.close();
@@ -43,11 +44,12 @@ public class AtaDAO implements Serializable {
 
     public List<Ata> buscarPorData(Date data) throws ParseException {
         System.out.println("Data enviada=" + data);
-        try {
+      
             // String newDateFormat = new SimpleDateFormat("dd-MM-yyyy").format(d);
             // System.out.println("Entrou na busca por data=" + newDateFormat);
             session = getSessionFactory().openSession();
             Transaction t = session.beginTransaction();
+            try{
             List atas = session.createQuery("from Ata where ataData=:data")
                     .setDate("data", data)
                     .setMaxResults(100)
@@ -56,7 +58,7 @@ public class AtaDAO implements Serializable {
             return atas;
 
         } catch (HibernateException e) {
-            session.getTransaction().rollback();
+           if(t != null){ t.rollback();}
             return null;
         } finally {
             //   session.close();
@@ -65,16 +67,17 @@ public class AtaDAO implements Serializable {
 
     public Ata buscarPorID(int id) {
 
-        try {
+    
             session = getSessionFactory().openSession();
             Transaction t = session.beginTransaction();
+            try{
             Ata ata = (Ata) session.createQuery("from Ata where idata=" + id + "")
                     .uniqueResult();
             t.commit();
             return ata;
 
         } catch (HibernateException e) {
-            session.getTransaction().rollback();
+            if(t != null){ t.rollback();}
             return null;
         } finally {
             session.close();
@@ -82,14 +85,15 @@ public class AtaDAO implements Serializable {
     }
 
     public boolean insert(Ata ata) {
-        try {
+      
             session = getSessionFactory().openSession();
             Transaction t = session.beginTransaction();
+            try{
             session.save(ata);
             t.commit();
             return true;
         } catch (HibernateException e) {
-            session.getTransaction().rollback();
+           if(t != null){ t.rollback();}
             return false;
         } finally {
             session.close();
@@ -97,14 +101,15 @@ public class AtaDAO implements Serializable {
     }
 
     public boolean delete(Ata ata) {
-        try {
+     
             session = getSessionFactory().openSession();
             Transaction t = session.beginTransaction();
+            try{
             session.delete(ata);
             t.commit();
             return true;
         } catch (HibernateException e) {
-            session.getTransaction().rollback();
+           if(t != null){ t.rollback();}
             return false;
         } finally {
             session.close();
@@ -112,14 +117,15 @@ public class AtaDAO implements Serializable {
     }
 
     public boolean update(Ata ata) {
-        try {
+     
             session = getSessionFactory().openSession();
             Transaction t = session.beginTransaction();
+            try{
             session.update(ata);
             t.commit();
             return true;
         } catch (HibernateException e) {
-            session.getTransaction().rollback();
+          if(t != null){ t.rollback();}
             return false;
         } finally {
             session.close();

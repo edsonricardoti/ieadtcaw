@@ -21,108 +21,118 @@ public class IgrejasDAO implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-
-        private Session session;
+    private Session session;
 
     public List<Igrejas> selectAll() {
-            try {
-                session = getSessionFactory().openSession();
-                Transaction t = session.beginTransaction();
-                List lista = session.createQuery("from Igrejas").list();
-                t.commit();
-                return lista;
 
-            } catch (HibernateException e) {
-                session.getTransaction().rollback();
-                return null;
-            } finally {
-                session.close();
+        session = getSessionFactory().openSession();
+        Transaction t = session.beginTransaction();
+        try {
+            List lista = session.createQuery("from Igrejas").list();
+            t.commit();
+            return lista;
+
+        } catch (HibernateException e) {
+            if (t != null) {
+                t.rollback();
             }
+            return null;
+        } finally {
+            session.close();
         }
-
+    }
 
     public Igrejas buscarPorId(Integer id) {
-            try {
-                session = getSessionFactory().openSession();
-                Transaction t = session.beginTransaction();
-                Igrejas igreja = (Igrejas) session.createQuery("from Igrejas where idIgreja=:id")
-                        .setInteger("id", id)
-                        .uniqueResult();
-                t.commit();
-                return igreja;
 
-            } catch (HibernateException e) {
-                session.getTransaction().rollback();
-                return null;
-            } finally {
-                session.close();
+        session = getSessionFactory().openSession();
+        Transaction t = session.beginTransaction();
+        try {
+            Igrejas igreja = (Igrejas) session.createQuery("from Igrejas where idIgreja=:id")
+                    .setInteger("id", id)
+                    .uniqueResult();
+            t.commit();
+            return igreja;
+
+        } catch (HibernateException e) {
+            if (t != null) {
+                t.rollback();
             }
+            return null;
+        } finally {
+            session.close();
+        }
     }
-        
-        
+
     public List<Igrejas> buscarPorNomeLista(String nome) {
 
-            try {
-                session = getSessionFactory().openSession();
-                Transaction t = session.beginTransaction();
-                List lista = session.createQuery("from Igrejas where nome like '%" + nome + "%'").list();
-                t.commit();
-                return lista;
+        session = getSessionFactory().openSession();
+        Transaction t = session.beginTransaction();
+        try {
+            List lista = session.createQuery("from Igrejas where nome like '%" + nome + "%'").list();
+            t.commit();
+            return lista;
 
-            } catch (HibernateException e) {
-                session.getTransaction().rollback();
-                return null;
-            } finally {
-                session.close();
+        } catch (HibernateException e) {
+            if (t != null) {
+                t.rollback();
             }
-        }
-        
-    public boolean insert(Igrejas igreja) {
-            
-            try {
-                session = getSessionFactory().openSession();
-                Transaction t = session.beginTransaction();
-                session.save(igreja);
-                t.commit();
-                return true;
-            } catch (HibernateException e) {
-                session.getTransaction().rollback();
-                return false;
-            } finally {
+            return null;
+        } finally {
             session.close();
-            }
         }
+    }
+
+    public boolean insert(Igrejas igreja) {
+
+        session = getSessionFactory().openSession();
+        Transaction t = session.beginTransaction();
+        try {
+            session.save(igreja);
+            t.commit();
+            return true;
+        } catch (HibernateException e) {
+            if (t != null) {
+                t.rollback();
+            }
+            return false;
+        } finally {
+            session.close();
+        }
+    }
 
     public boolean delete(Igrejas igreja) {
-            try {
-                session = getSessionFactory().openSession();
-                Transaction t = session.beginTransaction();
-                session.delete(igreja);
-                t.commit();
-                return true;
-            } catch (HibernateException e) {
-                session.getTransaction().rollback();
-                return false;
-            } finally {
-                session.close();
+
+        session = getSessionFactory().openSession();
+        Transaction t = session.beginTransaction();
+        try {
+            session.delete(igreja);
+            t.commit();
+            return true;
+        } catch (HibernateException e) {
+            if (t != null) {
+                t.rollback();
             }
+            return false;
+        } finally {
+            session.close();
         }
+    }
 
     public boolean update(Igrejas igreja) {
-            try {
-                session = getSessionFactory().openSession();
-                Transaction t = session.beginTransaction();
-                session.update(igreja);
-                t.commit();
-                return true;
-            } catch (HibernateException e) {
-                session.getTransaction().rollback();
-                return false;
-            } finally {
-                session.close();
+        session = getSessionFactory().openSession();
+        Transaction t = session.beginTransaction();
+        try {
+            session.update(igreja);
+            t.commit();
+            return true;
+        } catch (HibernateException e) {
+            if (t != null) {
+                t.rollback();
             }
+            return false;
+        } finally {
+            session.close();
         }
+    }
 
-        
- 
 }

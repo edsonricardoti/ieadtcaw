@@ -26,15 +26,18 @@ public class ParcelamentoDAO implements Serializable {
     private Session session;
 
     public List<Parcelamentos> selectAll(int idmembro, int idperiodico) {
+
+        session = getSessionFactory().openSession();
+        Transaction t = session.beginTransaction();
         try {
-            session = getSessionFactory().openSession();
-            Transaction t = session.beginTransaction();
             List lista = session.createQuery("from Parcelamentos where idmembro=" + idmembro + " and idperiodico=" + idperiodico).list();
             t.commit();
             return lista;
 
         } catch (HibernateException e) {
-            session.getTransaction().rollback();
+            if (t != null) {
+                t.rollback();
+            }
             return null;
         } finally {
             session.close();
@@ -43,11 +46,12 @@ public class ParcelamentoDAO implements Serializable {
 
     public List<Parcelamentos> buscarPorData(Date data) throws ParseException {
         System.out.println("Data enviada=" + data);
+
+        // String newDateFormat = new SimpleDateFormat("dd-MM-yyyy").format(d);
+        // System.out.println("Entrou na busca por data=" + newDateFormat);
+        session = getSessionFactory().openSession();
+        Transaction t = session.beginTransaction();
         try {
-            // String newDateFormat = new SimpleDateFormat("dd-MM-yyyy").format(d);
-            // System.out.println("Entrou na busca por data=" + newDateFormat);
-            session = getSessionFactory().openSession();
-            Transaction t = session.beginTransaction();
             List parcelamentos = session.createQuery("from Parcelamentos where datapagamento=:data")
                     .setDate("data", data)
                     .setMaxResults(100)
@@ -56,21 +60,22 @@ public class ParcelamentoDAO implements Serializable {
             return parcelamentos;
 
         } catch (HibernateException e) {
-            session.getTransaction().rollback();
+            if (t != null) {
+                t.rollback();
+            }
             return null;
         } finally {
             session.close();
         }
     }
 
-
     public List<Parcelamentos> buscarPorDtiniDtfim(Date dtini, Date dtfim) throws ParseException {
 
+        // String newDateFormat = new SimpleDateFormat("dd-MM-yyyy").format(d);
+        // System.out.println("Entrou na busca por data=" + newDateFormat);
+        session = getSessionFactory().openSession();
+        Transaction t = session.beginTransaction();
         try {
-            // String newDateFormat = new SimpleDateFormat("dd-MM-yyyy").format(d);
-            // System.out.println("Entrou na busca por data=" + newDateFormat);
-            session = getSessionFactory().openSession();
-            Transaction t = session.beginTransaction();
             List parcelamentos = session.createQuery("from Parcelamentos where datapagamento>=:dtini and datapagamento<=:dtfim")
                     .setDate("dtini", dtini)
                     .setDate("dtfim", dtfim)
@@ -80,7 +85,9 @@ public class ParcelamentoDAO implements Serializable {
             return parcelamentos;
 
         } catch (HibernateException e) {
-            session.getTransaction().rollback();
+            if (t != null) {
+                t.rollback();
+            }
             return null;
         } finally {
             session.close();
@@ -89,16 +96,18 @@ public class ParcelamentoDAO implements Serializable {
 
     public Parcelamentos buscarPorID(int id) {
 
+        session = getSessionFactory().openSession();
+        Transaction t = session.beginTransaction();
         try {
-            session = getSessionFactory().openSession();
-            Transaction t = session.beginTransaction();
             Parcelamentos parcelamentos = (Parcelamentos) session.createQuery("from Parcelamentos where idperiodico=" + id)
                     .uniqueResult();
             t.commit();
             return parcelamentos;
 
         } catch (HibernateException e) {
-            session.getTransaction().rollback();
+            if (t != null) {
+                t.rollback();
+            }
             return null;
         } finally {
             session.close();
@@ -107,9 +116,9 @@ public class ParcelamentoDAO implements Serializable {
 
     public Parcelamentos buscarPorParcela(int idmembro, int idperiodico, int parcela) {
 
+        session = getSessionFactory().openSession();
+        Transaction t = session.beginTransaction();
         try {
-            session = getSessionFactory().openSession();
-            Transaction t = session.beginTransaction();
             Parcelamentos parcelamentos = (Parcelamentos) session.createQuery("from Parcelamentos where idperiodico=:idperiodico and idmembro=:idmembro and numparcela=:parcela")
                     .setInteger("idmembro", idmembro)
                     .setInteger("idperiodico", idperiodico)
@@ -119,7 +128,9 @@ public class ParcelamentoDAO implements Serializable {
             return parcelamentos;
 
         } catch (HibernateException e) {
-            session.getTransaction().rollback();
+            if (t != null) {
+                t.rollback();
+            }
             return null;
         } finally {
             session.close();
@@ -127,14 +138,17 @@ public class ParcelamentoDAO implements Serializable {
     }
 
     public boolean insert(Parcelamentos parcelamento) {
+
+        session = getSessionFactory().openSession();
+        Transaction t = session.beginTransaction();
         try {
-            session = getSessionFactory().openSession();
-            Transaction t = session.beginTransaction();
             session.save(parcelamento);
             t.commit();
             return true;
         } catch (HibernateException e) {
-            session.getTransaction().rollback();
+            if (t != null) {
+                t.rollback();
+            }
             return false;
         } finally {
             session.close();
@@ -142,14 +156,17 @@ public class ParcelamentoDAO implements Serializable {
     }
 
     public boolean delete(Parcelamentos parcelamento) {
+
+        session = getSessionFactory().openSession();
+        Transaction t = session.beginTransaction();
         try {
-            session = getSessionFactory().openSession();
-            Transaction t = session.beginTransaction();
             session.delete(parcelamento);
             t.commit();
             return true;
         } catch (HibernateException e) {
-            session.getTransaction().rollback();
+            if (t != null) {
+                t.rollback();
+            }
             return false;
         } finally {
             session.close();
@@ -157,15 +174,18 @@ public class ParcelamentoDAO implements Serializable {
     }
 
     public boolean update(Parcelamentos parcelamento) {
+
+        session = getSessionFactory().openSession();
+        Transaction t = session.beginTransaction();
         try {
-            session = getSessionFactory().openSession();
-            Transaction t = session.beginTransaction();
             session.update(parcelamento);
             t.commit();
             return true;
         } catch (HibernateException e) {
             System.out.println("Erro: " + e);
-            session.getTransaction().rollback();
+            if (t != null) {
+                t.rollback();
+            }
             return false;
         } finally {
             session.close();

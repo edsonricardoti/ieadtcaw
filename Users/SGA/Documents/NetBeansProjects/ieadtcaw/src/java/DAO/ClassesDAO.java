@@ -26,15 +26,16 @@ public class ClassesDAO implements Serializable {
     private Session session;
 
     public List<Classes> selectAll() {
-        try {
+      
             session = getSessionFactory().openSession();
             Transaction t = session.beginTransaction();
+            try{
             List lista = session.createQuery("from Classes").list();
             t.commit();
             return lista;
 
         } catch (HibernateException e) {
-            session.getTransaction().rollback();
+            if(t != null){ t.rollback();}
             return null;
         } finally {
             session.close();
@@ -43,11 +44,12 @@ public class ClassesDAO implements Serializable {
 
     public List<Classes> buscarPorData(Date data) throws ParseException {
         System.out.println("Data enviada=" + data);
-        try {
+     
             // String newDateFormat = new SimpleDateFormat("dd-MM-yyyy").format(d);
             // System.out.println("Entrou na busca por data=" + newDateFormat);
             session = getSessionFactory().openSession();
             Transaction t = session.beginTransaction();
+            try{
             List classes = session.createQuery("from Classes where classesData=:data")
                     .setDate("data", data)
                     .setMaxResults(100)
@@ -56,7 +58,7 @@ public class ClassesDAO implements Serializable {
             return classes;
 
         } catch (HibernateException e) {
-            session.getTransaction().rollback();
+            if(t != null){ t.rollback();}
             return null;
         } finally {
             session.close();
@@ -65,10 +67,11 @@ public class ClassesDAO implements Serializable {
 
     public List<Classes> buscarPorNome(String nome) throws ParseException {
 
-        try {
+      
 
             session = getSessionFactory().openSession();
             Transaction t = session.beginTransaction();
+            try{
             List classes = session.createQuery("from Classes where classesNome like:nome")
                     .setString("nome", "%" + nome + "%")
                     .setMaxResults(100)
@@ -77,7 +80,7 @@ public class ClassesDAO implements Serializable {
             return classes;
 
         } catch (HibernateException e) {
-            session.getTransaction().rollback();
+            if(t != null){ t.rollback();}
             return null;
         } finally {
             session.close();
@@ -86,16 +89,17 @@ public class ClassesDAO implements Serializable {
 
     public Classes buscarPorID(int id) {
 
-        try {
+       
             session = getSessionFactory().openSession();
             Transaction t = session.beginTransaction();
+            try{
             Classes cl = (Classes) session.createQuery("from Classes where idclasses=" + id)
                     .uniqueResult();
             t.commit();
             return cl;
 
         } catch (HibernateException e) {
-            session.getTransaction().rollback();
+            if(t != null){ t.rollback();}
             return null;
         } finally {
             session.close();
@@ -104,16 +108,17 @@ public class ClassesDAO implements Serializable {
 
     public Classes buscarPegaClasse(String classe) {
 
-        try {
+      
             session = getSessionFactory().openSession();
             Transaction t = session.beginTransaction();
+            try{
             Classes cl = (Classes) session.createQuery("from Classes where classesNome='" + classe + "'")
                     .uniqueResult();
             t.commit();
             return cl;
 
         } catch (HibernateException e) {
-            session.getTransaction().rollback();
+            if(t != null){ t.rollback();}
             return null;
         } finally {
             session.close();
@@ -122,14 +127,15 @@ public class ClassesDAO implements Serializable {
 
 
     public boolean insert(Classes classe) {
-        try {
+      
             session = getSessionFactory().openSession();
             Transaction t = session.beginTransaction();
+            try{
             session.save(classe);
             t.commit();
             return true;
         } catch (HibernateException e) {
-            session.getTransaction().rollback();
+            if(t != null){ t.rollback();}
             return false;
         } finally {
             session.close();
@@ -137,14 +143,15 @@ public class ClassesDAO implements Serializable {
     }
 
     public boolean delete(Classes classe) {
-        try {
+      
             session = getSessionFactory().openSession();
             Transaction t = session.beginTransaction();
+            try{
             session.delete(classe);
             t.commit();
             return true;
         } catch (HibernateException e) {
-            session.getTransaction().rollback();
+            if(t != null){ t.rollback();}
             return false;
         } finally {
             session.close();
@@ -152,15 +159,16 @@ public class ClassesDAO implements Serializable {
     }
 
     public boolean update(Classes classe) {
-        try {
+       
             session = getSessionFactory().openSession();
             Transaction t = session.beginTransaction();
+            try{
             session.update(classe);
             t.commit();
             return true;
         } catch (HibernateException e) {
             System.out.println("Erro: " + e);
-            session.getTransaction().rollback();
+            if(t != null){ t.rollback();}
             return false;
         } finally {
             session.close();

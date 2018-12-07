@@ -41,7 +41,7 @@ public class LivroCaixaDAO implements Serializable {
 //            return resultado;
 //
 //        } catch (HibernateException e) {
-//            session.getTransaction().rollback();
+//            if(t != null){ t.rollback();}
 //            return null;
 //        } finally {
 //            session.close();

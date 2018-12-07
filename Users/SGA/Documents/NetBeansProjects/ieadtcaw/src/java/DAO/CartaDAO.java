@@ -26,15 +26,16 @@ public class CartaDAO implements Serializable {
     private Session session;
 
     public List<Carta> selectAll() {
-        try {
+   
             session = getSessionFactory().openSession();
             Transaction t = session.beginTransaction();
+            try{
             List lista = session.createQuery("from Carta").list();
             t.commit();
             return lista;
 
         } catch (HibernateException e) {
-            session.getTransaction().rollback();
+            if(t != null){ t.rollback();}
             return null;
         } finally {
             session.close();
@@ -43,11 +44,12 @@ public class CartaDAO implements Serializable {
 
     public List<Carta> buscarPorData(Date data) throws ParseException {
         System.out.println("Data enviada=" + data);
-        try {
+     
             // String newDateFormat = new SimpleDateFormat("dd-MM-yyyy").format(d);
             // System.out.println("Entrou na busca por data=" + newDateFormat);
             session = getSessionFactory().openSession();
             Transaction t = session.beginTransaction();
+            try{
             List cartas = session.createQuery("from Carta where cartaData=:data")
                     .setDate("data", data)
                     .setMaxResults(100)
@@ -56,7 +58,7 @@ public class CartaDAO implements Serializable {
             return cartas;
 
         } catch (HibernateException e) {
-            session.getTransaction().rollback();
+            if(t != null){ t.rollback();}
             return null;
         } finally {
             session.close();
@@ -65,10 +67,11 @@ public class CartaDAO implements Serializable {
 
     public List<Carta> buscarPorNome(String nome) throws ParseException {
 
-        try {
+     
 
             session = getSessionFactory().openSession();
             Transaction t = session.beginTransaction();
+            try{
             List cartas = session.createQuery("from Carta where cartaNome like:nome")
                     .setString("nome", "%" + nome + "%")
                     .setMaxResults(100)
@@ -77,7 +80,7 @@ public class CartaDAO implements Serializable {
             return cartas;
 
         } catch (HibernateException e) {
-            session.getTransaction().rollback();
+            if(t != null){ t.rollback();}
             return null;
         } finally {
             session.close();
@@ -86,16 +89,17 @@ public class CartaDAO implements Serializable {
 
     public Carta buscarPorID(int id) {
 
-        try {
+    
             session = getSessionFactory().openSession();
             Transaction t = session.beginTransaction();
+            try{
             Carta ata = (Carta) session.createQuery("from Carta where idcarta=" + id)
                     .uniqueResult();
             t.commit();
             return ata;
 
         } catch (HibernateException e) {
-            session.getTransaction().rollback();
+            if(t != null){ t.rollback();}
             return null;
         } finally {
             session.close();
@@ -103,14 +107,15 @@ public class CartaDAO implements Serializable {
     }
 
     public boolean insert(Carta carta) {
-        try {
+     
             session = getSessionFactory().openSession();
             Transaction t = session.beginTransaction();
+            try{
             session.save(carta);
             t.commit();
             return true;
         } catch (HibernateException e) {
-            session.getTransaction().rollback();
+            if(t != null){ t.rollback();}
             return false;
         } finally {
             session.close();
@@ -118,14 +123,15 @@ public class CartaDAO implements Serializable {
     }
 
     public boolean delete(Carta carta) {
-        try {
+     
             session = getSessionFactory().openSession();
             Transaction t = session.beginTransaction();
+            try{
             session.delete(carta);
             t.commit();
             return true;
         } catch (HibernateException e) {
-            session.getTransaction().rollback();
+            if(t != null){ t.rollback();}
             return false;
         } finally {
             session.close();
@@ -133,15 +139,16 @@ public class CartaDAO implements Serializable {
     }
 
     public boolean update(Carta carta) {
-        try {
+     
             session = getSessionFactory().openSession();
             Transaction t = session.beginTransaction();
+            try{
             session.update(carta);
             t.commit();
             return true;
         } catch (HibernateException e) {
             System.out.println("Erro: " + e);
-            session.getTransaction().rollback();
+            if(t != null){ t.rollback();}
             return false;
         } finally {
             session.close();

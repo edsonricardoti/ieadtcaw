@@ -30,15 +30,16 @@ public class CaixaDAO implements Serializable {
     private Session session;
 
     public List<Caixa> selectAll() {
-        try {
+      
             session = getSessionFactory().openSession();
             Transaction t = session.beginTransaction();
+            try{
             List lista = session.createQuery("from Caixa").list();
             t.commit();
             return lista;
 
         } catch (HibernateException e) {
-            session.getTransaction().rollback();
+            if(t != null){ t.rollback();}
             return null;
         } finally {
             session.close();
@@ -47,11 +48,12 @@ public class CaixaDAO implements Serializable {
 
     public List<Caixa> buscarPorData(Date data) throws ParseException {
         System.out.println("Data enviada=" + data);
-        try {
+     
             // String newDateFormat = new SimpleDateFormat("dd-MM-yyyy").format(d);
             // System.out.println("Entrou na busca por data=" + newDateFormat);
             session = getSessionFactory().openSession();
             Transaction t = session.beginTransaction();
+            try{
             List caixas = session.createQuery("from Caixa where dtlancamento=:data")
                     .setDate("data", data)
                     .setMaxResults(100)
@@ -60,7 +62,7 @@ public class CaixaDAO implements Serializable {
             return caixas;
 
         } catch (HibernateException e) {
-            session.getTransaction().rollback();
+            if(t != null){ t.rollback();}
             return null;
         } finally {
             session.close();
@@ -69,11 +71,12 @@ public class CaixaDAO implements Serializable {
 
     public List<LivroCaixa> buscarPorPeriodo(Date dataini, Date datafim) throws ParseException {
 
-        try {
+    
             // String newDateFormat = new SimpleDateFormat("dd-MM-yyyy").format(d);
             // System.out.println("Entrou na busca por data=" + newDateFormat);
             session = getSessionFactory().openSession();
             Transaction t = session.beginTransaction();
+            try{
             Query caixas = session.createQuery("select descricao as descricao,sum(valordareceita) as receitas,sum(valordadespesa) as despesas\n"
                     + " FROM Caixa where  dtlancamento >=:dataini and dtlancamento <=:datafim\n"
                     + " group by descricao order by valordadespesa")
@@ -89,7 +92,7 @@ public class CaixaDAO implements Serializable {
             return resultado;
 
         } catch (HibernateException e) {
-            session.getTransaction().rollback();
+            if(t != null){ t.rollback();}
             return null;
         } finally {
             session.close();
@@ -98,10 +101,11 @@ public class CaixaDAO implements Serializable {
 
     public List<Caixa> buscarPorDescricao(String nome) throws ParseException {
 
-        try {
+    
 
             session = getSessionFactory().openSession();
             Transaction t = session.beginTransaction();
+            try{
             List caixas = session.createQuery("from Caixa where descricao like:nome")
                     .setString("nome", "%" + nome + "%")
                     .setMaxResults(100)
@@ -110,7 +114,7 @@ public class CaixaDAO implements Serializable {
             return caixas;
 
         } catch (HibernateException e) {
-            session.getTransaction().rollback();
+            if(t != null){ t.rollback();}
             return null;
         } finally {
             session.close();
@@ -119,10 +123,11 @@ public class CaixaDAO implements Serializable {
 
     public List<Caixa> buscarPorDatas(Date dataini, Date datafim) throws ParseException {
 
-        try {
+      
 
             session = getSessionFactory().openSession();
             Transaction t = session.beginTransaction();
+            try{
             List caixas = session.createQuery("from Caixa where dtlancamento >=:dataini and dtlancamento <=:datafim")
                     .setDate("dataini", dataini)
                     .setDate("datafim", datafim)
@@ -132,7 +137,7 @@ public class CaixaDAO implements Serializable {
             return caixas;
 
         } catch (HibernateException e) {
-            session.getTransaction().rollback();
+            if(t != null){ t.rollback();}
             return null;
         } finally {
             session.close();
@@ -141,16 +146,17 @@ public class CaixaDAO implements Serializable {
 
     public Caixa buscarPorID(int id) {
 
-        try {
+     
             session = getSessionFactory().openSession();
             Transaction t = session.beginTransaction();
+            try{
             Caixa ata = (Caixa) session.createQuery("from Caixa where idcaixa=" + id)
                     .uniqueResult();
             t.commit();
             return ata;
 
         } catch (HibernateException e) {
-            session.getTransaction().rollback();
+            if(t != null){ t.rollback();}
             return null;
         } finally {
             session.close();
@@ -162,9 +168,10 @@ public class CaixaDAO implements Serializable {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
         minhadata = sdf.format(data);
 
-        try {
+     
             session = getSessionFactory().openSession();
             Transaction t = session.beginTransaction();
+            try{
             List<Caixa> ata = session.createQuery("from Caixa where dtlancamento='" + minhadata + "'").list();
             t.commit();
             if (ata.isEmpty()) {
@@ -174,7 +181,7 @@ public class CaixaDAO implements Serializable {
             }
 
         } catch (HibernateException e) {
-            session.getTransaction().rollback();
+            if(t != null){ t.rollback();}
             return false;
         } finally {
             session.close();
@@ -182,27 +189,29 @@ public class CaixaDAO implements Serializable {
     }
 
     public void insert(Caixa caixa) {
-        try {
+      
             session = getSessionFactory().openSession();
             Transaction t = session.beginTransaction();
+            try{
             session.save(caixa);
             t.commit();
         } catch (HibernateException e) {
-            session.getTransaction().rollback();
+            if(t != null){ t.rollback();}
         } finally {
             session.close();
         }
     }
 
     public boolean delete(Caixa caixa) {
-        try {
+      
             session = getSessionFactory().openSession();
             Transaction t = session.beginTransaction();
+            try{
             session.delete(caixa);
             t.commit();
             return true;
         } catch (HibernateException e) {
-            session.getTransaction().rollback();
+            if(t != null){ t.rollback();}
             return false;
         } finally {
             session.close();
@@ -210,15 +219,16 @@ public class CaixaDAO implements Serializable {
     }
 
     public boolean update(Caixa caixa) {
-        try {
+      
             session = getSessionFactory().openSession();
             Transaction t = session.beginTransaction();
+            try{
             session.update(caixa);
             t.commit();
             return true;
         } catch (HibernateException e) {
             System.out.println("Erro: " + e);
-            session.getTransaction().rollback();
+            if(t != null){ t.rollback();}
             return false;
         } finally {
             session.close();

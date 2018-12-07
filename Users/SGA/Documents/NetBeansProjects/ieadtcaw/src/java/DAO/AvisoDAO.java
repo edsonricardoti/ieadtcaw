@@ -24,15 +24,16 @@ public class AvisoDAO implements Serializable {
     private Session session;
 
     public List<Avisos> selectAll() {
-        try {
+      
             session = getSessionFactory().openSession();
             Transaction t = session.beginTransaction();
+            try{
             List lista = session.createQuery("from Avisos where Year(dataAviso)=Year(now())").list();
             t.commit();
             return lista;
 
         } catch (HibernateException e) {
-            session.getTransaction().rollback();
+            if(t != null){ t.rollback();}
             return null;
         } finally {
             session.close();
@@ -40,15 +41,16 @@ public class AvisoDAO implements Serializable {
     }
 
     public List<Avisos> marcadosPreplicar() {
-        try {
+      
             session = getSessionFactory().openSession();
             Transaction t = session.beginTransaction();
+            try{
             List lista = session.createQuery("from Avisos where lido=2").list();
             t.commit();
             return lista;
 
         } catch (HibernateException e) {
-            session.getTransaction().rollback();
+            if(t != null){ t.rollback();}
             return null;
         } finally {
             session.close();
@@ -60,9 +62,10 @@ public class AvisoDAO implements Serializable {
         cal.setTime(datafim);
         cal.add(Calendar.DATE, 1);
         Date datafim2 = cal.getTime();
-        try {
+      
             session = getSessionFactory().openSession();
             Transaction t = session.beginTransaction();
+            try{
             List lista = session.createQuery("from Avisos where dataAviso >=:dataini and dataAviso <=:datafim2 order by dataAviso")
                     .setDate("dataini", dataini)
                     .setDate("datafim2", datafim2)
@@ -71,7 +74,7 @@ public class AvisoDAO implements Serializable {
             return lista;
 
         } catch (HibernateException e) {
-            session.getTransaction().rollback();
+            if(t != null){ t.rollback();}
             return null;
         } finally {
             session.close();
@@ -80,9 +83,10 @@ public class AvisoDAO implements Serializable {
 
     public Avisos selectHoje(Date data) {
         Avisos lista = new Avisos();
-        try {
+      
             session = getSessionFactory().openSession();
             Transaction t = session.beginTransaction();
+            try{
             lista = (Avisos) session.createQuery("from Avisos where dataAviso=:data")
                     .setDate("data", data)
                     .uniqueResult();
@@ -90,7 +94,7 @@ public class AvisoDAO implements Serializable {
             return lista;
 
         } catch (HibernateException e) {
-            session.getTransaction().rollback();
+            if(t != null){ t.rollback();}
             return null;
         } finally {
             session.close();
@@ -99,9 +103,10 @@ public class AvisoDAO implements Serializable {
     
 
     public Avisos buscarPorId(Integer id) {
-        try {
+     
             session = getSessionFactory().openSession();
             Transaction t = session.beginTransaction();
+            try{
             Avisos aviso = (Avisos) session.createQuery("from Avisos where idAviso=:id")
                     .setInteger("id", id)
                     .uniqueResult();
@@ -109,7 +114,7 @@ public class AvisoDAO implements Serializable {
             return aviso;
 
         } catch (HibernateException e) {
-            session.getTransaction().rollback();
+            if(t != null){ t.rollback();}
             return null;
         } finally {
             session.close();
@@ -120,14 +125,15 @@ public class AvisoDAO implements Serializable {
 
     public boolean insert(Avisos aviso) {
     System.out.println("Entrou no inserte com aviso = "+aviso.getDescriAviso());
-        try {
+     
             session = getSessionFactory().openSession();
             Transaction t = session.beginTransaction();
+            try{
             session.save(aviso);
             t.commit();
             return true;
         } catch (HibernateException e) {
-            session.getTransaction().rollback();
+            if(t != null){ t.rollback();}
             return false;
         } finally {
             session.close();
@@ -137,14 +143,15 @@ public class AvisoDAO implements Serializable {
      
 
     public boolean delete(Avisos aviso) {
-        try {
+      
             session = getSessionFactory().openSession();
             Transaction t = session.beginTransaction();
+            try{
             session.delete(aviso);
             t.commit();
             return true;
         } catch (HibernateException e) {
-            session.getTransaction().rollback();
+            if(t != null){ t.rollback();}
             return false;
         } finally {
             session.close();
@@ -152,14 +159,15 @@ public class AvisoDAO implements Serializable {
     }
 
     public boolean update(Avisos aviso) {
-        try {
+      
             session = getSessionFactory().openSession();
             Transaction t = session.beginTransaction();
+            try{
             session.update(aviso);
             t.commit();
             return true;
         } catch (HibernateException e) {
-            session.getTransaction().rollback();
+            if(t != null){ t.rollback();}
             return false;
         } finally {
             session.close();
@@ -173,7 +181,7 @@ public class AvisoDAO implements Serializable {
             int pos = str1.indexOf(procurada) + procurada.length();
             String pc = str1.substring(pos);
             
-            String caminho = "C:\\avisos";
+            String caminho = "/home/C/avisos";
             String arquivo = str1;
             BASE64Decoder bd = new BASE64Decoder();
             byte[] buffer = bd.decodeBuffer(pc);

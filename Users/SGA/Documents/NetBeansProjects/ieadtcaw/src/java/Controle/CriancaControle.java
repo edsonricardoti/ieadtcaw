@@ -130,6 +130,7 @@ public class CriancaControle implements Serializable {
     public void buscarLista(String nome) {
 
         List<Criancas> lista = null;
+        dao = new CriancaDAO();
         try {
             lista = (List<Criancas>) dao.buscarPorNome(nome);
         } catch (ParseException ex) {

@@ -14,16 +14,13 @@
             <h:form>              
                 <p:menubar style="font-size: 14px; height: 25px; font-weight: bold;">
                     <p:submenu label="Cadastro" icon="ui-icon-folder-collapsed" rendered="#{usuarioControle.usuario.secretaria or usuarioControle.usuario.administracao}">
-                        <p:submenu label="Membros/Congregados" icon="ui-icon-person">
+                        <p:submenu label="Membros/Visitantes" icon="ui-icon-person">
                             <p:menuitem value="Incluir" icon="ui-icon-circle-plus" ajax="false" url="/sistema/membros/cadastro.xhtml">
                                 <p:ajax resetValues="true"/>
                             </p:menuitem>
                             <p:menuitem value="Consultar/Alterar/Excluir" icon="ui-icon-folder-open" ajax="false" url="/sistema/membros/consultar.xhtml"/>
                         </p:submenu>
-                        <p:submenu label="Visitantes" icon="ui-icon-tag">
-                            <p:menuitem value="Incluir" icon="ui-icon-circle-plus" ajax="false" url="/sistema/visitantes/cadastro.xhtml"/>
-                            <p:menuitem value="Consultar/Alterar/Excluir" icon="ui-icon-folder-open" ajax="false" url="/sistema/visitantes/consultar.xhtml"/>
-                        </p:submenu>
+                        
                         <p:submenu label="Igreja" icon="ui-icon-home">
                             <p:menuitem value="Incluir" icon="ui-icon-circle-plus" ajax="false" url="/sistema/igrejas/cadastro.xhtml"/>
                             <p:menuitem value="Consultar/Alterar/Excluir" icon="ui-icon-folder-open" ajax="false" url="/sistema/igrejas/consultar.xhtml" />

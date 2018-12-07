@@ -13,17 +13,31 @@ import static Util.FacesUtil.addErrorMessage;
 import static Util.FacesUtil.addInfoMessage;
 import com.lowagie.text.Document;
 import com.lowagie.text.PageSize;
+import java.io.File;
 import java.io.IOException;
 import java.io.Serializable;
+import java.sql.Connection;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
 
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
+import javax.servlet.ServletContext;
+import javax.servlet.ServletOutputStream;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JasperExportManager;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
 import org.apache.myfaces.extensions.cdi.core.api.scope.conversation.Conversation;
 import org.apache.myfaces.extensions.cdi.core.api.scope.conversation.ViewAccessScoped;
 
@@ -86,7 +100,7 @@ public class MembroControle implements Serializable {
         membro = new Membros();
         dao = new MembrosDAO();
         membroSelecionado = new Membros();
-        listaMembros = dao.selectAll();
+        //listaMembros = dao.selectAll();
 
         // filtro = new FiltroMembros();
     }
@@ -130,6 +144,32 @@ public class MembroControle implements Serializable {
         // filtro = filtro.replace("]", ")");
         listaMembros = dao.selectAllFiltradoCad(nome);
 
+    }
+
+     public void printPDF() throws JRException, IOException{
+    List sources =new  ArrayList<>();
+    //listaMembros = dao.selectAll();
+    sources =listaMembros;
+    String filename = "membros.pdf";
+    String jasperPath="/resources/membrosgeral.jasper";
+    this.PDF(null,jasperPath,sources,filename);
+    
+        
+    }
+     
+    public void PDF(Map<String,Object> params, String jasperPath,List<?> dataSource, String fileName) throws JRException,IOException{
+    String welativeWebPath = FacesContext.getCurrentInstance().getExternalContext().getRealPath(jasperPath);
+    File file = new File(welativeWebPath);
+    
+    JRBeanCollectionDataSource source = new JRBeanCollectionDataSource(dataSource,false);
+    JasperPrint print = JasperFillManager.fillReport(file.getPath(),params,source);
+    HttpServletResponse response =(HttpServletResponse)FacesContext.getCurrentInstance().getExternalContext().getResponse();
+    response.addHeader("Content-disposition","attachment;filename="+fileName);
+    ServletOutputStream stream = response.getOutputStream();
+    
+    JasperExportManager.exportReportToPdfStream(print,stream);
+    FacesContext.getCurrentInstance().responseComplete();
+    
     }
 
     public List<Membros> listaTodos() {

@@ -1,0 +1,230 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="membrosgeral" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="081af3de-90a3-4e2f-91a9-f26ea3b2f2c6">
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="meusdados"/>
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="65"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="tipo" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[SELECT
+     membros.`membrosNome`,
+     membros.`membrosEndereco`,
+     membros.`membrosNumero`,
+     membros.`membrosComplemento`,
+     membros.`membrosBairro`,
+     membros.`membrosCidade`,
+     membros.`membrosUf`,
+     membros.`membrosCelular`,
+     membros.`membrosFone`,
+          membros.`membrosTipo`
+FROM
+     `dadosk`.`membros` membros
+WHERE
+     dadosk.membros.`membrosNome` IS NOT null
+ORDER BY
+     dadosk.membros.`membrosNome` ASC]]>
+	</queryString>
+	<field name="membrosNome" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="membrosNome"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="membros"/>
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="membrosEndereco" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="membrosEndereco"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="membros"/>
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="membrosNumero" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="membrosNumero"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="membros"/>
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="membrosComplemento" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="membrosComplemento"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="membros"/>
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="membrosBairro" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="membrosBairro"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="membros"/>
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="membrosCidade" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="membrosCidade"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="membros"/>
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="membrosUf" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="membrosCelular" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="membrosCelular"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="membros"/>
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="membrosFone" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="membrosFone"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="membros"/>
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="membrosTipo" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="membrosTipo"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="membros"/>
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="62" splitType="Stretch">
+			<staticText>
+				<reportElement x="10" y="24" width="785" height="30" uuid="3e4e0fb3-4403-4942-bd6c-62ccc3544603"/>
+				<textElement textAlignment="Center">
+					<font fontName="SansSerif" size="18" isBold="true"/>
+				</textElement>
+				<text><![CDATA[RELATÓRIO DE MEMBROS]]></text>
+			</staticText>
+		</band>
+	</title>
+	<columnHeader>
+		<band height="32" splitType="Stretch">
+			<staticText>
+				<reportElement x="4" y="0" width="100" height="30" uuid="05ae3f7e-f3df-4494-8578-03178521de35">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="e1d99307-8de6-417b-bf11-eac9b4edc707"/>
+				</reportElement>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Nome]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="156" y="0" width="100" height="30" uuid="998b4a7e-a873-42a9-a754-7395462c8e37">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="8894bbff-46e0-4076-ae55-df249879ea79"/>
+				</reportElement>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Endereço]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="294" y="0" width="73" height="30" uuid="890dcf92-28c1-4d28-a0fa-adeca29178ab">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="ceedee54-b350-4606-b0cd-26e415da4c0f"/>
+				</reportElement>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Complemento]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="372" y="0" width="75" height="30" uuid="bf298a37-ce25-428c-bc7b-ca025ec09d3c">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="7bb2e0c6-a966-400a-8b00-bba90a7642b6"/>
+				</reportElement>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Bairro]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="462" y="0" width="85" height="30" uuid="20e790c4-0e7d-4eab-91c7-a5110736c116">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="2e00ae82-ddb8-46d4-883a-5dcaefb32e08"/>
+				</reportElement>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Cidade]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="696" y="0" width="100" height="30" uuid="e4919e0c-953b-4f4f-953c-e2e241ebf176">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="931fe25c-e912-4430-801d-54fc3024126e"/>
+				</reportElement>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Tipo]]></text>
+			</staticText>
+			<line>
+				<reportElement x="1" y="20" width="799" height="1" uuid="c3952f9b-62e8-41b9-a5a1-f7f2643d7a17"/>
+			</line>
+			<staticText>
+				<reportElement x="553" y="-1" width="100" height="31" uuid="f2e08753-4ad7-475c-a197-baccdc08caac"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Celular]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="16" splitType="Stretch">
+			<textField isBlankWhenNull="true">
+				<reportElement x="4" y="1" width="146" height="15" uuid="427e907f-2e6d-4a37-9181-53de53eaf4e3">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="e1d99307-8de6-417b-bf11-eac9b4edc707"/>
+				</reportElement>
+				<textElement markup="none">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{membrosNome}.toUpperCase()]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="156" y="1" width="134" height="15" uuid="1eba3064-4025-4ff5-91e5-eb844d4040c2">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="8894bbff-46e0-4076-ae55-df249879ea79"/>
+				</reportElement>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{membrosEndereco}.toUpperCase()+","+$F{membrosNumero}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="294" y="1" width="73" height="15" uuid="c39caba6-38d8-43db-9648-7f0b99d7abb0">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="ceedee54-b350-4606-b0cd-26e415da4c0f"/>
+				</reportElement>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{membrosComplemento}.toUpperCase()]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="372" y="1" width="85" height="15" uuid="415d3c9f-c1c5-48fa-8d03-b01ca9384f69">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="7bb2e0c6-a966-400a-8b00-bba90a7642b6"/>
+				</reportElement>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{membrosBairro}.toUpperCase()]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="462" y="1" width="85" height="15" uuid="6e1d4b02-b28a-4e2b-9000-674dd2b046d9">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="2e00ae82-ddb8-46d4-883a-5dcaefb32e08"/>
+				</reportElement>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{membrosCidade}.toUpperCase()]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="696" y="1" width="100" height="15" uuid="9ae7b7ac-c71a-4d9a-995c-11d2ca9ecf53">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="931fe25c-e912-4430-801d-54fc3024126e"/>
+				</reportElement>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{membrosTipo}.toUpperCase()]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="553" y="0" width="100" height="16" uuid="08409c41-faa6-4c59-a2f7-812f823f0de3"/>
+				<textFieldExpression><![CDATA[$F{membrosCelular}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<pageFooter>
+		<band height="24" splitType="Stretch">
+			<textField>
+				<reportElement x="695" y="4" width="100" height="16" uuid="65deaa3f-b2ed-4249-a848-9457be5d61e3"/>
+				<textFieldExpression><![CDATA[$V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageFooter>
+</jasperReport>

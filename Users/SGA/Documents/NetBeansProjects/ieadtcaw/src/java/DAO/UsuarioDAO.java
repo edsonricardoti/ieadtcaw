@@ -25,15 +25,16 @@ public class UsuarioDAO implements Serializable {
     
 
     public List<Usuarios> selectAll() {
-        try {
+       
             session = getSessionFactory().openSession();
             Transaction t = session.beginTransaction();
+            try {
             List lista = session.createQuery("from Usuarios").list();
             t.commit();
             return lista;
 
         } catch (HibernateException e) {
-            session.getTransaction().rollback();
+            if(t != null){ t.rollback();}
             return null;
         } finally {
             session.close();
@@ -42,16 +43,17 @@ public class UsuarioDAO implements Serializable {
     public Usuarios buscarPorNome(String nome) {
             System.out.println("Entrou na DAO busca nome ="+nome);
             
-            try {
+           
                 session = getSessionFactory().openSession();
                 Transaction t = session.beginTransaction();
+                try{
                 Usuarios usuario = (Usuarios) session.createQuery("from Usuarios where nomeUsuarios like '%"+nome+"%'")
                         .uniqueResult();
                 t.commit();
                 return usuario;
 
             } catch (HibernateException e) {
-                session.getTransaction().rollback();
+                if(t != null){ t.rollback();}
                 return null;
             } finally {
                 session.close();
@@ -60,9 +62,10 @@ public class UsuarioDAO implements Serializable {
 
     public Usuarios buscarPorID(int id) {
 
-        try {
+        
             session = getSessionFactory().openSession();
             Transaction t = session.beginTransaction();
+            try{
             Usuarios usuario = (Usuarios) session.createQuery("from Usuarios where idUsuarios=:id")
                     .setInteger("id", id)
                     .uniqueResult();
@@ -70,7 +73,7 @@ public class UsuarioDAO implements Serializable {
             return usuario;
 
         } catch (HibernateException e) {
-            session.getTransaction().rollback();
+            if(t != null){ t.rollback();}
             return null;
         } finally {
             session.close();
@@ -80,15 +83,16 @@ public class UsuarioDAO implements Serializable {
     public List<Usuarios> buscarPorNomeLista(String nome) {
             System.out.println("Entrou na DAO busca nome ="+nome);
             
-            try {
+            
                 session = getSessionFactory().openSession();
                 Transaction t = session.beginTransaction();
+                try{
                 List lista = session.createQuery("from Usuarios where nomeUsuarios like '%"+nome+"%'").list();
                 t.commit();
                 return lista;
 
             } catch (HibernateException e) {
-                session.getTransaction().rollback();
+                if(t != null){ t.rollback();}
                 return null;
             } finally {
                 session.close();
@@ -96,9 +100,10 @@ public class UsuarioDAO implements Serializable {
         }
 
     public Usuarios buscarPorUsuarioSenha(String usuario, String senha) {
-        try {
+       
             session = getSessionFactory().openSession();
             Transaction t = session.beginTransaction();
+            try{
             Usuarios usuariologado = (Usuarios) session.createQuery("from Usuarios where nome_usuarios=:usuario and senha_usuarios=:senha")
                     .setString("usuario", usuario)
                     .setString("senha", senha)
@@ -107,7 +112,7 @@ public class UsuarioDAO implements Serializable {
             return usuariologado;
 
         } catch (HibernateException e) {
-            session.getTransaction().rollback();
+            if(t != null){ t.rollback();}
             return null;
         } finally {
 //            session.close();
@@ -116,14 +121,15 @@ public class UsuarioDAO implements Serializable {
 
     public boolean insert(Usuarios usuario) {
         System.out.println("Entrou no inserte com Usuarios ");
-        try {
+       
             session = getSessionFactory().openSession();
             Transaction t = session.beginTransaction();
+            try{
             session.save(usuario);
             t.commit();
             return true;
         } catch (HibernateException e) {
-            session.getTransaction().rollback();
+            if(t != null){ t.rollback();}
             e.printStackTrace();
             return false;
         } finally {
@@ -132,14 +138,15 @@ public class UsuarioDAO implements Serializable {
     }
 
     public boolean delete(Usuarios usuario) {
-        try {
+        
             session = getSessionFactory().openSession();
             Transaction t = session.beginTransaction();
+            try{
             session.delete(usuario);
             t.commit();
             return true;
         } catch (HibernateException e) {
-            session.getTransaction().rollback();
+            if(t != null){ t.rollback();}
             return false;
         } finally {
             session.close();
@@ -147,14 +154,15 @@ public class UsuarioDAO implements Serializable {
     }
 
     public boolean update(Usuarios usuario) {
-        try {
+       
             session = getSessionFactory().openSession();
             Transaction t = session.beginTransaction();
+            try{
             session.update(usuario);
             t.commit();
             return true;
         } catch (HibernateException e) {
-            session.getTransaction().rollback();
+            if(t != null){ t.rollback();}
             return false;
         } finally {
             session.close();
@@ -164,9 +172,10 @@ public class UsuarioDAO implements Serializable {
    public Usuarios verificar(Usuarios usuario) {
        String nome = usuario.getNomeUsuarios();
        String senha = usuario.getSenhaUsuarios();
-        try {
+        
             session = getSessionFactory().openSession();
             Transaction t = session.beginTransaction();
+            try{
             Usuarios logado = (Usuarios) session.createQuery("from Usuarios where nomeUsuarios=:nome and senhaUsuarios=:senha)")
                     .setString("nome", nome)
                     .setString("senha", senha)
@@ -175,7 +184,7 @@ public class UsuarioDAO implements Serializable {
             return logado;
 
         } catch (Exception e) {
-            session.getTransaction().rollback();
+            if(t != null){ t.rollback();}
             e.printStackTrace();
             return null;
         } finally {

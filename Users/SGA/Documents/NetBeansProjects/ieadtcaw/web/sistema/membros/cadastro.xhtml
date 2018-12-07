@@ -16,16 +16,23 @@
                     <h:form id="cadastro" prependId="false">
 
                         <p:messages id="messages" closable="true" style="font-size: 12px; text-align: center;" showIcon="false"/>
-                        <f:ajax execute="@this" event="mouseover" listener="#{membroControle.membro.setMembrosTipo('Membro')}"/>
+                        
                         <p:tabView>
                             <p:tab id="db1" title="Dados Básicos" >
-                                <p:panelGrid id="campos" columns="4" style="font-size: 14px;" styleClass="semBorda" columnClasses="textos,campos,textos,campos">
+                                <p:panelGrid id="campos" 
+                                             columns="4" style="font-size: 14px;"
+                                             styleClass="semBorda"                                             
+                                             columnClasses="textos,campos,textos,campos">
+                                    
                                     <p:outputLabel value="Situação:"/>
                                     <p:panelGrid columns="3">
-                                        <p:selectOneRadio id="tipo" value="#{membroControle.membro.membrosTipo}" style="font-size: 11px;">
+                                        <p:selectOneRadio id="tipo" value="#{membroControle.membro.membrosTipo}"
+                                                          style="font-size: 11px;"
+                                                          required="true" requiredMessage="Situação é obrigatório!">
                                             <f:selectItem itemLabel=" Membro " itemValue="Membro" />
                                             <f:selectItem itemLabel=" Congregado " itemValue="Congregado" />
                                             <f:selectItem itemLabel=" Amigo do Evangélho " itemValue="Amigo"/>
+                                            <f:selectItem itemLabel=" Visitante" itemValue="Amigo"/>
 
                                         </p:selectOneRadio>
                                     </p:panelGrid><p:column></p:column><p:column></p:column>

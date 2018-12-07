@@ -56,6 +56,7 @@ public class Membros implements java.io.Serializable {
     private String membrosUf;
     private Date membrosUltimaVisita;
     private Boolean membrosEprof;
+    private Date datacadastro;
 
     public Membros() {
     }
@@ -64,7 +65,7 @@ public class Membros implements java.io.Serializable {
         this.membrosNome = membrosNome;
     }
 
-    public Membros(String membrosNome, Date membrosDataNasc, String membrosEndereco, String membrosNumero, String membrosBairro, String membrosCep, String membrosFone, String membrosCelular, String membrosEstadoCivil, String membrosFilhos, String membrosProfissao, String membrosEmpresa, String membrosFoneCom, String membrosCarteiraMemb, Date membrosDtEmissao, Date membrosDtConversao, Date membrosDtBatismo, String membrosCargoIgreja, String membrosObs, String membrosComplemento, String membrosNaturalidade, String membrosRg, String membrosCpf, Date membrosDataCasamento, Date membrosCasamento, String membrosTipo, String membrosSexo, String membrosCidade, String membrosUf, Date membrosUltimaVisita, Boolean membrosEprof) {
+    public Membros(Date datacasdastro,String membrosNome, Date membrosDataNasc, String membrosEndereco, String membrosNumero, String membrosBairro, String membrosCep, String membrosFone, String membrosCelular, String membrosEstadoCivil, String membrosFilhos, String membrosProfissao, String membrosEmpresa, String membrosFoneCom, String membrosCarteiraMemb, Date membrosDtEmissao, Date membrosDtConversao, Date membrosDtBatismo, String membrosCargoIgreja, String membrosObs, String membrosComplemento, String membrosNaturalidade, String membrosRg, String membrosCpf, Date membrosDataCasamento, Date membrosCasamento, String membrosTipo, String membrosSexo, String membrosCidade, String membrosUf, Date membrosUltimaVisita, Boolean membrosEprof) {
         this.membrosNome = membrosNome;
         this.membrosDataNasc = membrosDataNasc;
         this.membrosEndereco = membrosEndereco;
@@ -96,6 +97,7 @@ public class Membros implements java.io.Serializable {
         this.membrosUf = membrosUf;
         this.membrosUltimaVisita = membrosUltimaVisita;
         this.membrosEprof = membrosEprof;
+        this.datacadastro = datacadastro;
 
     }
 
@@ -396,5 +398,17 @@ public class Membros implements java.io.Serializable {
     public void setMembrosEprof(Boolean membrosEprof) {
         this.membrosEprof = membrosEprof;
     }
+    
+    @Temporal(TemporalType.DATE)
+    @Column(name = "datacadastro", length = 10)
+    public Date getDatacadastro() {
+        return datacadastro;
+    }
+
+    public void setDatacadastro(Date datacadastro) {
+        this.datacadastro = datacadastro;
+    }
+    
+    
 
 }

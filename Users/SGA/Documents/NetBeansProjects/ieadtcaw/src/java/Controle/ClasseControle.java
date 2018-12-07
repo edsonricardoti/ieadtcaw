@@ -154,6 +154,7 @@ public class ClasseControle implements Serializable {
     public void buscarLista(String nome) {
 
         List<Classes> lista = null;
+        dao = new ClassesDAO();
         try {
             lista = (List<Classes>) dao.buscarPorNome(nome);
 

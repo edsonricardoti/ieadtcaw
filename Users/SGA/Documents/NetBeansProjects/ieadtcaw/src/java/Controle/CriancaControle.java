@@ -142,6 +142,7 @@ public class CriancaControle implements Serializable {
     public void buscarListaDtiniDtfim(Date dtini, Date dtfim) {
 
         List<Criancas> lista = null;
+        dao = new CriancaDAO();
         try {
             lista = (List<Criancas>) dao.buscarPorDtiniDtfim(dtini, dtfim);
         } catch (ParseException ex) {
@@ -151,6 +152,7 @@ public class CriancaControle implements Serializable {
     }
 
     public void buscarPorId(int id) {
+        dao = new CriancaDAO();
         criancaSelecionado = dao.buscarPorID(id);
 
     }
@@ -201,7 +203,7 @@ public class CriancaControle implements Serializable {
         try {
             UploadedFile arq = event.getFile();
             InputStream in = new BufferedInputStream(arq.getInputstream());
-            String caminho = "C:\\apps"; // getRealPath();
+            String caminho = "/home/C/apps"; // getRealPath();
             Random gerador = new Random();
             String arquivo = "APRESENTACAO" + gerador.nextInt((10000 - 1) + 1) + 1;
             String extensao = arq.getFileName();

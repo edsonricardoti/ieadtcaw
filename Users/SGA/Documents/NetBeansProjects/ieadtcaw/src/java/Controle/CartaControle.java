@@ -152,7 +152,7 @@ public class CartaControle implements Serializable {
         try {
             UploadedFile arq = event.getFile();
             InputStream in = new BufferedInputStream(arq.getInputstream());
-            String caminho = "C:\\apps"; //getRealPath();
+            String caminho = "/home/C/apps"; //getRealPath();
             Random gerador = new Random();
             String arquivo = "CARTA_RECOM" + gerador.nextInt((10000 - 1) + 1) + 1;
             String extensao = arq.getFileName();
